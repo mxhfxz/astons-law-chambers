@@ -1,0 +1,22 @@
+{
+  "name": "astons-law-chambers",
+  "version": "1.0.0",
+  "description": "Astons Law Chambers - Webflow site with Mast framework integration",
+  "main": "dist/site.min.js",
+  "scripts": {
+    "build": "terser src/site.js -o dist/site.min.js --compress --mangle",
+    "build:forms": "terser src/forms.js -o dist/forms.min.js --compress --mangle",
+    "build:all": "npm run build && npm run build:forms"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mxhfxz/astons-law-chambers.git"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "terser": "^5.46.2"
+  }
+}
