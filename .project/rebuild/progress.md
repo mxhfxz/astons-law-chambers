@@ -92,17 +92,42 @@
 - **Docs** updated: [aesthetic.md](aesthetic.md) rewritten with departure callouts per `feedback_callout_departures` (red allocation, fourth surface, clamp type, containers, motion expansion, quick-exit, cal.com band, hero image, WCAG 2.2 AA, sticky-never-hides, logo SVG); [DECISION_LOG.md](../../DECISION_LOG.md) appended with 20 Phase 0.5 entries; [visual-layering-plan.md](visual-layering-plan.md) appended with iteration round 4.
 - **Not yet:** package.json still at v1.1.0; not pushed; no Webflow MCP work. Awaiting user visual review on `dist/preview.html` before either step.
 
-## Next session
+### 2026-05-12 — v1.2.0 pushed + Webflow injection complete
 
-- User opens [dist/preview.html](../../dist/preview.html) and reviews all three breakpoints
-- Iterate on any visual feedback (likely focal points: hero image placeholder text, mega-menu density, mobile sticky+quick-exit spacing, booking band copy)
-- On explicit user authorisation only:
-  - Bump [package.json](../../package.json) version to `1.2.0`
-  - Commit, tag `v1.2.0`, push to GitHub main
-  - Verify jsDelivr resolves the new tag (https://cdn.jsdelivr.net/gh/mxhfxz/astons-law-chambers@v1.2.0/dist/bundle.min.css)
-- Then Webflow MCP work:
-  - Update [webflow-injection.md](webflow-injection.md) with new Variable mappings (interactive-accent, booking-frame, hover scalars, motion durations, container tokens)
-  - Mirror new tokens into Webflow Variable collections via `variable_tool`
-  - Update head + footer injection version pins to `@v1.2.0`
-  - MAST smoke test on staging site
-- Resume Phase 1 (Foundation, conversion, compliance) from [plan.md](plan.md)
+- Visual review of multi-breakpoint preview: green
+- Bumped [package.json](../../package.json) 1.1.0 → 1.2.0, committed, tagged `v1.2.0`, pushed `mxhfxz/astons-law-chambers` main
+- jsDelivr `immutable`-cache verified: `bundle.min.css` 22.5KB, `site.min.js` 5.4KB, `logo-navy.svg` 19KB all resolve at the v1.2.0 tag
+- Identified Astons Webflow site: `69f88bcd977766f39d880a96` ("Astons Law Chambers", custom domain `www.astonslaw.com`, MAST template populated)
+- **User decision on MAST conflict:** overwrite conflicting MAST Variables to match Astons direction. Three MCP batches:
+  - **Batch 1 (3 variables):** Fonts/Primary `Inter` → `IBM Plex Sans`; Fonts/Heading `Fraunces` → `IBM Plex Sans`; Primary/Navy `#232536` → `#0E1628`
+  - **Batch 2 (1 create + 8 updates):** Created `Astons/Interactive Accent` `#0F4C81`; neutralised Secondary/Yellow → `#E4E4E7`, Secondary/Peach → `#F4F4F5`; aligned Secondary/Blue → `#0F4C81`; realigned five neutral greys (Light Gray, Mid Gray 1+2, Dark Gray, Black) to match Astons grey scale; Neutral/Black → `#0E1628`
+  - **Batch 3 (7 updates):** H1+H2 font weight 500 → 700; H3-H6 + Eyebrow font weight 500 → 600. Match locked weight-contrast direction.
+- **Custom code paste:** user manually pasted head + footer Custom Code blocks into Webflow Project Settings (MCP cannot reliably set project-level Custom Code). Bundle now loads from `cdn.jsdelivr.net/gh/mxhfxz/astons-law-chambers@v1.2.0/dist/bundle.min.css` and `site.min.js`.
+- MAST smoke test: user-confirmed green. Variables panel shows new values, Preview mode renders correctly, no console errors.
+- **Not done:** publishing to `astons-law-chambers.design.webflow.com` or to `www.astonslaw.com` — user did not authorise. Designer state is updated but not yet published.
+- **Carry forward to next session:**
+  - Per-page Custom Code (sticky bar markup, quick-exit, top nav with mega-menu, drawer, cal.com band) for each emergency-intent + advisory page — see [webflow-injection.md](webflow-injection.md) §3
+  - IBM Plex Sans added to Webflow Project Settings → Fonts as a Google Fonts custom font so the Designer canvas renders it (optional but recommended for in-Designer accuracy)
+
+## Next session — Phase 1: Foundation, conversion, compliance
+
+Resume from [plan.md](plan.md) Phase 1 sequence. First items in order:
+
+1. **Per-page chrome injection.** Add the sticky-emergency-bar / quick-exit / nav drawer markup to every emergency-intent page via per-page Custom Code (Webflow MCP `element_builder` or Page Settings → Custom Code → Before `</body>`). Use [webflow-injection.md](webflow-injection.md) §3 as the source.
+2. **Homepage rewrite.** User-state hero ("Arrested in the last 24 hours. Police bail expires this week. Crown Court hearing this month."). Drop "10+ years experience", "100+ Cases", "approved by the BSB" → "Regulated by the Bar Standards Board". Source: [spec.md](spec.md) Must Have list.
+3. **Contact page rewrite.** Remove email + contact form above-fold. Remove second phone number 07767. Keep only 07922 + WhatsApp + cal.com.
+4. **Compliance fixes.** 301 `/compliance/complaints` → `/compliance/complaints-policy`. Add Barristers' Register link + Legal Ombudsman decision-data link.
+5. **Schema injection.** `LegalService` + `Person` with `sameAs` chains, via a JSON-LD script in head.
+6. **Suppress `webflow.js` once verified.** Check the head Custom Code injection's `WebflowEnabled = false` is taking effect; verify via DevTools coverage tab.
+7. **Security headers.** HSTS preload, CSP, nosniff, Referrer-Policy, Permissions-Policy via Webflow hosting panel.
+8. **Live mobile QA.** Tap targets, tel: + wa.me/ resolution, INP measurement on a real device.
+9. **CrUX/PageSpeed baseline.** Snapshot for comparison post-rebuild.
+
+After Phase 1: Phase 2 — ten practice-area pillars at 1,800–2,500 words each.
+
+### Carry-forward open questions (still unresolved at copy layer)
+
+- Ghulam's literal-truth commitments on availability + response time before any hero copy ships (per [[feedback_flag_imported_truth_claims]])
+- Verifiable credentials beyond verified_facts.md (Inn, year of call, BSB number, panel grades, reported cases) — none invented; only added on direct user confirmation
+- Hero image specific subject (architectural detail direction locked; specific subject TBD before homepage build)
+- Real verified cases for anonymised case examples (Hansard / BAILII links only)

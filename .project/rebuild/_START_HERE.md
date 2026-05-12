@@ -1,10 +1,10 @@
 # START HERE — Astons Law Chambers rebuild handoff
 
-**Date written:** 2026-05-12
+**Date written:** 2026-05-12 (latest revision: post-v1.2.0 ship + Webflow injection)
 **Written by:** outgoing session, for the incoming session
-**Reason:** session cleared deliberately to avoid token drift / compaction loss before the Webflow build phase begins
+**Status update:** Phase 0 + Phase 0.5 + Webflow Variable mirroring + manual Custom Code paste are ALL COMPLETE. Bundle is live at jsDelivr (`cdn.jsdelivr.net/gh/mxhfxz/astons-law-chambers@v1.2.0/dist/bundle.min.css`), Designer Variables are Astons-aligned, MAST smoke test passed. Next session begins **Phase 1 (Foundation, conversion, compliance)** — see `progress.md` "Next session" block for the ordered pickup list.
 
-You are picking up a project mid-flight. Do not improvise. Do not default to Claude built-in behaviour. Everything below has been negotiated with the client over three iteration rounds and is locked. Your job is to execute against this plan, not to redesign it.
+You are picking up a project mid-flight. Do not improvise. Do not default to Claude built-in behaviour. Everything below has been negotiated with the client over four iteration rounds and is locked. Your job is to execute against this plan, not to redesign it.
 
 ---
 
@@ -96,19 +96,31 @@ Every component must be specified for every viewport class × every input modali
 
 ---
 
-## 4. Next action
+## 4. Next action — Phase 1 (Foundation, conversion, compliance)
 
-Engage the `webflow-development` skill (newly installed this session — appears in the Skill registry as `webflow-development`). The Webflow MCP server is also active for this project (see the session-start MCP servers reminder). The next action sequence is:
+Phase 0 + Phase 0.5 + Webflow Variable mirroring are complete. Next session picks up at Phase 1 of [plan.md](plan.md). Order of operations:
 
-1. **Greet the user briefly**, confirm you have read this handoff, state that you are picking up at Phase 0.5 implementation.
-2. **Ask the user if they have any final iteration items** before you amend the bundle. The plan was at a clean re-entry point with the SVG received and all decisions locked; the previous session was about to engage frontend-design but cleared instead. The user may have new thoughts after a break.
-3. **If no further iteration**, invoke `webflow-development` skill and (where the question is design rather than Webflow-specific) `ux-designer` skill. There is no `frontend-design` skill in the registry — previous sessions referenced it as a top-level skill file outside the registry; if you can find `~/.claude/skills/frontend-design/SKILL.md`, read it directly. Otherwise rely on `ux-designer` + `webflow-development` for execution and `superpowers:writing-skills` / `simplify` for code-quality review of the bundle changes.
-4. **Produce token + component deltas** that implement everything in section 3 above. Edit `src/tokens.css`, `src/typography.css`, `src/components.css`, `src/site.js`. Rebuild `dist/bundle.css`, `dist/bundle.min.css`, `dist/site.min.js`. Rebuild `dist/preview.html` as a true multi-breakpoint preview (desktop ~1280, tablet 768, mobile 390 — three side-by-side iframes or three preview routes).
-5. **Update `aesthetic.md`** with explicit departure callouts per `feedback_callout_departures` for every line that changed (red allocation rule, fourth surface value `#232536`, motion section rewrite, `clamp()` responsive type section, container section, mobile-sticky-never-hides override, safe-exit feature). Keep it internally consistent — no lingering "zero third hue" line if hues were added.
-6. **Update `DECISION_LOG.md`** with the Phase 0.5 decisions (separate from the Phase 0 entries already there).
-7. **Visual review with user** before any git push. Show them the new `dist/preview.html`. Iterate.
-8. **Push v1.2.0 to GitHub main** ONLY after explicit user authorisation. Tag the release. Verify jsDelivr resolves the pinned tag.
-9. **Move to Webflow**: configure Webflow Variables per `webflow-injection.md` (extend it for the new tokens), inject head + footer custom code, smoke-test MAST + design-system, run a live mobile QA.
+1. **Greet the user briefly**, confirm you have read this handoff and `progress.md` "Next session" block, state that you are picking up at Phase 1.
+2. **Engage skills:** `webflow-development` for Webflow MCP work, `copywriting` for hero/contact/practice-area page copy, `ux-designer` for any open interaction questions. `frontend-design` lives at `~/.claude/skills/frontend-design.md` (single file, not a directory).
+3. **Per-page chrome.** Add the sticky-emergency-bar / quick-exit / nav drawer / cal.com band markup to each page that needs it. Source: [webflow-injection.md](webflow-injection.md) §3. Use Webflow MCP `element_builder` for the markup, applying it page-by-page. Sticky bar + quick-exit on every page; cal.com band on advisory pages only.
+4. **Homepage rewrite.** User-state hero ("Arrested in the last 24 hours. Police bail expires this week. Crown Court hearing this month."). Drop "10+ years experience", "100+ Cases Represented", "approved by the BSB" → "Regulated by the Bar Standards Board". `.hero` composition with image slot ready in the bundle; specific hero image subject still TBD (architectural detail direction locked, see iteration 4 in visual-layering-plan.md).
+5. **Contact page rewrite.** Remove email + contact form above-fold. Remove the second phone number 07767 268 607 entirely. Keep only 07922 + WhatsApp + cal.com.
+6. **Compliance fixes.** 301 redirect `/compliance/complaints` → `/compliance/complaints-policy`. On the complaints page, add Barristers' Register link + Legal Ombudsman decision-data link (BSB Transparency Rules).
+7. **Schema injection.** `LegalService` + `Person` with `sameAs` chains, injected via JSON-LD in head Custom Code. Verified-facts-only; use `Person.sameAs` to chain BSB Register page + LinkedIn + Direct Access Portal.
+8. **webflow.js suppression verification.** Confirm `window.WebflowEnabled = false;` in the head Custom Code is taking effect via DevTools coverage tab. Should reclaim 200–400ms INP budget.
+9. **Security headers.** Configure HSTS preload, CSP (script-src includes `cdn.jsdelivr.net`), `nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, locked `Permissions-Policy` via Webflow hosting panel.
+10. **Live mobile QA.** Tap targets ≥48px, ≥56–64px for emergency CTAs, `tel:` + `wa.me/` resolve natively, no JS interception, INP measurement on a real device.
+11. **Baseline CrUX/PageSpeed snapshot** for INP/LCP/CLS comparison post-rebuild.
+
+After Phase 1 closes: Phase 2 — ten practice-area pillars at 1,800–2,500 words each, per [plan.md](plan.md). Phase 3 — content depth + AI search.
+
+### Open execution-time questions still unresolved at the copy layer
+
+- Ghulam's literal-truth commitments on availability + response time before any hero copy ships (per [[feedback_flag_imported_truth_claims]])
+- Verifiable credentials beyond [[verified_facts]] (Inn, year of call, BSB number, panel grades, reported cases) — none invented; only added on direct user confirmation
+- Hero image specific subject (architectural-detail direction locked; specific subject TBD)
+- Real verified cases for anonymised case examples (Hansard / BAILII links only)
+- Publish authorisation: Designer state is updated but NOT yet published to either the .webflow.io subdomain or `www.astonslaw.com` custom domain — both require explicit user authorisation before publish
 
 ---
 
@@ -167,14 +179,17 @@ Pulled from the feedback-memory files for fast reference. Cross-check `MEMORY.md
 
 ---
 
-## 8. Pending open items (for the next session to surface to the user)
+## 8. Pending open items
 
-These are NOT new decisions — they are execution-time questions the previous session deferred to the frontend-design engagement. Surface them when you start the design execution, not before:
+The four Phase 0.5 frontend-design questions from the previous handoff have been resolved (hero CTAs locked as navy solid + navy outline; hero image direction locked as architectural detail; card hover locked as border darken 10%; mega-menu keyboard locked as Tab → Enter/Space). See `visual-layering-plan.md` iteration round 4.
 
-- **Hero CTA replacement style** (red was removed from hero per the red-allocation rule). Three options in `visual-layering-plan.md` section "Hero CTA replacement". Default recommendation: navy solid for phone, navy outline for WhatsApp. Confirm with user.
-- **Contextual hero image subject matter** — what specifically does the homepage hero image show? Must NOT be: stock, gavels, scales, Inn courtyards, courthouse exteriors, people. Suggest architectural detail (chambers entrance / Marylebone street geometry) or abstract textural composition. Confirm with user.
-- **Card hover treatment** — does the practice-areas card border darken 10% on hover (consistent with button rule), or only the heading text colour shifts, or no change? Decided in frontend-design with reference to "no hover-lift" lock + 10% darken rule.
-- **Mega-menu open-on-hover keyboard parity** — opens on hover with no delay for pointer; what about keyboard focus? Standard pattern: Tab focuses parent → Enter/Space opens. Confirm.
+Open items now sit at the **copy layer** (Phase 1) and require client input before drafting:
+
+- Ghulam's literal-truth commitments on availability + response time before any hero copy ships
+- Verifiable credentials beyond `verified_facts.md` (Inn, year of call, BSB number, panel grades, reported cases) — only with direct confirmation
+- Specific hero image subject (architectural detail direction locked; subject TBD)
+- Real verified cases for anonymised case examples
+- Publish authorisation to `.webflow.io` staging and/or `www.astonslaw.com` custom domain — required before either publish
 
 ---
 
