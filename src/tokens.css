@@ -1,0 +1,200 @@
+/*
+ * Astons Law Chambers — design tokens
+ * Source of truth for colours, spacing, type, motion. Values mirrored into
+ * Webflow Variables (Theme / Typography / Components / Layout / Color) so
+ * Mast can use them in the Designer. Update this file first; mirror to
+ * Webflow after.
+ *
+ * Phase 0.5 additions: interactive accent + focus colour, booking-frame
+ * fourth-surface, hover-mix tokens, motion duration variants, clamp()
+ * type formulas across all six tokens, container tokens, gutter clamp.
+ * See .project/rebuild/visual-layering-plan.md for the locked direction.
+ */
+
+:root {
+  /* ──────────────────────────────────────────────────────────────────────
+   * COLOUR (locked 2026-05-12 → expanded Phase 0.5)
+   * Two saturated brand hues + one interactive accent (link/focus only).
+   * Plus one dark fourth-surface for the cal.com embed wrapper.
+   * ────────────────────────────────────────────────────────────────────── */
+  --color-brand-primary: #0E1628;
+  --color-emergency-accent: #C23616;
+
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #F4F4F5;
+  --color-booking-frame: #232536;    /* Phase 0.5 — cal.com embed wrapper only */
+
+  --color-grey-100: #F4F4F5;
+  --color-grey-200: #E4E4E7;
+  --color-grey-500: #71717A;
+  --color-grey-600: #52525B;
+
+  /* Phase 0.5 — interactive accent (Carbon blue 60). Reserved for text-link
+   * state colour and the global focus ring. NEVER used for buttons, banners,
+   * hero fills, or decorative surfaces. */
+  --color-interactive-accent: #0F4C81;
+  --color-focus: var(--color-interactive-accent);
+
+  /* Functional aliases */
+  --color-body: var(--color-brand-primary);
+  --color-caption: var(--color-grey-600);
+  --color-divider: var(--color-grey-200);
+  --color-placeholder: var(--color-grey-500);
+
+  /* Interactive states */
+  --color-emergency-hover: #A02D12;     /* C23616 -10% lightness */
+  --color-emergency-active: #861F08;
+  --color-brand-hover: #1A2440;         /* 0E1628 +10% lightness */
+  --color-brand-active: #232536;
+  --color-link: var(--color-interactive-accent);
+  --color-link-hover: var(--color-brand-primary);
+
+  /* Hover-mix scalars (consumed via color-mix() in components.css).
+   * Light buttons darken 10%; dark buttons lighten 10%. */
+  --hover-darken: 10%;
+  --hover-lighten: 10%;
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * TYPOGRAPHY (locked 2026-05-12 — IBM Plex Sans only)
+   * Phase 0.5: all six tokens carry clamp() — no media-query fallbacks.
+   * ────────────────────────────────────────────────────────────────────── */
+  --font-family-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-family-display: var(--font-family-sans);
+  --font-family-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Sizes — clamp(min, preferred, max) across desktop / tablet / mobile */
+  --font-size-eyebrow:  0.75rem;                                              /* 12px static */
+  --font-size-caption:  clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);         /* 13 → 14 */
+  --font-size-small:    clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);         /* 14 → 15 */
+  --font-size-body:     clamp(1rem, 0.95rem + 0.25vw, 1.125rem);              /* 16 → 18 */
+  --font-size-body-lg:  clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);            /* 18 → 20 */
+  --font-size-h3:       clamp(1.25rem, 1rem + 0.75vw, 1.5rem);                /* 20 → 24 */
+  --font-size-h2:       clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);               /* 24 → 36 */
+  --font-size-h1:       clamp(2rem, 1.25rem + 3.5vw, 3.25rem);                /* 32 → 52 */
+  --font-size-hero:     clamp(2.25rem, 1.25rem + 4vw, 4rem);                  /* 36 → 64 */
+
+  /* Line heights */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.15;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+
+  /* Tracking */
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-eyebrow: 0.08em;     /* +80 */
+  --letter-spacing-wordmark: 0.08em;
+
+  /* Measure */
+  --measure-body: 66ch;
+  --measure-narrow: 48ch;
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * SPACING (8px base unit)
+   * ────────────────────────────────────────────────────────────────────── */
+  --space-1: 0.25rem;   /* 4 */
+  --space-2: 0.5rem;    /* 8 */
+  --space-3: 0.75rem;   /* 12 */
+  --space-4: 1rem;      /* 16 */
+  --space-6: 1.5rem;    /* 24 */
+  --space-8: 2rem;      /* 32 */
+  --space-12: 3rem;     /* 48 */
+  --space-16: 4rem;     /* 64 */
+  --space-24: 6rem;     /* 96 */
+
+  /* Section padding presets — clamp() so desktop pages breathe at 1440px+ */
+  --section-padding-compact:  clamp(2rem, 1.5rem + 2vw, 3rem) 0;
+  --section-padding-default:  clamp(3rem, 2rem + 4vw, 5rem) 0;
+  --section-padding-generous: clamp(4rem, 2.5rem + 6vw, 7rem) 0;
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * CONTAINERS (Phase 0.5)
+   * Three width tiers + a clamp() gutter. No edge-to-edge layouts except
+   * the sticky bar and the cal.com band, which intentionally full-bleed.
+   * ────────────────────────────────────────────────────────────────────── */
+  --container-narrow:  720px;
+  --container-default: 960px;
+  --container-wide:    1200px;
+  --gutter: clamp(20px, 5vw, 96px);
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * RADII (austere — most things are 0)
+   * ────────────────────────────────────────────────────────────────────── */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-card: var(--radius-1);
+  --radius-emergency-button: var(--radius-1);
+  --radius-advisory-button: var(--radius-2);
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * BORDERS
+   * ────────────────────────────────────────────────────────────────────── */
+  --border-hairline: 1px solid var(--color-brand-primary);
+  --border-card: 1px solid var(--color-divider);
+  --border-strong: 2px solid var(--color-brand-primary);
+  --border-quick-exit: 2px solid var(--color-emergency-accent);
+  --border-focus: 2px solid var(--color-focus);
+  --focus-offset: 2px;
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * MOTION (Phase 0.5)
+   * Multiple duration tokens — see aesthetic.md "Motion" section.
+   *   quick   → hover transitions (button colour, link colour)
+   *   nudge   → arrow nudge on directional links
+   *   fast    → state changes (sticky bar entry, drawer slide)
+   *   grace   → mega-menu close-delay forgiveness
+   * One easing across the system. No bounce, no overshoot, no scale.
+   * ────────────────────────────────────────────────────────────────────── */
+  --motion-duration-nudge: 120ms;
+  --motion-duration-quick: 150ms;
+  --motion-duration-fast:  200ms;
+  --motion-duration-grace: 280ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * COMPONENT-LEVEL
+   * ────────────────────────────────────────────────────────────────────── */
+  --nav-height:           72px;
+  --nav-height-mobile:    56px;
+  --emergency-bar-height: 64px;
+  --emergency-bar-height-mobile: 56px;
+  --touch-target-min:     48px;
+  --touch-target-emergency: 56px;
+  --quick-exit-size:      44px;
+
+  /* Z-index scale — explicit so chrome never accidentally stacks wrong.
+   * Quick-exit must sit above the sticky-bar (safety > emergency). */
+  --z-sticky-bar:  900;
+  --z-nav:         950;
+  --z-drawer:      960;
+  --z-mega-menu:   970;
+  --z-quick-exit: 1000;
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * BREAKPOINTS (informational — Mast uses its own infixes)
+   * Naming aligns with Mast/Webflow: tiny / small / medium / main / xl.
+   * ────────────────────────────────────────────────────────────────────── */
+  --bp-tiny:   478px;
+  --bp-small:  767px;
+  --bp-medium: 991px;
+  --bp-main:   1200px;
+  --bp-xl:     1440px;
+}
+
+/* Respect user motion preference everywhere. Decorative motion goes to 0;
+ * state-essential motion (drawer open/close) collapses to an instant flip. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-nudge: 0ms;
+    --motion-duration-quick: 0ms;
+    --motion-duration-fast:  0ms;
+    --motion-duration-grace: 0ms;
+  }
+}

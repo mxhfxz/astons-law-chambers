@@ -1,0 +1,915 @@
+/*
+ * Astons Law Chambers — custom components (Phase 0.5)
+ * The 20% that Mast cannot provide. Everything else uses Mast classes.
+ * Naming follows Mast conventions: base classes have no prefix; variants
+ * use `cc-` combo classes; utilities use `u-`.
+ *
+ * Phase 0.5 changes (from visual-layering-plan.md iteration rounds 1–4):
+ *   - Hero CTAs move from red to navy (red allocation rule — chrome only)
+ *   - Top-nav CALL button + 3-column mega-menu for practice areas
+ *   - Quick-exit safety button (top-right, outlined red, Esc-twice)
+ *   - cal.com booking band (#232536 fourth-surface, advisory pages only)
+ *   - Container classes (narrow / default / wide + clamp() gutter)
+ *   - Skip-to-content link, global focus rings via --color-focus
+ *   - Sticky bar never hides on /contact (iteration 2 override)
+ *   - Hover motion: 10% darken on light, 10% lighten on dark, arrow nudge
+ *   - Card hover: border darkens 10% (no lift, no shadow)
+ */
+
+/* ──────────────────────────────────────────────────────────────────────
+ * SKIP-TO-CONTENT
+ * Visually hidden until keyboard focus, then surfaces at top-left.
+ * Required by WCAG 2.2 SC 2.4.1 (Bypass Blocks).
+ * ────────────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -200px;
+  z-index: 1100;
+  background: var(--color-brand-primary);
+  color: var(--color-surface);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
+  text-decoration: none;
+  border-radius: var(--radius-1);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-2);
+  outline: var(--border-focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * CONTAINER — three width tiers + clamp() gutter
+ * Phase 0.5. Sticky bar and the cal.com band intentionally full-bleed;
+ * everything else respects a container.
+ * ────────────────────────────────────────────────────────────────────── */
+.container {
+  max-width: var(--container-default);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  width: 100%;
+}
+
+.container.cc-narrow { max-width: var(--container-narrow); }
+.container.cc-wide   { max-width: var(--container-wide); }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * BUTTONS — six variants
+ *   cc-emergency       chrome only (sticky bar, designated emergency banners)
+ *   cc-nav-call        chrome only (top-nav CALL — solid red)
+ *   cc-hero-call       hero phone CTA (navy solid)
+ *   cc-hero-whatsapp   hero WhatsApp CTA (navy outline, inverts on hover)
+ *   cc-advisory        cal.com / fees / Direct Access (navy solid, smaller)
+ *   cc-outline         neutral outline button (navy outline)
+ * Hover motion: light buttons darken 10%; dark buttons lighten 10%.
+ * ────────────────────────────────────────────────────────────────────── */
+.btn.cc-emergency {
+  background-color: var(--color-emergency-accent);
+  color: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-emergency-button);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-emergency);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-emergency:hover {
+  background-color: var(--color-emergency-hover);
+  color: var(--color-surface);
+}
+
+.btn.cc-emergency:active {
+  background-color: var(--color-emergency-active);
+}
+
+.btn.cc-nav-call {
+  background-color: var(--color-emergency-accent);
+  color: var(--color-surface);
+  border: 0;
+  border-radius: var(--radius-1);
+  padding: 0 var(--space-4);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 44px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-nav-call:hover {
+  background-color: var(--color-emergency-hover);
+  color: var(--color-surface);
+}
+
+.btn.cc-hero-call {
+  background-color: var(--color-brand-primary);
+  color: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-emergency-button);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-emergency);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-hero-call:hover {
+  background-color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+  color: var(--color-surface);
+}
+
+.btn.cc-hero-whatsapp {
+  background-color: transparent;
+  color: var(--color-brand-primary);
+  border: 2px solid var(--color-brand-primary);
+  border-radius: var(--radius-emergency-button);
+  padding: calc(var(--space-4) - 2px) calc(var(--space-6) - 2px);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-emergency);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease),
+              color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-hero-whatsapp:hover {
+  background-color: var(--color-brand-primary);
+  color: var(--color-surface);
+}
+
+.btn.cc-advisory {
+  background-color: var(--color-brand-primary);
+  color: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-advisory-button);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target-min);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-advisory:hover {
+  background-color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+  color: var(--color-surface);
+}
+
+.btn.cc-outline {
+  background-color: transparent;
+  color: var(--color-brand-primary);
+  border: 1.5px solid var(--color-brand-primary);
+  border-radius: var(--radius-emergency-button);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease),
+              color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.btn.cc-outline:hover {
+  background-color: var(--color-brand-primary);
+  color: var(--color-surface);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * QUICK EXIT — safety convention (UK Refuge / Women's Aid / gov.uk)
+ * Floating top-right, outlined red, full inversion on hover. Reachable
+ * on every page via mouse, touch, or Esc-twice within 1000ms. Hidden
+ * when printing.
+ * ────────────────────────────────────────────────────────────────────── */
+.quick-exit {
+  position: fixed;
+  top: calc(var(--nav-height) + var(--space-3));
+  right: var(--space-4);
+  z-index: var(--z-quick-exit);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--quick-exit-size);
+  padding: 0 var(--space-4);
+  background-color: transparent;
+  color: var(--color-emergency-accent);
+  border: var(--border-quick-exit);
+  border-radius: var(--radius-1);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--motion-duration-quick) var(--motion-ease),
+              color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.quick-exit:hover,
+.quick-exit:focus-visible {
+  background-color: var(--color-emergency-accent);
+  color: var(--color-surface);
+}
+
+@media (max-width: 991px) {
+  .quick-exit {
+    top: calc(var(--nav-height-mobile) + var(--space-2));
+  }
+}
+
+@media print {
+  .quick-exit { display: none; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * SITE NAV — chambers wide-pattern, MAST replacement
+ * Brand (logo SVG) · primary nav · CALL CTA · hamburger
+ * ────────────────────────────────────────────────────────────────────── */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.site-nav__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--nav-height);
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.site-nav__brand img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.site-nav__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  justify-self: end;
+  margin-inline-end: var(--space-4);
+}
+
+.site-nav__menu > li > a,
+.site-nav__menu > li > button {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: var(--space-2) 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.site-nav__menu > li > a:hover,
+.site-nav__menu > li > button:hover {
+  color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+}
+
+.has-mega__chevron {
+  width: 10px;
+  height: 10px;
+  transition: transform var(--motion-duration-quick) var(--motion-ease);
+}
+
+.has-mega__trigger[aria-expanded="true"] .has-mega__chevron {
+  transform: rotate(180deg);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * MEGA MENU — 3-column shallow disclosure under "Practice areas"
+ * Desktop ≥992px: hover-open no delay, ~280ms close grace; keyboard
+ * Enter/Space opens, Esc closes. Mobile absorbs into hamburger drawer.
+ * ────────────────────────────────────────────────────────────────────── */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-divider);
+  border-bottom: var(--border-strong);
+  z-index: var(--z-mega-menu);
+  animation: mega-fade-in var(--motion-duration-quick) var(--motion-ease);
+}
+
+.mega-menu[hidden] { display: none; }
+
+.mega-menu__inner {
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding: var(--space-12) var(--gutter);
+}
+
+.mega-menu__panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+}
+
+.mega-menu__col-title {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-eyebrow);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-caption);
+  margin: 0 0 var(--space-4);
+}
+
+.mega-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mega-menu__link {
+  display: block;
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  font-size: var(--font-size-body);
+  padding: var(--space-2) 0;
+  transition: color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.mega-menu__link:hover {
+  color: var(--color-interactive-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.mega-menu__foot {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.mega-menu__foot a {
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
+}
+
+@keyframes mega-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * HAMBURGER + DRAWER — mobile/tablet nav
+ * Bars animate to close-cross on open. Drawer slides in from the right.
+ * ────────────────────────────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  background: none;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger__bars {
+  position: relative;
+  width: 22px;
+  height: 14px;
+  display: block;
+}
+
+.hamburger__bars::before,
+.hamburger__bars::after,
+.hamburger__bars > span {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-brand-primary);
+  transition: transform var(--motion-duration-quick) var(--motion-ease),
+              opacity var(--motion-duration-quick) var(--motion-ease),
+              top var(--motion-duration-quick) var(--motion-ease),
+              bottom var(--motion-duration-quick) var(--motion-ease);
+}
+
+.hamburger__bars::before { top: 0; }
+.hamburger__bars > span  { top: 50%; transform: translateY(-50%); display: block; }
+.hamburger__bars::after  { bottom: 0; }
+
+.hamburger[aria-expanded="true"] .hamburger__bars::before { top: 50%; transform: rotate(45deg); }
+.hamburger[aria-expanded="true"] .hamburger__bars::after  { bottom: 50%; transform: rotate(-45deg); }
+.hamburger[aria-expanded="true"] .hamburger__bars > span  { opacity: 0; }
+
+.drawer {
+  position: fixed;
+  top: var(--nav-height-mobile);
+  right: 0;
+  bottom: 0;
+  width: min(360px, 100vw);
+  background-color: var(--color-surface);
+  border-left: 1px solid var(--color-divider);
+  z-index: var(--z-drawer);
+  transform: translateX(100%);
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+  overflow-y: auto;
+  padding: var(--space-6) var(--space-6) calc(var(--emergency-bar-height-mobile) + var(--space-6));
+}
+
+.drawer.is-open { transform: translateX(0); }
+.drawer[hidden] { display: none; }
+
+.drawer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.drawer__list a,
+.drawer__list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.drawer__call {
+  margin-bottom: var(--space-4);
+  width: 100%;
+}
+
+.drawer__accordion-list {
+  list-style: none;
+  margin: 0 0 var(--space-2);
+  padding: 0 0 var(--space-2) var(--space-4);
+}
+
+.drawer__accordion-list li {
+  padding: var(--space-2) 0;
+}
+
+.drawer__accordion-list a {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * HERO — typographic anchor + contextual image (homepage only)
+ * Image slot uses 4:5 on desktop, 16:9 on mobile. Background placeholder
+ * (#F4F4F5) shows until the architectural-detail image is provided.
+ * ────────────────────────────────────────────────────────────────────── */
+.hero {
+  padding: var(--section-padding-generous);
+}
+
+.hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--space-12);
+  align-items: center;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.hero__content {
+  max-width: 36rem;
+}
+
+.hero__media {
+  aspect-ratio: 4 / 5;
+  background-color: var(--color-surface-secondary);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero__media img,
+.hero__media picture,
+.hero__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__media-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--color-caption);
+  font-size: var(--font-size-caption);
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.hero__ctas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 22rem;
+  margin: var(--space-6) 0;
+}
+
+.hero__regulator {
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 991px) {
+  .hero__layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  .hero__media {
+    aspect-ratio: 16 / 9;
+    order: -1;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * STICKY EMERGENCY BAR
+ * Fixed to viewport bottom on every page (iteration 2 override of Rapid
+ * Outreach §5.4 — never hides on /contact, brand signal of always-
+ * reachability). Phone + WhatsApp, 50/50 split. Solid #C23616. Slides
+ * up once on first paint.
+ * ────────────────────────────────────────────────────────────────────── */
+.sticky-emergency-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky-bar);
+  height: var(--emergency-bar-height-mobile);
+  background-color: var(--color-emergency-accent);
+  color: var(--color-surface);
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: stretch;
+  transform: translateY(100%);
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+  font-family: var(--font-family-sans);
+}
+
+.sticky-emergency-bar.is-visible {
+  transform: translateY(0);
+}
+
+.sticky-emergency-bar__link {
+  color: var(--color-surface);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  min-height: var(--touch-target-emergency);
+  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+.sticky-emergency-bar__link:hover {
+  background-color: var(--color-emergency-hover);
+  color: var(--color-surface);
+}
+
+.sticky-emergency-bar__divider {
+  background-color: var(--color-surface);
+  opacity: 0.25;
+}
+
+@media (min-width: 768px) {
+  .sticky-emergency-bar {
+    height: var(--emergency-bar-height);
+  }
+}
+
+body {
+  padding-bottom: var(--emergency-bar-height-mobile);
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: var(--emergency-bar-height);
+  }
+}
+
+@media print {
+  .sticky-emergency-bar { display: none; }
+  body { padding-bottom: 0; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * BOOKING BAND — cal.com embed wrapper (advisory pages only)
+ * Phase 0.5. #232536 fourth-surface; never on emergency-intent pages.
+ * Inverts type colours to white/light-grey within this band only.
+ * ────────────────────────────────────────────────────────────────────── */
+.section.cc-booking {
+  background-color: var(--color-booking-frame);
+  color: var(--color-surface);
+  padding: var(--section-padding-generous);
+}
+
+.section.cc-booking .eyebrow,
+.section.cc-booking h2,
+.section.cc-booking h3,
+.section.cc-booking p {
+  color: var(--color-surface);
+}
+
+.section.cc-booking p {
+  color: color-mix(in srgb, var(--color-surface), transparent 15%);
+}
+
+.cal-embed {
+  max-width: 720px;
+  margin-inline: auto;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-1);
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.cal-embed iframe {
+  width: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * STRUCTURAL RULES
+ * 1px hairlines used as section ribs (very GOV.UK / Carbon). Apply via
+ * `<hr class="rule">` or `.section + .rule`.
+ * ────────────────────────────────────────────────────────────────────── */
+.rule {
+  border: 0;
+  border-top: var(--border-hairline);
+  margin: 0;
+  height: 0;
+}
+
+.rule.cc-strong { border-top: var(--border-strong); }
+.rule.cc-faint  { border-top: 1px solid var(--color-divider); }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * SECTION BANDS
+ * cc-secondary-surface is the surgical tonal-step (use 1–2 per page max,
+ * never alternated — see feedback_no_alternating_banding).
+ * ────────────────────────────────────────────────────────────────────── */
+.section { padding: var(--section-padding-default); }
+.section.cc-secondary-surface { background-color: var(--color-surface-secondary); }
+.section.cc-compact   { padding: var(--section-padding-compact); }
+.section.cc-generous  { padding: var(--section-padding-generous); }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * CARDS
+ * 1px border, no shadow, no hover-lift. Border darkens 10% on hover
+ * (iteration 4 — consistent with global hover rule).
+ * ────────────────────────────────────────────────────────────────────── */
+.card.cc-bordered {
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  transition: border-color var(--motion-duration-quick) var(--motion-ease);
+}
+
+a.card.cc-bordered { text-decoration: none; color: var(--color-brand-primary); display: block; }
+
+.card.cc-bordered:hover {
+  border-color: color-mix(in srgb, var(--color-divider), #000 var(--hover-darken));
+}
+
+@media (min-width: 768px) {
+  .card.cc-bordered { padding: var(--space-6); }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * LINK ARROW — directional links with 4px nudge on hover
+ * Iteration 2: arrow moves, text stays still.
+ * ────────────────────────────────────────────────────────────────────── */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+  color: var(--color-brand-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.link-arrow::after {
+  content: "→";
+  display: inline-block;
+  transition: transform var(--motion-duration-nudge) var(--motion-ease);
+}
+
+.link-arrow:hover::after {
+  transform: translateX(4px);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * DISCLOSURE ROW (footer regulator/compliance block)
+ * Dense, structured. Carbon-influenced "everything stated" footer.
+ * ────────────────────────────────────────────────────────────────────── */
+.disclosure-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  padding: var(--space-6) 0;
+  border-top: var(--border-hairline);
+  font-size: var(--font-size-caption);
+  color: var(--color-caption);
+  line-height: var(--line-height-normal);
+}
+
+@media (min-width: 768px) {
+  .disclosure-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-8);
+  }
+}
+
+@media (min-width: 992px) {
+  .disclosure-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.disclosure-row__item dt {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--space-1);
+  font-size: var(--font-size-eyebrow);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+}
+
+.disclosure-row__item dd { margin: 0; }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * UTILITY CLASSES
+ * ────────────────────────────────────────────────────────────────────── */
+.u-text-emergency { color: var(--color-emergency-accent); }
+.u-text-brand     { color: var(--color-brand-primary); }
+.u-text-caption   { color: var(--color-caption); }
+.u-text-accent    { color: var(--color-interactive-accent); }
+
+.u-bg-emergency  { background-color: var(--color-emergency-accent); color: var(--color-surface); }
+.u-bg-brand      { background-color: var(--color-brand-primary); color: var(--color-surface); }
+.u-bg-booking    { background-color: var(--color-booking-frame); color: var(--color-surface); }
+
+.u-measure-body   { max-width: var(--measure-body); }
+.u-measure-narrow { max-width: var(--measure-narrow); }
+
+.u-rule-top    { border-top: var(--border-hairline); padding-top: var(--space-6); }
+.u-rule-bottom { border-bottom: var(--border-hairline); padding-bottom: var(--space-6); }
+
+.u-sr-only,
+.live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * GLOBAL FOCUS — WCAG 2.2 SC 2.4.11 (Focus Not Obscured)
+ * 2px ring + 2px offset using --color-focus (Carbon blue 60).
+ * Exceptions handled where the ring would clash with the surface.
+ * ────────────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: var(--border-focus);
+  outline-offset: var(--focus-offset);
+}
+
+.btn.cc-emergency:focus-visible,
+.btn.cc-nav-call:focus-visible,
+.sticky-emergency-bar__link:focus-visible {
+  outline-color: var(--color-surface);
+  outline-offset: -4px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * RESPONSIVE — nav, hero, mega-menu collapse at breakpoints
+ * ≤991px (medium): mega-menu hides, hamburger surfaces, nav menu hides
+ * ≤767px (small) : nav CTA hides into drawer; everything else collapses
+ * ────────────────────────────────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .site-nav__inner {
+    height: var(--nav-height-mobile);
+    grid-template-columns: auto 1fr auto auto;
+  }
+  .site-nav__menu { display: none; }
+  .mega-menu { display: none; }
+  .hamburger { display: inline-flex; }
+}
+
+@media (max-width: 767px) {
+  .site-nav__cta { display: none; }
+  .site-nav__inner {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+@media (max-width: 479px) {
+  .site-nav__brand .brand-wordmark { display: none; }
+  .site-nav__brand img { width: 28px; height: 28px; object-fit: contain; object-position: left; }
+}

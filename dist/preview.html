@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astons Law Chambers — Multi-breakpoint Preview (v1.2.0-pre)</title>
+  <meta name="robots" content="noindex">
+
+  <style>
+    :root {
+      --chrome: #18181B;
+      --chrome-fg: #FAFAFA;
+      --chrome-muted: #A1A1AA;
+      --chrome-accent: #0F4C81;
+      --chrome-pad: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--chrome);
+      color: var(--chrome-fg);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .chrome-header {
+      padding: 20px var(--chrome-pad) 16px;
+      border-bottom: 1px solid #27272A;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px 24px;
+    }
+
+    .chrome-header h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--chrome-fg);
+    }
+
+    .chrome-header p {
+      margin: 0;
+      color: var(--chrome-muted);
+      font-size: 12px;
+    }
+
+    .chrome-header a {
+      color: var(--chrome-accent);
+      text-decoration: none;
+    }
+    .chrome-header a:hover { text-decoration: underline; }
+
+    .viewports {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 24px var(--chrome-pad) 48px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+    }
+
+    .viewport {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+
+    .viewport__label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0 4px 8px;
+      color: var(--chrome-muted);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .viewport__label strong {
+      color: var(--chrome-fg);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .viewport__frame {
+      background: #FFFFFF;
+      box-shadow: 0 0 0 1px #27272A, 0 18px 32px rgba(0, 0, 0, 0.4);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .viewport__frame iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .viewport.cc-desktop .viewport__frame { width: 1280px; height: 900px; }
+    .viewport.cc-tablet  .viewport__frame { width: 768px;  height: 900px; }
+    .viewport.cc-mobile  .viewport__frame { width: 390px;  height: 844px; }
+
+    .viewport.cc-mobile .viewport__frame { border-radius: 28px; box-shadow: 0 0 0 4px #3F3F46, 0 0 0 5px #27272A, 0 18px 32px rgba(0, 0, 0, 0.5); }
+
+    .chrome-footer {
+      padding: 16px var(--chrome-pad);
+      border-top: 1px solid #27272A;
+      color: var(--chrome-muted);
+      font-size: 11px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chrome-header">
+    <h1>Astons Law Chambers — Design System Preview</h1>
+    <p>v1.2.0-pre · Phase 0.5 visual layering · three breakpoints rendered live · scroll horizontally to compare</p>
+    <p><a href="preview-content.html" target="_blank">Open standalone</a></p>
+  </div>
+
+  <div class="viewports">
+    <div class="viewport cc-desktop">
+      <div class="viewport__label"><strong>Desktop</strong><span>1280 × 900</span></div>
+      <div class="viewport__frame">
+        <iframe src="preview-content.html" title="Astons Law Chambers — desktop preview" loading="eager"></iframe>
+      </div>
+    </div>
+
+    <div class="viewport cc-tablet">
+      <div class="viewport__label"><strong>Tablet</strong><span>768 × 900</span></div>
+      <div class="viewport__frame">
+        <iframe src="preview-content.html" title="Astons Law Chambers — tablet preview" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="viewport cc-mobile">
+      <div class="viewport__label"><strong>Mobile</strong><span>390 × 844</span></div>
+      <div class="viewport__frame">
+        <iframe src="preview-content.html" title="Astons Law Chambers — mobile preview" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="chrome-footer">
+    <span>Bundle: <code>dist/bundle.min.css</code> · JS: <code>dist/site.min.js</code></span>
+    <span>Quick exit: Esc · Esc within 1s</span>
+    <span>Mega-menu: hover the "Practice areas" item in the desktop frame</span>
+    <span>Drawer: tap the hamburger in the tablet or mobile frame</span>
+  </div>
+
+</body>
+</html>

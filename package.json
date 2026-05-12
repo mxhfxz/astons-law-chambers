@@ -1,12 +1,13 @@
 {
   "name": "astons-law-chambers",
-  "version": "1.0.0",
-  "description": "Astons Law Chambers - Webflow site with Mast framework integration",
+  "version": "1.2.0",
+  "description": "Astons Law Chambers - Webflow site with Mast framework integration. Design system, custom components, and triage-focused JS for the rebuild.",
   "main": "dist/site.min.js",
   "scripts": {
-    "build": "terser src/site.js -o dist/site.min.js --compress --mangle",
-    "build:forms": "terser src/forms.js -o dist/forms.min.js --compress --mangle",
-    "build:all": "npm run build && npm run build:forms"
+    "build:js": "terser src/site.js -o dist/site.min.js --compress --mangle",
+    "build:css": "cat src/tokens.css src/typography.css src/components.css > dist/bundle.css && cleancss -o dist/bundle.min.css dist/bundle.css",
+    "build": "npm run build:css && npm run build:js",
+    "build:all": "npm run build"
   },
   "files": [
     "dist"
@@ -17,6 +18,7 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "clean-css-cli": "^5.6.3",
     "terser": "^5.46.2"
   }
 }

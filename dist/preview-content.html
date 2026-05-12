@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Astons Law Chambers — Preview</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap">
+
+  <link rel="stylesheet" href="bundle.css">
+
+  <style>
+    /* Preview-only — placeholders/notes that don't ship to production */
+    .preview-note {
+      background: var(--color-surface-secondary);
+      border-left: 3px solid var(--color-interactive-accent);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--font-size-caption);
+      color: var(--color-caption);
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <button class="quick-exit" data-quick-exit
+          aria-label="Leave this site immediately — opens Google in this tab"
+          title="Quickly leaves this site. Press Esc twice as a shortcut.">
+    Quick exit
+  </button>
+
+  <nav class="site-nav" aria-label="Primary">
+    <div class="site-nav__inner">
+      <a href="/" class="site-nav__brand" aria-label="Astons Law Chambers — home">
+        <img src="../src/assets/logo-navy.svg" alt="Astons Law Chambers" class="brand-logo">
+      </a>
+
+      <ul class="site-nav__menu">
+        <li class="nav-item has-mega">
+          <button class="has-mega__trigger" aria-expanded="false" aria-controls="mega-practice" aria-haspopup="true">
+            Practice areas
+            <svg class="has-mega__chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2 4 L6 8 L10 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </li>
+        <li><a href="/direct-access">Direct Access</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+
+      <a href="tel:+447922247999" class="btn cc-nav-call site-nav__cta" data-phone-link>
+        CALL 07922 247 999
+      </a>
+
+      <button class="hamburger" data-drawer-toggle aria-expanded="false" aria-controls="primary-drawer" aria-label="Open menu">
+        <span class="hamburger__bars"><span></span></span>
+      </button>
+    </div>
+
+    <div id="mega-practice" class="mega-menu" hidden>
+      <div class="mega-menu__inner">
+        <div class="mega-menu__panel">
+          <div class="mega-menu__col">
+            <h3 class="mega-menu__col-title">Person offences</h3>
+            <ul class="mega-menu__list">
+              <li><a class="mega-menu__link" href="/practice-areas/violent-offences">Violent Offences</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/sexual-offences">Sexual Offences</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/drug-offences">Drug Offences</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/youth-crime">Youth Crime</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/theft-robbery">Theft &amp; Robbery</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu__col">
+            <h3 class="mega-menu__col-title">Financial offences</h3>
+            <ul class="mega-menu__list">
+              <li><a class="mega-menu__link" href="/practice-areas/fraud-financial-crime">Fraud &amp; Financial Crime</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/money-laundering-poca">Money Laundering &amp; POCA</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu__col">
+            <h3 class="mega-menu__col-title">Procedural &amp; other</h3>
+            <ul class="mega-menu__list">
+              <li><a class="mega-menu__link" href="/practice-areas/driving-offences">Driving Offences</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/appeals">Appeals</a></li>
+              <li><a class="mega-menu__link" href="/practice-areas/inquests">Inquests</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mega-menu__foot">
+          <a class="link-arrow" href="/practice-areas">Full practice list</a>
+          <a href="tel:+447922247999" data-phone-link>07922 247 999</a>
+          <a href="#" data-whatsapp-context="homepage">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <aside id="primary-drawer" class="drawer" data-drawer hidden>
+    <a href="tel:+447922247999" class="btn cc-nav-call drawer__call" data-phone-link>CALL 07922 247 999</a>
+    <ul class="drawer__list">
+      <li>
+        <button data-drawer-accordion aria-expanded="false" aria-controls="drawer-practice">Practice areas</button>
+        <ul id="drawer-practice" class="drawer__accordion-list" hidden>
+          <li><a href="/practice-areas/violent-offences">Violent Offences</a></li>
+          <li><a href="/practice-areas/sexual-offences">Sexual Offences</a></li>
+          <li><a href="/practice-areas/drug-offences">Drug Offences</a></li>
+          <li><a href="/practice-areas/youth-crime">Youth Crime</a></li>
+          <li><a href="/practice-areas/theft-robbery">Theft &amp; Robbery</a></li>
+          <li><a href="/practice-areas/fraud-financial-crime">Fraud &amp; Financial Crime</a></li>
+          <li><a href="/practice-areas/money-laundering-poca">Money Laundering &amp; POCA</a></li>
+          <li><a href="/practice-areas/driving-offences">Driving Offences</a></li>
+          <li><a href="/practice-areas/appeals">Appeals</a></li>
+          <li><a href="/practice-areas/inquests">Inquests</a></li>
+        </ul>
+      </li>
+      <li><a href="/direct-access">Direct Access</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </aside>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="hero__layout">
+        <div class="hero__content">
+          <span class="eyebrow">Direct Access criminal barrister · London</span>
+          <h1 class="hero-display">Arrested in the last 24 hours. Police bail expires this week. Crown Court hearing this month.</h1>
+          <p style="font-size: var(--font-size-body-lg); max-width: 32ch;">Criminal defence. Direct Access. London chambers, UK-wide.</p>
+
+          <div class="hero__ctas">
+            <a href="tel:+447922247999" class="btn cc-hero-call" data-phone-link>
+              CALL 07922 247 999
+            </a>
+            <a href="#" class="btn cc-hero-whatsapp" data-whatsapp-context="homepage">
+              WhatsApp the chambers
+            </a>
+          </div>
+
+          <p class="caption hero__regulator">Regulated by the Bar Standards Board. Direct Access authorised.</p>
+        </div>
+
+        <div class="hero__media" aria-hidden="true">
+          <div class="hero__media-placeholder">
+            Hero image slot<br>
+            Architectural detail<br>
+            <em>subject TBD — chambers entrance / Marylebone street geometry</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section id="practice-areas" class="section">
+      <div class="container cc-wide">
+        <span class="eyebrow">Practice areas</span>
+        <h2 style="margin-bottom: var(--space-8); max-width: 24ch;">Ten practice areas. Direct instruction.</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4);">
+          <a href="/practice-areas/drug-offences" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">01</span>
+            <h3 style="margin: var(--space-2) 0;">Drug Offences</h3>
+            <p class="caption" style="margin: 0;">Possession, supply, importation, conspiracy.</p>
+          </a>
+          <a href="/practice-areas/sexual-offences" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">02</span>
+            <h3 style="margin: var(--space-2) 0;">Sexual Offences</h3>
+            <p class="caption" style="margin: 0;">Allegations, charges, trial defence.</p>
+          </a>
+          <a href="/practice-areas/violent-offences" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">03</span>
+            <h3 style="margin: var(--space-2) 0;">Violent Offences</h3>
+            <p class="caption" style="margin: 0;">Assault, ABH, GBH, murder.</p>
+          </a>
+          <a href="/practice-areas/fraud-financial-crime" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">04</span>
+            <h3 style="margin: var(--space-2) 0;">Fraud &amp; Financial Crime</h3>
+            <p class="caption" style="margin: 0;">Fraud Act offences, conspiracy, regulatory.</p>
+          </a>
+          <a href="/practice-areas/driving-offences" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">05</span>
+            <h3 style="margin: var(--space-2) 0;">Driving Offences</h3>
+            <p class="caption" style="margin: 0;">Causing serious injury, dangerous, disqualification.</p>
+          </a>
+          <a href="/practice-areas/theft-robbery" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">06</span>
+            <h3 style="margin: var(--space-2) 0;">Theft &amp; Robbery</h3>
+            <p class="caption" style="margin: 0;">Theft Act offences, robbery, burglary.</p>
+          </a>
+          <a href="/practice-areas/money-laundering-poca" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">07</span>
+            <h3 style="margin: var(--space-2) 0;">Money Laundering &amp; POCA</h3>
+            <p class="caption" style="margin: 0;">Restraint orders, confiscation, third-party claims.</p>
+          </a>
+          <a href="/practice-areas/youth-crime" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">08</span>
+            <h3 style="margin: var(--space-2) 0;">Youth Crime</h3>
+            <p class="caption" style="margin: 0;">Youth Court representation and diversion.</p>
+          </a>
+          <a href="/practice-areas/appeals" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">09</span>
+            <h3 style="margin: var(--space-2) 0;">Appeals</h3>
+            <p class="caption" style="margin: 0;">Court of Appeal and Crown Court appeals.</p>
+          </a>
+          <a href="/practice-areas/inquests" class="card cc-bordered">
+            <span class="eyebrow" style="color: var(--color-caption);">10</span>
+            <h3 style="margin: var(--space-2) 0;">Inquests</h3>
+            <p class="caption" style="margin: 0;">Coroner's Court representation, Article 2.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section cc-secondary-surface">
+      <div class="container cc-narrow">
+        <span class="eyebrow">Direct Access</span>
+        <h2 style="margin-bottom: var(--space-4);">Instruct a barrister without a solicitor.</h2>
+        <p style="font-size: var(--font-size-body-lg);">Since 2004 the law has allowed anyone in England and Wales to instruct a barrister directly. The advocate answers, not a relay. The clerks will tell you if Direct Access is not right for the case.</p>
+        <a href="/direct-access" class="btn cc-advisory link-arrow" style="margin-top: var(--space-6); text-decoration: none;">How Direct Access works</a>
+      </div>
+    </section>
+
+    <section class="section cc-booking">
+      <div class="container cc-default">
+        <span class="eyebrow">Consultation</span>
+        <h2 style="margin-bottom: var(--space-4);">Book a 30-minute consultation.</h2>
+        <p style="margin-bottom: var(--space-8); max-width: 60ch;">For non-emergency matters: pick a slot. The consultation is paid; clerks confirm fees in advance.</p>
+        <div class="cal-embed" role="region" aria-label="Calendar booking">
+          <div style="padding: var(--space-12); text-align: center; color: var(--color-caption);">
+            cal.com embed slot<br>
+            <small>(Loaded lazily, never above the fold)</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule cc-strong">
+
+  </main>
+
+  <footer>
+    <div class="container cc-wide" style="padding-top: var(--space-12); padding-bottom: var(--space-12);">
+      <img src="../src/assets/logo-navy.svg" alt="Astons Law Chambers" style="height: 28px; width: auto; display: block; margin-bottom: var(--space-8);">
+
+      <dl class="disclosure-row">
+        <div class="disclosure-row__item">
+          <dt>Regulator</dt>
+          <dd>Regulated by the Bar Standards Board. Direct Access authorised. <a href="#">Barristers' Register →</a></dd>
+        </div>
+        <div class="disclosure-row__item">
+          <dt>Contact</dt>
+          <dd><a href="tel:+447922247999">07922 247 999</a><br><a href="#" data-whatsapp-context="homepage">WhatsApp</a><br>info@astonslaw.com</dd>
+        </div>
+        <div class="disclosure-row__item">
+          <dt>Address</dt>
+          <dd>85 Great Portland Street, First Floor<br>London W1W 7LT</dd>
+        </div>
+        <div class="disclosure-row__item">
+          <dt>Complaints</dt>
+          <dd><a href="/compliance/complaints-policy">Complaints policy</a><br><a href="#">Legal Ombudsman →</a></dd>
+        </div>
+      </dl>
+    </div>
+  </footer>
+
+  <div class="sticky-emergency-bar" role="region" aria-label="Emergency contact">
+    <a href="tel:+447922247999" class="sticky-emergency-bar__link" data-phone-link>
+      Call 07922 247 999
+    </a>
+    <div class="sticky-emergency-bar__divider" aria-hidden="true"></div>
+    <a href="#" class="sticky-emergency-bar__link" data-whatsapp-context="homepage">
+      WhatsApp →
+    </a>
+  </div>
+
+  <script src="site.min.js"></script>
+</body>
+</html>
