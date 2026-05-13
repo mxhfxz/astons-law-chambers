@@ -50,9 +50,19 @@
   --color-link-hover: var(--color-brand-primary);
 
   /* Hover-mix scalars (consumed via color-mix() in components.css).
-   * Light buttons darken 10%; dark buttons lighten 10%. */
+   * Light surfaces darken 10%; dark surfaces lighten 18%. The asymmetry
+   * is intentional: dark navy (#0E1628) has very little luminance
+   * headroom, so a 10% lift was visually invisible. 18% lifts it to
+   * roughly #34394C — clearly responding without washing out. Red
+   * surfaces (#C23616) keep their dedicated --color-emergency-hover
+   * pre-computed token; the darken scalar is unused there. */
   --hover-darken: 10%;
-  --hover-lighten: 10%;
+  --hover-lighten: 18%;
+
+  /* Link-hover background surface — v1.3.0 link rework. Used by chrome
+   * link bg-fills (top-nav, mega-menu, drawer, link-arrow) and the global
+   * inline-link bg swell. Sits at grey-100 against the white surface. */
+  --color-link-bg: var(--color-grey-100);
 
   /* ──────────────────────────────────────────────────────────────────────
    * TYPOGRAPHY (locked 2026-05-12 — IBM Plex Sans only)
@@ -144,19 +154,39 @@
   --focus-offset: 2px;
 
   /* ──────────────────────────────────────────────────────────────────────
-   * MOTION (Phase 0.5)
-   * Multiple duration tokens — see aesthetic.md "Motion" section.
-   *   quick   → hover transitions (button colour, link colour)
-   *   nudge   → arrow nudge on directional links
-   *   fast    → state changes (sticky bar entry, drawer slide)
-   *   grace   → mega-menu close-delay forgiveness
-   * One easing across the system. No bounce, no overshoot, no scale.
+   * MOTION (v1.3.0 rework — per-interaction easings)
+   * Each duration token now maps to an interaction class; each interaction
+   * class pairs with a named easing curve. See aesthetic.md "Motion" for
+   * the routing table. No bounce, no overshoot, no scale.
+   *
+   *   nudge (120ms) → cursor-led: link bg fill, button bg, card border,
+   *                   arrow nudge. Snaps under the cursor. Use --ease-out-quick.
+   *   quick (200ms) → state morphs: hamburger ↔ close-cross, chevron
+   *                   rotations, aria-expanded flips. Use --ease-in-out-snappy.
+   *   fast  (240ms) → page-led entries: sticky bar entry, accordion expand.
+   *                   Soft landing. Use --ease-out-soft.
+   *   grace (280ms) → system reveals with displacement: mega-menu open,
+   *                   drawer slide-in; also the mega-menu close-grace wait
+   *                   (handled in site.js). Use --ease-out-emphasised.
    * ────────────────────────────────────────────────────────────────────── */
   --motion-duration-nudge: 120ms;
-  --motion-duration-quick: 150ms;
-  --motion-duration-fast:  200ms;
+  --motion-duration-quick: 200ms;
+  --motion-duration-fast:  240ms;
   --motion-duration-grace: 280ms;
-  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Easings — four named curves per interaction class.
+   * Derived via frontend-design + ux-designer: cursor-led actions need
+   * fast ease-out (response snaps to cursor); page-led reveals need a
+   * critically-damped ease-out (no overshoot, soft settle); system reveals
+   * with displacement use a strong deceleration; state morphs use a
+   * symmetric ease-in-out so the motion reads the same forward and back. */
+  --ease-out-quick:      cubic-bezier(0.32, 0.72, 0, 1);     /* hover responses */
+  --ease-out-soft:       cubic-bezier(0.16, 1, 0.3, 1);      /* sticky entry, accordion */
+  --ease-out-emphasised: cubic-bezier(0.2, 0, 0, 1);         /* mega-menu, drawer */
+  --ease-in-out-snappy:  cubic-bezier(0.4, 0, 0.2, 1);       /* state morphs */
+
+  /* Back-compat alias — was the single system ease in Phase 0.5. */
+  --motion-ease: var(--ease-out-emphasised);
 
   /* ──────────────────────────────────────────────────────────────────────
    * COMPONENT-LEVEL
@@ -217,9 +247,34 @@
 
 /* ──────────────────────────────────────────────────────────────────────
  * BASE
+ *
+ * Universal `box-sizing: border-box` reset — padding (and border) count
+ * INTO the declared width, not on top of it. Without this, every
+ * element with `width: 100%` + padding overflows its container by
+ * `2 * padding` (the .drawer__call, .drawer__list rows, and every
+ * .card.cc-bordered in a 1fr grid track were all showing this bug —
+ * cards bled past the right gutter, drawer items clipped at viewport-
+ * right). Standard reset; should have been here from Phase 0.
+ *
+ * `html { overflow-x: clip }` neutralises horizontal-overscroll sources
+ * site-wide — the off-screen drawer (translateX(100%)) and any grid /
+ * pseudo-element negative-margin overflow get clipped without breaking
+ * `position: sticky` (which `overflow-x: hidden` would).
+ *
  * Reset to brand-primary on body to avoid Mast/Webflow default greys.
  * ────────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
 body {
+  margin: 0;                                  /* reset UA default 8px — fixes sticky-nav offset jitter at scroll 0 (see DECISION_LOG bug 4) */
   font-family: var(--font-family-sans);
   font-size: var(--font-size-body);
   line-height: var(--line-height-normal);
@@ -326,29 +381,43 @@ h3, .heading-h3 {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
- * LINKS — body text links
- * Single colour across :link, :hover, :focus (Visual Practices Finding 2
- * + iteration round 1, option 4.1). Hover differentiation by a 10%
- * darker tint via color-mix(), matching the global hover rule.
+ * LINKS — inline body prose
+ * v1.3.0 rework: identifiability comes from a static 1px underline at
+ * rest (Visual Practices Finding 2). Hover is a bg-fill swell behind the
+ * text — never a line-thickness shift — so the hover surface lands
+ * exactly where the cursor is. box-decoration-break: clone keeps the
+ * swell tidy across multi-line wraps. The tiny inline padding + negative
+ * margin prevents layout shift at rest.
+ *
+ * Chrome anchors (.site-nav__menu, .mega-menu__link, .drawer__list a,
+ * .link-arrow, .btn.*) override these declarations with their own
+ * higher-specificity rules in components.css and do not inherit the
+ * underline or the inline-link padding.
  * ────────────────────────────────────────────────────────────────────── */
 a {
   color: var(--color-link);
   text-decoration: underline;
-  text-underline-offset: 0.15em;
   text-decoration-thickness: 1px;
-  transition: color var(--motion-duration-quick) var(--motion-ease),
-              text-decoration-thickness var(--motion-duration-quick) var(--motion-ease);
+  text-underline-offset: 0.15em;
+  padding: 0.05em 0.15em;
+  margin-inline: -0.15em;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  background-color: transparent;
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 a:hover {
+  background-color: var(--color-link-bg);
   color: color-mix(in srgb, var(--color-link), #000 var(--hover-darken));
-  text-decoration-thickness: 2px;
 }
 
 a:focus-visible {
   outline: var(--border-focus);
   outline-offset: var(--focus-offset);
-  border-radius: 1px;
+  border-radius: 2px;
 }
 /*
  * Astons Law Chambers — custom components (Phase 0.5)
@@ -437,7 +506,7 @@ a:focus-visible {
   gap: var(--space-2);
   min-height: var(--touch-target-emergency);
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-emergency:hover {
@@ -449,6 +518,15 @@ a:focus-visible {
   background-color: var(--color-emergency-active);
 }
 
+/* v1.3.0 iteration 3: top-nav CALL reverted to solid red per user
+ * direction. Iteration 2's "two solid reds over-saturate" reasoning
+ * was overruled. The new safety-banner under the nav is solid black
+ * (#000), the top-nav CALL is solid red, the sticky bottom-bar is solid
+ * red — three saturated bands stacking top to bottom (red → black →
+ * white nav row with red CTA → page → red bottom). The visual rhythm
+ * holds because each band has a discrete urgent-channel meaning.
+ * Label is shortened to "Call now" in the markup (Webflow MCP batch),
+ * so the button no longer needs the wide 07922 247 999 width. */
 .btn.cc-nav-call {
   background-color: var(--color-emergency-accent);
   color: var(--color-surface);
@@ -467,7 +545,7 @@ a:focus-visible {
   height: 44px;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-nav-call:hover {
@@ -475,6 +553,14 @@ a:focus-visible {
   color: var(--color-surface);
 }
 
+/* v1.3.0 iteration 4: invert pattern abandoned — caused pair collapse
+ * (hovering one button made both look identical). New pattern: parallel
+ * hover responses. Primary lightens 18% AND gains a 2px Carbon-blue
+ * (--color-interactive-accent) inset ring as the unified "I'm hovered"
+ * cue. Secondary uses the same Carbon-blue ring (via border-colour
+ * recolour) plus a subtle bg tint. Both buttons get the SAME hover
+ * signal (Carbon-blue accent) without swapping into each other's at-
+ * rest character — pair distinction preserved at every state. */
 .btn.cc-hero-call {
   background-color: var(--color-brand-primary);
   color: var(--color-surface);
@@ -492,14 +578,25 @@ a:focus-visible {
   gap: var(--space-2);
   min-height: var(--touch-target-emergency);
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+  box-shadow: inset 0 0 0 0 var(--color-interactive-accent);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              box-shadow var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-hero-call:hover {
   background-color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+  box-shadow: inset 0 0 0 2px var(--color-interactive-accent);
   color: var(--color-surface);
 }
 
+/* v1.3.0 iteration 4: secondary outline button hover no longer inverts
+ * to solid navy (that destroyed pair distinction when paired with the
+ * primary's reverse-inversion). New pattern: subtle bg tint in
+ * --color-link-bg + border colour shifts from navy to Carbon-blue
+ * accent. Same Carbon-blue cue as the primary's inset ring, applied as
+ * border-colour change to avoid stacking a ring inside the existing
+ * border. Pair distinction (primary fill / secondary outline)
+ * preserved at every state. */
 .btn.cc-hero-whatsapp {
   background-color: transparent;
   color: var(--color-brand-primary);
@@ -517,15 +614,20 @@ a:focus-visible {
   gap: var(--space-2);
   min-height: var(--touch-target-emergency);
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease),
-              color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              border-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-hero-whatsapp:hover {
-  background-color: var(--color-brand-primary);
-  color: var(--color-surface);
+  background-color: var(--color-link-bg);
+  border-color: var(--color-interactive-accent);
+  color: var(--color-brand-primary);
 }
 
+/* v1.3.0 iteration 4: parallel pattern to cc-hero-call — lightens
+ * 18% on hover + 2px Carbon-blue inset ring as the unified cue.
+ * Stays solid, never inverts. Advisory scale (48px min-height,
+ * 4px radius, semibold). */
 .btn.cc-advisory {
   background-color: var(--color-brand-primary);
   color: var(--color-surface);
@@ -541,14 +643,20 @@ a:focus-visible {
   justify-content: center;
   min-height: var(--touch-target-min);
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+  box-shadow: inset 0 0 0 0 var(--color-interactive-accent);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              box-shadow var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-advisory:hover {
   background-color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+  box-shadow: inset 0 0 0 2px var(--color-interactive-accent);
   color: var(--color-surface);
 }
 
+/* v1.3.0 iteration 4: parallel pattern to cc-hero-whatsapp — tint
+ * + Carbon-blue border-recolour on hover. Stays outlined, never
+ * inverts. Same hover language as cc-hero-whatsapp at smaller scale. */
 .btn.cc-outline {
   background-color: transparent;
   color: var(--color-brand-primary);
@@ -565,13 +673,14 @@ a:focus-visible {
   gap: var(--space-2);
   min-height: var(--touch-target-min);
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease),
-              color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              border-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .btn.cc-outline:hover {
-  background-color: var(--color-brand-primary);
-  color: var(--color-surface);
+  background-color: var(--color-link-bg);
+  border-color: var(--color-interactive-accent);
+  color: var(--color-brand-primary);
 }
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -580,39 +689,66 @@ a:focus-visible {
  * on every page via mouse, touch, or Esc-twice within 1000ms. Hidden
  * when printing.
  * ────────────────────────────────────────────────────────────────────── */
+/* v1.3.0 iteration 4 (revised again): quick-exit re-architected as a
+ * quiet bottom-right pill. The previous below-nav placement promoted
+ * the button visually; user direction says safety is a low-likelihood
+ * action — quiet pill, not chrome. New placement: bottom-right of the
+ * viewport, 0.5rem above the sticky emergency bar. Small (36px tall),
+ * black, pill-shaped (rounded full), "Leave website" label with a
+ * lightweight ! icon. z-index 9999 keeps it on top of every other
+ * surface AT REST; it hides while the drawer is open via :has() so it
+ * doesn't fight a drawer it would otherwise overlap on mobile.
+ *
+ * The Esc-twice-within-1000ms keyboard shortcut and the
+ * window.location.replace('https://www.google.com') action both stay.
+ * Keyboard is the primary always-available safety route; the visible
+ * pill is a reinforcing reminder, not the main exit. */
+/* Iteration 4 fix: pinned to the viewport edge (4px), not the page
+ * gutter. The pill is a system-level safety widget; it shouldn't track
+ * page-content alignment. */
 .quick-exit {
   position: fixed;
-  top: calc(var(--nav-height) + var(--space-3));
-  right: var(--space-4);
-  z-index: var(--z-quick-exit);
+  bottom: calc(var(--emergency-bar-height-mobile) + 4px);
+  right: 4px;
+  z-index: 9999;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  height: var(--quick-exit-size);
-  padding: 0 var(--space-4);
-  background-color: transparent;
-  color: var(--color-emergency-accent);
-  border: var(--border-quick-exit);
-  border-radius: var(--radius-1);
+  height: 36px;
+  padding: 0 var(--space-3);
+  background-color: #000;
+  color: var(--color-surface);
+  border: 0;
+  border-radius: 999px;                       /* fully-rounded pill */
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-caption);
   letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--motion-duration-quick) var(--motion-ease),
-              color var(--motion-duration-quick) var(--motion-ease);
+  white-space: nowrap;
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
+}
+
+.quick-exit__icon {
+  flex-shrink: 0;
 }
 
 .quick-exit:hover,
 .quick-exit:focus-visible {
-  background-color: var(--color-emergency-accent);
+  background-color: color-mix(in srgb, #000, #fff 12%);
   color: var(--color-surface);
 }
 
-@media (max-width: 991px) {
+/* Hide while the drawer is open — pill yields to active UI per its
+ * new quiet status. Esc-twice keyboard shortcut keeps safety reachable. */
+body:has(.drawer.is-open) .quick-exit {
+  display: none;
+}
+
+@media (min-width: 768px) {
   .quick-exit {
-    top: calc(var(--nav-height-mobile) + var(--space-2));
+    bottom: calc(var(--emergency-bar-height) + 4px);
   }
 }
 
@@ -632,9 +768,15 @@ a:focus-visible {
   border-bottom: 1px solid var(--color-divider);
 }
 
+/* v1.3.0 iteration 4 fix: restructured from grid to flex. The grid
+ * `auto 1fr auto auto` template put the menu inside a 1fr column with
+ * `justify-self: end`, but the visual read was menu mid-page rather
+ * than flush-right because the 1fr column expanded into the empty
+ * space between logo and CTA. Flex with `margin-right: auto` on the
+ * brand cleanly pushes everything else flush-right with no ambiguity
+ * about what sits on which side. */
 .site-nav__inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  display: flex;
   align-items: center;
   gap: var(--space-6);
   height: var(--nav-height);
@@ -643,29 +785,57 @@ a:focus-visible {
   padding-inline: var(--gutter);
 }
 
+/* v1.3.0 iteration 2: logo gets a subtle bg-fill hover so it reads as a
+ * clickable home affordance. Same hover language as the rest of the
+ * chrome links; reinforces the explicit "Home" nav item added alongside.
+ * iteration 4: gains `margin-right: auto` to push the rest of the row
+ * flush-right (no longer relying on grid's 1fr column). */
 .site-nav__brand {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  background-color: transparent;
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  margin-right: auto;
+  border-radius: var(--radius-1);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
+.site-nav__brand:hover,
+.site-nav__brand:focus-visible {
+  background-color: var(--color-link-bg);
+}
+
+/* v1.3.0 iteration 3: min-width keeps the logo legible at every viewport.
+ * The native SVG is 148×34 (mark left, wordmark right). At any viewport
+ * the full logo renders at its native width; no mark-only crop. With the
+ * top-nav CTA hidden at ≤991px and the safety banner below the nav,
+ * there's plenty of nav real estate even at the smallest viewport. */
 .site-nav__brand img {
   height: 32px;
   width: auto;
+  min-width: 148px;
   display: block;
 }
 
+/* v1.3.0 iteration 4 fix: dropped `justify-self: end` and
+ * `margin-inline-end` — those were grid-only artefacts. With the
+ * parent now a flex row and `.site-nav__brand` carrying
+ * `margin-right: auto`, the menu naturally sits flush-right. */
 .site-nav__menu {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
-  gap: var(--space-6);
-  justify-self: end;
-  margin-inline-end: var(--space-4);
+  gap: var(--space-2);
 }
 
+/* v1.3.0 link rework — hover surface = padded box, not text-width. The
+ * hit area extends 12px each side of the label so the bg fill lands under
+ * the cursor wherever it first crosses the item. Colour stays static; the
+ * bg-fill IS the hover signal. */
 .site-nav__menu > li > a,
 .site-nav__menu > li > button {
   color: var(--color-brand-primary);
@@ -674,28 +844,43 @@ a:focus-visible {
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-small);
   background: none;
+  background-color: transparent;
   border: 0;
   cursor: pointer;
-  padding: var(--space-2) 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-1);
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  transition: color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .site-nav__menu > li > a:hover,
-.site-nav__menu > li > button:hover {
-  color: color-mix(in srgb, var(--color-brand-primary), #fff var(--hover-lighten));
+.site-nav__menu > li > button:hover,
+.site-nav__menu > li > a:focus-visible,
+.site-nav__menu > li > button:focus-visible {
+  background-color: var(--color-link-bg);
+  color: var(--color-brand-primary);
 }
 
+/* v1.3.0 iteration 3: chevron morphs via vertical mirror (scaleY(-1))
+ * rather than a 180° rotation. The V flattens to a horizontal line at
+ * scaleY=0 then unfolds as ^ — the vertex literally travels from the
+ * bottom of the bounding box to the top. Reads as a state inversion
+ * instead of a spin, which matches the "downward triangle ↔ upward
+ * triangle" mental model the user reached for. Duration bumped to
+ * grace (280ms) with the symmetric snappy ease for state-morph
+ * coherence with the hamburger and accordion. */
 .has-mega__chevron {
   width: 10px;
   height: 10px;
-  transition: transform var(--motion-duration-quick) var(--motion-ease);
+  transform-origin: center center;
+  transform: scaleY(1);
+  transition: transform var(--motion-duration-grace) var(--ease-in-out-snappy);
 }
 
 .has-mega__trigger[aria-expanded="true"] .has-mega__chevron {
-  transform: rotate(180deg);
+  transform: scaleY(-1);
 }
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -712,7 +897,7 @@ a:focus-visible {
   border-top: 1px solid var(--color-divider);
   border-bottom: var(--border-strong);
   z-index: var(--z-mega-menu);
-  animation: mega-fade-in var(--motion-duration-quick) var(--motion-ease);
+  animation: mega-fade-in var(--motion-duration-quick) var(--ease-out-emphasised);
 }
 
 .mega-menu[hidden] { display: none; }
@@ -729,14 +914,38 @@ a:focus-visible {
   gap: var(--space-12);
 }
 
+/* v1.3.0 iteration 2: each column gets a thin vertical separator sitting
+ * centred in the 48px grid gap. Pseudo-element anchored to the column,
+ * not the panel — avoids polluting the grid template. Last column has no
+ * separator on its right. */
+.mega-menu__col {
+  position: relative;
+}
+
+.mega-menu__col:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--space-12) * -0.5);
+  width: 1px;
+  background-color: var(--color-divider);
+}
+
+/* v1.3.0 iteration 2: column titles get full hierarchy strength —
+ * brand-primary navy (was caption-grey), and a 1px hairline rule under
+ * the label. The eyebrow type still says "section label"; the navy
+ * + rule says "header". Resolves the read-as-just-another-link feel. */
 .mega-menu__col-title {
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-eyebrow);
   letter-spacing: var(--letter-spacing-eyebrow);
   text-transform: uppercase;
-  color: var(--color-caption);
-  margin: 0 0 var(--space-4);
+  color: var(--color-brand-primary);
+  margin: 0 0 var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .mega-menu__list {
@@ -748,19 +957,27 @@ a:focus-visible {
   gap: var(--space-2);
 }
 
+/* v1.3.0 — bg-fill hover + 2px inset accent bar (Carbon blue 60). The bar
+ * grows from 0 → 2px so the cue feels coupled to the cursor entering. */
 .mega-menu__link {
   display: block;
   color: var(--color-brand-primary);
   text-decoration: none;
   font-size: var(--font-size-body);
-  padding: var(--space-2) 0;
-  transition: color var(--motion-duration-quick) var(--motion-ease);
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  border-radius: var(--radius-1);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 var(--color-interactive-accent);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              box-shadow var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
-.mega-menu__link:hover {
-  color: var(--color-interactive-accent);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
+.mega-menu__link:hover,
+.mega-menu__link:focus-visible {
+  background-color: var(--color-link-bg);
+  box-shadow: inset 2px 0 0 var(--color-interactive-accent);
+  color: var(--color-brand-primary);
 }
 
 .mega-menu__foot {
@@ -774,10 +991,24 @@ a:focus-visible {
   gap: var(--space-4);
 }
 
+/* v1.3.0 — foot links (phone, WhatsApp) get the bg-fill hover too. The
+ * link-arrow has its own rule below with the same treatment plus the
+ * existing 4px arrow nudge. */
 .mega-menu__foot a {
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-small);
+  color: var(--color-brand-primary);
+  background-color: transparent;
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  border-radius: var(--radius-1);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
+}
+
+.mega-menu__foot a:hover,
+.mega-menu__foot a:focus-visible {
+  background-color: var(--color-link-bg);
 }
 
 @keyframes mega-fade-in {
@@ -808,6 +1039,21 @@ a:focus-visible {
   display: block;
 }
 
+/* v1.3.0 iteration 3: hamburger restructure for a clean X morph.
+ *
+ * All three bars are absolutely positioned with the same `top: 6px`
+ * (centred in the 14px-tall container — (14-2)/2 = 6). At rest, the
+ * top and bottom bars are translateY'd ±6px to sit at the top/bottom
+ * edges; on aria-expanded="true" they return to translateY(0) and
+ * rotate ±45°. They cross at the container's centre forming a clean X.
+ * The middle bar fades out via opacity.
+ *
+ * Previous rule animated `top` AND `transform` simultaneously which
+ * produced the awkward intermediate shape — the bars travelled through
+ * a curved path rather than sliding linearly to the centre. The new
+ * rule animates a single `transform` property per bar, with the same
+ * --motion-duration-grace (280ms) and --ease-in-out-snappy across all
+ * three so the parts read as one coherent state morph. */
 .hamburger__bars::before,
 .hamburger__bars::after,
 .hamburger__bars > span {
@@ -815,21 +1061,21 @@ a:focus-visible {
   position: absolute;
   left: 0;
   right: 0;
+  top: 6px;
   height: 2px;
   background-color: var(--color-brand-primary);
-  transition: transform var(--motion-duration-quick) var(--motion-ease),
-              opacity var(--motion-duration-quick) var(--motion-ease),
-              top var(--motion-duration-quick) var(--motion-ease),
-              bottom var(--motion-duration-quick) var(--motion-ease);
+  transform-origin: center center;
+  transition: transform var(--motion-duration-grace) var(--ease-in-out-snappy),
+              opacity var(--motion-duration-grace) var(--ease-in-out-snappy);
 }
 
-.hamburger__bars::before { top: 0; }
-.hamburger__bars > span  { top: 50%; transform: translateY(-50%); display: block; }
-.hamburger__bars::after  { bottom: 0; }
+.hamburger__bars::before { transform: translateY(-6px); }
+.hamburger__bars > span  { display: block; transform: translateY(0); }
+.hamburger__bars::after  { transform: translateY(6px); }
 
-.hamburger[aria-expanded="true"] .hamburger__bars::before { top: 50%; transform: rotate(45deg); }
-.hamburger[aria-expanded="true"] .hamburger__bars::after  { bottom: 50%; transform: rotate(-45deg); }
+.hamburger[aria-expanded="true"] .hamburger__bars::before { transform: translateY(0) rotate(45deg); }
 .hamburger[aria-expanded="true"] .hamburger__bars > span  { opacity: 0; }
+.hamburger[aria-expanded="true"] .hamburger__bars::after  { transform: translateY(0) rotate(-45deg); }
 
 .drawer {
   position: fixed;
@@ -841,7 +1087,7 @@ a:focus-visible {
   border-left: 1px solid var(--color-divider);
   z-index: var(--z-drawer);
   transform: translateX(100%);
-  transition: transform var(--motion-duration-fast) var(--motion-ease);
+  transition: transform var(--motion-duration-grace) var(--ease-out-emphasised);
   overflow-y: auto;
   padding: var(--space-6) var(--space-6) calc(var(--emergency-bar-height-mobile) + var(--space-6));
 }
@@ -858,12 +1104,23 @@ a:focus-visible {
   gap: var(--space-2);
 }
 
+/* v1.3.0 — drawer rows get full-row bg-fill on hover/active touch. The
+ * border-bottom hairline stays as the visual rib; the bg fill sits inside
+ * the drawer's structural padding, extended 12px into the gutter so the
+ * fill reads as the full row rather than a narrow centred chip.
+ *
+ * Iteration 3: switched to flex so the accordion button can place its
+ * morph-chevron at the right edge (and so future drawer rows can carry
+ * trailing icons without restructuring). */
 .drawer__list a,
 .drawer__list button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   text-align: left;
   background: none;
+  background-color: transparent;
   border: 0;
   cursor: pointer;
   color: var(--color-brand-primary);
@@ -871,8 +1128,53 @@ a:focus-visible {
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-body);
-  padding: var(--space-3) 0;
+  padding: var(--space-3) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  border-radius: var(--radius-1);
   border-bottom: 1px solid var(--color-divider);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
+}
+
+.drawer__list a:hover,
+.drawer__list button:hover,
+.drawer__list a:focus-visible,
+.drawer__list button:focus-visible {
+  background-color: var(--color-link-bg);
+}
+
+/* v1.3.0 iteration 3: chevron after the accordion trigger in the drawer.
+ * SVG inlined via data URI so no markup change is required. Uses the
+ * same scaleY(-1) morph as the desktop mega-menu chevron — V at rest,
+ * ^ on aria-expanded="true". The accordion expands a list of practice
+ * areas; the chevron tells touch users this row opens further. */
+/* v1.3.0 ship-gate: switched from background-image to mask-image so
+ * the chevron paints in currentColor and inherits whatever text colour
+ * the row resolves to. Future state colour changes (hover, focus,
+ * dark-on-light contexts) now follow text without a separate data URI
+ * per state. Stroke colour in the SVG is irrelevant — mask uses alpha. */
+[data-drawer-accordion]::after {
+  content: "";
+  flex-shrink: 0;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: var(--space-2);
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 4 L6 8 L10 4' stroke='black' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 4 L6 8 L10 4' stroke='black' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  transform-origin: center center;
+  transform: scaleY(1);
+  transition: transform var(--motion-duration-grace) var(--ease-in-out-snappy);
+}
+
+[data-drawer-accordion][aria-expanded="true"]::after {
+  transform: scaleY(-1);
 }
 
 .drawer__call {
@@ -886,15 +1188,36 @@ a:focus-visible {
   padding: 0 0 var(--space-2) var(--space-4);
 }
 
-.drawer__accordion-list li {
-  padding: var(--space-2) 0;
-}
+.drawer__accordion-list li { padding: 0; }
 
+/* v1.3.0 — practice-area items inside the drawer accordion get the same
+ * bg-fill + 2px inset accent bar as the desktop mega-menu links. Same
+ * pattern, consistent visual language across viewports. */
+/* v1.3.0 ship-gate: bumped from 32px → 44px (WCAG AAA tap target).
+ * Crisis-audience touch comfort outranks visual tightness here per
+ * medium-optimised UX rule in aesthetic.md. Flex centring keeps text
+ * vertically middle inside the taller row. */
 .drawer__accordion-list a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-brand-primary);
   text-decoration: none;
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-body);
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  border-radius: var(--radius-1);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 var(--color-interactive-accent);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              box-shadow var(--motion-duration-nudge) var(--ease-out-quick);
+}
+
+.drawer__accordion-list a:hover,
+.drawer__accordion-list a:focus-visible {
+  background-color: var(--color-link-bg);
+  box-shadow: inset 2px 0 0 var(--color-interactive-accent);
 }
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -959,6 +1282,16 @@ a:focus-visible {
   margin-top: var(--space-6);
 }
 
+/* v1.3.0 iteration 4 CRO fix: at touch viewports the hero stacks
+ * content-then-image. The previous rule put the image first via
+ * `order: -1` (firm-pattern import), but the image is a context-setter,
+ * not a conversion driver — pushing it above the CTAs cost the primary
+ * KPI a first-viewport position. With the default DOM order restored on
+ * touch, the eyebrow + h1 + intro p + dual CTAs + regulator line all
+ * sit in the opening fold; the architectural-detail image follows.
+ *
+ * Desktop layout (two-column grid) is unchanged — image sits to the
+ * right of content as before. */
 @media (max-width: 991px) {
   .hero__layout {
     grid-template-columns: 1fr;
@@ -966,7 +1299,6 @@ a:focus-visible {
   }
   .hero__media {
     aspect-ratio: 16 / 9;
-    order: -1;
   }
 }
 
@@ -990,7 +1322,7 @@ a:focus-visible {
   grid-template-columns: 1fr 1px 1fr;
   align-items: stretch;
   transform: translateY(100%);
-  transition: transform var(--motion-duration-fast) var(--motion-ease);
+  transition: transform var(--motion-duration-fast) var(--ease-out-soft);
   font-family: var(--font-family-sans);
 }
 
@@ -1010,7 +1342,7 @@ a:focus-visible {
   gap: var(--space-2);
   padding: 0 var(--space-4);
   min-height: var(--touch-target-emergency);
-  transition: background-color var(--motion-duration-quick) var(--motion-ease);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 .sticky-emergency-bar__link:hover {
@@ -1107,6 +1439,21 @@ body {
 .section.cc-generous  { padding: var(--section-padding-generous); }
 
 /* ──────────────────────────────────────────────────────────────────────
+ * CARD GRID — responsive auto-fill grid for card collections
+ * v1.3.0 iteration 4 fix: `minmax(min(260px, 100%), 1fr)` instead of
+ * `minmax(260px, 1fr)`. The 260px MIN was forcing each track to be at
+ * least 260px wide, which overflowed the container on narrow viewports
+ * (anything <260px + 2*gutter caused horizontal scroll). The
+ * `min(260px, 100%)` clause lets the track shrink to fit when the
+ * container is narrower than 260px — no overflow at any viewport.
+ * ────────────────────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
  * CARDS
  * 1px border, no shadow, no hover-lift. Border darkens 10% on hover
  * (iteration 4 — consistent with global hover rule).
@@ -1116,7 +1463,7 @@ body {
   border-radius: var(--radius-card);
   padding: var(--space-4);
   background-color: var(--color-surface);
-  transition: border-color var(--motion-duration-quick) var(--motion-ease);
+  transition: border-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 a.card.cc-bordered { text-decoration: none; color: var(--color-brand-primary); display: block; }
@@ -1129,9 +1476,20 @@ a.card.cc-bordered { text-decoration: none; color: var(--color-brand-primary); d
   .card.cc-bordered { padding: var(--space-6); }
 }
 
+/* Scoped card child defaults — replace the 30+ inline style attributes
+ * the card rows used to carry. Eyebrow caption colour + h3/caption
+ * margins so card markup can stay declarative. */
+.card.cc-bordered .eyebrow { color: var(--color-caption); }
+.card.cc-bordered h3 { margin: var(--space-2) 0; }
+.card.cc-bordered .caption { margin: 0; }
+
 /* ──────────────────────────────────────────────────────────────────────
- * LINK ARROW — directional links with 4px nudge on hover
- * Iteration 2: arrow moves, text stays still.
+ * LINK ARROW — directional links
+ * v1.3.0 iteration 4: reverted from the invert pattern. Text links
+ * shouldn't read as buttons; the navy-fill-on-hover was over-promoting.
+ * Back to the chrome-link bg-fill in --color-link-bg, plus the 4px
+ * arrow nudge. Same hover surface as the rest of the chrome links
+ * (top-nav items, mega-menu, drawer rows). Quiet and coherent.
  * ────────────────────────────────────────────────────────────────────── */
 .link-arrow {
   display: inline-flex;
@@ -1140,15 +1498,50 @@ a.card.cc-bordered { text-decoration: none; color: var(--color-brand-primary); d
   text-decoration: none;
   color: var(--color-brand-primary);
   font-weight: var(--font-weight-semibold);
+  background-color: transparent;
+  padding: var(--space-2) var(--space-3);
+  margin-inline: calc(var(--space-3) * -1);
+  border-radius: var(--radius-1);
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
+.link-arrow:hover,
+.link-arrow:focus-visible {
+  background-color: var(--color-link-bg);
+}
+
+/* Arrow nudge: 200ms emphasised ease for the glide; explicit
+ * translateX(0) at rest stabilises the reverse transition. */
 .link-arrow::after {
   content: "→";
   display: inline-block;
-  transition: transform var(--motion-duration-nudge) var(--motion-ease);
+  transform: translateX(0);
+  transition: transform var(--motion-duration-quick) var(--ease-out-emphasised);
 }
 
-.link-arrow:hover::after {
+.link-arrow:hover::after,
+.link-arrow:focus-visible::after {
+  transform: translateX(4px);
+}
+
+/* v1.3.0 ship-gate: cc-with-arrow modifier replaces the fragile combo
+ * `class="btn cc-advisory link-arrow"`. The combo's specificity ordering
+ * let .link-arrow's transparent background + shorter padding override
+ * the navy button surface — visibly broken at hover. The modifier is
+ * adornment-only: it adds the arrow + nudge after-pseudo to any .btn,
+ * leaving the button's own background / padding / hover treatment
+ * intact. Pairs cleanly with .btn.cc-advisory (navy primary) and could
+ * extend to .btn.cc-outline if needed later. */
+.btn.cc-with-arrow::after {
+  content: "→";
+  display: inline-block;
+  margin-left: var(--space-2);
+  transform: translateX(0);
+  transition: transform var(--motion-duration-quick) var(--ease-out-emphasised);
+}
+
+.btn.cc-with-arrow:hover::after,
+.btn.cc-with-arrow:focus-visible::after {
   transform: translateX(4px);
 }
 
@@ -1244,24 +1637,28 @@ a.card.cc-bordered { text-decoration: none; color: var(--color-brand-primary); d
  * ≤991px (medium): mega-menu hides, hamburger surfaces, nav menu hides
  * ≤767px (small) : nav CTA hides into drawer; everything else collapses
  * ────────────────────────────────────────────────────────────────────── */
+/* v1.3.0 iteration 3 + 4 fix: CTA hide extended from ≤767px to ≤991px
+ * (the full touch range — tablet + phone). Phone + WhatsApp live in the
+ * sticky bottom-bar on every touch viewport, and "Call now" being short
+ * means the desktop sizing already fits the row at 992–1439px. Grid
+ * template collapses to three columns (logo / 1fr / hamburger) at
+ * ≤991px. The old ≤479px mark-only crop is removed — the logo's min-
+ * width keeps it legible across all viewports now that nav real-estate
+ * isn't the constraint it used to be.
+ *
+ * Iteration 4 fix: the hide rule needed `.btn.cc-nav-call.site-nav__cta`
+ * specificity (0,3,0) to beat the global `.btn.cc-nav-call`
+ * declaration (0,2,0) that sets `display: inline-flex`. Without the
+ * specificity bump, the cta stayed visible on tablet and mobile (the
+ * iteration-3 preview showed it stretched to fill the 1fr grid column,
+ * which is what flagged the bug). */
 @media (max-width: 991px) {
   .site-nav__inner {
     height: var(--nav-height-mobile);
-    grid-template-columns: auto 1fr auto auto;
+    /* grid-template-columns retired — parent is flex now (iteration 4 fix). */
   }
   .site-nav__menu { display: none; }
   .mega-menu { display: none; }
+  .btn.cc-nav-call.site-nav__cta { display: none; }
   .hamburger { display: inline-flex; }
-}
-
-@media (max-width: 767px) {
-  .site-nav__cta { display: none; }
-  .site-nav__inner {
-    grid-template-columns: auto 1fr auto;
-  }
-}
-
-@media (max-width: 479px) {
-  .site-nav__brand .brand-wordmark { display: none; }
-  .site-nav__brand img { width: 28px; height: 28px; object-fit: contain; object-position: left; }
 }

@@ -50,9 +50,19 @@
   --color-link-hover: var(--color-brand-primary);
 
   /* Hover-mix scalars (consumed via color-mix() in components.css).
-   * Light buttons darken 10%; dark buttons lighten 10%. */
+   * Light surfaces darken 10%; dark surfaces lighten 18%. The asymmetry
+   * is intentional: dark navy (#0E1628) has very little luminance
+   * headroom, so a 10% lift was visually invisible. 18% lifts it to
+   * roughly #34394C — clearly responding without washing out. Red
+   * surfaces (#C23616) keep their dedicated --color-emergency-hover
+   * pre-computed token; the darken scalar is unused there. */
   --hover-darken: 10%;
-  --hover-lighten: 10%;
+  --hover-lighten: 18%;
+
+  /* Link-hover background surface — v1.3.0 link rework. Used by chrome
+   * link bg-fills (top-nav, mega-menu, drawer, link-arrow) and the global
+   * inline-link bg swell. Sits at grey-100 against the white surface. */
+  --color-link-bg: var(--color-grey-100);
 
   /* ──────────────────────────────────────────────────────────────────────
    * TYPOGRAPHY (locked 2026-05-12 — IBM Plex Sans only)
@@ -144,19 +154,39 @@
   --focus-offset: 2px;
 
   /* ──────────────────────────────────────────────────────────────────────
-   * MOTION (Phase 0.5)
-   * Multiple duration tokens — see aesthetic.md "Motion" section.
-   *   quick   → hover transitions (button colour, link colour)
-   *   nudge   → arrow nudge on directional links
-   *   fast    → state changes (sticky bar entry, drawer slide)
-   *   grace   → mega-menu close-delay forgiveness
-   * One easing across the system. No bounce, no overshoot, no scale.
+   * MOTION (v1.3.0 rework — per-interaction easings)
+   * Each duration token now maps to an interaction class; each interaction
+   * class pairs with a named easing curve. See aesthetic.md "Motion" for
+   * the routing table. No bounce, no overshoot, no scale.
+   *
+   *   nudge (120ms) → cursor-led: link bg fill, button bg, card border,
+   *                   arrow nudge. Snaps under the cursor. Use --ease-out-quick.
+   *   quick (200ms) → state morphs: hamburger ↔ close-cross, chevron
+   *                   rotations, aria-expanded flips. Use --ease-in-out-snappy.
+   *   fast  (240ms) → page-led entries: sticky bar entry, accordion expand.
+   *                   Soft landing. Use --ease-out-soft.
+   *   grace (280ms) → system reveals with displacement: mega-menu open,
+   *                   drawer slide-in; also the mega-menu close-grace wait
+   *                   (handled in site.js). Use --ease-out-emphasised.
    * ────────────────────────────────────────────────────────────────────── */
   --motion-duration-nudge: 120ms;
-  --motion-duration-quick: 150ms;
-  --motion-duration-fast:  200ms;
+  --motion-duration-quick: 200ms;
+  --motion-duration-fast:  240ms;
   --motion-duration-grace: 280ms;
-  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Easings — four named curves per interaction class.
+   * Derived via frontend-design + ux-designer: cursor-led actions need
+   * fast ease-out (response snaps to cursor); page-led reveals need a
+   * critically-damped ease-out (no overshoot, soft settle); system reveals
+   * with displacement use a strong deceleration; state morphs use a
+   * symmetric ease-in-out so the motion reads the same forward and back. */
+  --ease-out-quick:      cubic-bezier(0.32, 0.72, 0, 1);     /* hover responses */
+  --ease-out-soft:       cubic-bezier(0.16, 1, 0.3, 1);      /* sticky entry, accordion */
+  --ease-out-emphasised: cubic-bezier(0.2, 0, 0, 1);         /* mega-menu, drawer */
+  --ease-in-out-snappy:  cubic-bezier(0.4, 0, 0.2, 1);       /* state morphs */
+
+  /* Back-compat alias — was the single system ease in Phase 0.5. */
+  --motion-ease: var(--ease-out-emphasised);
 
   /* ──────────────────────────────────────────────────────────────────────
    * COMPONENT-LEVEL

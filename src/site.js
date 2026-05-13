@@ -27,6 +27,15 @@
   var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasHover       = window.matchMedia("(hover: hover)").matches;
 
+  var FOCUSABLE_SELECTOR = [
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled]):not([type='hidden'])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+  ].join(",");
+
   var WHATSAPP_MESSAGES = {
     "default":         "Hi Ghulam — I need urgent legal help",
     "homepage":        "Hi Ghulam — I need urgent legal help",
@@ -71,7 +80,7 @@
       var message = WHATSAPP_MESSAGES[context] || WHATSAPP_MESSAGES["default"];
       var encoded = encodeURIComponent(message);
       link.setAttribute("href", "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encoded);
-      link.setAttribute("rel", "noopener");
+      link.setAttribute("rel", "noopener noreferrer");
       link.setAttribute("target", "_blank");
     }
   }
@@ -153,7 +162,42 @@
   function initDrawer() {
     var btn    = document.querySelector("[data-drawer-toggle]");
     var drawer = document.querySelector("[data-drawer]");
-    if (!btn || !drawer) return;
+    if (!btn || !drawer) return null;
+
+    var previousFocus = null;
+
+    function getFocusable() {
+      var nodes = drawer.querySelectorAll(FOCUSABLE_SELECTOR);
+      var list = [];
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        if (el.hasAttribute("hidden")) continue;
+        var hiddenAncestor = el.closest("[hidden]");
+        if (hiddenAncestor && hiddenAncestor !== drawer) continue;
+        list.push(el);
+      }
+      return list;
+    }
+
+    function trapKey(e) {
+      if (e.key !== "Tab") return;
+      var focusable = getFocusable();
+      if (focusable.length === 0) { e.preventDefault(); return; }
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      var active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !drawer.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last || !drawer.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
 
     function setOpen(isOpen) {
       btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
@@ -161,6 +205,27 @@
       if (isOpen) drawer.removeAttribute("hidden");
       else drawer.setAttribute("hidden", "");
       document.documentElement.style.overflow = isOpen ? "hidden" : "";
+
+      if (isOpen) {
+        previousFocus = document.activeElement;
+        document.addEventListener("keydown", trapKey);
+        window.requestAnimationFrame(function () {
+          var focusable = getFocusable();
+          var target = focusable[0] || drawer;
+          try { target.focus(); } catch (_) {}
+        });
+      } else {
+        document.removeEventListener("keydown", trapKey);
+        var validPrev = previousFocus
+          && previousFocus !== document.body
+          && previousFocus !== document.documentElement
+          && document.contains(previousFocus);
+        var restoreTarget = validPrev ? previousFocus : btn;
+        previousFocus = null;
+        window.requestAnimationFrame(function () {
+          try { restoreTarget.focus(); } catch (_) {}
+        });
+      }
     }
 
     btn.addEventListener("click", function () {
@@ -189,7 +254,7 @@
   /* ─────────────────────────────────────────────────────────────────
    * 6. Quick-exit — Esc-twice within 1000ms; button-click; ARIA label
    * ───────────────────────────────────────────────────────────────── */
-  function initQuickExit() {
+  function initQuickExit(drawerApi) {
     function leave() {
       try { window.location.replace(QUICK_EXIT_URL); }
       catch (_) { window.location.href = QUICK_EXIT_URL; }
@@ -210,12 +275,8 @@
         if (panel) panel.setAttribute("hidden", "");
       }
       var openDrawer = document.querySelector("[data-drawer].is-open");
-      if (openDrawer) {
-        openDrawer.classList.remove("is-open");
-        openDrawer.setAttribute("hidden", "");
-        var dt = document.querySelector("[data-drawer-toggle]");
-        if (dt) dt.setAttribute("aria-expanded", "false");
-        document.documentElement.style.overflow = "";
+      if (openDrawer && drawerApi && typeof drawerApi.close === "function") {
+        drawerApi.close();
       }
 
       var now = Date.now();
@@ -264,8 +325,8 @@
     buildWhatsAppLinks();
     ensureTelLinks();
     initMegaMenus();
-    initDrawer();
-    initQuickExit();
+    var drawerApi = initDrawer();
+    initQuickExit(drawerApi);
     initCtaAnnouncements();
     revealStickyBar();
   }

@@ -1,6 +1,6 @@
 {
   "name": "astons-law-chambers",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Astons Law Chambers - Webflow site with Mast framework integration. Design system, custom components, and triage-focused JS for the rebuild.",
   "main": "dist/site.min.js",
   "scripts": {

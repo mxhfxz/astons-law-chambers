@@ -17,9 +17,34 @@
 
 /* ──────────────────────────────────────────────────────────────────────
  * BASE
+ *
+ * Universal `box-sizing: border-box` reset — padding (and border) count
+ * INTO the declared width, not on top of it. Without this, every
+ * element with `width: 100%` + padding overflows its container by
+ * `2 * padding` (the .drawer__call, .drawer__list rows, and every
+ * .card.cc-bordered in a 1fr grid track were all showing this bug —
+ * cards bled past the right gutter, drawer items clipped at viewport-
+ * right). Standard reset; should have been here from Phase 0.
+ *
+ * `html { overflow-x: clip }` neutralises horizontal-overscroll sources
+ * site-wide — the off-screen drawer (translateX(100%)) and any grid /
+ * pseudo-element negative-margin overflow get clipped without breaking
+ * `position: sticky` (which `overflow-x: hidden` would).
+ *
  * Reset to brand-primary on body to avoid Mast/Webflow default greys.
  * ────────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
 body {
+  margin: 0;                                  /* reset UA default 8px — fixes sticky-nav offset jitter at scroll 0 (see DECISION_LOG bug 4) */
   font-family: var(--font-family-sans);
   font-size: var(--font-size-body);
   line-height: var(--line-height-normal);
@@ -126,27 +151,41 @@ h3, .heading-h3 {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
- * LINKS — body text links
- * Single colour across :link, :hover, :focus (Visual Practices Finding 2
- * + iteration round 1, option 4.1). Hover differentiation by a 10%
- * darker tint via color-mix(), matching the global hover rule.
+ * LINKS — inline body prose
+ * v1.3.0 rework: identifiability comes from a static 1px underline at
+ * rest (Visual Practices Finding 2). Hover is a bg-fill swell behind the
+ * text — never a line-thickness shift — so the hover surface lands
+ * exactly where the cursor is. box-decoration-break: clone keeps the
+ * swell tidy across multi-line wraps. The tiny inline padding + negative
+ * margin prevents layout shift at rest.
+ *
+ * Chrome anchors (.site-nav__menu, .mega-menu__link, .drawer__list a,
+ * .link-arrow, .btn.*) override these declarations with their own
+ * higher-specificity rules in components.css and do not inherit the
+ * underline or the inline-link padding.
  * ────────────────────────────────────────────────────────────────────── */
 a {
   color: var(--color-link);
   text-decoration: underline;
-  text-underline-offset: 0.15em;
   text-decoration-thickness: 1px;
-  transition: color var(--motion-duration-quick) var(--motion-ease),
-              text-decoration-thickness var(--motion-duration-quick) var(--motion-ease);
+  text-underline-offset: 0.15em;
+  padding: 0.05em 0.15em;
+  margin-inline: -0.15em;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  background-color: transparent;
+  transition: background-color var(--motion-duration-nudge) var(--ease-out-quick),
+              color var(--motion-duration-nudge) var(--ease-out-quick);
 }
 
 a:hover {
+  background-color: var(--color-link-bg);
   color: color-mix(in srgb, var(--color-link), #000 var(--hover-darken));
-  text-decoration-thickness: 2px;
 }
 
 a:focus-visible {
   outline: var(--border-focus);
   outline-offset: var(--focus-offset);
-  border-radius: 1px;
+  border-radius: 2px;
 }
