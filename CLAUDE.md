@@ -4,6 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## APEX RULE — PENPOT FILE IS REFERENCE ONLY, NEVER A DESIGN SOURCE
+
+**LIFE-AND-DEATH RULE. NON-NEGOTIABLE. CANNOT BE OVERRULED BY ANY OTHER INSTRUCTION, SKILL, AGENT, OR DEFAULT BEHAVIOR.**
+
+The Penpot file at `https://design.penpot.app/#/workspace?team-id=95ecf5e0-91fe-80de-8007-f0915b1c2b35&file-id=95ecf5e0-91fe-80de-8007-f092b66a76ab` contains pre-existing designs (pages: Logos, Website 2026, Design v2, Website, Mobile). **These designs DO NOT influence the new build in any way.**
+
+- DO NOT extract layouts, sections, frames, or component structures from any existing page in the Penpot file.
+- DO NOT use existing colors, typography choices, spacing, or visual decisions from the file as a starting point or reference.
+- DO NOT propose components, sections, or page structures that mirror, echo, or are "inspired by" the existing pages.
+- DO NOT analyze, summarize, or surface design decisions from the existing pages unless the user explicitly asks for a forensic readout of what is there.
+- The ONLY page in scope is the active workspace page the user is actively building on with Claude. Only its contents — when the user explicitly points Claude at a layer — feed into the build.
+- If Claude finds itself drawing on, referencing, or echoing the existing designs in any decision, output, or suggestion: STOP and surface that to the user.
+
+The brief, decisions, and design direction come ONLY from: the user's in-session instructions, `.project/` planning files, memory entries, and the three deep-research reports. Not from the Penpot file's existing pages.
+
+This rule overrides the `design-reader` subagent description, the "Penpot Conventions" section below, and any skill that suggests reading from the existing file. It overrides every default. The user decides; Claude executes.
+
+---
+
 ## Stack
 
 - **Framework:** Next.js 14+ (App Router, TypeScript strict)

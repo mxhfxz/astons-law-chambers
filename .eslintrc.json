@@ -1,0 +1,32 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/forbid-component-props": [
+      "warn",
+      {
+        "forbid": [
+          {
+            "propName": "style",
+            "message": "Use Tailwind classes or CSS custom properties. Inline styles allowed only for GSAP-managed transform values."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/^#[0-9a-fA-F]{3,6}/]",
+        "message": "Raw hex values are not permitted. Use a CSS custom property token from styles/tokens.css."
+      }
+    ]
+  },
+  "ignorePatterns": [
+    ".project/",
+    ".agents/",
+    "00_Design System/",
+    "banana-claude/",
+    "claude-ads/",
+    "node_modules/",
+    ".next/"
+  ]
+}

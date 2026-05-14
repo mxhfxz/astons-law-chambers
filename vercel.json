@@ -1,0 +1,57 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "redirects": [
+    { "source": "/about/", "destination": "/direct-access/", "permanent": true },
+    { "source": "/about-us/", "destination": "/direct-access/", "permanent": true },
+    { "source": "/criminal-defence/", "destination": "/practice-areas/criminal-defence/", "permanent": true },
+    { "source": "/criminal-defence-barrister/", "destination": "/practice-areas/criminal-defence/", "permanent": true },
+    { "source": "/motoring-law/", "destination": "/practice-areas/motoring-law/", "permanent": true },
+    { "source": "/motoring-offences/", "destination": "/practice-areas/motoring-law/", "permanent": true },
+    { "source": "/regulatory-law/", "destination": "/practice-areas/regulatory-law/", "permanent": true },
+    { "source": "/regulatory/", "destination": "/practice-areas/regulatory-law/", "permanent": true },
+    { "source": "/proceeds-of-crime/", "destination": "/practice-areas/proceeds-of-crime/", "permanent": true },
+    { "source": "/poca/", "destination": "/practice-areas/proceeds-of-crime/", "permanent": true },
+    { "source": "/extradition/", "destination": "/practice-areas/extradition/", "permanent": true },
+    { "source": "/immigration/", "destination": "/practice-areas/immigration/", "permanent": true },
+    { "source": "/immigration-law/", "destination": "/practice-areas/immigration/", "permanent": true },
+    { "source": "/inquests/", "destination": "/practice-areas/inquests/", "permanent": true },
+    { "source": "/coroner-inquests/", "destination": "/practice-areas/inquests/", "permanent": true },
+    { "source": "/family-law/", "destination": "/practice-areas/family-law/", "permanent": true },
+    { "source": "/family/", "destination": "/practice-areas/family-law/", "permanent": true },
+    { "source": "/civil-litigation/", "destination": "/practice-areas/civil-litigation/", "permanent": true },
+    { "source": "/civil/", "destination": "/practice-areas/civil-litigation/", "permanent": true },
+    { "source": "/licensing/", "destination": "/practice-areas/licensing/", "permanent": true },
+    { "source": "/licensing-law/", "destination": "/practice-areas/licensing/", "permanent": true },
+    { "source": "/contact/", "destination": "/", "permanent": true },
+    { "source": "/contact-us/", "destination": "/", "permanent": true },
+    { "source": "/blog/", "destination": "/", "permanent": true },
+    { "source": "/news/", "destination": "/", "permanent": true },
+    { "source": "/articles/", "destination": "/", "permanent": true },
+    { "source": "/our-fees/", "destination": "/fees/", "permanent": true },
+    { "source": "/pricing/", "destination": "/fees/", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self';"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}

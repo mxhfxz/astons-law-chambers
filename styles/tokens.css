@@ -1,0 +1,64 @@
+/* ============================================================
+   tokens.css — Astons Law Chambers
+   Phase 1: PRIMITIVE LAYER ONLY.
+   Semantic + component layers land in Phase 2 alongside the
+   Penpot design pass on the "With Claude" page.
+
+   Values below are provisional stubs from
+   .project/planning/09-design-system-spec.md and
+   12-tailwind-token-spec.md. They are NOT final design
+   decisions. They will be revised when Phase 2 begins.
+   ============================================================ */
+
+:root {
+  /* --- Primitive: Colour --- */
+  --color-navy-950: #0B1423;
+  --color-navy-900: #152035;
+  --color-navy-800: #1E2E47;
+  --color-navy-700: #263A5A;
+  --color-navy-100: #E8EDF5;
+  --color-white: #FFFFFF;
+  --color-off-white: #F8F9FB;
+  --color-amber-500: #D97706;
+  --color-amber-400: #F59E0B;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1EBE57;
+  --color-grey-600: #4B5563;
+  --color-grey-300: #D1D5DB;
+  --color-grey-100: #F3F4F6;
+
+  /* --- Primitive: Spacing --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* --- Primitive: Typography --- */
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-display: 3.75rem;
+
+  /* --- Primitive: Motion --- */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
