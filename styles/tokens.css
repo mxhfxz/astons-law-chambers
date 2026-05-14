@@ -1,13 +1,10 @@
 /* ============================================================
    tokens.css — Astons Law Chambers
-   Phase 1: PRIMITIVE LAYER ONLY.
-   Semantic + component layers land in Phase 2 alongside the
-   Penpot design pass on the "With Claude" page.
 
-   Values below are provisional stubs from
-   .project/planning/09-design-system-spec.md and
-   12-tailwind-token-spec.md. They are NOT final design
-   decisions. They will be revised when Phase 2 begins.
+   Three layers: primitive → semantic → component.
+   Per .project/planning/09-design-system-spec.md and
+   12-tailwind-token-spec.md. No raw hex, px, or rem outside
+   this file. Component tokens reference semantic, not primitive.
    ============================================================ */
 
 :root {
@@ -61,4 +58,88 @@
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+
+  /* ============================================================
+     SEMANTIC LAYER — meaning mapped to primitive.
+     Components reference this layer, not the primitive layer.
+     ============================================================ */
+
+  /* --- Semantic: Colour --- */
+  --color-text-primary: var(--color-navy-950);
+  --color-text-secondary: var(--color-grey-600);
+  --color-text-inverse: var(--color-white);
+  --color-text-muted: var(--color-grey-300);
+  --color-bg-base: var(--color-white);
+  --color-bg-subtle: var(--color-off-white);
+  --color-bg-dark: var(--color-navy-900);
+  --color-bg-footer: var(--color-navy-800);
+  --color-border-default: var(--color-grey-300);
+  --color-border-strong: var(--color-navy-700);
+  --color-cta-phone: var(--color-amber-500);
+  --color-cta-phone-hover: var(--color-amber-400);
+  --color-cta-whatsapp: var(--color-whatsapp);
+  --color-cta-whatsapp-hover: var(--color-whatsapp-dark);
+  --color-link: var(--color-navy-800);
+  --color-link-hover: var(--color-navy-700);
+
+  /* --- Semantic: Spacing --- */
+  --spacing-section-y-mobile: var(--space-16);
+  --spacing-section-y-desktop: var(--space-20);
+  --spacing-container-x: var(--space-6);
+  --spacing-stack-base: var(--space-4);
+  --spacing-stack-loose: var(--space-8);
+
+  /* --- Semantic: Layout --- */
+  --container-max-mobile: 100%;
+  --container-max-tablet: 720px;
+  --container-max-desktop: 1200px;
+  --container-max-wide: 1360px;
+
+
+  /* ============================================================
+     COMPONENT LAYER — element-scoped tokens.
+     Reference semantic layer, not primitives.
+     ============================================================ */
+
+  /* --- Component: Navigation --- */
+  --nav-height-mobile: 64px;
+  --nav-height-desktop: 72px;
+  --nav-bg: var(--color-bg-base);
+  --nav-border: var(--color-border-default);
+
+  /* --- Component: StickyBar --- */
+  --sticky-bar-height: 56px;
+  --sticky-bar-bg: var(--color-bg-footer);
+  --sticky-bar-border: var(--color-border-strong);
+
+  /* --- Component: Button (Phone CTA) --- */
+  --btn-phone-bg: var(--color-cta-phone);
+  --btn-phone-bg-hover: var(--color-cta-phone-hover);
+  --btn-phone-text: var(--color-text-primary);
+
+  /* --- Component: Button (WhatsApp CTA) --- */
+  --btn-whatsapp-bg: var(--color-cta-whatsapp);
+  --btn-whatsapp-bg-hover: var(--color-cta-whatsapp-hover);
+  --btn-whatsapp-text: var(--color-text-inverse);
+
+  /* --- Component: Card --- */
+  --card-padding: var(--space-6);
+  --card-border: var(--color-border-default);
+  --card-radius: 0.5rem;
+
+  /* --- Component: Section (Dark Emphasis) --- */
+  --section-dark-bg: var(--color-bg-dark);
+  --section-dark-text: var(--color-text-inverse);
+
+  /* --- Component: Footer --- */
+  --footer-bg: var(--color-bg-footer);
+  --footer-text: var(--color-text-inverse);
+  --footer-link: var(--color-navy-100);
+
+  /* --- Component: Prose (body copy container) --- */
+  --prose-max-width: 70ch;
+  --prose-text: var(--color-text-primary);
+  --prose-text-secondary: var(--color-text-secondary);
+  --prose-line-height: 1.7;
 }
