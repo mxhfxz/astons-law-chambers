@@ -161,6 +161,21 @@ git add .project/planning/18-phase-2-execution-plan.md
 git commit -m "Phase 2 Task 2: Penpot library tokens (primitive + semantic)"
 ```
 
+### T2 landing notes (2026-05-14)
+
+What actually landed in the Penpot file:
+
+| Subsystem | Outcome |
+|---|---|
+| Penpot Tokens (new Token API) | 61 tokens created in set `astons` — 14 primitive colour, 16 semantic colour with `{...}` references, 11 primitive + 5 semantic spacing, 3 sizing (container max-widths), 2 fontFamilies, 10 fontSizes. **The set is active.** Visible in Penpot's UI tokens panel. |
+| LibraryColor (older API, used as workaround) | 30 LibraryColors mirroring the 14 primitive + 16 semantic colour set. Used as the binding mechanism for swatch fills because `shape.applyToken()` and `tokens.addTheme()` both throw `Field message is invalid` from the plugin runtime. Filed for follow-up. |
+| Gallery visualisation | tokens/color rebuilt as row-Boards with library-colour-bound 56×56 swatches; tokens/typography rebuilt with Inter + Playfair Display samples at each scale entry; tokens/spacing rebuilt with navy-700 bars sized to actual px values (max-desktop/max-wide truncated visually with note); tokens/motion stayed as label rows (motion previews not static-renderable). |
+| Pending-token-fill plugin data | Initial markers used the wrong `setPluginData` signature (3-arg call; Penpot API is 2-arg). Harmless residue. Fills are now correctly bound via `fillColorRefId`. |
+| Font choice | Penpot's `findByName` returned fuzzy matches; using `penpot.fonts.all.find(f => f.name === 'Inter')` exact-match works. Inter Variable is not installed in Penpot — using regular Inter. Tokens.css retains 'Inter Variable' as primary stack since `next/font` loads the variable build server-side. |
+| Aliasing limitation | Library-colour-bound semantic swatches duplicate the primitive's hex; they do not propagate from primitives. The source of truth is `styles/tokens.css` (T3 onwards). |
+
+Net Penpot library state: 61 Tokens (`astons` set) + 30 new LibraryColors + 6 pre-existing LibraryColors (left untouched per apex rule).
+
 ---
 
 ## Task 3: tokens.css — semantic + component layers
