@@ -22,7 +22,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "plugins": [{ "name": "next" }],
-    "baseUrl": ".",
     "paths": {
       "@/components/*": ["./components/*"],
       "@/lib/*": ["./lib/*"],

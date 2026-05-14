@@ -1,0 +1,6 @@
+# STAGING — disallow all crawlers.
+# Swap this file before promoting to production astonslaw.com.
+# Production version should allow crawling and reference the sitemap.
+
+User-agent: *
+Disallow: /
