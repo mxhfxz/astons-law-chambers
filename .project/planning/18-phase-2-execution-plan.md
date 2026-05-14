@@ -497,3 +497,31 @@ All four are blocked-but-not-blocking — the frames can be built with `TODO` an
 
 - `.project/plan.md` Phase 2 says "User creates Astons Law Chambers Penpot file. Pages: Homepage, Navigation, Footer, etc." → **overridden** by the apex rule. Phase 2 design lives as frames on `With Claude` only. Recorded for traceability.
 - `styles/tokens.css` Phase 1 header note ("provisional stubs, will be revised when Phase 2 begins") → **removed in T3**. Values are now locked.
+- T1+T2 visual approach: original plan put swatches/type-samples/spacing-bars in T1 with raw-hex fills bridged by TODO markers until T2. Self-edited at execution to split — T1 ships labels-only skeleton (no fills), T2 creates tokens AND visuals from the start. User confirmed via question. Net: no transient rule-violation state, same end artefact.
+- T2 binding mechanism: planned to use the new Penpot Token API (`shape.applyToken`). API throws `Field message is invalid` from the plugin runtime. Fell back to LibraryColor (older API) which works. 61 Penpot Tokens still created and visible in Penpot UI panel; LibraryColors carry the actual `fillColorRefId` bindings. Aliasing lost (semantic colours duplicate the primitive hex); source of truth is `styles/tokens.css`.
+
+---
+
+## Phase 2 close-out (2026-05-14)
+
+**Definition of Done — met:**
+
+- All 5 named frame groups on `With Claude`: `Tokens`, `Header` (Mobile + Desktop), `Footer` (Mobile + Desktop), `StickyBar`, `Homepage/AboveFold` (Mobile + Desktop).
+- `With Claude` page raw-hex audit: 0 unbound fills, 0 unbound strokes across 295 styled shapes. Every fill/stroke binds to a LibraryColor via `fillColorRefId`. Root Frame default fill excluded (cannot be bound).
+- `styles/tokens.css` contains all 3 layers (primitive, semantic, component). Component tokens reference semantic only.
+- `tailwind.config.ts` matches spec 12 §3 verbatim.
+- `styles/globals.css` body rerouted to semantic tokens, `.has-sticky-bar` + `.prose` helpers added.
+- `npm run lint`: clean. `npm run type-check`: clean. `npm run build`: clean, 15 static pages, 87.4 kB First Load JS.
+
+**Penpot library state on the Astons file:**
+- 61 Penpot Tokens in set `astons` (14+16 colour, 11+5 spacing, 3 sizing, 2 fontFamilies, 10 fontSizes) — visible in Penpot UI for manual application.
+- 30 new LibraryColors (14 primitive + 16 semantic) used as binding mechanism.
+- 6 pre-existing LibraryColors from off-limits pages — untouched.
+
+**Open items still pending user decision** (carried into Phase 3+):
+- 🚩7/🚩8 Indicative fee ranges + VAT status — affects `/fees/` + Motoring/Immigration/Licensing practice-area pages. Placeholder text on Footer frames.
+- 🚩10 Internal complaints response timeframe + LeO link wording. Placeholder text on Footer frames.
+- Homepage above-fold positioning line — pending user pick. Placeholder text on Homepage/AboveFold/Mobile + Desktop frames.
+- Penpot plugin Token API `applyToken`/`addTheme` "Field message is invalid" bug — to file upstream once confirmed not a missing activation step.
+
+**Branch:** `phase-2-design-system` · 4+ commits ahead of main. Ready for merge or for Phase 3 to start from.

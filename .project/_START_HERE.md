@@ -20,11 +20,30 @@ Brief, direction, and decisions come ONLY from: user's in-session instructions, 
 
 ---
 
-## Current state (2026-05-14 — Phase 1 scaffold session)
+## Current state (2026-05-14 — Phase 2 design system + Penpot tokens complete)
 
-**Planning Phase C is complete.** All planning files 00–17 are written plus `.project/plan.md` (8-phase build plan).
+**Phase 2 complete on branch `phase-2-design-system`.** See `.project/planning/18-phase-2-execution-plan.md` for full landing notes, DoD, and open items.
 
-**Phase 1 scaffold written this session — DoD not yet validated.** All 18 deliverables from `.project/plan.md` Phase 1 exist on disk:
+Summary of what shipped in Phase 2:
+
+- **Penpot side (`With Claude` page only):** 5 named frame groups — `Tokens` (89-row visual gallery), `Header` (Mobile 375×64 + Desktop 1280×72), `Footer` (Mobile + Desktop), `StickyBar` (Mobile 375×56), `Homepage/AboveFold` (Mobile + Desktop). 295 styled shapes, 0 unbound fills/strokes, every fill binds via `fillColorRefId`.
+- **Penpot library:** 61 Penpot Tokens in `astons` set (visible in UI panel) + 30 LibraryColors (binding mechanism). 6 pre-existing LibraryColors from off-limits pages left untouched.
+- **Code side:** `styles/tokens.css` carries all 3 layers (primitive + semantic + component). `tailwind.config.ts` matches spec 12 §3. `styles/globals.css` body uses semantic tokens, `.has-sticky-bar` + `.prose` helpers added.
+- **Validation:** `npm run lint` / `type-check` / `build` all clean. 15 static pages, 87.4 kB First Load JS.
+
+Open mid-flight items (carried into Phase 3+):
+- 🚩7/🚩8 indicative fee ranges + VAT status — footer + Motoring/Immigration practice pages.
+- 🚩10 complaints response timeframe + LeO link wording.
+- Homepage positioning line — needs user pick before Phase 4.
+- Penpot plugin `shape.applyToken()` / `tokens.addTheme()` bug (`Field message is invalid`) — workaround in place via LibraryColor; consider filing upstream.
+
+Decision deferred during Phase 2 (recorded): IBM Carbon Design System swap was evaluated and rejected — clashes with locked palette + typography, Tailwind/Carbon collision, bundle weight, Penpot mismatch. Stay on bespoke. shadcn/ui mentioned as a thinner primitive layer option if speed becomes urgent later.
+
+---
+
+## Earlier state (Phase 1)
+
+**Phase 1 scaffold written 2026-05-14.** All 18 deliverables from `.project/plan.md` Phase 1 exist on disk:
 
 | # | File | Notes |
 |---|------|-------|
