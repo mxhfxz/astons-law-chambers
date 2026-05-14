@@ -15,15 +15,17 @@ const config: Config = {
         'bg-subtle': 'var(--color-bg-subtle)',
         'bg-dark': 'var(--color-bg-dark)',
         'bg-footer': 'var(--color-bg-footer)',
+        'bg-leave-site': 'var(--color-bg-leave-site)',
         'border-default': 'var(--color-border-default)',
         'border-strong': 'var(--color-border-strong)',
         'cta-phone': 'var(--color-cta-phone)',
         'cta-whatsapp': 'var(--color-cta-whatsapp)',
+        'emergency': 'var(--color-emergency-bg)',
+        'emergency-hover': 'var(--color-emergency-bg-hover)',
         'link': 'var(--color-link)',
       },
       fontFamily: {
         sans: ['var(--font-sans)'],
-        serif: ['var(--font-serif)'],
       },
       fontSize: {
         'legal-small': ['var(--text-xs)', { lineHeight: '1.5' }],
@@ -35,7 +37,10 @@ const config: Config = {
         'h2': ['var(--text-3xl)', { lineHeight: '1.25', fontWeight: '700' }],
         'h1-mobile': ['var(--text-4xl)', { lineHeight: '1.15', fontWeight: '700' }],
         'h1-desktop': ['var(--text-5xl)', { lineHeight: '1.1', fontWeight: '700' }],
-        'display': ['var(--text-display)', { lineHeight: '1.05', fontWeight: '700' }],
+        'display': ['var(--text-6xl)', { lineHeight: '1.05', fontWeight: '700' }],
+      },
+      borderRadius: {
+        'pill': '999px',
       },
       spacing: {
         'section-y': 'var(--spacing-section-y-mobile)',

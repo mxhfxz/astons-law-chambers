@@ -1,22 +1,16 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { IBM_Plex_Sans } from 'next/font/google'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { StickyBar } from '@/components/layout/StickyBar'
 import { site } from '@/lib/site'
 import '@/styles/globals.css'
 
-const inter = Inter({
+const plex = IBM_Plex_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
-  weight: ['700'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -34,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={plex.variable}>
       <body>
         <Header />
         <main>{children}</main>
