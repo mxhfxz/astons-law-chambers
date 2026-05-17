@@ -700,7 +700,10 @@
     <!-- ============================================================
          ROUTE: HOME  (#/)
          ============================================================ -->
-    <section data-route="/" class="route">
+    <!-- is-active set statically so the homepage is in the layout at first
+         paint — showRoute() then manages navigation. Without this, a fast
+         paint shows an empty page and the route injects post-paint (CLS). -->
+    <section data-route="/" class="route is-active">
 
       <!-- HERO — text-led on the left, treated image panel on the right (40vw, hero-height) -->
       <!-- pt accounts for the police banner sitting fixed below the navbar (h-11 / h-12). -->
@@ -742,8 +745,11 @@
                  TEMP: hero-image.jpg is a PLACEHOLDER PORTRAIT for layout evaluation
                  only (900x1200, ~96KB). The no-portrait rule stands — the shipped
                  hero image must be a non-portrait asset, with a real alt set then. -->
-            <div class="reveal rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
-              <img src="hero-image.jpg" alt="" width="900" height="1200" fetchpriority="high" class="w-full h-full object-cover object-top" />
+            <div class="reveal relative rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
+              <!-- absolute inset-0: image is out of flow, so the panel's height
+                   is fixed by aspect-ratio / min-h alone — image load cannot shift
+                   the page (CLS-safe regardless of when the image arrives). -->
+              <img src="hero-image.jpg" alt="" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-top" />
             </div>
 
           </div>
