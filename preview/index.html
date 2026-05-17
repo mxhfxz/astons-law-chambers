@@ -445,6 +445,8 @@
     @media (prefers-reduced-motion: no-preference) {
       .step-card .step-numeral { transition: -webkit-text-stroke-color 200ms ease; }
     }
+    /* Step numeral on dark cards — light stroke (navy-100 @ 14%) so 01/02/03 stay visible. */
+    .step-card-dark .step-numeral { -webkit-text-stroke-color: rgba(232, 237, 245, 0.14); }
 
     /* Hero image panel — treated placeholder (no real asset yet) */
     .hero-image-panel {
@@ -841,36 +843,36 @@
         </div>
       </div>
 
-      <!-- HOW INSTRUCTION WORKS -->
-      <div class="bg-offwhite border-y border-grey-300">
+      <!-- HOW INSTRUCTION WORKS — surgical dark accent section -->
+      <div class="bg-navy-950 text-white">
         <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
           <div class="max-w-2xl">
-            <p class="text-base font-medium text-grey-600 tracking-tightish">Direct Access</p>
+            <p class="text-base font-medium text-navy-100/80 tracking-tightish">Direct Access</p>
             <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">How to instruct Astons Law Chambers directly</h2>
-            <p class="mt-4 text-navy-700 leading-relaxed max-w-prose">
+            <p class="mt-4 text-navy-100/90 leading-relaxed max-w-prose">
               Astons Law Chambers is authorised to accept instructions from members of the public under the Bar Standards Board's Public Access scheme. A solicitor is not required for many types of case.
             </p>
           </div>
 
-          <ol class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">
-            <li class="step-card relative bg-white p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+          <ol class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-px bg-navy-800 border border-navy-800 rounded overflow-hidden">
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
               <span aria-hidden="true" class="step-numeral">01</span>
               <h3 class="relative text-lg font-semibold tracking-tightish">Call or message</h3>
-              <p class="relative mt-2 text-base text-navy-700 leading-relaxed">A short conversation to outline the situation. The first call is free.</p>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">A short conversation to outline the situation. The first call is free.</p>
             </li>
-            <li class="step-card relative bg-white p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
               <span aria-hidden="true" class="step-numeral">02</span>
               <h3 class="relative text-lg font-semibold tracking-tightish">Scope and fee</h3>
-              <p class="relative mt-2 text-base text-navy-700 leading-relaxed">A written client-care letter setting out the work, the fee, and VAT before any instruction is accepted.</p>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">A written client-care letter setting out the work, the fee, and VAT before any instruction is accepted.</p>
             </li>
-            <li class="step-card relative bg-white p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
               <span aria-hidden="true" class="step-numeral">03</span>
               <h3 class="relative text-lg font-semibold tracking-tightish">Representation</h3>
-              <p class="relative mt-2 text-base text-navy-700 leading-relaxed">Advice, drafting, and advocacy through to the conclusion of the matter.</p>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">Advice, drafting, and advocacy through to the conclusion of the matter.</p>
             </li>
           </ol>
 
-          <p class="mt-6 text-xs text-grey-600">
+          <p class="mt-6 text-xs text-navy-100/70">
             Where legal aid applies, it is available through partner solicitor firms rather than directly from Astons Law Chambers.
           </p>
         </div>
