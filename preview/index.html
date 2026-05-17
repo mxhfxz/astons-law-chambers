@@ -40,7 +40,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <!-- Hero image is above the fold and the likely LCP element — preload it. -->
-  <link rel="preload" as="image" href="hero-image.jpg" />
+  <link rel="preload" as="image" href="hero_image.jpg" />
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet"
@@ -741,15 +741,15 @@
               </p>
             </div>
 
-            <!-- RIGHT: hero image panel — image slot (was the abstract gradient/mark).
-                 TEMP: hero-image.jpg is a PLACEHOLDER PORTRAIT for layout evaluation
-                 only (900x1200, ~96KB). The no-portrait rule stands — the shipped
-                 hero image must be a non-portrait asset, with a real alt set then. -->
+            <!-- RIGHT: hero image panel. Client-supplied image — City of London
+                 Magistrates' Court. Source was 2618x3665 webp (~975KB); resized
+                 to 750x1050 JPG (~138KB) for the static preview. The Next.js build
+                 serves webp/avif automatically via next/image. -->
             <div class="reveal relative rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
               <!-- absolute inset-0: image is out of flow, so the panel's height
                    is fixed by aspect-ratio / min-h alone — image load cannot shift
                    the page (CLS-safe regardless of when the image arrives). -->
-              <img src="hero-image.jpg" alt="" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-top" />
+              <img src="hero_image.jpg" alt="" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
             </div>
 
           </div>
