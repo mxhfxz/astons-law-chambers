@@ -64,7 +64,9 @@ CSS_CLASSES = {
     'placeholder-tag':   {'bg': ('#FFFBEB', 1.0), 'text': ('#B45309', 1.0)},
     'cal-inline':        {'bg': ('#FFFFFF', 1.0)},
     'avail-dot':         {'bg': ('#25D366', 1.0)},
-    'step-card':         {'bg': ('#FFFFFF', 1.0)},
+    # NB: .step-card has no background in CSS — the card bg comes from the
+    # Tailwind utility on the <li> itself (bg-navy-900). No registry entry, so
+    # resolve_bg reads the real utility class rather than a hardcoded colour.
     # Sticky pill chips
     # The phone chip inside the sticky pill is bg-white text-navy-950 — handled by Tailwind classes already.
 }
