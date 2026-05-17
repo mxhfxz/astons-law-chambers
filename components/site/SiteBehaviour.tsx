@@ -5,7 +5,7 @@
 // App Router handles routing now. Listeners on persistent chrome are wired
 // once; per-route work (GSAP reveals, GA page_view, cal facade) re-runs on
 // pathname change.
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 declare global {
@@ -30,6 +30,10 @@ function armReveals() {
 
 export function SiteBehaviour() {
   const pathname = usePathname()
+  // The GA4 config call (layout.tsx) already sends the page_view for the
+  // first load via send_page_view. Only client-side route changes need a
+  // manual one — firing on mount as well would double-count every entry.
+  const firstRoute = useRef(true)
 
   // One-time: chrome interactivity + delegated GA tracking.
   useEffect(() => {
@@ -183,7 +187,9 @@ export function SiteBehaviour() {
     const mm = document.getElementById('mobileMenu')
     mm?.classList.add('hidden')
 
-    if (typeof window.gtag === 'function') {
+    if (firstRoute.current) {
+      firstRoute.current = false
+    } else if (typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', {
         page_path: pathname,
         page_location: window.location.href,
