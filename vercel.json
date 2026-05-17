@@ -1,49 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "buildCommand": null,
-  "outputDirectory": "preview",
-  "trailingSlash": false,
-
-  "redirects": [
-    { "source": "/about-us", "destination": "/#/about", "permanent": true },
-    { "source": "/criminal-defence", "destination": "/#/practice-areas/criminal-defence", "permanent": true },
-    { "source": "/criminal-defence-barrister", "destination": "/#/practice-areas/criminal-defence", "permanent": true },
-    { "source": "/motoring-law", "destination": "/#/practice-areas/driving-offences", "permanent": true },
-    { "source": "/motoring-offences", "destination": "/#/practice-areas/driving-offences", "permanent": true },
-    { "source": "/our-fees", "destination": "/#/fees", "permanent": true },
-    { "source": "/pricing", "destination": "/#/fees", "permanent": true },
-    { "source": "/regulatory-law", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/regulatory", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/proceeds-of-crime", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/extradition", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/immigration-law", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/immigration", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/coroner-inquests", "destination": "/#/practice-areas/inquests", "permanent": true },
-    { "source": "/family-law", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/family", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/civil-litigation", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/civil", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/licensing-law", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/licensing", "destination": "/#/practice-areas", "permanent": true },
-    { "source": "/blog", "destination": "/", "permanent": true },
-    { "source": "/news", "destination": "/", "permanent": true },
-    { "source": "/articles", "destination": "/", "permanent": true },
-
-    { "source": "/practice-areas", "destination": "/#/practice-areas", "permanent": false },
-    { "source": "/practice-areas/:slug", "destination": "/#/practice-areas/:slug", "permanent": false },
-    { "source": "/police-station-representation", "destination": "/#/police-station-representation", "permanent": false },
-    { "source": "/fees", "destination": "/#/fees", "permanent": false },
-    { "source": "/direct-access", "destination": "/#/direct-access", "permanent": false },
-    { "source": "/about", "destination": "/#/about", "permanent": false },
-    { "source": "/contact", "destination": "/#/contact", "permanent": false },
-    { "source": "/complaints", "destination": "/#/complaints", "permanent": false }
-  ],
-
-  "rewrites": [
-    { "source": "/((?!favicon|og-image|apple-touch-icon|icon-|site\\.webmanifest|robots|sitemap).*)", "destination": "/index.html" }
-  ],
-
   "headers": [
     {
       "source": "/(.*)",
@@ -56,19 +12,7 @@
       ]
     },
     {
-      "source": "/favicon.svg",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/og-image.(svg|png|jpg)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/(apple-touch-icon.png|icon-192.png|icon-512.png|favicon.ico|site.webmanifest)",
+      "source": "/(favicon.svg|favicon.ico|apple-touch-icon.png|icon-192.png|icon-512.png|site.webmanifest|og-image.png)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, must-revalidate" }
       ]

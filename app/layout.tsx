@@ -1,39 +1,167 @@
-import type { Metadata } from 'next'
-import { IBM_Plex_Sans } from 'next/font/google'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
-import { StickyBar } from '@/components/layout/StickyBar'
-import { site } from '@/lib/site'
-import '@/styles/globals.css'
-
-const plex = IBM_Plex_Sans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
+import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
+import {
+  IconSprite,
+  PoliceBanner,
+  SiteHeader,
+  SiteFooter,
+  StickyPill,
+  QuickExit,
+} from '@/components/site/chrome'
+import { SiteBehaviour } from '@/components/site/SiteBehaviour'
+import './preview-tailwind.css'
+import './preview-styles.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL('https://astonslaw.com'),
   title: {
-    default: site.name,
-    template: `%s | ${site.name}`,
+    default: 'Astons Law Chambers — Criminal Defence Barrister, London',
+    template: '%s — Astons Law Chambers',
   },
-  description: site.description,
+  description:
+    'Criminal defence barrister in London. Direct access available. 24/7 police station support. Call 07922 247 999.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'Astons Law Chambers',
+    locale: 'en_GB',
+    url: 'https://astonslaw.com/',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
+  twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '48x48' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const viewport: Viewport = {
+  themeColor: '#0E1628',
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['LegalService', 'LocalBusiness'],
+      '@id': 'https://astonslaw.com/#organization',
+      name: 'Astons Law Chambers',
+      url: 'https://astonslaw.com/',
+      telephone: '+447922247999',
+      areaServed: ['London', 'England', 'Wales'],
+      priceRange: '££',
+      address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+      sameAs: [],
+      founder: { '@id': 'https://astonslaw.com/#principal' },
+      employee: { '@id': 'https://astonslaw.com/#principal' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://astonslaw.com/#principal',
+      name: 'Ghulam Humayun',
+      jobTitle: 'Barrister',
+      worksFor: { '@id': 'https://astonslaw.com/#organization' },
+      knowsAbout: [
+        'Criminal defence',
+        'Police station representation',
+        'Violent crimes',
+        'Youth crimes',
+        'Driving offences',
+        'Drug offences',
+        'Criminal appeals',
+        'Inquests',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://astonslaw.com/#website',
+      url: 'https://astonslaw.com/',
+      name: 'Astons Law Chambers',
+      publisher: { '@id': 'https://astonslaw.com/#organization' },
+    },
+  ],
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={plex.variable}>
-      <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <StickyBar />
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preload" as="image" href="/hero_image.webp" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="has-sticky-bar">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-navy-950 focus:text-white focus:px-4 focus:py-2 focus:rounded"
+        >
+          Skip to content
+        </a>
+
+        <IconSprite />
+        <PoliceBanner />
+        <SiteHeader />
+        <main id="main">{children}</main>
+        <SiteFooter />
+        <StickyPill />
+        <QuickExit />
+        <SiteBehaviour />
+
+        {/* Google Analytics 4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-8TDVMH13D7"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-8TDVMH13D7', { send_page_view: true });`}
+        </Script>
+
+        {/* cal.com embed loader */}
+        <Script id="cal-init" strategy="afterInteractive">
+          {`(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal; let ar = arguments;
+    if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+    if (ar[0] === L) {
+      const api = function () { p(api, arguments); };
+      const namespace = ar[1]; api.q = api.q || [];
+      if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); }
+      else p(cal, ar);
+      return;
+    }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "callback", { origin: "https://cal.com" });
+Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });`}
+        </Script>
+
+        {/* GSAP — reveal animations (prefers-reduced-motion guarded in SiteBehaviour) */}
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

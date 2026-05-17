@@ -1,0 +1,376 @@
+
+      <!-- HERO — text-led on the left, image panel on the right.
+           Columns are CONTAINER-relative (1.3fr / 1fr) — never viewport
+           units. A vw-based image column blows up on wide monitors and
+           crushes the headline; fr units track the capped max-w-wide
+           container, so the ~664:512 split holds at every screen size. -->
+      <!-- pt accounts for the police banner sitting fixed below the navbar (h-11 / h-12). -->
+      <div class="bg-navy-950">
+        <div class="max-w-wide mx-auto px-6 pt-[calc(2.75rem+3rem)] pb-16 md:pt-[calc(3rem+4rem)] md:pb-20 lg:pt-[calc(3rem+5rem)] lg:pb-24">
+          <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
+
+            <!-- LEFT: kicker, H1, lead, CTAs, regulator line -->
+            <div class="flex flex-col max-w-2xl">
+              <p class="reveal fluid-eyebrow font-semibold uppercase text-navy-100/80">
+                Astons Law Chambers · Barristers, London
+              </p>
+              <h1 class="reveal mt-5 fluid-h1 font-bold text-white">
+                Speak to a barrister before the police interview.
+              </h1>
+              <p class="reveal mt-6 fluid-lead text-navy-100/90 max-w-prose">
+                Whatever stage the case is at — police station, first hearing, trial, or appeal — Astons Law Chambers acts in criminal defence and takes instructions direct. Available 24/7 for police station support.
+              </p>
+
+              <div class="reveal mt-8 md:mt-10">
+                <a
+                  href="tel:+447922247999"
+                  aria-label="Call Astons Law Chambers now"
+                  data-track="call_click"
+                  data-track-location="hero"
+                  class="btn btn-xl btn-inverse btn-full"
+                >
+                  <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+                  Call now
+                </a>
+              </div>
+
+              <p class="reveal mt-8 text-sm text-navy-100/70">
+                Regulated by the Bar Standards Board.
+              </p>
+            </div>
+
+            <!-- RIGHT: hero image panel. Client-supplied image — City of London
+                 skyline at dusk (720x656 webp, ~74KB). The Next.js build serves
+                 webp/avif automatically via next/image. -->
+            <div class="reveal relative rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
+              <!-- absolute inset-0: image is out of flow, so the panel's height
+                   is fixed by aspect-ratio / min-h alone — image load cannot shift
+                   the page (CLS-safe regardless of when the image arrives). -->
+              <img src="/hero_image.webp" alt="" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- POLICE-STATION EMERGENCY STRIP — surgical dark/emergency section #1 -->
+      <div class="bg-emergency-500 text-white" data-track-loc="home_emergency_strip">
+        <div class="max-w-wide mx-auto px-6 py-10 md:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+          <div class="max-w-prose">
+            <p class="text-xs font-semibold tracking-[0.15em] uppercase opacity-90">Police station — 24/7</p>
+            <p class="mt-2 text-xl md:text-2xl font-medium leading-snug">
+              If you or someone you know is in police custody, call before the interview starts.
+            </p>
+            <a href="/police-station-representation" class="mt-3 inline-block text-base font-medium text-white/95 underline underline-offset-4 decoration-1 hover:decoration-2">How attendance works →</a>
+          </div>
+          <a href="tel:+447922247999" data-track="call_click" data-track-location="home_emergency_strip" class="btn btn-lg btn-inverse-emergency w-full md:w-auto">
+            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+            07922 247 999
+          </a>
+        </div>
+      </div>
+
+      <!-- "BEFORE YOU CALL" CALLOUT — home variant (P4, audit v2 2026-05-14).
+           Replicates the practice-area aside mechanism on the home page to
+           lift hero-zone conversion density. Reduces first-call anxiety
+           without introducing new operational claims. -->
+      <div class="bg-white">
+        <div class="max-w-wide mx-auto px-6 py-12 md:py-16">
+          <div class="max-w-3xl mx-auto bg-offwhite border border-grey-300 rounded p-6 md:p-8">
+            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Before you call</p>
+            <p class="mt-2 text-base text-navy-700 leading-relaxed">A short, useful first call covers three things:</p>
+            <ul class="mt-3 space-y-2 text-base text-navy-950">
+              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> The allegation and any charge.</li>
+              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> Any next hearing date.</li>
+              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> What you have been told so far.</li>
+            </ul>
+            <p class="mt-4 text-base text-navy-700 leading-relaxed">If you don't have all three, call anyway — the first call is free.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRACTICE AREAS GRID -->
+      <div class="bg-white">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <div class="flex items-end justify-between flex-wrap gap-4 mb-10 md:mb-14">
+            <div>
+              <p class="text-base font-medium text-grey-600 tracking-tightish">Defence work</p>
+              <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">Cases Astons Law Chambers defends</h2>
+            </div>
+            <a href="/practice-areas" class="text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">See all defence work →</a>
+          </div>
+
+          <ul id="homeDefenceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">
+            <!-- Pre-rendered from PRACTICE_AREAS + the police-station card so the
+                 cards ship in the initial HTML (zero injection, zero layout shift).
+                 renderHomeDefenceGrid() skips when the grid is already populated;
+                 PRACTICE_AREAS stays the source of truth for the detail/index routes.
+                 In the Next.js build these become server-rendered components. -->
+            <li><a href="/practice-areas/criminal-defence" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Criminal Defence</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Representation from investigation through trial. Magistrates’ and Crown Court.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/violent-crimes" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Violent Crimes</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Assault, ABH, GBH, affray, robbery. Police station through appeal.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/youth-crimes" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Youth Crimes</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Defence for clients under 18. Youth Court procedure and welfare considerations.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/driving-offences" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Driving Offences</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/drug-offences" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Drug Offences</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Possession, supply, importation. Forensic and disclosure challenges.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/appeals" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Appeals</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Conviction and sentence appeals. Prospects, grounds, hearing.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/practice-areas/inquests" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Inquests</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Family and interested-person representation. Pre-inquest review through hearing.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="/police-station-representation" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
+        <h3 class="text-xl font-semibold tracking-tight2">Police Station Representation</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li>
+          </ul>
+          <noscript>
+            <p class="mt-6 text-base text-grey-600">JavaScript is required to load this page. <a href="/practice-areas" class="text-navy-950 underline underline-offset-4 decoration-1">See defence work →</a></p>
+          </noscript>
+        </div>
+      </div>
+
+      <!-- HOW INSTRUCTION WORKS — surgical dark accent section -->
+      <div class="bg-navy-950 text-white">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
+          <div class="max-w-2xl">
+            <p class="text-base font-medium text-navy-100/80 tracking-tightish">Direct Access</p>
+            <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">How to instruct Astons Law Chambers directly</h2>
+            <p class="mt-4 text-navy-100/90 leading-relaxed max-w-prose">
+              Astons Law Chambers is authorised to accept instructions from members of the public under the Bar Standards Board's Public Access scheme. A solicitor is not required for many types of case.
+            </p>
+          </div>
+
+          <ol class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-px bg-navy-800 border border-navy-800 rounded overflow-hidden">
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+              <span aria-hidden="true" class="step-numeral">01</span>
+              <h3 class="relative text-lg font-semibold tracking-tightish">Call or message</h3>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">A short conversation to outline the situation. The first call is free.</p>
+            </li>
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+              <span aria-hidden="true" class="step-numeral">02</span>
+              <h3 class="relative text-lg font-semibold tracking-tightish">Scope and fee</h3>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">A written client-care letter setting out the work, the fee, and VAT before any instruction is accepted.</p>
+            </li>
+            <li class="step-card step-card-dark relative bg-navy-900 p-6 md:p-8 pt-12 md:pt-16 overflow-hidden">
+              <span aria-hidden="true" class="step-numeral">03</span>
+              <h3 class="relative text-lg font-semibold tracking-tightish">Representation</h3>
+              <p class="relative mt-2 text-base text-navy-100/90 leading-relaxed">Advice, drafting, and advocacy through to the conclusion of the matter.</p>
+            </li>
+          </ol>
+
+          <p class="mt-6 text-xs text-navy-100/70">
+            Where legal aid applies, it is available through partner solicitor firms rather than directly from Astons Law Chambers.
+          </p>
+        </div>
+      </div>
+
+      <!-- FEES SIGNPOST -->
+      <div class="bg-white">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+            <div>
+              <p class="text-base font-medium text-grey-600 tracking-tightish">Fees</p>
+              <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">Fees are quoted in writing before work begins</h2>
+              <p class="mt-4 text-navy-700 leading-relaxed max-w-prose">
+                Indicative ranges are published for transparency. A specific fee for the work in your case is set out in a client-care letter you receive before agreeing to instruct.
+              </p>
+              <a href="/fees" class="mt-6 inline-block text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">See fee ranges →</a>
+            </div>
+            <dl class="bg-offwhite border border-grey-300 rounded p-6 md:p-8 divide-y divide-grey-300 text-sm">
+              <div class="flex justify-between py-2"><dt class="text-grey-600">Hourly</dt><dd class="font-medium">£175–£400 + VAT</dd></div>
+              <div class="flex justify-between py-2"><dt class="text-grey-600">First appearance / plea</dt><dd class="font-medium">£500–£1,500</dd></div>
+              <div class="flex justify-between py-2"><dt class="text-grey-600">Written advice</dt><dd class="font-medium">£75–£1,500</dd></div>
+              <div class="flex justify-between py-2"><dt class="text-grey-600">Single day hearing</dt><dd class="font-medium">£700–£3,500</dd></div>
+              <div class="flex justify-between py-2"><dt class="text-grey-600">Trial brief fee</dt><dd class="font-medium">£1,500–£3,000+</dd></div>
+              <div class="flex justify-between py-2"><dt class="text-grey-600">Trial refresher (per day)</dt><dd class="font-medium">£700–£2,000</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           BOOKING MODULE — inline cal.com embed (replaces trust bar)
+           Vanilla embed pattern for this static preview.
+           Production (Next.js) component target — drop-in React:
+
+             import Cal, { getCalApi } from "@calcom/embed-react";
+             import { useEffect } from "react";
+             export function BookingEmbed() {
+               useEffect(() => {
+                 (async function () {
+                   const cal = await getCalApi({ namespace: "callback" });
+                   cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });
+                 })();
+               }, []);
+               return (
+                 <Cal
+                   namespace="callback"
+                   calLink="astonslaw/callback"
+                   style={{ width: "100%", height: "100%", overflow: "scroll" }}
+                   config={{ layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "light" }}
+                 />
+               );
+             }
+           ============================================================ -->
+      <section class="bg-offwhite border-y border-grey-300" aria-labelledby="bookingHeading">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-20 lg:py-24">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+
+            <div class="lg:col-span-4 lg:sticky lg:top-28">
+              <p class="fluid-eyebrow font-semibold uppercase text-grey-600">Book a call</p>
+              <h2 id="bookingHeading" class="mt-3 fluid-h2 font-semibold text-navy-950">
+                A short call with the barrister, scheduled for when it suits.
+              </h2>
+              <p class="mt-5 fluid-body text-navy-700 max-w-prose">
+                Pick a slot and confirm. The first call is free.
+              </p>
+
+              <!-- Urgency redirect — dark-navy block matching the rest of the
+                   site's police-station emphasis pattern (mega menu CTA panel,
+                   contextual aside, in-content banner). -->
+              <div class="mt-6 rounded bg-navy-950 text-white p-5">
+                <p class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">Need help now?</p>
+                <p class="mt-2 text-sm leading-relaxed text-navy-100/90">Police custody or an imminent hearing — call instead of booking.</p>
+                <a href="tel:+447922247999" data-track="call_click" data-track-location="booking_urgency" class="btn btn-md btn-inverse w-full mt-3">
+                  <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+                  Call now
+                </a>
+              </div>
+              <ul class="mt-7 space-y-3 fluid-body text-navy-950">
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-1.5 shrink-0 text-navy-950" aria-hidden="true"><use href="#i-check"/></svg>
+                  Direct with the barrister.
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-1.5 shrink-0 text-navy-950" aria-hidden="true"><use href="#i-check"/></svg>
+                  Booking does not imply instruction.
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-4 h-4 mt-1.5 shrink-0 text-navy-950" aria-hidden="true"><use href="#i-check"/></svg>
+                  A written fee is set out before any work begins.
+                </li>
+              </ul>
+              <p class="mt-8 text-sm text-grey-600">
+                Prefer to message? Use <a href="https://wa.me/447922247999" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">WhatsApp</a>.
+              </p>
+            </div>
+
+            <div class="lg:col-span-8">
+              <!-- FACADE MOCKUP / TEMP — the cal.com embed loads only when the
+                   user clicks "Book a call". Until then, cal.com's app and its
+                   GTM/GA stack stay off the homepage's critical render path.
+                   Undo: `git restore preview/index.html`. -->
+              <div class="rounded-md bg-white ring-1 ring-grey-300 shadow-[0_24px_60px_-32px_rgba(14,22,40,0.18)] overflow-hidden">
+                <!-- Facade state — lightweight, no third-party calendar yet. -->
+                <div id="cal-facade" class="flex flex-col items-center justify-center text-center px-6 py-16 md:py-20 min-h-[460px] lg:min-h-[669px]">
+                  <span class="flex items-center justify-center w-14 h-14 rounded-full bg-navy-100 text-navy-950">
+                    <svg class="w-6 h-6" aria-hidden="true"><use href="#i-calendar"/></svg>
+                  </span>
+                  <h3 class="mt-6 text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight2">Book a callback</h3>
+                  <p class="mt-3 fluid-body text-navy-700 max-w-sm">
+                    The first call is free, direct with the barrister.
+                  </p>
+                  <button type="button" id="cal-load-btn" data-track="book_click" data-track-location="booking_facade" class="btn btn-lg btn-primary mt-7">
+                    <svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg>
+                    Book a call
+                  </button>
+                </div>
+                <!-- Embed mount — revealed and mounted only on request. -->
+                <div
+                  id="cal-callback-inline"
+                  class="cal-inline min-h-[620px] md:min-h-[720px] rounded-[2px] overflow-hidden m-1"
+                  aria-label="Booking calendar"
+                  hidden
+                ></div>
+                <noscript>
+                  <div class="p-8 text-sm text-grey-600">
+                    JavaScript is required to load the booking calendar.
+                    <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" class="text-navy-950 underline underline-offset-4 decoration-1">Open the booking page in a new tab</a>
+                    or call <a href="tel:+447922247999" class="text-navy-950 underline underline-offset-4 decoration-1">07922 247 999</a>.
+                  </div>
+                </noscript>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CONTACT STRIP — surgical dark section #2.
+           Logo mark watermark anchored bottom-right echoes the hero panel
+           mark; period accent on the H2 carries a small typographic detail. -->
+      <div class="relative overflow-hidden bg-navy-950 text-white" data-track-loc="final_contact">
+        <!-- Mark watermark — sits behind the content; pointer-events none. -->
+        <svg viewBox="0 0 32 32" aria-hidden="true" class="final-strip-mark">
+          <path d="M16 1H32V17C23.1634 17 16 9.83656 16 1Z"/>
+          <path d="M31.9984 17C31.9993 17 32 17.0007 32 17.0016L32 33L16.0016 33C16.0007 33 16 32.9993 16 32.9984C16 24.1627 23.1627 17 31.9984 17Z"/>
+          <path d="M16 33L9.53674e-07 33L2.35244e-06 17C8.83656 17 16 24.1634 16 33Z"/>
+          <path d="M0 17L-6.99382e-07 1L16 1C16 9.83656 8.83656 17 0 17Z"/>
+        </svg>
+        <div class="relative max-w-wide mx-auto px-6 py-16 md:py-24">
+          <div class="max-w-2xl mx-auto text-center">
+            <p class="text-sm font-medium text-navy-100/80 tracking-tightish">Contact</p>
+            <h2 class="mt-2 text-3xl md:text-5xl font-semibold tracking-tight2 leading-tight">Speak to someone today</h2>
+            <p class="mt-4 text-navy-100 leading-relaxed max-w-prose mx-auto">
+              The phone is answered personally. Available 24/7 for police station support. Calls and WhatsApp messages outside working hours are returned when free.
+            </p>
+            <!-- KPI CTA stack centered. Call dominates as btn-xl (primary KPI);
+                 WhatsApp and Book sized btn-lg. All three share max-w-[300px]. -->
+            <div class="mt-8 flex flex-col gap-3 w-full max-w-[300px] mx-auto">
+              <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="home_final_strip" class="btn btn-xl btn-inverse w-full flex">
+                <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+                Call now
+              </a>
+              <a href="https://wa.me/447922247999" data-track="whatsapp_click" data-track-location="home_final_strip" class="btn btn-lg btn-on-dark w-full flex">
+                <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+                Message on WhatsApp
+              </a>
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="home_final_strip" class="btn btn-lg btn-on-dark w-full flex">
+                Book a call
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
