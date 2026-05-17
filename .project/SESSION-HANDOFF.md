@@ -7,13 +7,78 @@ every earlier handoff (they remain in git history).
 
 ## ⚠️ START OF NEXT SESSION — DO THIS FIRST
 
-The user ran an **audit and found "a bunch of holes."** That list was NOT
-captured before this session was cleared. **Before doing any work, ask the
-user for the audit findings / the list of holes.** Do not start fixing or
-building anything until you have that list — it is the next work queue.
+This is a **continuing audit sweep**. A first sweep ran on 2026-05-17 (see
+§0 below) — it found and fixed two real production bugs and one analytics
+tagging gap, all verified live. **Next session = the next sweep:** continue
+auditing the live site for regressions/holes, same method (load
+`astonslaw.com` in Playwright, gather evidence, root-cause, fix, verify,
+deploy). Ask the user if they have specific new items; otherwise widen the
+sweep to routes/pages not yet deep-checked (see §5 + §0 "not yet swept").
 
-Also: the **skills-first rule is now hook-enforced** (see §6). Every task
-routes through the relevant installed skill first — no Claude defaults.
+**New HARD RULE this session:** nothing reaches `main` until verified working
+(build + type-check + real-browser check). `main` is live production for a
+regulated barrister's practice. Recorded in
+`memory/feedback_no_broken_sites_to_main.md`. Do not regress this.
+
+Also: the **skills-first rule is hook-enforced** (see §6). Every task routes
+through the relevant installed skill first — no Claude defaults.
+
+---
+
+## 0. Audit sweep #1 — 2026-05-17 (COMPLETE, all fixes live on `main`)
+
+User reported: GA "not picking anything up", navbar "scrolls away on scroll".
+Asked for a full no-stone-unturned audit. Findings + outcomes:
+
+1. **Navbar not sticky — REAL BUG, FIXED & LIVE.** Chrome is injected via a
+   React wrapper `<div>` (`chrome.tsx` `Raw`). That div boxed the
+   `position: sticky` header into a 73px containing block, so it un-stuck
+   immediately. Fix: `.chrome-mount { display: contents }` on the wrapper
+   (`app/preview-styles.css` + `chrome.tsx`). Commit `19f862e`. Verified on
+   production: header pins through full scroll, desktop + interior pages.
+
+2. **GA4 double-counted page views — REAL BUG, FIXED & LIVE.** `gtag config`
+   has `send_page_view: true` AND `SiteBehaviour` fired a manual `page_view`
+   on mount → 2 per load (every load, since navigation is full-reload). Fix:
+   `firstRoute` ref guard in `SiteBehaviour.tsx` — config owns the load
+   page_view, manual one only fires on client-side route changes. Commit
+   `1c82d98`. Verified: exactly 1 page_view per load.
+
+3. **GA "nothing in realtime" — NOT a code fault.** Proven: the live site
+   fires a valid GA4 `page_view` collect hit to `tid=G-8TDVMH13D7`. Cause was
+   the user's own browser — **Vivaldi's built-in tracker blocker** was eating
+   the hits. GA works. No code change.
+
+4. **One WhatsApp link mistagged — FIXED & LIVE.** The booking-panel "Use
+   WhatsApp" link (`content/sections/home.html` ~L296) had no
+   `data-track-location` → its `whatsapp_click` logged `location: unspecified`.
+   Fixed to `data-track="whatsapp_click" data-track-location="booking_urgency"`.
+   Commit `dd176da`. Verified live: all 15 homepage call/WhatsApp links now
+   carry a location; 0 unspecified. (A second candidate at home.html L331 was
+   investigated and correctly left alone — it lives inside `<noscript>`, which
+   JS-based GA tracking can never reach.)
+
+**Production HEAD after sweep #1:** `main` at the `e89492d` merge. All four
+items above are verified live on `astonslaw.com`.
+
+**Open / handed to the user (account-side, not code):**
+- **GA4 Admin → Events:** mark `call_click`, `whatsapp_click`, `book_click`
+  as **Key events** or they never surface as the conversion KPI. User action.
+- Call tracking measures the tap, not the connected call — fine as an intent
+  proxy; a paid call-tracking number would close it. User's decision.
+
+**Reviewed and deliberately NOT changed:**
+- Navigation is full-page reloads (all links are raw `<a>` in injected HTML,
+  not `next/link`). Not broken; converting to client-side routing is overkill
+  for the calls/WhatsApp KPI. Left as-is by decision.
+- Two lint warnings (raw hex `themeColor`, fonts via `<link>`) — deliberate,
+  see §3.
+
+**Not yet swept (candidates for the next sweep):** interior route bodies
+(`/fees`, `/about`, `/contact`, `/direct-access`, `/complaints`,
+`/police-station-representation`) were confirmed HTTP 200 and console-clean
+but not individually behaviour-tested; mobile-viewport interaction;
+cal.com booking facade click-through; the BSB/compliance content (§5).
 
 ---
 
@@ -162,7 +227,16 @@ Vercel build verification: use the Vercel MCP — `list_deployments`,
 
 ## What to do next (in order)
 
-1. **Get the audit holes from the user** (see top of file). That is the queue.
-2. Address them, routing each through the relevant skill.
-3. BSB / compliance content verification — when the client provides it.
-4. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
+1. **Audit sweep #2** — continue from §0. Ask the user for any new specific
+   items; otherwise behaviour-test the routes listed under §0 "not yet swept".
+   Method: Playwright against `astonslaw.com`, evidence-first, root-cause,
+   fix, verify, deploy. Do not put anything on `main` unverified.
+2. BSB / compliance content verification — when the client provides it.
+3. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
+
+Note: Playwright MCP needed a browser-build symlink to run this session —
+`npx playwright install chromium` installed builds 1208+, but the MCP pins
+build 1200. Worked around by symlinking `chromium-1200` /
+`chromium_headless_shell-1200` → the 1208 dirs in
+`~/Library/Caches/ms-playwright/`. If Playwright fails to launch next sweep,
+re-create those symlinks.
