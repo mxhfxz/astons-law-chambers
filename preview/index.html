@@ -462,6 +462,16 @@
     @media (min-width: 1024px) {
       .hero-image-panel .hero-wordmark { top: 2rem; left: 2rem; }
     }
+
+    /* tailwind.built.css loads BEFORE this <style>, so the component class
+       `.btn { display:inline-flex }` wins the cascade tie against the
+       `.hidden` utility — leaving desktop-only buttons visible on mobile and
+       overflowing the header. These `.btn.hidden` rules (specificity 0,2,0)
+       restore the intended responsive show/hide for the three affected
+       buttons. Scoped to `.btn` so no other `.hidden` element is touched. */
+    .btn.hidden { display: none; }
+    @media (min-width: 640px) { .btn.sm\:inline-flex { display: inline-flex; } }
+    @media (min-width: 768px) { .btn.md\:inline-flex { display: inline-flex; } }
   </style>
 </head>
 
