@@ -25,10 +25,10 @@ const nextConfig = {
       { source: '/our-fees', destination: '/fees', permanent: true },
       { source: '/pricing', destination: '/fees', permanent: true },
 
-      // --- legacy /compliance/* silo (content consolidated into new pages) ---
-      { source: '/compliance/timescales', destination: '/direct-access', permanent: true },
+      // --- legacy /compliance/* silo (recreated as flat top-level pages) ---
+      { source: '/compliance/timescales', destination: '/timescales', permanent: true },
       { source: '/compliance/complaints-policy', destination: '/complaints', permanent: true },
-      { source: '/compliance/terms-and-transparency-notice', destination: '/fees', permanent: true },
+      { source: '/compliance/terms-and-transparency-notice', destination: '/terms-of-engagement', permanent: true },
       { source: '/blog', destination: '/', permanent: true },
       { source: '/news', destination: '/', permanent: true },
       { source: '/articles', destination: '/', permanent: true },
