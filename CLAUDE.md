@@ -23,6 +23,21 @@ This rule overrides the `design-reader` subagent description, the "Penpot Conven
 
 ---
 
+## HARD RULE — NO CLAUDE DEFAULTS, ALWAYS USE THE INSTALLED SKILL
+
+**Set 2026-05-17. Non-negotiable.**
+
+Claude default behaviour is NEVER to be used on this project. Every task — frontend work, layout, CSS, deploys, git, accessibility, copy, design decisions — routes through the relevant installed skill FIRST, before any action including clarifying questions.
+
+- Accessibility → an accessibility skill (`fixing-accessibility`, `a11y-audit`, `wcag-audit-patterns`).
+- Frontend / layout → `frontend-design`, `frontend-dev-guidelines`.
+- Git / deploys → the git and `vercel-deployment` skills.
+- If no single skill obviously fits, invoke one to scaffold the decision and route it back to the user — do not improvise a default.
+
+The thought "I'll just do this directly" or "this is simple enough" is a red flag: stop and pick the skill. Improvising defaults has repeatedly produced work the user then has to catch and correct.
+
+---
+
 ## Stack
 
 - **Framework:** Next.js 14+ (App Router, TypeScript strict)
