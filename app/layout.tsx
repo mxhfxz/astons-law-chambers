@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: '%s — Astons Law Chambers',
   },
   description:
-    'Criminal defence barrister in London. Direct access available. 24/7 police station support. Call 07922 247 999.',
+    "Criminal defence barrister in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
@@ -61,7 +61,11 @@ const jsonLd = {
         postalCode: 'W1W 7LT',
         addressCountry: 'GB',
       },
-      sameAs: [],
+      sameAs: [
+        'https://share.google/UUmxWclpCyvczjSSS',
+        'https://www.linkedin.com/company/astons-law-chambers/',
+        'https://uk.trustpilot.com/review/astonslaw.com',
+      ],
       founder: { '@id': 'https://astonslaw.com/#principal' },
       employee: { '@id': 'https://astonslaw.com/#principal' },
     },

@@ -3,7 +3,8 @@ import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Astons Law Chambers — a criminal defence practice based in London.',
+  description:
+    'About Astons Law Chambers — a criminal defence practice in London, taking instructions direct from the public under the Bar Standards Board Public Access scheme.',
   alternates: { canonical: '/about' },
 }
 
