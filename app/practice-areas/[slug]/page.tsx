@@ -1,25 +1,35 @@
-// Phase 1 placeholder. Replaced in Phase 5 (Practice Area Pages).
-// Exists so generateStaticParams resolves all 10 slugs and Phase 1 DoD can pass.
-
-import { practiceAreas, getPracticeAreaBySlug } from '@/lib/practice-areas'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { practiceAreas, getPracticeArea } from '@/lib/practice-areas'
+import { renderPracticeAreaDetail, practiceAreaJsonLd } from '@/lib/render-practice-area'
 
 export function generateStaticParams() {
-  return practiceAreas.map((area) => ({ slug: area.slug }))
+  return practiceAreas.map((a) => ({ slug: a.slug }))
 }
 
-export default function PracticeAreaPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const area = getPracticeAreaBySlug(params.slug)
+// Slugs outside generateStaticParams resolve to the 404 page.
+export const dynamicParams = false
+
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const area = getPracticeArea(params.slug)
+  if (!area) return {}
+  return {
+    title: area.title,
+    description: area.cardSummary,
+    alternates: { canonical: `/practice-areas/${area.slug}` },
+  }
+}
+
+export default function PracticeAreaPage({ params }: { params: { slug: string } }) {
+  const area = getPracticeArea(params.slug)
+  if (!area) notFound()
   return (
-    <div>
-      <h1>{area.title}</h1>
-      <p>
-        Practice area: <code>{area.slug}</code> (priority {area.priority})
-      </p>
-      <p>Phase 1 scaffold placeholder. The page is built in Phase 5.</p>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: practiceAreaJsonLd(area) }}
+      />
+      <div dangerouslySetInnerHTML={{ __html: renderPracticeAreaDetail(area) }} />
+    </>
   )
 }

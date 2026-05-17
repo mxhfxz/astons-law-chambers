@@ -1,0 +1,347 @@
+    :root {
+      --color-navy-950: #0E1628;
+      --color-navy-900: #16223C;
+      --color-navy-800: #1F2E50;
+      --color-navy-700: #283A64;
+      --color-navy-100: #E8EDF5;
+      --color-emergency-500: #C23616;
+      --color-emergency-600: #A12B10;
+      --color-whatsapp: #075E54;
+      --color-whatsapp-dark: #054B43;
+      --color-offwhite: #F8F9FB;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--color-navy-950);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    .route { display: none; }
+    .route.is-active { display: block; }
+    .placeholder-tag {
+      display: inline-block;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #b45309;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    /* Restrained reveals — opacity only, hero-only, no card flights */
+    .reveal { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ============================================================
+       NAV LINK STATES — hover / focus-visible / current
+       One state machine for every primary nav item.
+       ============================================================ */
+    .nav-link {
+      position: relative;
+      color: var(--color-navy-950);
+      opacity: 0.75;
+      transition: opacity 180ms ease;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      padding: 0.25rem 0;
+    }
+    .nav-link:hover { opacity: 1; }
+    .nav-link:focus-visible {
+      opacity: 1;
+      outline: 2px solid var(--color-navy-950);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+    .nav-link[aria-current="page"],
+    .nav-link[aria-expanded="true"] { opacity: 1; }
+
+    .nav-link::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+      height: 1px; background: currentColor;
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-link:hover::after,
+    .nav-link[aria-current="page"]::after,
+    .nav-link[aria-expanded="true"]::after { transform: scaleX(1); }
+    @media (prefers-reduced-motion: reduce) {
+      .nav-link, .nav-link::after { transition: none; }
+    }
+
+    /* ============================================================
+       BUTTON SYSTEM
+       Single source of truth for every CTA.
+       Sizes:    .btn-sm | .btn-md | .btn-lg | .btn-xl
+       Variants: .btn-primary | .btn-inverse | .btn-secondary
+                 .btn-whatsapp | .btn-emergency | .btn-quick-exit
+       Modifier: .btn-full (block on portrait mobile, inline ≥ sm)
+       Layout:   .btn-row (gap-3 stacked on mobile, inline-flex on sm+)
+       ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      text-align: center;
+      line-height: 1.2;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, transform 120ms ease;
+      outline: none;
+      white-space: nowrap;
+    }
+    .btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+    .btn:active { transform: translateY(1px); }
+    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
+
+    /* All sizes meet the 16px (1rem) minimum required for important text. */
+    .btn-sm { padding: 0.625rem 1.125rem; font-size: 1rem; }       /* 10/18 — header CTAs, asides */
+    .btn-md { padding: 0.75rem 1.25rem;   font-size: 1rem; }       /* 12/20 — page CTAs */
+    .btn-lg { padding: 0.875rem 1.5rem;   font-size: 1.0625rem; }  /* 14/24 — final contact strip */
+    .btn-xl { padding: 1rem 1.75rem;      font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem); } /* 16/28 — hero */
+
+    /* Astons brand navy — visibly blue, not mistaken for black. */
+    .btn-primary       { background: var(--color-navy-900); color: #fff; }
+    .btn-primary:hover { background: var(--color-navy-800); }
+    .btn-inverse       { background: #fff; color: var(--color-navy-900); }
+    .btn-inverse:hover { background: var(--color-navy-100); }
+    .btn-secondary       { background: transparent; color: var(--color-navy-900); border-color: #D1D5DB; }
+    .btn-secondary:hover { border-color: var(--color-navy-900); }
+    .btn-whatsapp       { background: var(--color-whatsapp); color: #fff; }
+    .btn-whatsapp:hover { background: var(--color-whatsapp-dark); }
+    .btn-emergency       { background: var(--color-emergency-500); color: #fff; }
+    .btn-emergency:hover { background: var(--color-emergency-600); }
+    /* Only non-brand UI: quick exit. Black, deliberate non-Astons styling. */
+    .btn-quick-exit       { background: #000; color: #fff; }
+    .btn-quick-exit:hover { background: #1a1a1a; }
+    /* Ghost button on dark surfaces (final-contact strip, police-station hero) */
+    .btn-on-dark       { background: transparent; color: #fff; border-color: rgba(255,255,255,0.30); }
+    .btn-on-dark:hover { border-color: #fff; }
+    /* White button on emergency-red surface (police-station aside) */
+    .btn-inverse-emergency       { background: #fff; color: var(--color-emergency-600); }
+    .btn-inverse-emergency:hover { background: var(--color-emergency-600); color: #fff; }
+
+    .btn-full { display: flex; width: 100%; }
+    @media (min-width: 640px) { .btn-full { display: inline-flex; width: auto; } }
+
+    /* Stack CTAs vertically on portrait mobile, row at ≥ sm */
+    .btn-row { display: flex; flex-direction: column; gap: 0.75rem; }
+    @media (min-width: 640px) { .btn-row { flex-direction: row; flex-wrap: wrap; } }
+
+    /* Icon sizing inside buttons — keep optical balance across sizes */
+    .btn .ico { width: 1.125rem; height: 1.125rem; flex-shrink: 0; }
+    .btn-sm .ico { width: 1rem; height: 1rem; }
+    .btn-xl .ico { width: 1.25rem; height: 1.25rem; }
+
+    /* Inverse with emergency-red ink — used inside the in-body police strip
+       and the police-station aside (white surface on a red parent). */
+    .btn-inverse-emergency       { background: #fff; color: var(--color-emergency-600); font-weight: 600; }
+    .btn-inverse-emergency:hover { background: #F3F4F6; }
+
+    /* ===== ALERT PATTERN =============================================
+       Inline urgency / advisory block. One pattern, parameterised.
+       Replaces the one-off booking-module callout style.
+       ================================================================ */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      border-radius: 4px;
+      border: 1px solid;
+      text-decoration: none;
+      transition: background-color 200ms ease;
+      width: 100%;
+    }
+    .alert-emergency {
+      border-color: rgba(194, 54, 22, 0.35);
+      background: rgba(194, 54, 22, 0.04);
+      color: var(--color-navy-950);
+    }
+    .alert-emergency:hover { background: rgba(194, 54, 22, 0.08); }
+    .alert-icon {
+      flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; border-radius: 9999px;
+      background: var(--color-emergency-500); color: #fff;
+    }
+    .alert-icon svg { width: 1rem; height: 1rem; }
+    .alert-body { font-size: 1rem; line-height: 1.45; }
+    .alert-body strong { display: block; font-weight: 600; }
+    .alert-body span.muted { display: block; color: #4B5563; margin-top: 2px; font-weight: 400; }
+
+    /* Mega menu — quiet open, no bounce */
+    .mega {
+      opacity: 0; visibility: hidden; transform: translateY(-4px);
+      transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+    }
+    .mega[data-open="true"] {
+      opacity: 1; visibility: visible; transform: translateY(0);
+      transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 0s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mega, .mega[data-open="true"] { transition: none; transform: none; }
+    }
+
+    /* Fluid type scale — clamp() so type breathes between breakpoints without bp jumps */
+    .fluid-eyebrow  { font-size: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem); letter-spacing: 0.12em; }
+    .fluid-h1       { font-size: clamp(2.25rem, 1.1rem + 4.8vw, 4.75rem); line-height: 1.04; letter-spacing: -0.025em; }
+    .fluid-h2       { font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3rem);    line-height: 1.08; letter-spacing: -0.02em; }
+    .fluid-h3       { font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem); line-height: 1.2; letter-spacing: -0.01em; }
+    .fluid-lead     { font-size: clamp(1.0625rem, 0.95rem + 0.55vw, 1.3125rem); line-height: 1.55; }
+    .fluid-body     { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);  line-height: 1.65; }
+    .fluid-cta      { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem); }
+
+    /* Police banner enter/exit — sits below the navbar (lower z) and tucks up behind it on scroll-down */
+    .police-banner {
+      transform: translateY(-100%);
+      transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .police-banner.is-visible { transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .police-banner { transition: none; }
+    }
+
+    /* Availability pulse — green ring around the "available" dot in the sticky pill */
+    @keyframes avail-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+      70%  { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    .avail-dot {
+      width: 0.625rem; height: 0.625rem; border-radius: 9999px;
+      background: #25D366;
+      animation: avail-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .avail-dot { animation: none; }
+    }
+
+    /* Cal.com inline embed — let it fill its frame, no internal scroll bleed */
+    #cal-callback-inline iframe { border: 0; display: block; width: 100% !important; }
+    .cal-inline { width: 100%; }
+
+    /* Card-arrow micro-animation — used on practice-area / defence cards.
+       The arrow translates 4px right when the parent `.group` is hovered
+       or focused. Honours prefers-reduced-motion. */
+    .card-arrow {
+      display: inline-block;
+      transition: transform 200ms ease;
+      will-change: transform;
+    }
+    .group:hover .card-arrow,
+    .group:focus-visible .card-arrow { transform: translateX(4px); }
+    @media (prefers-reduced-motion: reduce) {
+      .card-arrow { transition: none; }
+      .group:hover .card-arrow,
+      .group:focus-visible .card-arrow { transform: none; }
+    }
+
+    /* Final contact strip — logo mark watermark anchored to the bottom-right
+       corner, bleeding off the edge. Echoes the hero panel composition. */
+    .final-strip-mark {
+      position: absolute;
+      right: -8%;
+      bottom: -20%;
+      width: 60%;
+      height: auto;
+      fill: rgba(255, 255, 255, 0.025);
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .final-strip-mark { right: -4%; bottom: -16%; width: 40%; }
+    }
+
+    /* Step numerals — "How instruction works" section.
+       Large ghost numerals sit behind the step title, giving the section
+       rhythm without competing with the body copy. */
+    .step-numeral {
+      position: absolute;
+      top: -0.5rem;
+      right: -0.25rem;
+      font-size: 6rem;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(14, 22, 40, 0.10);
+      pointer-events: none;
+      user-select: none;
+      font-feature-settings: "lnum", "tnum";
+    }
+    @media (min-width: 768px) {
+      .step-numeral { top: -0.75rem; right: -0.5rem; font-size: 7.5rem; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .step-card .step-numeral { transition: -webkit-text-stroke-color 200ms ease; }
+    }
+    /* Step numeral on dark cards — light stroke (navy-100 @ 14%) so 01/02/03 stay visible. */
+    .step-card-dark .step-numeral { -webkit-text-stroke-color: rgba(232, 237, 245, 0.14); }
+
+    /* Hero image panel — treated placeholder (no real asset yet) */
+    .hero-image-panel {
+      background:
+        radial-gradient(120% 80% at 70% 20%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(120% 80% at 30% 90%, rgba(194, 54, 22, 0.18), transparent 55%),
+        linear-gradient(180deg, var(--color-navy-900) 0%, var(--color-navy-950) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image-panel::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 96px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 96px);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* Logo mark watermark — bleeds off the bottom-right corner of the panel.
+       Low-opacity white so the grid (::after) layered above reads through it. */
+    .hero-image-panel .hero-mark {
+      position: absolute;
+      right: -10%;
+      bottom: -12%;
+      width: 88%;
+      height: auto;
+      fill: rgba(255, 255, 255, 0.05);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-image-panel .hero-wordmark {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 3;
+      max-width: 80%;
+    }
+    @media (min-width: 1024px) {
+      .hero-image-panel .hero-wordmark { top: 2rem; left: 2rem; }
+    }
+
+    /* tailwind.built.css loads BEFORE this <style>, so the component class
+       `.btn { display:inline-flex }` wins the cascade tie against the
+       `.hidden` utility — leaving desktop-only buttons visible on mobile and
+       overflowing the header. These `.btn.hidden` rules (specificity 0,2,0)
+       restore the intended responsive show/hide for the three affected
+       buttons. Scoped to `.btn` so no other `.hidden` element is touched. */
+    .btn.hidden { display: none; }
+    @media (min-width: 640px) { .btn.sm\:inline-flex { display: inline-flex; } }
+    @media (min-width: 768px) { .btn.md\:inline-flex { display: inline-flex; } }
