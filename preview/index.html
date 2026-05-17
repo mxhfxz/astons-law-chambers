@@ -462,6 +462,16 @@
     @media (min-width: 1024px) {
       .hero-image-panel .hero-wordmark { top: 2rem; left: 2rem; }
     }
+
+    /* tailwind.built.css loads BEFORE this <style>, so the component class
+       `.btn { display:inline-flex }` wins the cascade tie against the
+       `.hidden` utility — leaving desktop-only buttons visible on mobile and
+       overflowing the header. These `.btn.hidden` rules (specificity 0,2,0)
+       restore the intended responsive show/hide for the three affected
+       buttons. Scoped to `.btn` so no other `.hidden` element is touched. */
+    .btn.hidden { display: none; }
+    @media (min-width: 640px) { .btn.sm\:inline-flex { display: inline-flex; } }
+    @media (min-width: 768px) { .btn.md\:inline-flex { display: inline-flex; } }
   </style>
 </head>
 
@@ -705,11 +715,15 @@
          paint shows an empty page and the route injects post-paint (CLS). -->
     <section data-route="/" class="route is-active">
 
-      <!-- HERO — text-led on the left, treated image panel on the right (40vw, hero-height) -->
+      <!-- HERO — text-led on the left, image panel on the right.
+           Columns are CONTAINER-relative (1.3fr / 1fr) — never viewport
+           units. A vw-based image column blows up on wide monitors and
+           crushes the headline; fr units track the capped max-w-wide
+           container, so the ~664:512 split holds at every screen size. -->
       <!-- pt accounts for the police banner sitting fixed below the navbar (h-11 / h-12). -->
       <div class="bg-navy-950">
         <div class="max-w-wide mx-auto px-6 pt-[calc(2.75rem+3rem)] pb-16 md:pt-[calc(3rem+4rem)] md:pb-20 lg:pt-[calc(3rem+5rem)] lg:pb-24">
-          <div class="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,40vw)] gap-10 lg:gap-14 items-start">
+          <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
 
             <!-- LEFT: kicker, H1, lead, CTAs, regulator line -->
             <div class="flex flex-col max-w-2xl">
