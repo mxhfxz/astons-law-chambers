@@ -102,13 +102,13 @@ export function practiceAreaJsonLd(area: PracticeArea): string {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://astonslaw.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Defence work', item: 'https://astonslaw.com/practice-areas/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://astonslaw.com' },
+      { '@type': 'ListItem', position: 2, name: 'Defence work', item: 'https://astonslaw.com/practice-areas' },
       {
         '@type': 'ListItem',
         position: 3,
         name: area.title,
-        item: `https://astonslaw.com/practice-areas/${area.slug}/`,
+        item: `https://astonslaw.com/practice-areas/${area.slug}`,
       },
     ],
   }

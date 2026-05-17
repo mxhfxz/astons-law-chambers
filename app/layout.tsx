@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Astons Law Chambers',
     locale: 'en_GB',
-    url: 'https://astonslaw.com/',
+    url: 'https://astonslaw.com',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
@@ -50,11 +50,17 @@ const jsonLd = {
       '@type': ['LegalService', 'LocalBusiness'],
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
-      url: 'https://astonslaw.com/',
+      url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
       priceRange: '££',
-      address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '85 Great Portland Street, First Floor',
+        addressLocality: 'London',
+        postalCode: 'W1W 7LT',
+        addressCountry: 'GB',
+      },
       sameAs: [],
       founder: { '@id': 'https://astonslaw.com/#principal' },
       employee: { '@id': 'https://astonslaw.com/#principal' },
@@ -79,7 +85,7 @@ const jsonLd = {
     {
       '@type': 'WebSite',
       '@id': 'https://astonslaw.com/#website',
-      url: 'https://astonslaw.com/',
+      url: 'https://astonslaw.com',
       name: 'Astons Law Chambers',
       publisher: { '@id': 'https://astonslaw.com/#organization' },
     },
@@ -92,6 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
@@ -152,15 +159,6 @@ Cal("init", "callback", { origin: "https://cal.com" });
 Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });`}
         </Script>
 
-        {/* GSAP — reveal animations (prefers-reduced-motion guarded in SiteBehaviour) */}
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   )

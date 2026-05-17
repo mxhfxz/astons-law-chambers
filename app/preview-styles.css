@@ -40,10 +40,7 @@
       margin-left: 8px;
     }
 
-    /* Restrained reveals — opacity only, hero-only, no card flights */
-    .reveal { opacity: 0; }
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; }
       html { scroll-behavior: auto; }
     }
 
