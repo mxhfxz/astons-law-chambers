@@ -7,14 +7,15 @@ every earlier handoff (they remain in git history).
 
 ## ⚠️ START OF NEXT SESSION — DO THIS FIRST
 
-This is a **continuing audit sweep**. Two sweeps have run on 2026-05-17:
+This is a **continuing audit sweep**. Three sweeps have run on 2026-05-17:
 sweep #1 (§0) fixed two production bugs + an analytics gap; sweep #2 (§0b)
-fixed three dead BSB/LeO compliance links + a global preload. All verified
-live. **Next session = sweep #3:** continue auditing the live site for
-regressions/holes, same method (load `astonslaw.com` in Playwright, gather
-evidence, root-cause, fix, verify, deploy). Ask the user if they have
-specific new items; otherwise widen the sweep to pages not yet deep-checked
-(see §0b "not yet swept" + §5).
+fixed three dead BSB/LeO compliance links + a global preload; sweep #3 (§0c)
+behaviour-tested the practice-area pages / mobile / cal.com facade (clean)
+and triggered a full compliance-page rebuild. All verified live. **Next
+session = sweep #4:** the user has a list of further errors to highlight —
+ask them for that list first. Same method (load `astonslaw.com` in
+Playwright, gather evidence, root-cause, fix, verify, deploy). Do not put
+anything on `main` unverified.
 
 **New HARD RULE this session:** nothing reaches `main` until verified working
 (build + type-check + real-browser check). `main` is live production for a
@@ -124,6 +125,66 @@ mobile-viewport interaction; cal.com booking facade click-through; the
 BSB/compliance copy itself (§5, client-deferred).
 
 ---
+
+## 0c. Audit sweep #3 + compliance rebuild — 2026-05-17 (COMPLETE, live on `main`)
+
+**Sweep #3 behaviour-test — clean, no defects.** Playwright against
+`astonslaw.com`: the `/practice-areas` index + all 7 detail pages
+(criminal-defence, violent-crimes, youth-crimes, driving-offences,
+drug-offences, appeals, inquests) — each has a unique title, single h1,
+correct self-canonical, meta description, 0 empty/untagged links, 0 broken
+images, 2× JSON-LD, console clean. Mobile (iPhone 13): burger menu toggles
+`#mobileMenu` open/close; sticky pill `#stickyPill` stays `fixed` on scroll.
+cal.com facade: `#cal-load-btn` swaps the facade for the real embed iframe.
+The 2 console 404s + zustand/font warnings are inside cal.com's third-party
+`app.cal.com` embed bundle (loads sitewide via `layout.tsx`) — not our code,
+not actionable.
+
+**Legacy `/compliance/*` link rot — found & fixed.** The old site's
+`/compliance/` silo URLs 404'd with no redirect. First shipped as redirects
+to consolidated pages, then repointed (see below) once the pages were
+recreated.
+
+**Compliance pages rebuilt — the main work of the session.** The user
+flagged that the ported `/complaints` page had been cut to ~25% of the
+original site's content, and that `/timescales` and `/terms-of-engagement`
+had no pages at all (timescales content was folded into `/direct-access`,
+terms content scattered across `/about` + `/fees`). User supplied the
+original published copy for all three and directed: full substance, project
+voice. Commit `ac434fa` on `main`:
+
+- **`/complaints` rebuilt** — full procedure restored (what counts as a
+  complaint, how to complain, Complaints Handler details, what to include,
+  acknowledge/investigate/respond flow, timescales summary, full Legal
+  Ombudsman section, BSB section, no-detriment assurance, review date,
+  alternative formats), re-set in the plain barrister voice.
+  **⚠️ CORRECTED a live compliance error:** the page stated the pre-2023
+  Legal Ombudsman time limit (six years / three years). It now states the
+  current limit — one year from the act/omission (or from when the
+  complainant should reasonably have known), and six months from the final
+  response.
+- **`/timescales` created** — new route `app/timescales/page.tsx` +
+  `content/sections/timescales.html`.
+- **`/terms-of-engagement` created** — new route + section file.
+- **Wiring:** `/compliance/timescales` → `/timescales` and
+  `/compliance/terms-and-transparency-notice` → `/terms-of-engagement`
+  (308); `/compliance/complaints-policy` → `/complaints` (308). Both new
+  pages added to the footer Regulatory column and `app/sitemap.ts` (sitemap
+  now 10 static + practice areas).
+
+Verified live: 3 pages 200, 3 redirects 308 to correct targets, titles /
+h1s / canonicals correct, 0 empty or untagged links, LeO text corrected.
+Build clean — 22 static pages.
+
+**Flags carried forward:**
+- `info@astonslaw.com` now appears on all three pages (alternative-formats
+  line, from the client's originals) — a second email alongside
+  `ghulam@astonslaw.com`.
+- `/direct-access` still carries a duplicate "How long cases take" timescale
+  table. Now that `/timescales` exists, that section should become a link to
+  it — not yet done (was out of scope this pass).
+- The compliance copy is the client's own published content, re-voiced — it
+  should still get a final read by Ghulam (see §5).
 
 ## 1. Current state — the site is LIVE and is now real Next.js
 
@@ -270,13 +331,16 @@ Vercel build verification: use the Vercel MCP — `list_deployments`,
 
 ## What to do next (in order)
 
-1. **Audit sweep #3** — continue from §0b. Ask the user for any new specific
-   items; otherwise behaviour-test the pages listed under §0b "not yet swept"
-   (the 7 practice-area detail pages + index, mobile viewport, cal.com
-   facade). Method: Playwright against `astonslaw.com`, evidence-first,
-   root-cause, fix, verify, deploy. Do not put anything on `main` unverified.
-2. BSB / compliance content verification — when the client provides it.
-3. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
+1. **Audit sweep #4** — the user has a list of further errors to highlight.
+   Ask them for it first. Method: Playwright against `astonslaw.com`,
+   evidence-first, root-cause, fix, verify, deploy. Do not put anything on
+   `main` unverified.
+2. **`/direct-access` timescale dedup** — replace its "How long cases take"
+   table with a link to the new `/timescales` page (§0c flag).
+3. BSB / compliance content verification — when the client provides it. The
+   §0c rebuild used the client's own published copy, but it still needs a
+   final read by Ghulam.
+4. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
 
 Note: Playwright MCP needed a browser-build symlink to run this session —
 `npx playwright install chromium` installed builds 1208+, but the MCP pins
