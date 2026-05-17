@@ -1,7 +1,46 @@
-# Session Handoff — 2026-05-17 (launch-prep session)
+# Session Handoff — 2026-05-17 (Next.js cutover session)
 
 Read this FIRST after `MEMORY.md` and `.project/_START_HERE.md`. It supersedes
-the earlier 2026-05-17 handoff (now in git history).
+every earlier handoff (now in git history).
+
+## 2026-05-17 — Next.js App Router site is LIVE on astonslaw.com
+
+The hash-routed static prototype has been replaced. `astonslaw.com` now serves
+a real Next.js 14 App Router build — every section is a crawlable URL with its
+own server `metadata` (title / description / canonical). The SEO step-down
+noted in the old "Accepted risks" is resolved.
+
+- **Production = `main` @ `e94eceb`.** Vercel deploy `dpl_5uiUaVa14g97jycZ9MVpzAekcCVF`,
+  READY, aliased to astonslaw.com / www.
+- **14 real routes:** `/`, `/practice-areas`, `/practice-areas/[slug]` ×7,
+  `/police-station-representation`, `/fees`, `/direct-access`, `/about`,
+  `/contact`, `/complaints`, + `not-found`. All verified 200 live with correct
+  titles; unknown slugs 404; legacy-URL redirects 308; `/sitemap.xml`,
+  `/robots.txt`, `/og-image.png` all 200.
+- **How it's built:** section markup is the approved prototype's HTML injected
+  verbatim (`content/sections/*.html`, `content/chrome/*.html`) so the design
+  is byte-faithful. Practice-area pages render server-side from
+  `lib/practice-areas.ts` via `lib/render-practice-area.ts`. Chrome
+  interactivity (mega/mobile menu, police banner, GSAP, GA, cal.com) is in
+  `components/site/SiteBehaviour.tsx` (client). CSS = the prototype's built
+  Tailwind + style block (`app/preview-tailwind.css` + `app/preview-styles.css`).
+- **`vercel.json`** now `framework: nextjs` (the project's dashboard preset is
+  still `null` — vercel.json overrides it; do NOT remove `framework` again or
+  routes 404).
+- **`preview/`** (old static prototype) is now dead code — still in the repo,
+  no longer deployed. Safe to delete in a cleanup pass.
+- Build warnings (non-blocking): raw hex in `app/layout.tsx` viewport
+  themeColor (unavoidable — meta value), and `no-page-custom-font` for the
+  IBM Plex `<link>` (kept deliberately — the verbatim CSS hardcodes the family
+  name; switching to next/font would break the match).
+- **BSB / compliance content** is still unverified — client deferred ~1 week.
+  Unchanged by this session; carried forward.
+
+---
+
+# Session Handoff — 2026-05-17 (launch-prep session)
+
+(Superseded — kept for history.)
 
 ## Where things are
 
