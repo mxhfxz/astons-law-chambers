@@ -1,5 +1,11 @@
 # Cold-Start Handoff — Astons Law Chambers
 
+> **⚠️ STALE BELOW THIS LINE (2026-05-14).** The project is no longer in the
+> planning phase — a full Next.js App Router site is built and LIVE on
+> astonslaw.com. **Read `.project/SESSION-HANDOFF.md` for the current state.**
+> Next session: the user has an audit with "a bunch of holes" — ask them for
+> that list before doing anything. The content below is kept for history only.
+
 **Date written:** 2026-05-14 (updated after Penpot connect + apex rule lock)
 **Read this before touching anything.**
 
