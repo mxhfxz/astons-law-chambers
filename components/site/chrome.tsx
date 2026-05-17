@@ -3,8 +3,13 @@
 // Interactivity is attached separately by <SiteBehaviour /> (client).
 import { readChrome } from '@/lib/content'
 
+// `display: contents` (via .chrome-mount) makes this wrapper generate no box,
+// so injected chrome — e.g. the `position: sticky` header — resolves its
+// containing block to <body> rather than to a wrapper the height of one
+// element. Without it the sticky header un-sticks the moment the wrapper
+// scrolls past, ~73px down the page.
 function Raw({ html }: { html: string }) {
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  return <div className="chrome-mount" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 export function IconSprite() {

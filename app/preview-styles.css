@@ -18,6 +18,11 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
+    /* Chrome fragments are injected through a React wrapper <div>. That div
+       must not establish a layout box, or it confines the sticky header to
+       its own height. `display: contents` promotes the markup to <body>. */
+    .chrome-mount { display: contents; }
+
     .route { display: none; }
     .route.is-active { display: block; }
     .placeholder-tag {
