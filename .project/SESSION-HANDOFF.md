@@ -1,187 +1,168 @@
-# Session Handoff — 2026-05-17 (Next.js cutover session)
+# Session Handoff — 2026-05-17 (Next.js cutover + audit-holes session)
 
-Read this FIRST after `MEMORY.md` and `.project/_START_HERE.md`. It supersedes
-every earlier handoff (now in git history).
-
-## 2026-05-17 — Next.js App Router site is LIVE on astonslaw.com
-
-The hash-routed static prototype has been replaced. `astonslaw.com` now serves
-a real Next.js 14 App Router build — every section is a crawlable URL with its
-own server `metadata` (title / description / canonical). The SEO step-down
-noted in the old "Accepted risks" is resolved.
-
-- **Production = `main` @ `e94eceb`.** Vercel deploy `dpl_5uiUaVa14g97jycZ9MVpzAekcCVF`,
-  READY, aliased to astonslaw.com / www.
-- **14 real routes:** `/`, `/practice-areas`, `/practice-areas/[slug]` ×7,
-  `/police-station-representation`, `/fees`, `/direct-access`, `/about`,
-  `/contact`, `/complaints`, + `not-found`. All verified 200 live with correct
-  titles; unknown slugs 404; legacy-URL redirects 308; `/sitemap.xml`,
-  `/robots.txt`, `/og-image.png` all 200.
-- **How it's built:** section markup is the approved prototype's HTML injected
-  verbatim (`content/sections/*.html`, `content/chrome/*.html`) so the design
-  is byte-faithful. Practice-area pages render server-side from
-  `lib/practice-areas.ts` via `lib/render-practice-area.ts`. Chrome
-  interactivity (mega/mobile menu, police banner, GSAP, GA, cal.com) is in
-  `components/site/SiteBehaviour.tsx` (client). CSS = the prototype's built
-  Tailwind + style block (`app/preview-tailwind.css` + `app/preview-styles.css`).
-- **`vercel.json`** now `framework: nextjs` (the project's dashboard preset is
-  still `null` — vercel.json overrides it; do NOT remove `framework` again or
-  routes 404).
-- **`preview/`** (old static prototype) is now dead code — still in the repo,
-  no longer deployed. Safe to delete in a cleanup pass.
-- Build warnings (non-blocking): raw hex in `app/layout.tsx` viewport
-  themeColor (unavoidable — meta value), and `no-page-custom-font` for the
-  IBM Plex `<link>` (kept deliberately — the verbatim CSS hardcodes the family
-  name; switching to next/font would break the match).
-- **BSB / compliance content** is still unverified — client deferred ~1 week.
-  Unchanged by this session; carried forward.
+Read this FIRST, after `MEMORY.md` and `.project/_START_HERE.md`. It supersedes
+every earlier handoff (they remain in git history).
 
 ---
 
-# Session Handoff — 2026-05-17 (launch-prep session)
+## ⚠️ START OF NEXT SESSION — DO THIS FIRST
 
-(Superseded — kept for history.)
+The user ran an **audit and found "a bunch of holes."** That list was NOT
+captured before this session was cleared. **Before doing any work, ask the
+user for the audit findings / the list of holes.** Do not start fixing or
+building anything until you have that list — it is the next work queue.
 
-## Where things are
+Also: the **skills-first rule is now hook-enforced** (see §6). Every task
+routes through the relevant installed skill first — no Claude defaults.
 
-- **Active branch: `alc-staging`.** Clean tree except `CLAUDE.md` (see Open items).
-- **`main` = `b5b8812`** — the production branch. Everything below is merged into it.
-- Build target is still `preview/index.html` (the static single-file prototype).
-- Branches now: `main`, `alc-staging`, `phase-2-design-system`. The old
-  `roadmap-preview-improvements` fork was deleted (local + remote) — it was
-  identical to `alc-staging`, no work lost.
+---
 
-## Vercel / deployment structure (important — caused confusion this session)
+## 1. Current state — the site is LIVE and is now real Next.js
 
-- Project: **`alc-staging`** — `projectId prj_Fj4Y2t9b0CBflI0Bxo96vvBHZlC5`,
-  `teamId team_h56XkPoiUvCygqdsx1PhjjAM`. Linked in `.vercel/project.json`.
-- The project's **production deployment tracks the `main` branch.**
-  `alc-staging.vercel.app` therefore serves `main`, NOT the `alc-staging` branch.
-- The `alc-staging` *branch* deploys to a separate preview URL
-  (`alc-staging-git-alc-staging-…vercel.app`).
-- **To get any fix onto `alc-staging.vercel.app`, it must reach `main`.**
-  Workflow used: commit to `alc-staging` branch → merge into `main` → push.
-- `vercel.json`: `framework: null`, `outputDirectory: preview` — static deploy
-  of `preview/`, no Next.js build runs.
-- Latest production deploy `dpl_p9vXvRHK281zMH81LsfnoXjjWDmJ` = `b5b8812`,
-  state READY.
+`astonslaw.com` serves a **Next.js 14 App Router site** (verified live, HTTP
+200). The old hash-routed static prototype (`astonslaw.com/#/fees`) is gone.
+Every section is now a real crawlable URL with its own server `metadata`.
 
-## What this session did
+- **Production = `main`.** Latest production Vercel deploy was `e94eceb`'s
+  merge; `main` HEAD after the handoff commits is the current production.
+- **`astonslaw.com` (apex) is the primary domain**, serves 200 directly.
+  `www.astonslaw.com` → 307 → apex. The code's canonical / `og:url` / sitemap
+  all declare the apex `https://astonslaw.com`, so code and serving host agree.
+  (Optional polish only: the www→apex redirect is 307; 308 would be a cleaner
+  permanent SEO signal — change via Vercel → Domains → Edit on the www row.)
 
-1. **Hero image** swapped to the client's City of London skyline at dusk
-   (`preview/hero_image.webp`, 720×656, 74KB). Old Magistrates' Court JPG removed.
-   The darkening/overlay treatment was offered then dropped at client request —
-   the dusk tones already sit cleanly in the dark hero.
-2. **Hero column blowout fix** (`af0130c`). The image column was `minmax(0,40vw)`
-   — a viewport unit — so on wide monitors (2560px) it took 1024px and crushed
-   the headline column to ~232px (one word per line). Changed to container-
-   relative `1.3fr 1fr`. `tailwind.built.css` rebuilt for the new arbitrary class.
-3. **Mobile header overflow fix** (`aeb2e4d`). `.btn { display:inline-flex }`
-   (inline `<style>`, loads after `tailwind.built.css`) was beating the `.hidden`
-   utility, so desktop-only header buttons rendered on mobile → 467px header →
-   whole page overflowed/clipped. Added `.btn.hidden` / `.btn.sm:inline-flex` /
-   `.btn.md:inline-flex` rules (specificity 0,2,0), scoped to `.btn`. Root cause
-   was last session's perf pass (`65e7157`, CDN→`<link>` swap flipped the cascade)
-   — not this session's hero work. Verified 390/700/1280px.
-4. **Production robots.txt + sitemap** (`30a839c`). `robots.txt` was the staging
-   `Disallow: /` — shipping that to astonslaw.com would deindex the site.
-   Now allow-all + sitemap reference. Added `preview/sitemap.xml` (homepage only;
-   hash routes are not separate crawlable URLs).
-5. Merges to `main`: `d5bd37c`, `b5b8812`.
+## 2. What this session did
 
-## Pre-launch audit (done this session, current build)
+1. **Social/app icons** (commit `8e1149d`): `og-image.png` (1200×630 branded
+   card, white logo), `apple-touch-icon.png`, `icon-192/512.png`, `favicon.ico`,
+   `site.webmanifest`. Replaced the SVG OG placeholder (SVG OG images don't
+   render on social/WhatsApp). All verified live 200.
+2. **Full Next.js App Router port** (commit `b9e4567`) — see §3 for how it's
+   built. Replaced the hash router with 14 real routes.
+3. **`vercel.json` framework fix** (commit `2927f82`): the Vercel project's
+   dashboard framework preset is `null` (legacy static config). The first port
+   deploy 404'd every route because `vercel.json` had no `framework`. Fixed by
+   setting `"framework": "nextjs"`. **Do NOT remove that key** — routes 404
+   without it.
+4. **Production cutover** — merged to `main`, verified all routes live on
+   astonslaw.com (200s, per-page titles, 404s, redirects, sitemap, robots).
+5. **Mega menu debug** (systematic-debugging): suspected broken, proven NOT
+   broken — it was a Playwright test artifact (`click` hovers-then-clicks =
+   open-then-close). Mega menu, police banner, footer year, GSAP reveals all
+   confirmed working. No fix made; nothing was wrong.
+6. **Skills-first rule hook-enforced** (see §6).
 
-- All 15 hash routes render real content, no blanks, no accidental 404s.
-- Conversion links correct everywhere: `tel:+447922247999`,
-  `wa.me/447922247999`, `cal.com/astonslaw/callback?overlayCalendar=true`.
-- No placeholder copy visible (the 2 `[PLACEHOLDER]` strings are in comments).
-- WCAG AA contrast: 0 failures (`scripts/contrast_audit.py`).
-- One benign console 404: browser auto-request for `/favicon.ico`
-  (modern browsers use the SVG favicon). `apple-touch-icon.png` also absent.
-  Neither blocks launch.
+## 3. How the ported site is built (IMPORTANT — read before editing)
 
-## Confirmed this session
+The design is the approved prototype, kept byte-faithful. The port is
+**structural**, not a rewrite:
 
-- GA4 property `G-8TDVMH13D7` — real client property (hard-coded in `<head>`).
-- cal.com `cal.com/astonslaw/callback` — real working event.
-- Both recorded in `memory/verified_facts.md`. Do not re-flag.
+- **Section markup** = the prototype's HTML, extracted verbatim into
+  `content/sections/*.html` and `content/chrome/*.html`. Pages inject it via
+  `dangerouslySetInnerHTML`. `lib/content.ts` reads these files at build time.
+- **Route pages** — `app/<route>/page.tsx` — thin: each exports `metadata`
+  (title/description/canonical) and injects its section HTML. Routes:
+  `/`, `/practice-areas`, `/practice-areas/[slug]` ×7,
+  `/police-station-representation`, `/fees`, `/direct-access`, `/about`,
+  `/contact`, `/complaints`, `app/not-found.tsx`.
+- **Practice areas** — data in `lib/practice-areas.ts` (the 7 areas + the
+  `slugRedirects` map). `lib/render-practice-area.ts` fills the
+  `content/sections/pa-detail.html` template's `data-bind` slots by string
+  replacement, and builds the index grid + per-area FAQ/Breadcrumb JSON-LD.
+  `[slug]/page.tsx` uses `generateStaticParams` + `dynamicParams = false` so
+  unknown slugs 404.
+- **Chrome** — `components/site/chrome.tsx` (server, injects header / footer /
+  police banner / sticky pill / quick-exit / icon sprite verbatim).
+- **Interactivity** — `components/site/SiteBehaviour.tsx` (`'use client'`):
+  mega menu, mobile menu, police-banner scroll, GSAP reveals, GA click
+  tracking + page_view on route change, cal.com facade, quick exit, footer
+  year. This is the prototype's foot-of-body script minus the hash router.
+- **CSS** — `app/preview-tailwind.css` (the prototype's prebuilt Tailwind) +
+  `app/preview-styles.css` (its `<style>` block). Imported in `app/layout.tsx`
+  in that order. The Next scaffold's own Tailwind is not used for the ported
+  markup — this guarantees visual fidelity.
+- **layout.tsx** — head metadata, GA + cal.com + GSAP via `next/script`,
+  static JSON-LD graph, fonts via `<link>`.
+- **next.config.mjs** — `trailingSlash: false`, legacy-URL + removed-slug
+  redirects (308).
 
-## Launch status
+Build: `npm run build` → 20 static pages, 87.4 kB First Load JS, clean.
+Two non-blocking warnings, both deliberate: raw hex in `layout.tsx` viewport
+`themeColor` (a meta value, can't be a token); `no-page-custom-font` for the
+IBM Plex `<link>` (kept — the verbatim CSS hardcodes the family name).
 
-Code-side is **done and verified**. Remaining steps are the client's, in Vercel
-+ DNS — NOT doable by Claude:
+## 4. Git / branches / Vercel
 
-1. Record the current `astonslaw.com` DNS records (the only rollback path).
-2. Vercel → project `alc-staging` → Settings → Domains → add `astonslaw.com`
-   + `www.astonslaw.com`.
-3. DNS provider: `A @ → 76.76.21.21`, `CNAME www → cname.vercel-dns.com`, TTL 300.
-4. HTTPS auto. Smoke-test on a real phone (tap-to-call, WhatsApp, booking).
+- Branches: `main` (production), `alc-staging` (working — push here, merge to
+  `main` to deploy), `phase-2-design-system` (stale, ignore).
+- Workflow: commit to `alc-staging` → merge into `main` → push → Vercel
+  auto-deploys `main` to astonslaw.com. `alc-staging` branch deploys to a
+  protected preview (`alc-staging-git-alc-staging-dsgnly.vercel.app`, 401s
+  without auth — use the Vercel MCP `get_access_to_vercel_url` to verify it).
+- Vercel project `alc-staging`: `projectId prj_Fj4Y2t9b0CBflI0Bxo96vvBHZlC5`,
+  `teamId team_h56XkPoiUvCygqdsx1PhjjAM`. `.vercel/project.json` is NOT in this
+  checkout (gitignored / absent). The Vercel MCP tools work for deploy
+  inspection.
 
-When astonslaw.com resolves, next session should run a verification pass on the
-live domain.
+## 5. Known gaps / not-yet-verified (separate from the user's audit)
 
-## Accepted risks (client informed — their call)
+- **BSB / compliance content is unverified** — client deferred ~1 week. The
+  copy on `/complaints`, `/fees`, fee strips, regulatory lines was carried
+  from the old site. Going live on a regulated barrister's site with
+  unverified regulatory content is a real compliance exposure. Client's call.
+- **Hero headline** ("Speak to a barrister before the police interview.") and
+  the booking copy are unreviewed drafts.
+- **Interactivity coverage:** mega menu verified live; police banner / footer
+  year / GSAP confirmed via DOM state. Mobile burger menu, cal.com booking
+  facade, GA event firing, quick-exit — ported and build-clean, NOT yet
+  click-tested on the live domain.
+- **Routes eyeballed:** home (desktop+mobile), practice-area detail, mega
+  menu. The other route bodies are verbatim prototype HTML so should be
+  faithful, but each was not individually screenshotted.
+- `[slug]` rendering uses string-replacement on the template HTML — works, but
+  is fragile if `content/sections/pa-detail.html` markup changes.
+- **Dead code in repo** (safe to delete in a cleanup pass): `preview/` (old
+  static site, no longer deployed), `components/layout/*`, `hooks/*`,
+  `styles/*` (superseded scaffold stubs, not imported).
 
-- Launching the **static prototype**, not the planned Next.js build: hash-routed
-  URLs (`astonslaw.com/#/fees`), one shared title/description, one static JSON-LD.
-  Replacing a ranking site with this is an SEO step down.
-- **BSB / compliance content is unverified** — client deferred ~1 week. Going
-  live on a regulated barrister's site with unverified regulatory content is a
-  real compliance exposure. The 🚩 comments in `preview/index.html` (lines ~1477,
-  1568, 1692) mark compliance copy pulled from the live site that needs Ghulam's
-  verification.
-- Hero headline ("Speak to a barrister before the police interview.") and the
-  booking copy are unreviewed drafts.
+## 6. Skills-first rule — now hook-enforced
 
-## Open items / next-session TODO
+The HARD RULE (every task routes through the relevant installed skill, no
+Claude defaults) is enforced by a **`UserPromptSubmit` hook** in
+`.claude/settings.local.json` — it runs a command that reads
+`.claude/skills-first-rule.md` and re-injects it into context on EVERY prompt.
+Confirmed firing. The rule text is committed at `.claude/skills-first-rule.md`.
+`settings.local.json` is gitignored (personal). If the hook is ever removed,
+that is a regression — restore it. Recorded in
+`memory/feedback_no_claude_defaults_use_skills.md`.
 
-1. **Verify the live domain** once DNS is cut over.
-2. **BSB content verification** — client deferred ~1 week. Content exists in the
-   build; it needs checking, not creating.
-3. **Extra service pages** — client has a couple more to add; agreed as
-   post-launch. They slot into the prototype's route renderer.
-4. **`CLAUDE.md` is committed** as of this handoff (the hard-rule edit — see New
-   rules below).
-5. **Next.js rebuild** — the proper production build (`plan.md` Phases 3–7).
-   Scaffold already exists (Phases 1–2 done). The rebuild is now a *port* of the
-   finished prototype into the App Router scaffold (real routes + per-page
-   metadata = the SEO fix), not a redesign. `plan.md` Phase 2 still assumes a
-   Penpot design source — that is stale; the prototype superseded it. Realistic
-   scope: a multi-session milestone. Swapping the Next.js build in later is just
-   a code + `vercel.json` change + redeploy — no second DNS change. Before
-   starting: confirm the prototype is the approved spec, confirm the final
-   practice-area list (prototype links ~7; `plan.md` says 10), get the BSB
-   content.
-
-## New rules set this session (now permanent)
-
-- **HARD RULE — no Claude defaults, always use the installed skill.** Set by the
-  user 2026-05-17 after repeated incidents. Every task routes through the
-  relevant installed skill first, before any action. Recorded in
-  `memory/feedback_no_claude_defaults_use_skills.md`, the `MEMORY.md` header, and
-  a dedicated section near the top of `CLAUDE.md`.
-- **Vercel Toolbar a11y false-positive** — the Toolbar's accessibility audit
-  reports false `aria-hidden-focus` / `landmark-one-main` violations (its overlay
-  hides the page, then audits it). Verified clean with axe-core. Recorded in
-  `memory/project_vercel_toolbar_a11y_false_positive.md`. Audit with Lighthouse /
-  axe DevTools instead; do not edit markup to chase those.
-
-## How to run / review locally
+## 7. How to build / run locally
 
 ```bash
-python3 -m http.server 8810 --directory preview --bind 127.0.0.1
+npm run build      # production build — 20 static pages, must be clean
+npm run start -- -p 8820   # serve the production build
+npm run dev        # dev server
+npm run lint / type-check
 ```
-Contrast audit: `python3 scripts/contrast_audit.py` (expect `Failures: 0`).
-Note: browsers cache `tailwind.built.css` aggressively — hard-refresh or use a
-fresh port after CSS changes.
+Vercel build verification: use the Vercel MCP — `list_deployments`,
+`get_deployment`, `get_deployment_build_logs`, and `get_access_to_vercel_url`
+(preview URLs are deployment-protected, 401 without an auth share token).
 
-## Key files
+## 8. Key files
 
-- `preview/index.html` — the build
-- `preview/tailwind.built.css` + `tailwind.preview.config.js` + `tailwind.input.css`
-  — if a Tailwind class changes in index.html, the built CSS MUST be rebuilt:
-  `node_modules/.bin/tailwindcss -c preview/tailwind.preview.config.js -i preview/tailwind.input.css -o preview/tailwind.built.css --minify`
-- `preview/robots.txt` (production) + `preview/sitemap.xml`
-- `preview/hero_image.webp` — hero image
-- `scripts/contrast_audit.py` — WCAG AA auditor
-- `.project/plan.md` — the 8-phase build plan (Phases 3–7 = the Next.js rebuild)
+- `app/` — routes + `layout.tsx` + `sitemap.ts` + `robots.ts`
+- `components/site/chrome.tsx`, `components/site/SiteBehaviour.tsx`
+- `lib/practice-areas.ts`, `lib/content.ts`, `lib/render-practice-area.ts`
+- `content/sections/*.html`, `content/chrome/*.html` — verbatim design markup
+- `app/preview-tailwind.css`, `app/preview-styles.css`
+- `next.config.mjs` (redirects), `vercel.json` (`framework: nextjs` + headers)
+- `.claude/skills-first-rule.md` (+ the hook in `.claude/settings.local.json`)
+
+---
+
+## What to do next (in order)
+
+1. **Get the audit holes from the user** (see top of file). That is the queue.
+2. Address them, routing each through the relevant skill.
+3. BSB / compliance content verification — when the client provides it.
+4. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
