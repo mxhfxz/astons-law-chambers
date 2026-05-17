@@ -1,0 +1,6 @@
+/* Input for the preview's built Tailwind stylesheet.
+   base = preflight reset (matches what the CDN injected).
+   utilities = the only layer the preview uses; component-style rules
+   live in the authored <style> block in index.html. */
+@tailwind base;
+@tailwind utilities;

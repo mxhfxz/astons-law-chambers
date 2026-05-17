@@ -38,6 +38,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Hero image is above the fold and the likely LCP element — preload it. -->
+  <link rel="preload" as="image" href="hero-image.jpg" />
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet"
@@ -115,41 +118,11 @@
   }
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"IBM Plex Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-          },
-          colors: {
-            navy: {
-              950: '#0E1628',
-              900: '#16223C',
-              800: '#1F2E50',
-              700: '#283A64',
-              100: '#E8EDF5',
-            },
-            offwhite: '#F8F9FB',
-            footer: '#232536',
-            emergency: { 500: '#C23616', 600: '#A12B10' },
-            whatsapp: { DEFAULT: '#075E54', dark: '#054B43' },
-            grey: { 900: '#111827', 600: '#4B5563', 300: '#D1D5DB', 100: '#F3F4F6' },
-          },
-          maxWidth: {
-            prose: '70ch',
-            container: '1200px',
-            wide: '1360px',
-          },
-          letterSpacing: {
-            tightish: '-0.01em',
-            tight2: '-0.02em',
-          },
-        },
-      },
-    }
-  </script>
+  <!-- Tailwind utilities — built stylesheet. Replaces the render-blocking
+       cdn.tailwindcss.com script (124KB + in-browser compile) with a static
+       21KB file of only the classes this page uses. Rebuild instructions are
+       in preview/tailwind.preview.config.js. -->
+  <link rel="stylesheet" href="tailwind.built.css" />
 
   <style>
     :root {
@@ -765,14 +738,12 @@
               </p>
             </div>
 
-            <!-- RIGHT: hero image panel — same composition slot as before,
-                 now holding a real image instead of the abstract gradient/mark.
-                 TEMP / UNCOMMITTED: hero-image.png is a PLACEHOLDER PORTRAIT for
-                 layout evaluation only. The no-portrait rule still stands — the
-                 shipped hero image must be a non-portrait asset, and alt set then.
-                 Undo everything: `git restore preview/index.html` (+ rm preview/hero-image.png). -->
+            <!-- RIGHT: hero image panel — image slot (was the abstract gradient/mark).
+                 TEMP: hero-image.jpg is a PLACEHOLDER PORTRAIT for layout evaluation
+                 only (900x1200, ~96KB). The no-portrait rule stands — the shipped
+                 hero image must be a non-portrait asset, with a real alt set then. -->
             <div class="reveal rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
-              <img src="hero-image.png" alt="" class="w-full h-full object-cover object-top" />
+              <img src="hero-image.jpg" alt="" width="900" height="1200" fetchpriority="high" class="w-full h-full object-cover object-top" />
             </div>
 
           </div>
@@ -827,8 +798,69 @@
           </div>
 
           <ul id="homeDefenceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">
-            <!-- Cards rendered by renderHomeDefenceGrid() from PRACTICE_AREAS +
-                 the synthetic police-station card. Single source of truth. -->
+            <!-- Pre-rendered from PRACTICE_AREAS + the police-station card so the
+                 cards ship in the initial HTML (zero injection, zero layout shift).
+                 renderHomeDefenceGrid() skips when the grid is already populated;
+                 PRACTICE_AREAS stays the source of truth for the detail/index routes.
+                 In the Next.js build these become server-rendered components. -->
+            <li><a href="#/practice-areas/criminal-defence" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Criminal Defence</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Representation from investigation through trial. Magistrates’ and Crown Court.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/violent-crimes" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Violent Crimes</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Assault, ABH, GBH, affray, robbery. Police station through appeal.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/youth-crimes" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Youth Crimes</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Defence for clients under 18. Youth Court procedure and welfare considerations.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/driving-offences" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Driving Offences</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/drug-offences" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Drug Offences</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Possession, supply, importation. Forensic and disclosure challenges.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/appeals" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Appeals</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Conviction and sentence appeals. Prospects, grounds, hearing.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/practice-areas/inquests" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">Inquests</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Family and interested-person representation. Pre-inquest review through hearing.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li><li><a href="#/police-station-representation" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
+        <h3 class="text-xl font-semibold tracking-tight2">Police Station Representation</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li>
           </ul>
           <noscript>
             <p class="mt-6 text-base text-grey-600">JavaScript is required to load this page. <a href="#/practice-areas" class="text-navy-950 underline underline-offset-4 decoration-1">See defence work →</a></p>
@@ -2223,6 +2255,9 @@
     function renderHomeDefenceGrid() {
       const grid = document.getElementById('homeDefenceGrid');
       if (!grid) return;
+      // Cards are pre-rendered into the static HTML for zero layout shift.
+      // Skip when already populated; only fill if the markup is ever emptied.
+      if (grid.children.length) return;
       const cards = PRACTICE_AREAS.map((a) => practiceAreaCardHtml(a, 'h3'));
       cards.push(policeStationCardHtml());
       grid.innerHTML = cards.join('');
