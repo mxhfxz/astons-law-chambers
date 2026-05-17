@@ -7,13 +7,14 @@ every earlier handoff (they remain in git history).
 
 ## ⚠️ START OF NEXT SESSION — DO THIS FIRST
 
-This is a **continuing audit sweep**. A first sweep ran on 2026-05-17 (see
-§0 below) — it found and fixed two real production bugs and one analytics
-tagging gap, all verified live. **Next session = the next sweep:** continue
-auditing the live site for regressions/holes, same method (load
-`astonslaw.com` in Playwright, gather evidence, root-cause, fix, verify,
-deploy). Ask the user if they have specific new items; otherwise widen the
-sweep to routes/pages not yet deep-checked (see §5 + §0 "not yet swept").
+This is a **continuing audit sweep**. Two sweeps have run on 2026-05-17:
+sweep #1 (§0) fixed two production bugs + an analytics gap; sweep #2 (§0b)
+fixed three dead BSB/LeO compliance links + a global preload. All verified
+live. **Next session = sweep #3:** continue auditing the live site for
+regressions/holes, same method (load `astonslaw.com` in Playwright, gather
+evidence, root-cause, fix, verify, deploy). Ask the user if they have
+specific new items; otherwise widen the sweep to pages not yet deep-checked
+(see §0b "not yet swept" + §5).
 
 **New HARD RULE this session:** nothing reaches `main` until verified working
 (build + type-check + real-browser check). `main` is live production for a
@@ -79,6 +80,48 @@ items above are verified live on `astonslaw.com`.
 `/police-station-representation`) were confirmed HTTP 200 and console-clean
 but not individually behaviour-tested; mobile-viewport interaction;
 cal.com booking facade click-through; the BSB/compliance content (§5).
+
+---
+
+## 0b. Audit sweep #2 — 2026-05-17 (COMPLETE, all fixes live on `main`)
+
+Widened the sweep to the six routes §0 left "not yet swept". Behaviour-tested
+each live in Playwright: titles / h1 / canonical / meta correct, every
+`tel:`/`wa.me` link carries `data-track` + `data-track-location` (sweep #1's
+tagging holds), no broken images, no empty links, no forms, console clean.
+Two findings, both fixed and verified live. Production HEAD: `main` at the
+`8d89caa` merge.
+
+1. **Three dead BSB / Legal Ombudsman links — REAL DEFECT, FIXED & LIVE.**
+   The BSB and LeO restructured their sites; URLs carried from the old site
+   now 404 (confirmed `curl`, browser UA — sibling pages 200, so genuine link
+   rot). Replacements verified live (200, title-matched), link text unchanged:
+   - LeO decision data → `…/information-centre/data-centre/ombudsman-decision-data/`
+   - BSB report a concern → `…/for-the-public/reporting-concerns.html`
+   - BSB public access guidance → `…/resources/public-access-guidance-for-lay-clients.html`
+   Live instances were on `/complaints` (×2) and `/direct-access` (×1). The
+   same two stale URLs in the **unused** `lib/site.ts` stub were also
+   corrected (dead code — not rendered anywhere). Commit in `8d89caa`.
+
+2. **`hero_image.webp` preloaded on every route — FIXED & LIVE.** The
+   `<link rel="preload" as="image">` lived in the root `layout.tsx`, so every
+   non-home route fetched an unused image + logged a "preloaded but not used"
+   console warning. Moved the preload into `app/page.tsx` — homepage LCP
+   benefit kept, waste removed everywhere else. Verified: homepage still
+   preloads + loads the hero; non-home routes no longer carry it.
+
+**Corrected from the sweep-#2 mid-report:** the BSB/LeO links in
+`content/chrome/footer.html` (lines 33–36) are inside an HTML `<!-- -->`
+comment — hidden 2026-05-14 pending verified client-specific URLs. They are
+NOT live, so there was no "sitewide footer dead link". The footer block is a
+separate launch task: its comment asks for verified URLs before restoring —
+sweep #2's verified replacements above can fill that when the user decides to
+restore it.
+
+**Not yet swept (candidates for sweep #3):** the 7 `/practice-areas/[slug]`
+detail pages + `/practice-areas` index were not individually behaviour-tested;
+mobile-viewport interaction; cal.com booking facade click-through; the
+BSB/compliance copy itself (§5, client-deferred).
 
 ---
 
@@ -227,10 +270,11 @@ Vercel build verification: use the Vercel MCP — `list_deployments`,
 
 ## What to do next (in order)
 
-1. **Audit sweep #2** — continue from §0. Ask the user for any new specific
-   items; otherwise behaviour-test the routes listed under §0 "not yet swept".
-   Method: Playwright against `astonslaw.com`, evidence-first, root-cause,
-   fix, verify, deploy. Do not put anything on `main` unverified.
+1. **Audit sweep #3** — continue from §0b. Ask the user for any new specific
+   items; otherwise behaviour-test the pages listed under §0b "not yet swept"
+   (the 7 practice-area detail pages + index, mobile viewport, cal.com
+   facade). Method: Playwright against `astonslaw.com`, evidence-first,
+   root-cause, fix, verify, deploy. Do not put anything on `main` unverified.
 2. BSB / compliance content verification — when the client provides it.
 3. Optional: www→apex redirect 307 → 308; delete the dead code in §5.
 
