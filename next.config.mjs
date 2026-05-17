@@ -29,6 +29,7 @@ const nextConfig = {
       { source: '/compliance/timescales', destination: '/timescales', permanent: true },
       { source: '/compliance/complaints-policy', destination: '/complaints', permanent: true },
       { source: '/compliance/terms-and-transparency-notice', destination: '/terms-of-engagement', permanent: true },
+      { source: '/compliance/pricing-and-fees', destination: '/fees', permanent: true },
       { source: '/blog', destination: '/', permanent: true },
       { source: '/news', destination: '/', permanent: true },
       { source: '/articles', destination: '/', permanent: true },

@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/complaints',
     '/timescales',
     '/terms-of-engagement',
+    '/privacy-policy',
   ]
   const now = new Date()
   const staticEntries: MetadataRoute.Sitemap = routes.map((path) => ({
