@@ -1,0 +1,38 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Toggled on <body> by hooks/useStickyBarVisibility when the mobile
+   StickyBar is shown. Prevents the bar from occluding final-screen content. */
+body.has-sticky-bar {
+  padding-bottom: var(--sticky-bar-height);
+}
+
+/* Long-form copy container. Used by practice-area Zone 2 and
+   compliance pages to enforce the 70ch line-length cap. */
+.prose {
+  max-width: var(--prose-max-width);
+  color: var(--prose-text);
+  line-height: var(--prose-line-height);
+}
+
+.prose p + p {
+  margin-top: var(--spacing-stack-base);
+}

@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts.bak
+tsconfig.tsbuildinfo
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Claude Code / local tooling
+.claude/settings.local.json
+.mcp.json
+.claude/skills/
+.agents/
+banana-claude/
+claude-ads/
+skills-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

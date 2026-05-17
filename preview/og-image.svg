@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Placeholder OG image. Swap with a designed PNG (1200×630) before launch.
+       Navy palette matches site tokens. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E1628"/>
+      <stop offset="1" stop-color="#16223C"/>
+    </linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Logo mark, bottom-right, watermarked -->
+  <g transform="translate(960, 380) scale(8)" fill="rgba(255,255,255,0.08)">
+    <path d="M16 1H32V17C23.1634 17 16 9.83656 16 1Z"/>
+    <path d="M31.9984 17C31.9993 17 32 17.0007 32 17.0016L32 33L16.0016 33C16.0007 33 16 32.9993 16 32.9984C16 24.1627 23.1627 17 31.9984 17Z"/>
+    <path d="M16 33L9.53674e-07 33L2.35244e-06 17C8.83656 17 16 24.1634 16 33Z"/>
+    <path d="M0 17L-6.99382e-07 1L16 1C16 9.83656 8.83656 17 0 17Z"/>
+  </g>
+
+  <!-- Eyebrow -->
+  <text x="100" y="200" font-family="'IBM Plex Sans', system-ui, -apple-system, sans-serif"
+        font-size="22" font-weight="600" fill="rgba(232,237,245,0.85)" letter-spacing="2.5">
+    BARRISTERS &#x00B7; LONDON
+  </text>
+
+  <!-- Wordmark -->
+  <text x="100" y="290" font-family="'IBM Plex Sans', system-ui, -apple-system, sans-serif"
+        font-size="76" font-weight="600" fill="#FFFFFF" letter-spacing="-1">
+    Astons Law Chambers
+  </text>
+
+  <!-- Tagline -->
+  <text x="100" y="360" font-family="'IBM Plex Sans', system-ui, -apple-system, sans-serif"
+        font-size="34" font-weight="400" fill="rgba(232,237,245,0.9)">
+    Criminal defence, direct from the barrister.
+  </text>
+
+  <!-- Phone -->
+  <text x="100" y="520" font-family="'IBM Plex Sans', system-ui, -apple-system, sans-serif"
+        font-size="28" font-weight="500" fill="rgba(232,237,245,0.7)" letter-spacing="0.5">
+    Call 07922 247 999 &#x2014; available 24/7 for police station support
+  </text>
+</svg>

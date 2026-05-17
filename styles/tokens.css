@@ -1,0 +1,189 @@
+/* ============================================================
+   tokens.css — Astons Law Chambers
+
+   Three layers: primitive → semantic → component.
+   Per .project/planning/09-design-system-spec.md and
+   12-tailwind-token-spec.md. No raw hex, px, or rem outside
+   this file. Component tokens reference semantic, not primitive.
+   ============================================================ */
+
+:root {
+  /* --- Primitive: Colour ---
+     Astons main = #0E1628 (anchors the navy ramp at the deepest tone).
+     Emergency red is a single fixed tone for the police-station banner only —
+     do not generalise it into other surfaces (signal-preservation rule).
+     ----------------------------------- */
+  --color-navy-950: #0E1628;
+  --color-navy-900: #16223C;
+  --color-navy-800: #1F2E50;
+  --color-navy-700: #283A64;
+  --color-navy-100: #E8EDF5;
+  --color-white: #FFFFFF;
+  --color-off-white: #F8F9FB;
+  --color-emergency-500: #C23616;
+  --color-emergency-600: #A12B10;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1EBE57;
+  --color-grey-900: #111827;
+  --color-grey-600: #4B5563;
+  --color-grey-300: #D1D5DB;
+  --color-grey-100: #F3F4F6;
+
+  /* --- Primitive: Spacing --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* --- Primitive: Typography ---
+     IBM Plex Sans is the only typeface family. No serif pair.
+     Headings use Plex Sans at weight 600/700.
+     The --font-sans variable is overridden by next/font/google in app/layout.tsx
+     which injects the IBM Plex Sans variable; the fallback stack below is for
+     pre-hydration paint only.
+     ----------------------------------- */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* --- Primitive: Motion --- */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+
+  /* ============================================================
+     SEMANTIC LAYER — meaning mapped to primitive.
+     Components reference this layer, not the primitive layer.
+     ============================================================ */
+
+  /* --- Semantic: Colour ---
+     Phone CTA semantic colour now points to the Astons navy itself, not amber.
+     Phone visual dominance is achieved through typographic weight + position,
+     not through a high-saturation brand button. The amber tokens are gone;
+     emergency-red has its own semantic slot used only by the police banner.
+     ----------------------------------- */
+  --color-text-primary: var(--color-navy-950);
+  --color-text-secondary: var(--color-grey-600);
+  --color-text-inverse: var(--color-white);
+  --color-text-muted: var(--color-grey-300);
+  --color-bg-base: var(--color-white);
+  --color-bg-subtle: var(--color-off-white);
+  --color-bg-dark: var(--color-navy-900);
+  --color-bg-footer: var(--color-navy-800);
+  --color-bg-leave-site: var(--color-grey-900);
+  --color-border-default: var(--color-grey-300);
+  --color-border-strong: var(--color-navy-700);
+  --color-cta-phone: var(--color-navy-950);
+  --color-cta-phone-hover: var(--color-navy-900);
+  --color-cta-whatsapp: var(--color-whatsapp);
+  --color-cta-whatsapp-hover: var(--color-whatsapp-dark);
+  --color-emergency-bg: var(--color-emergency-500);
+  --color-emergency-bg-hover: var(--color-emergency-600);
+  --color-link: var(--color-navy-800);
+  --color-link-hover: var(--color-navy-700);
+
+  /* --- Semantic: Spacing --- */
+  --spacing-section-y-mobile: var(--space-16);
+  --spacing-section-y-desktop: var(--space-20);
+  --spacing-container-x: var(--space-6);
+  --spacing-stack-base: var(--space-4);
+  --spacing-stack-loose: var(--space-8);
+
+  /* --- Semantic: Layout --- */
+  --container-max-mobile: 100%;
+  --container-max-tablet: 720px;
+  --container-max-desktop: 1200px;
+  --container-max-wide: 1360px;
+
+
+  /* ============================================================
+     COMPONENT LAYER — element-scoped tokens.
+     Reference semantic layer, not primitives.
+     ============================================================ */
+
+  /* --- Component: Navigation --- */
+  --nav-height-mobile: 64px;
+  --nav-height-desktop: 72px;
+  --nav-bg: var(--color-bg-base);
+  --nav-border: var(--color-border-default);
+
+  /* --- Component: StickyBar (corner-pill pattern) ---
+     Floating bottom-right pill, NOT a full-width split bar.
+     Phone CTA dominates; WhatsApp is a secondary tap target adjacent to it.
+     ----------------------------------- */
+  --sticky-pill-height: 56px;
+  --sticky-pill-radius: 999px;
+  --sticky-pill-offset-right: 16px;
+  --sticky-pill-offset-bottom: 16px;
+  --sticky-pill-shadow: 0 10px 30px rgba(14, 22, 40, 0.18);
+
+  /* --- Component: Button (Phone CTA) ---
+     Solid navy on white. White text. Used in nav, hero, and the corner pill.
+     ----------------------------------- */
+  --btn-phone-bg: var(--color-cta-phone);
+  --btn-phone-bg-hover: var(--color-cta-phone-hover);
+  --btn-phone-text: var(--color-text-inverse);
+
+  /* --- Component: Button (WhatsApp CTA) ---
+     Reserved for the corner-pill secondary tap-target and footer link.
+     ----------------------------------- */
+  --btn-whatsapp-bg: var(--color-cta-whatsapp);
+  --btn-whatsapp-bg-hover: var(--color-cta-whatsapp-hover);
+  --btn-whatsapp-text: var(--color-text-inverse);
+
+  /* --- Component: Police-Station Banner ---
+     Single use only — full-width strip under the navbar that shows on scroll-up,
+     hides on scroll-down. Conveys "police-station support is one tap away."
+     ----------------------------------- */
+  --police-banner-bg: var(--color-emergency-bg);
+  --police-banner-bg-hover: var(--color-emergency-bg-hover);
+  --police-banner-text: var(--color-text-inverse);
+  --police-banner-height: 44px;
+
+  /* --- Component: Leave-Site pill ---
+     Bottom-left floating affordance for fast site exit (DV / abuser-present
+     pattern). All-black, white text. Always visible.
+     ----------------------------------- */
+  --leave-site-bg: var(--color-bg-leave-site);
+  --leave-site-text: var(--color-text-inverse);
+  --leave-site-radius: 999px;
+
+  /* --- Component: Card --- */
+  --card-padding: var(--space-6);
+  --card-border: var(--color-border-default);
+  --card-radius: 0.5rem;
+
+  /* --- Component: Section (Dark Emphasis) --- */
+  --section-dark-bg: var(--color-bg-dark);
+  --section-dark-text: var(--color-text-inverse);
+
+  /* --- Component: Footer --- */
+  --footer-bg: var(--color-bg-footer);
+  --footer-text: var(--color-text-inverse);
+  --footer-link: var(--color-navy-100);
+
+  /* --- Component: Prose (body copy container) --- */
+  --prose-max-width: 70ch;
+  --prose-text: var(--color-text-primary);
+  --prose-text-secondary: var(--color-text-secondary);
+  --prose-line-height: 1.7;
+}

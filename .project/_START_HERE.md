@@ -1,172 +1,242 @@
 # Cold-Start Handoff — Astons Law Chambers
 
-**Date written:** 2026-05-13  
-**Written by:** Claude (session ending due to token limit)  
+**Date written:** 2026-05-14 (updated after Penpot connect + apex rule lock)
 **Read this before touching anything.**
 
 ---
 
-## What just happened in this session
+## APEX RULES (READ FIRST — NON-NEGOTIABLE)
 
-The entire previous project was scrapped. The old stack (Webflow + MAST + Webflow MCP + jsDelivr) is gone. The GitHub repo was force-wiped. A complete fresh start.
+1. **User instruction is absolute.** Overrides every memory, skill, default, and prior decision. No deviation under any condition.
+2. **The pre-existing pages in the Penpot file are NOT a design source.** This is a life-and-death rule.
+   - File `Astons` contains: `Logos`, `Website 2026`, `Design v2`, `Website`, `Mobile`. **NONE** of these influence the build.
+   - The ONLY in-scope page is `With Claude` (`page-id=fbd0c4dd-760c-804b-8008-04284678d008`) — currently blank.
+   - DO NOT extract layouts, sections, colors, typography, or component structures from the other pages.
+   - DO NOT propose anything "inspired by" or "echoing" the existing designs.
+   - DO NOT analyze or summarize the existing pages unless the user explicitly asks for a forensic readout.
+   - Full text of this rule: `CLAUDE.md` top of file + `memory/feedback_penpot_existing_designs_off_limits.md`.
 
-**Current repo state (as of this handoff):**
+Brief, direction, and decisions come ONLY from: user's in-session instructions, `.project/` planning files (00–17), memory entries, and the three deep-research reports.
+
+---
+
+## Current state (2026-05-14 — Phase 2 design system + Penpot tokens complete)
+
+**Phase 2 complete on branch `phase-2-design-system`.** See `.project/planning/18-phase-2-execution-plan.md` for full landing notes, DoD, and open items.
+
+Summary of what shipped in Phase 2:
+
+- **Penpot side (`With Claude` page only):** 5 named frame groups — `Tokens` (89-row visual gallery), `Header` (Mobile 375×64 + Desktop 1280×72), `Footer` (Mobile + Desktop), `StickyBar` (Mobile 375×56), `Homepage/AboveFold` (Mobile + Desktop). 295 styled shapes, 0 unbound fills/strokes, every fill binds via `fillColorRefId`.
+- **Penpot library:** 61 Penpot Tokens in `astons` set (visible in UI panel) + 30 LibraryColors (binding mechanism). 6 pre-existing LibraryColors from off-limits pages left untouched.
+- **Code side:** `styles/tokens.css` carries all 3 layers (primitive + semantic + component). `tailwind.config.ts` matches spec 12 §3. `styles/globals.css` body uses semantic tokens, `.has-sticky-bar` + `.prose` helpers added.
+- **Validation:** `npm run lint` / `type-check` / `build` all clean. 15 static pages, 87.4 kB First Load JS.
+
+Open mid-flight items (carried into Phase 3+):
+- 🚩7/🚩8 indicative fee ranges + VAT status — footer + Motoring/Immigration practice pages.
+- 🚩10 complaints response timeframe + LeO link wording.
+- Homepage positioning line — needs user pick before Phase 4.
+- Penpot plugin `shape.applyToken()` / `tokens.addTheme()` bug (`Field message is invalid`) — workaround in place via LibraryColor; consider filing upstream.
+
+Decision deferred during Phase 2 (recorded): IBM Carbon Design System swap was evaluated and rejected — clashes with locked palette + typography, Tailwind/Carbon collision, bundle weight, Penpot mismatch. Stay on bespoke. shadcn/ui mentioned as a thinner primitive layer option if speed becomes urgent later.
+
+---
+
+## Earlier state (Phase 1)
+
+**Phase 1 scaffold written 2026-05-14.** All 18 deliverables from `.project/plan.md` Phase 1 exist on disk:
+
+| # | File | Notes |
+|---|------|-------|
+| 1 | `package.json` | Next 14.x, npm, Node 20.x pinned |
+| 2 | `tsconfig.json` | strict + `@/` path aliases |
+| 3 | `.eslintrc.json` | hex + inline-style enforcement |
+| 4 | `next.config.mjs` | `.mjs` not `.ts` — Next 14 does not support `.ts` config natively. Includes `trailingSlash: true` (per SEO spec) |
+| 5 | `tailwind.config.ts` + `postcss.config.mjs` | Tailwind references semantic CSS vars; postcss added (needed for build) |
+| 6 | `styles/tokens.css` | Primitive layer only (semantic + component layers land in Phase 2 alongside Penpot design pass) |
+| 7 | `styles/globals.css` | Imports tokens.css; minimal reset |
+| 8 | `app/layout.tsx` + placeholder `Header.tsx` / `Footer.tsx` / `StickyBar.tsx` | Inter + Playfair via `next/font`. Layout components are placeholders for Phase 3 |
+| 9 | `lib/practice-areas.ts` | 10 stubs (slug, title, priority, BSB-fee-disclosure flag). Zones empty. `legalAidAvailable: null` per area |
+| 10 | `lib/contact.ts` | Phone + WhatsApp confirmed. **WhatsApp prefill + Cal.com URL confirmed in session (2026-05-14)** — see Phase 0 confirmations below |
+| 11 | `lib/site.ts` | Site metadata + BSB regulatory statement. BSB number remains empty (fabrication-blocked) |
+| 12 | `hooks/useReducedMotion.ts` | Per spec §6 |
+| 13 | `hooks/useStickyBarVisibility.ts` | Threshold-based (show after scrolling past 600px on mobile). Phase 3 may revise |
+| 14 | `.claude/agents/` | design-reader, code-reviewer, component-builder. Apex Penpot rule embedded in design-reader |
+| 15 | `vercel.json` | Redirects + headers (HSTS added per SEO spec on top of plan §4 set) |
+| 16 | `app/robots.ts` | Chose App Router native over `public/robots.txt`. AI-crawler blocks + sitemap reference |
+| 17 | `CLAUDE.md` | Verified current, no edits needed |
+| 18 | This file | (you are reading the update) |
+
+**Gap to surface — DoD not met yet:**
+
+- Phase 1 DoD requires "All 10 practice area slugs resolve in `generateStaticParams`" — that needs `app/practice-areas/[slug]/page.tsx` to exist. It is NOT in the 18-deliverable list. Same for `app/page.tsx` (otherwise build prints "no pages found"). Both are required before `npm run build` can pass against the DoD. User decision pending: add minimal stub pages now (still in Phase 1 spirit) or defer to Phase 4/5.
+- Validation runs not yet executed: `npm install`, `npm run type-check`, `npm run lint`, `npm run build`. All deferred until user reviews and approves the scaffold.
+
+**Phase 0 confirmations completed this session (2026-05-14):**
+
+| Flag | Status | Notes |
+|------|--------|-------|
+| 🚩1 24/7 availability | **Already resolved** in `memory/verified_facts.md` (2026-05-13 hero round). Reconfirmed via WhatsApp prefill |
+| 🚩2 Police station duty advice | **Already resolved** in `memory/verified_facts.md` (2026-05-13). Reconfirmed via WhatsApp prefill: "Police station callouts are available 24 hours" |
+| 🚩3 Legal aid per practice area | **PARTIAL.** New today: legal aid is provided **through the firms Ghulam works with** — partner solicitor firms, not direct. Per-area `legalAidAvailable` boolean per practice area still unresolved at finer granularity. See `memory/verified_facts.md` |
+| 🚩4 WhatsApp pre-fill text | **RESOLVED.** Text in `lib/contact.ts`. Typos corrected from client-supplied draft |
+| Cal.com URL | **RESOLVED.** `https://cal.com/astonslaw/callback?overlayCalendar=true` in `lib/contact.ts` |
+
+**Security:** 5 `npm audit` findings accepted at end of Phase 1. Rationale per-CVE in `.project/security-notes.md`. Re-evaluate at every dependency change and at Phase 7 pre-launch.
+
+**Phase 0 confirmations still open:**
+
+- 🚩5 Response time commitment — leaning toward no fixed commitment per verified_facts ("No published reply-time commitment for missed calls or WhatsApp messages")
+- 🚩6 Free initial consultation — verified_facts records "First call: Free initial conversation. No fee, no duration framing." May already be resolved; recheck before Phase 6 Fees page
+- 🚩7 Fee ranges for Motoring, Immigration, Licensing — BSB legally required; not yet itemised per area
+- 🚩8 VAT status — BSB legally required
+- 🚩9 Direct access training completion — required for `/direct-access/` page assertion
+- 🚩10 Internal complaints response timeframe — BSB legally required
+- Practice address — `memory/verified_facts.md` has "85 Great Portland Street, First Floor, London W1W 7LT" confirmed; not yet propagated to `lib/site.ts` (spec §4 did not include address field)
+- Production domain — `astonslaw.com` assumed; needs explicit sign-off
+
+**Penpot file is connected and verified.** API access works via the token in `.mcp.json` (gitignored). The user owns the file. The `With Claude` page is the active workspace and is currently blank (1 placeholder shape). All design work happens on this page from scratch.
+
+**Workflow evaluation:** still awaiting user approval (`.project/workflow-eval/findings.md`).
+
+Read `.project/planning/session-C-handoff.md` for the full Session C summary.
+
+---
+
+## Penpot file — verified state
+
+| Field | Value |
+|---|---|
+| File name | Astons |
+| File ID | `95ecf5e0-91fe-80de-8007-f092b66a76ab` |
+| Team ID | `95ecf5e0-91fe-80de-8007-f0915b1c2b35` |
+| Permissions | Owner, admin, edit, read (full) |
+| Pages | Logos, Website 2026, Design v2, Website, Mobile, **With Claude** |
+| Active workspace page | `With Claude` (`fbd0c4dd-760c-804b-8008-04284678d008`) |
+| MCP endpoint | `https://design.penpot.app/mcp/stream?userToken=...` (configured in `.mcp.json`) |
+| MCP status | Tools not surfaced in current session — restart Claude Code to activate; raw API fallback works in the meantime |
+
+**Reminder:** the only page Claude touches is `With Claude`, and only when the user explicitly points it at a layer.
+
+---
+
+## Repo structure
+
 ```
 astons-law-chambers/
 ├── 00_Design System/
 │   ├── logo-navy.svg      ← client asset, keep
 │   └── logo-white.svg     ← client asset, keep
-├── 01_Wireframes/         ← empty, populated in Penpot
-├── 02_Design/             ← empty, populated in Penpot
+├── 01_Wireframes/         ← empty
+├── 02_Design/             ← empty
 ├── 03_Handoff/            ← empty
+├── CLAUDE.md              ← project contract — apex Penpot rule at top
+├── .claude/CLAUDE.md      ← skills-in-use list
+├── .mcp.json              ← Penpot MCP config (gitignored)
 └── .project/
-    └── _START_HERE.md     ← this file
+    ├── _START_HERE.md     ← this file
+    ├── workflow-eval/
+    │   ├── spec.md
+    │   └── findings.md    ← AWAITING USER APPROVAL
+    ├── research-01/       ← 4 research files (synthesis.md is the master)
+    ├── plan.md            ← 8-phase build plan
+    └── planning/
+        ├── 00-repo-baseline.md
+        ├── 01-synthesis-gaps.md
+        ├── 02-bsb-compliance-map.md
+        ├── 03-site-architecture.md
+        ├── 04-seo-technical.md
+        ├── 05-seo-schema-plan.md
+        ├── 06-seo-local-plan.md
+        ├── 07-sxo-intent-check.md
+        ├── 08-content-strategy.md
+        ├── 09-design-system-spec.md
+        ├── 10-mobile-layout-spec.md
+        ├── 11-ux-flows.md
+        ├── 12-tailwind-token-spec.md
+        ├── 13-nextjs-scaffold-spec.md
+        ├── 14-vercel-config-plan.md
+        ├── 15-performance-plan.md
+        ├── 16-component-inventory.md
+        ├── 17-plan-review-flags.md
+        ├── session-A-handoff.md
+        ├── session-B-handoff.md
+        └── session-C-handoff.md
 ```
-
-No Next.js project exists. No CLAUDE.md exists in the repo. No code. That is intentional — the user confirmed clean.
 
 ---
 
-## The new stack (confirmed by user 2026-05-13)
+## The stack (confirmed 2026-05-13)
 
 | Layer | Tool |
 |-------|------|
-| Design source | Penpot (with MCP integration) |
+| Design source | Penpot — **only `With Claude` page is in scope** |
 | Framework | Next.js (App Router, TypeScript strict) |
 | Styling | Tailwind CSS + CSS custom properties for tokens |
 | Animation | GSAP + ScrollTrigger |
-| Content | Static — no CMS. Data in lib/ TypeScript files. |
+| Content | Static — no CMS. Data in `lib/` TypeScript files. |
 | Hosting | Vercel (deploy from repo root) |
-| JS components | GitHub + jsDelivr if needed to keep site light |
 | Dev driver | Claude Code |
 
-**Code project root:** `astons-law-chambers/` root (not a subfolder). Vercel deploys from root.
+---
+
+## Verified client facts (no fabrication)
+
+- **Client:** Ghulam Humayun, barrister at Astons Law Chambers
+- **Site:** astonslaw.com (rebuild is separate)
+- **Phone:** 07922 247 999 (only confirmed number — 07767 268 607 is NOT real)
+- **WhatsApp:** wa.me/447922247999
+- **Cal.com:** booking (third-priority channel — URL not yet confirmed 🚩)
+- **10 practice areas:** Criminal Defence, Motoring Law, Regulatory Law, Proceeds of Crime, Extradition, Immigration, Inquests, Family Law, Civil Litigation, Licensing
+- **URL structure:** `/practice-areas/[slug]/`
 
 ---
 
-## What the user was doing when this session ended
+## Flagged items (status as of 2026-05-14)
 
-The user uploaded a workflow guide document (generated by Claude Web) describing the Penpot + Claude Code development system. They wanted two things:
-
-1. **Clean the folder and GitHub** — DONE
-2. **Evaluate the workflow document using project-mgmt skill** — NOT DONE (ran out of tokens)
-
-The document has NOT been formally evaluated or approved. The next session should do that evaluation using the `project-mgmt` skill before any build work begins.
-
----
-
-## Key facts about the workflow document (summary for the next agent)
-
-The document described this system (the user uploaded it for evaluation, not direct implementation):
-
-**Penpot file organisation (already reflected in repo folders):**
-- `00_Design System` — shared library (tokens, components)
-- `01_Wireframes` — low-fi boards
-- `02_Design` — production designs (what Claude codes from)
-- `03_Handoff` — annotated screens for client review
-
-**Design conventions the document proposes:**
-- Layer naming: `[section]/[element]` with forward slashes (e.g. `hero/headline`, `nav/cta`)
-- Token hierarchy: primitive (raw values) → semantic (purpose-based) → component
-- Token naming: `color/[category]/[name]`, `spacing/[size]`, `font/[category]/[name]`
-- Every element uses tokens — no raw hex values anywhere in the Penpot file
-- Components in Penpot map 1:1 to code components
-
-**Proposed CLAUDE.md discipline:**
-- Project contract (≤200 lines, bullet rules only)
-- Hooks enforce compliance at 100% vs CLAUDE.md's ~70%
-- Three subagents: design-reader, code-reviewer, component-builder
-- One component built at a time
-- Always read Penpot before building any component
-- Context management: /compact at 60% window, /clear if session goes bad
-
-**Proposed session workflow:**
-1. Open Penpot, navigate to correct page, connect MCP
-2. Run design-reader subagent (read-only prompt to confirm connection)
-3. Plan mode before any building
-4. Build one component per task
-5. Run code-reviewer after every component
-6. Write session summary before closing
-
-**The document's assessment (my read from the previous session):**
-- Token-first approach and CLAUDE.md-as-contract are solid
-- Hooks + subagents for context isolation are the right patterns
-- Sanity CMS was listed — user confirmed static content, no CMS needed
-- GSAP prefers-reduced-motion enforcement should be a hook, not a convention
+| # | Item | Status | Why it matters |
+|---|------|--------|----------------|
+| 🚩1 | 24/7 availability | RESOLVED 2026-05-13 (verified_facts.md "Operational commitments") | Above-fold copy, sticky bar text |
+| 🚩2 | Police station duty advice | RESOLVED 2026-05-13 (verified_facts.md "Credentials"; "24/7 police station attendance") | Homepage + Criminal Defence Zone 1–2 |
+| 🚩3 | Legal aid per practice area | PARTIAL 2026-05-14 — confirmed legal aid is via partner firms, not direct. Per-area boolean still unresolved | All practice area pages + Fees page |
+| 🚩4 | WhatsApp pre-fill text | RESOLVED 2026-05-14 — in `lib/contact.ts` | `lib/contact.ts`, StickyBar |
+| 🚩5 | Response time commitment | LIKELY RESOLVED (verified_facts.md: no published commitment) — copy must avoid "reply within X" language | Any speed-of-response copy |
+| 🚩6 | Free initial consultation | LIKELY RESOLVED (verified_facts.md: "First call free, no duration framing") — recheck before Phase 6 | FAQs, Fees page |
+| 🚩7 | Fee ranges: Motoring, Immigration, Licensing | OPEN — BSB legally required | Fees page + three practice area pages |
+| 🚩8 | VAT status | OPEN — BSB legally required | Fees page + fee ranges |
+| 🚩9 | Direct access training completion | OPEN | `/direct-access/` page |
+| 🚩10 | Internal complaints response timeframe | OPEN — BSB legally required | `/complaints/` page |
 
 ---
 
-## About the client
+## Non-negotiable rules (always in effect)
 
-**Client:** Ghulam Humayun, barrister at Astons Law Chambers  
-**Site:** astonslaw.com (live site still running — the rebuild is separate)  
-**Verified contact (from memory):**
-- Phone: 07922 247 999 (only number — 07767 268 607 on live site is NOT real)
-- WhatsApp: wa.me/447922247999
-- Cal.com booking (third-priority channel)
-
-**10 practice areas confirmed:**
-Criminal Defence, Motoring Law, Regulatory Law, Proceeds of Crime, Extradition, Immigration, Inquests, Family Law, Civil Litigation, Licensing
-
-**URL structure confirmed:** `/practice-areas/[slug]` (not `/criminal-defence/[slug]` as on live site). 301 redirects needed for existing live pages before launch.
-
----
-
-## What the next session should do
-
-**Step 1 — Evaluate the workflow document formally**
-
-Use the `project-mgmt` skill to:
-- Create `.project/workflow-eval/` in the repo
-- Write a proper spec.md and findings.md covering the Penpot + Claude Code system
-- Flag any gaps or adjustments needed for this specific project (barrister site, static content, no CMS)
-- Return findings to user for approval before any implementation
-
-Do NOT start implementing the workflow until that evaluation is reviewed and approved.
-
-**Step 2 — After approval: scaffold the CLAUDE.md and project structure**
-
-Only after the user approves the evaluated workflow:
-- Write CLAUDE.md in repo root (project contract)
-- Create `.claude/agents/` with design-reader, code-reviewer, component-builder subagents
-- Create `.claude/hooks/` with lint and secrets hooks
-- Create `styles/tokens.css` with token scaffold
-- Scaffold `app/`, `components/`, `lib/` directories
-
-**Step 3 — Connect Penpot**
-
-The user needs to:
-- Set up the Astons Law Chambers design file in Penpot using the 00-03 folder structure
-- Name all layers using the section/element convention
-- Apply tokens to every element
-- Connect Penpot MCP to Claude Code (instructions in the workflow document)
-
-Claude cannot do this — it requires the user's Penpot account and MCP key.
+- **User instruction is absolute.** No deviation.
+- **The pre-existing Penpot pages do not influence the build.** Only `With Claude` is in scope.
+- **No practitioner portrait anywhere, ever.**
+- **Minimise "Ghulam" in body copy** — entity-first (Astons Law Chambers).
+- **No marketing speak.** No rhetorical questions, no value-prop framing, no triadic structures.
+- **Conversion paths:** phone + WhatsApp + cal.com only. No email, no forms, no lead magnets.
+- **No fabricated client facts** (BSB number, Inn, year of call, cases, named partners).
+- **No specific statutory section numbers** or case citations without explicit confirmation.
+- **Tonal banding is surgical** (1–2 dark sections per page max). Never alternating.
+- **Documents uploaded for evaluation are NOT implementation specs.** Evaluate, present findings, wait.
+- **All decisions trace to project-mgmt, frontend-design, or the three deep-research reports.** Claude defaults are rejected.
 
 ---
 
-## Rules that are always in effect (non-negotiable)
+## What to do next
 
-These come from memory files — do not override them:
+The next phase is decided at session start by the user. Read this doc, confirm the apex rules, confirm the Penpot state, and **ask the user what the next phase is** before doing anything.
 
-- User's instruction is absolute. No deviation, no suggestions to do it differently.
-- No practitioner portrait anywhere, ever.
-- Minimise "Ghulam" in body copy — entity-first (Astons Law Chambers).
-- No marketing speak. No rhetorical questions. No value-prop framing.
-- Conversion paths: phone + WhatsApp + cal.com only. No email, no lead magnets.
-- No fabricated client facts (BSB number, Inn, year of call, cases). None.
-- No specific statutory section numbers or case citations without explicit confirmation.
-- Tonal banding is surgical (1–2 dark sections per page). Never alternating.
-- Documents uploaded for evaluation are NOT implementation specs. Evaluate, present findings, wait for instruction.
-- All decisions must trace to project-mgmt, frontend-design, or the three deep-research reports. Claude defaults are rejected.
+Candidate phases (from `plan.md` and the 17 planning files):
 
----
+- **Resolve 3 blockers from `17-plan-review-flags.md`** — Penpot connection (now verified), Phase 0 timeline/fallback, Penpot file ownership (now owned by user).
+- **User approves `.project/workflow-eval/findings.md`** — required before any scaffold.
+- **Client confirmation session** — get answers to all 10 🚩 flagged items.
+- **Phase 1 scaffold** — Next.js + Tailwind + tokens + repo structure per `13-nextjs-scaffold-spec.md`.
+- **Begin design exploration on `With Claude` page in Penpot** — from blank, no reference to other pages.
 
-## Memory files location
-
-All persistent memory: `/Users/mahfuzpholby/.claude/projects/-Users-mahfuzpholby-Documents-Agency-Work-astons-law-chambers/memory/`
-
-Read MEMORY.md there first — it has the full index with descriptions.
+Do not pick one and start. Ask the user.
 
 ---
 
@@ -174,6 +244,13 @@ Read MEMORY.md there first — it has the full index with descriptions.
 
 - Remote: https://github.com/mxhfxz/astons-law-chambers.git
 - Branch: main
-- Last commit: "Clean slate: scrap Webflow build, start fresh"
-- History: wiped (force-pushed 2026-05-13). One commit only.
-- Git user: Mahfuz Pholby
+- Last commit: `05cb087 Add .gitignore, CLAUDE.md, and project context`
+- Working tree: modified (planning files, updated CLAUDE.md with apex Penpot rule, updated `_START_HERE.md`)
+
+---
+
+## Memory files
+
+All persistent memory: `/Users/mahfuzpholby/.claude/projects/-Users-mahfuzpholby-Documents-Agency-Work-astons-law-chambers/memory/`
+
+`MEMORY.md` there is auto-loaded at session start. The two apex rules (user-instruction-is-absolute, Penpot-existing-designs-off-limits) are at the top of that index.
