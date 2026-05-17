@@ -41,7 +41,7 @@
   ],
 
   "rewrites": [
-    { "source": "/((?!favicon|og-image|robots|sitemap).*)", "destination": "/index.html" }
+    { "source": "/((?!favicon|og-image|apple-touch-icon|icon-|site\\.webmanifest|robots|sitemap).*)", "destination": "/index.html" }
   ],
 
   "headers": [
@@ -65,6 +65,12 @@
       "source": "/og-image.(svg|png|jpg)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(apple-touch-icon.png|icon-192.png|icon-512.png|favicon.ico|site.webmanifest)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, must-revalidate" }
       ]
     }
   ]

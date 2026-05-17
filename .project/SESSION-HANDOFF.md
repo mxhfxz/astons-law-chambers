@@ -1,120 +1,148 @@
-# Session Handoff — 2026-05-17 (fork: roadmap-preview-improvements)
+# Session Handoff — 2026-05-17 (launch-prep session)
 
-This file is the bridge between sessions. Read this FIRST after `MEMORY.md` and
-`.project/_START_HERE.md`. It supersedes the 2026-05-14 handoff (in git history).
+Read this FIRST after `MEMORY.md` and `.project/_START_HERE.md`. It supersedes
+the earlier 2026-05-17 handoff (now in git history).
 
 ## Where things are
 
-- **Active branch: `roadmap-preview-improvements`** — a fork, **7 commits ahead**
-  of `phase-2-design-system`. All work this session is committed; tree is clean.
-- Build target is `preview/index.html` (the static single-file prototype).
+- **Active branch: `alc-staging`.** Clean tree except `CLAUDE.md` (see Open items).
+- **`main` = `b5b8812`** — the production branch. Everything below is merged into it.
+- Build target is still `preview/index.html` (the static single-file prototype).
+- Branches now: `main`, `alc-staging`, `phase-2-design-system`. The old
+  `roadmap-preview-improvements` fork was deleted (local + remote) — it was
+  identical to `alc-staging`, no work lost.
+
+## Vercel / deployment structure (important — caused confusion this session)
+
+- Project: **`alc-staging`** — `projectId prj_Fj4Y2t9b0CBflI0Bxo96vvBHZlC5`,
+  `teamId team_h56XkPoiUvCygqdsx1PhjjAM`. Linked in `.vercel/project.json`.
+- The project's **production deployment tracks the `main` branch.**
+  `alc-staging.vercel.app` therefore serves `main`, NOT the `alc-staging` branch.
+- The `alc-staging` *branch* deploys to a separate preview URL
+  (`alc-staging-git-alc-staging-…vercel.app`).
+- **To get any fix onto `alc-staging.vercel.app`, it must reach `main`.**
+  Workflow used: commit to `alc-staging` branch → merge into `main` → push.
+- `vercel.json`: `framework: null`, `outputDirectory: preview` — static deploy
+  of `preview/`, no Next.js build runs.
+- Latest production deploy `dpl_p9vXvRHK281zMH81LsfnoXjjWDmJ` = `b5b8812`,
+  state READY.
 
 ## What this session did
 
-Resumed `.project/planning/25-visual-adjustment-plan-2026-05-17.md`. Tasks 0/1/3
-(baseline, dark hero, dark accent section) were already committed on
-`phase-2-design-system`. Then, on the new fork:
+1. **Hero image** swapped to the client's City of London skyline at dusk
+   (`preview/hero_image.webp`, 720×656, 74KB). Old Magistrates' Court JPG removed.
+   The darkening/overlay treatment was offered then dropped at client request —
+   the dusk tones already sit cleanly in the dark hero.
+2. **Hero column blowout fix** (`af0130c`). The image column was `minmax(0,40vw)`
+   — a viewport unit — so on wide monitors (2560px) it took 1024px and crushed
+   the headline column to ~232px (one word per line). Changed to container-
+   relative `1.3fr 1fr`. `tailwind.built.css` rebuilt for the new arbitrary class.
+3. **Mobile header overflow fix** (`aeb2e4d`). `.btn { display:inline-flex }`
+   (inline `<style>`, loads after `tailwind.built.css`) was beating the `.hidden`
+   utility, so desktop-only header buttons rendered on mobile → 467px header →
+   whole page overflowed/clipped. Added `.btn.hidden` / `.btn.sm:inline-flex` /
+   `.btn.md:inline-flex` rules (specificity 0,2,0), scoped to `.btn`. Root cause
+   was last session's perf pass (`65e7157`, CDN→`<link>` swap flipped the cascade)
+   — not this session's hero work. Verified 390/700/1280px.
+4. **Production robots.txt + sitemap** (`30a839c`). `robots.txt` was the staging
+   `Disallow: /` — shipping that to astonslaw.com would deindex the site.
+   Now allow-all + sitemap reference. Added `preview/sitemap.xml` (homepage only;
+   hash routes are not separate crawlable URLs).
+5. Merges to `main`: `d5bd37c`, `b5b8812`.
 
-1. **Hero right panel** — abstract gradient/logo replaced with an image slot.
-2. **cal.com facade** — the booking embed no longer loads inline on the homepage;
-   it loads only when the visitor clicks "Book a call". Removes ~500KB + cal.com's
-   GTM/GA from the homepage critical render path.
-3. **Phase 1 performance pass**:
-   - Tailwind CDN (124KB, render-blocking) → built 21KB stylesheet
-     (`preview/tailwind.built.css`, config `preview/tailwind.preview.config.js`).
-   - CLS fixes: homepage practice-area grid pre-rendered into static HTML; home
-     route marked `is-active` in static HTML; hero image absolutely positioned.
-   - Hero image optimised.
-4. **Contrast auditor fix** — removed a stale `step-card=white` entry in
-   `scripts/contrast_audit.py`.
-5. **Hero headline** — iterated to strip AI/SaaS-style copy. Final = option C.
-6. **Hero image** — client supplied a court photo (see Decisions).
+## Pre-launch audit (done this session, current build)
 
-## Decisions locked this session
+- All 15 hash routes render real content, no blanks, no accidental 404s.
+- Conversion links correct everywhere: `tel:+447922247999`,
+  `wa.me/447922247999`, `cal.com/astonslaw/callback?overlayCalendar=true`.
+- No placeholder copy visible (the 2 `[PLACEHOLDER]` strings are in comments).
+- WCAG AA contrast: 0 failures (`scripts/contrast_audit.py`).
+- One benign console 404: browser auto-request for `/favicon.ico`
+  (modern browsers use the SVG favicon). `apple-touch-icon.png` also absent.
+  Neither blocks launch.
 
-- **Hero headline = "Speak to a barrister before the police interview."**
-  (Option C — directive, names the crisis, plain barrister voice. NOT yet
-  client-reviewed copy.)
-- **Hero image = City of London Magistrates' Court** photo. Client confirmed
-  royalty-free from Adobe Stock (licensing OK). Source 2618×3665 webp (~975KB);
-  resized to 750×1050 JPG (~138KB) at `preview/hero_image.jpg`. No local webp
-  encoder; the Next.js build would re-encode webp/avif automatically.
-- **BSB content + Ghulam facts: client chose to defer** ("can come in the next
-  week"). Flagged as a risk; it is the client's call.
+## Confirmed this session
 
-## Measured results (Lighthouse, mobile, local servers, identical conditions)
+- GA4 property `G-8TDVMH13D7` — real client property (hard-coded in `<head>`).
+- cal.com `cal.com/astonslaw/callback` — real working event.
+- Both recorded in `memory/verified_facts.md`. Do not re-flag.
 
-| | OLD (pre-fork) | NEW (fork) |
-|---|---|---|
-| Performance | 39–64, unstable | 77–78, stable |
-| CLS | 0–0.824, unstable | 0, stable |
-| LCP | 6.1–12.4s | ~5.3s |
-| Page weight | ~2.5MB | ~559KB |
+## Launch status
 
-Clear, stable improvement. LCP still ~5.3s (fails <2.5s target — remaining cost is
-render-blocking Google Fonts; properly fixed by self-hosted fonts in the Next.js build).
+Code-side is **done and verified**. Remaining steps are the client's, in Vercel
++ DNS — NOT doable by Claude:
 
-## Fork commits (newest first)
+1. Record the current `astonslaw.com` DNS records (the only rollback path).
+2. Vercel → project `alc-staging` → Settings → Domains → add `astonslaw.com`
+   + `www.astonslaw.com`.
+3. DNS provider: `A @ → 76.76.21.21`, `CNAME www → cname.vercel-dns.com`, TTL 300.
+4. HTTPS auto. Smoke-test on a real phone (tap-to-call, WhatsApp, booking).
 
-```
-310acbb Hero image: client-supplied City of London Magistrates' Court photo
-1564938 Hero headline: option C — 'Speak to a barrister before the police interview.'
-a678e28 Reword hero headline + booking facade copy to remove AI-isms
-752b0e6 Phase 2: crisis-naming hero headline
-350a8b1 Phase 1 fix: eliminate route-reveal and hero-image CLS
-65e7157 Phase 1: performance + stability pass
-4333429 Hero image panel + cal.com facade (deferred-load) + booking balance tweak
-```
+When astonslaw.com resolves, next session should run a verification pass on the
+live domain.
+
+## Accepted risks (client informed — their call)
+
+- Launching the **static prototype**, not the planned Next.js build: hash-routed
+  URLs (`astonslaw.com/#/fees`), one shared title/description, one static JSON-LD.
+  Replacing a ranking site with this is an SEO step down.
+- **BSB / compliance content is unverified** — client deferred ~1 week. Going
+  live on a regulated barrister's site with unverified regulatory content is a
+  real compliance exposure. The 🚩 comments in `preview/index.html` (lines ~1477,
+  1568, 1692) mark compliance copy pulled from the live site that needs Ghulam's
+  verification.
+- Hero headline ("Speak to a barrister before the police interview.") and the
+  booking copy are unreviewed drafts.
 
 ## Open items / next-session TODO
 
-1. **Merge decision** — merge `roadmap-preview-improvements` into
-   `phase-2-design-system`? Not yet merged.
-2. **Deploy** — client wants the new site on the live URL. Next action is a deploy.
-   Recommended: staging (`alc-staging.vercel.app`) first. A production deploy
-   replaces the working live astonslaw.com — confirm explicitly before running it.
-3. **Pre-launch verification (before production):**
-   - **cal.com**: the link `cal.com/astonslaw/callback` must be a real, working
-     cal.com account/event.
-   - **GA**: the GA4 tag `G-8TDVMH13D7` hard-coded in `<head>` must be the client's
-     real Google Analytics property, or the call/WhatsApp KPI tracking goes nowhere.
-   - **Fees table** figures (£175–£400 etc.) — confirm accurate (also a BSB
-     price-transparency item).
-4. **Hero image tonal clash** — the court photo is bright/saturated against the dark
-   hero. A subtle dark/desaturation overlay was offered; client has not decided.
-   Optional polish.
-5. **BSB + Ghulam** — client deferred ~1 week. The BSB compliance *content* already
-   exists in the build (Bar Standards Board ×12, complaints route, Legal Ombudsman,
-   Public Access, VAT). It needs *verification*, not creation.
+1. **Verify the live domain** once DNS is cut over.
+2. **BSB content verification** — client deferred ~1 week. Content exists in the
+   build; it needs checking, not creating.
+3. **Extra service pages** — client has a couple more to add; agreed as
+   post-launch. They slot into the prototype's route renderer.
+4. **`CLAUDE.md` is committed** as of this handoff (the hard-rule edit — see New
+   rules below).
+5. **Next.js rebuild** — the proper production build (`plan.md` Phases 3–7).
+   Scaffold already exists (Phases 1–2 done). The rebuild is now a *port* of the
+   finished prototype into the App Router scaffold (real routes + per-page
+   metadata = the SEO fix), not a redesign. `plan.md` Phase 2 still assumes a
+   Penpot design source — that is stale; the prototype superseded it. Realistic
+   scope: a multi-session milestone. Swapping the Next.js build in later is just
+   a code + `vercel.json` change + redeploy — no second DNS change. Before
+   starting: confirm the prototype is the approved spec, confirm the final
+   practice-area list (prototype links ~7; `plan.md` says 10), get the BSB
+   content.
 
-## Risks flagged (client has been told; their call)
+## New rules set this session (now permanent)
 
-- `preview/index.html` is a **static prototype**, not the planned Next.js production
-  build. Launching it = hash-routed URLs (`#/fees`), one shared title/description for
-  all "pages", one static JSON-LD block. Weaker SEO than the planned build.
-- Going live without verified BSB content / fees on a *regulated* barrister's site
-  carries compliance exposure. Client accepted this to get the site up.
-- Hero headline + booking facade copy are unreviewed drafts.
+- **HARD RULE — no Claude defaults, always use the installed skill.** Set by the
+  user 2026-05-17 after repeated incidents. Every task routes through the
+  relevant installed skill first, before any action. Recorded in
+  `memory/feedback_no_claude_defaults_use_skills.md`, the `MEMORY.md` header, and
+  a dedicated section near the top of `CLAUDE.md`.
+- **Vercel Toolbar a11y false-positive** — the Toolbar's accessibility audit
+  reports false `aria-hidden-focus` / `landmark-one-main` violations (its overlay
+  hides the page, then audits it). Verified clean with axe-core. Recorded in
+  `memory/project_vercel_toolbar_a11y_false_positive.md`. Audit with Lighthouse /
+  axe DevTools instead; do not edit markup to chase those.
 
 ## How to run / review locally
 
 ```bash
-python3 -m http.server 8810 --directory preview --bind 127.0.0.1   # fork
-# old version for comparison:
-git show phase-2-design-system:preview/index.html > /tmp/old/index.html
-python3 -m http.server 8811 --directory /tmp/old --bind 127.0.0.1
+python3 -m http.server 8810 --directory preview --bind 127.0.0.1
 ```
 Contrast audit: `python3 scripts/contrast_audit.py` (expect `Failures: 0`).
+Note: browsers cache `tailwind.built.css` aggressively — hard-refresh or use a
+fresh port after CSS changes.
 
 ## Key files
 
 - `preview/index.html` — the build
 - `preview/tailwind.built.css` + `tailwind.preview.config.js` + `tailwind.input.css`
-- `preview/hero_image.jpg` — hero image (court photo)
+  — if a Tailwind class changes in index.html, the built CSS MUST be rebuilt:
+  `node_modules/.bin/tailwindcss -c preview/tailwind.preview.config.js -i preview/tailwind.input.css -o preview/tailwind.built.css --minify`
+- `preview/robots.txt` (production) + `preview/sitemap.xml`
+- `preview/hero_image.webp` — hero image
 - `scripts/contrast_audit.py` — WCAG AA auditor
-- `.project/planning/24` / `25-*` — UI comparison, visual-adjustment plan, baseline
-
-## Hero height (asked this session)
-
-~782px on desktop (1440×900) — ~87% of viewport. Taller on mobile (columns stack):
-roughly 950–1100px.
+- `.project/plan.md` — the 8-phase build plan (Phases 3–7 = the Next.js rebuild)
