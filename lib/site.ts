@@ -10,9 +10,9 @@ export const site = {
     // Locked phrasing — do not extend (see memory/verified_facts.md "Regulator")
     regulatoryStatement: 'Regulated by the Bar Standards Board',
     registerUrl:
-      'https://www.barstandardsboard.org.uk/search-barrister.html',
+      'https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record.html',
     publicAccessGuidanceUrl:
-      'https://www.barcouncil.org.uk/i-am-a-member-of-the-public/going-to-court/public-access.html',
+      'https://www.barstandardsboard.org.uk/resources/public-access-guidance-for-lay-clients.html',
     // FLAG: BSB number not confirmed; do not fabricate. See memory/verified_facts.md
     // "Confirmed fabrications" section.
   },
