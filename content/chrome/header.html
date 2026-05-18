@@ -20,10 +20,11 @@
         <a href="/" class="nav-link text-grey-600 hover:text-navy-950 pb-1">Home</a>
         <a href="/about" class="nav-link text-grey-600 hover:text-navy-950 pb-1">About</a>
 
-        <!-- Defence work — mega menu trigger -->
+        <!-- Defence work — links to the /practice-areas hub; the mega menu is a
+             hover/focus disclosure layered on top (see SiteBehaviour.tsx). -->
         <div class="relative">
-          <button
-            type="button"
+          <a
+            href="/practice-areas"
             id="servicesTrigger"
             class="nav-link inline-flex items-center gap-1 text-grey-600 hover:text-navy-950 pb-1"
             aria-haspopup="true"
@@ -32,7 +33,7 @@
           >
             Defence work
             <svg class="w-3.5 h-3.5 mt-0.5" aria-hidden="true"><use href="#i-chevron-down"/></svg>
-          </button>
+          </a>
         </div>
 
         <a href="/contact" class="nav-link text-grey-600 hover:text-navy-950 pb-1">Contact</a>
@@ -82,7 +83,8 @@
       aria-label="Defence work"
       data-open="false"
     >
-      <div class="max-w-wide mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div class="max-w-wide mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-6">
+        <a href="/practice-areas" class="md:col-span-12 inline-flex items-center gap-2 text-base font-semibold text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">View all defence work →</a>
         <div class="md:col-span-4">
           <p class="fluid-eyebrow font-semibold uppercase text-grey-600">By case type</p>
           <ul class="mt-4 text-base">
@@ -126,6 +128,7 @@
             <svg class="w-4 h-4 transition-transform group-open:rotate-180" aria-hidden="true"><use href="#i-chevron-down"/></svg>
           </summary>
           <ul class="pb-3 pl-2 grid grid-cols-1 gap-2 text-base text-grey-600">
+            <li><a href="/practice-areas" class="block py-1.5 font-semibold text-navy-950">All defence work</a></li>
             <li><a href="/police-station-representation" class="block py-1.5 text-emergency-600 font-semibold">Police station — 24/7</a></li>
             <li><a href="/practice-areas/criminal-defence" class="block py-1.5">Criminal Defence</a></li>
             <li><a href="/practice-areas/violent-crimes" class="block py-1.5">Violent Crimes</a></li>

@@ -25,7 +25,6 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Astons Law Chambers',
     locale: 'en_GB',
-    url: 'https://astonslaw.com',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
@@ -54,12 +53,18 @@ const jsonLd = {
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
       priceRange: '££',
+      image: 'https://astonslaw.com/og-image.png',
       address: {
         '@type': 'PostalAddress',
         streetAddress: '85 Great Portland Street, First Floor',
         addressLocality: 'London',
         postalCode: 'W1W 7LT',
         addressCountry: 'GB',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 51.5203,
+        longitude: -0.1437,
       },
       sameAs: [
         'https://share.google/UUmxWclpCyvczjSSS',
@@ -98,7 +103,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
