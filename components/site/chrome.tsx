@@ -16,10 +16,6 @@ export function IconSprite() {
   return <Raw html={readChrome('sprite')} />
 }
 
-export function PoliceBanner() {
-  return <Raw html={readChrome('police-banner')} />
-}
-
 export function SiteHeader() {
   return <Raw html={readChrome('header')} />
 }

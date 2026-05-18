@@ -4,11 +4,12 @@
            units. A vw-based image column blows up on wide monitors and
            crushes the headline; fr units track the capped max-w-wide
            container, so the ~664:512 split holds at every screen size. -->
-      <!-- pt accounts for the police banner sitting fixed below the navbar (h-11 / h-12). -->
       <!-- bg-footer (#232536), not bg-navy-950 — softer dark that eases the
-           contrast step into the red emergency strip below (client request). -->
+           contrast step into the police-station card below (client request).
+           The police banner is now part of the sticky header (in normal
+           flow), so the hero no longer reserves space for a fixed banner. -->
       <div class="bg-footer">
-        <div class="max-w-wide mx-auto px-6 pt-[calc(2.75rem+3rem)] pb-16 md:pt-[calc(3rem+4rem)] md:pb-20 lg:pt-[calc(3rem+5rem)] lg:pb-24">
+        <div class="max-w-wide mx-auto px-6 pt-12 pb-16 md:pt-20 md:pb-20 lg:pb-24">
           <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
 
             <!-- LEFT: kicker, H1, lead, CTAs, regulator line -->
@@ -58,38 +59,67 @@
         </div>
       </div>
 
-      <!-- POLICE-STATION EMERGENCY STRIP — surgical dark/emergency section #1 -->
-      <div class="bg-emergency-500 text-white" data-track-loc="home_emergency_strip">
-        <div class="max-w-wide mx-auto px-6 py-10 md:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-          <div class="max-w-prose">
-            <p class="text-xs font-semibold tracking-[0.15em] uppercase opacity-90">Police station — 24/7</p>
-            <p class="mt-2 text-xl md:text-2xl font-medium leading-snug">
-              If you or someone you know is in police custody, call before the interview starts.
-            </p>
-            <a href="/police-station-representation" class="mt-3 inline-block text-base font-medium text-white/95 underline underline-offset-4 decoration-1 hover:decoration-2">How attendance works →</a>
-          </div>
-          <a href="tel:+447922247999" data-track="call_click" data-track-location="home_emergency_strip" class="btn btn-lg btn-inverse-emergency w-full md:w-auto">
-            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
-            07922 247 999
-          </a>
-        </div>
-      </div>
-
-      <!-- "BEFORE YOU CALL" CALLOUT — home variant (P4, audit v2 2026-05-14).
-           Replicates the practice-area aside mechanism on the home page to
-           lift hero-zone conversion density. Reduces first-call anxiety
-           without introducing new operational claims. -->
+      <!-- POLICE-STATION CARD — replaces the former red emergency band.
+           Calm grey container, red emergency CTA: the highest-stakes path
+           stays urgent without a second red band competing with the hero. -->
       <div class="bg-white">
         <div class="max-w-wide mx-auto px-6 py-12 md:py-16">
           <div class="max-w-3xl mx-auto bg-offwhite border border-grey-300 rounded p-6 md:p-8">
-            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Before you call</p>
-            <p class="mt-2 text-base text-navy-700 leading-relaxed">A short, useful first call covers three things:</p>
-            <ul class="mt-3 space-y-2 text-base text-navy-950">
-              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> The allegation and any charge.</li>
-              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> Any next hearing date.</li>
-              <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> What you have been told so far.</li>
-            </ul>
-            <p class="mt-4 text-base text-navy-700 leading-relaxed">If you don't have all three, call anyway — the first call is free.</p>
+            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600">Police station — 24/7</p>
+            <h2 class="mt-2 text-2xl md:text-3xl font-semibold tracking-tight2 text-navy-950">If someone is in police custody</h2>
+            <p class="mt-3 text-base text-navy-700 leading-relaxed">Police station attendance is available 24 hours. Calls from custody are answered direct. Ask the custody sergeant not to begin the interview until representation is in place.</p>
+            <div class="mt-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+              <a href="tel:+447922247999" data-track="call_click" data-track-location="home_police_card" class="btn btn-lg btn-emergency w-full md:w-auto">
+                <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+                Call 07922 247 999
+              </a>
+              <a href="/police-station-representation" class="text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">How attendance works →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITUATION SECTION — self-selection by situation. Replaces the
+           standalone "before you call" callout (folded in here). Each card
+           routes to the page that carries the call CTAs. The commented
+           RESOURCE SLOT drops in once the client clears the PDF guides. -->
+      <div class="bg-white">
+        <div class="max-w-wide mx-auto px-6 pb-16 md:pb-24">
+          <p class="text-base font-medium text-grey-600 tracking-tightish">If you need help now</p>
+          <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">What to do now</h2>
+          <p class="mt-4 text-navy-700 leading-relaxed max-w-prose">Three situations the practice is contacted about most, and what to do in each.</p>
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
+              <h3 class="text-xl font-semibold tracking-tight2 text-navy-950">Arrested or under investigation</h3>
+              <p class="mt-3 text-base text-navy-700 leading-relaxed">You have the right to legal representation and the right to stay silent. Speak to a barrister before you answer police questions. Decisions taken at the police station shape the rest of the case.</p>
+              <!-- RESOURCE SLOT — pending client OK to publish the PDF. Drop in:
+              <a href="/resources/first-24-hours-after-arrest.pdf" class="mt-4 flex items-start gap-3 bg-white border border-grey-300 rounded p-4 hover:bg-offwhite transition-colors">
+                <svg class="w-4 h-4 mt-1 shrink-0 text-emergency-600" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                <span class="text-base font-medium text-navy-950">Free guide: what to do in the first 24 hours after an arrest <span class="font-normal text-grey-600">(PDF)</span></span>
+              </a>
+              -->
+              <a href="/police-station-representation" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
+            </div>
+
+            <div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
+              <h3 class="text-xl font-semibold tracking-tight2 text-navy-950">Asked to attend a police interview</h3>
+              <p class="mt-3 text-base text-navy-700 leading-relaxed">A voluntary interview is still conducted under caution. What you say is used as evidence. A barrister can attend the interview with you. Arrange this before the interview date.</p>
+              <!-- RESOURCE SLOT — pending client OK to publish the PDF. Drop in:
+              <a href="/resources/voluntary-police-interview-under-caution.pdf" class="mt-4 flex items-start gap-3 bg-white border border-grey-300 rounded p-4 hover:bg-offwhite transition-colors">
+                <svg class="w-4 h-4 mt-1 shrink-0 text-emergency-600" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                <span class="text-base font-medium text-navy-950">Free guide: do you need a lawyer at a voluntary police interview <span class="font-normal text-grey-600">(PDF)</span></span>
+              </a>
+              -->
+              <a href="/police-station-representation" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
+            </div>
+
+            <div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
+              <h3 class="text-xl font-semibold tracking-tight2 text-navy-950">Charged or sent a court summons</h3>
+              <p class="mt-3 text-base text-navy-700 leading-relaxed">A charge or a summons sets a first hearing date. Bring any paperwork and the date to a first call. The call covers the plea and what to expect at the hearing.</p>
+              <a href="/practice-areas/criminal-defence" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Criminal defence →</a>
+            </div>
+
           </div>
         </div>
       </div>

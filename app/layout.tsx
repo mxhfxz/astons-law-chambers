@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import {
   IconSprite,
-  PoliceBanner,
   SiteHeader,
   SiteFooter,
   StickyPill,
@@ -127,7 +126,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         <IconSprite />
-        <PoliceBanner />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
