@@ -84,28 +84,9 @@ export function SiteBehaviour() {
     }
     mobileToggle?.addEventListener('click', onMobileToggle)
 
-    // --- Police banner — show on scroll up, hide on scroll down -----------
-    const banner = document.getElementById('policeBanner')
-    let lastY = window.scrollY
-    let ticking = false
-    const DELTA = 6
-    const onScrollFrame = () => {
-      const y = Math.max(0, window.scrollY)
-      const d = y - lastY
-      if (y <= 4) banner?.classList.add('is-visible')
-      else if (d > DELTA) banner?.classList.remove('is-visible')
-      else if (d < -DELTA) banner?.classList.add('is-visible')
-      lastY = y
-      ticking = false
-    }
-    banner?.classList.add('is-visible')
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(onScrollFrame)
-        ticking = true
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
+    // --- Police banner ----------------------------------------------------
+    // The banner is pinned below the navbar and always visible — no scroll
+    // show/hide. CSS keeps it in place; nothing to wire up here.
 
     // --- Quick exit -------------------------------------------------------
     const leaveSite = () => {
@@ -156,7 +137,6 @@ export function SiteBehaviour() {
     )
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
       document.removeEventListener('click', onClickCapture, { capture: true } as EventListenerOptions)
       mobileToggle?.removeEventListener('click', onMobileToggle)
       quickExits.forEach((el) => el.removeEventListener('click', leaveSite))
