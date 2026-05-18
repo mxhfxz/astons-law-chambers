@@ -5,7 +5,9 @@
            crushes the headline; fr units track the capped max-w-wide
            container, so the ~664:512 split holds at every screen size. -->
       <!-- pt accounts for the police banner sitting fixed below the navbar (h-11 / h-12). -->
-      <div class="bg-navy-950">
+      <!-- bg-footer (#232536), not bg-navy-950 — softer dark that eases the
+           contrast step into the red emergency strip below (client request). -->
+      <div class="bg-footer">
         <div class="max-w-wide mx-auto px-6 pt-[calc(2.75rem+3rem)] pb-16 md:pt-[calc(3rem+4rem)] md:pb-20 lg:pt-[calc(3rem+5rem)] lg:pb-24">
           <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
 
