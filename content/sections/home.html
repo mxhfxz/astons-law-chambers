@@ -40,13 +40,16 @@
             </div>
 
             <!-- RIGHT: hero image panel. Client-supplied image — City of London
-                 skyline at dusk (720x656 webp, ~74KB). The Next.js build serves
-                 webp/avif automatically via next/image. -->
+                 skyline at dusk (720x656 webp, ~74KB). This fragment is injected
+                 as static markup via dangerouslySetInnerHTML, so it is a plain
+                 <img>, not next/image. The asset is already webp and is preloaded
+                 with fetchpriority="high" from app/page.tsx. -->
             <div class="relative rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
               <!-- absolute inset-0: image is out of flow, so the panel's height
                    is fixed by aspect-ratio / min-h alone — image load cannot shift
-                   the page (CLS-safe regardless of when the image arrives). -->
-              <img src="/hero_image.webp" alt="" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
+                   the page (CLS-safe regardless of when the image arrives).
+                   width/height carry the intrinsic ratio for crawlers. -->
+              <img src="/hero_image.webp" alt="" width="720" height="656" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
             </div>
 
           </div>
@@ -165,9 +168,6 @@
         </span>
       </a></li>
           </ul>
-          <noscript>
-            <p class="mt-6 text-base text-grey-600">JavaScript is required to load this page. <a href="/practice-areas" class="text-navy-950 underline underline-offset-4 decoration-1">See defence work →</a></p>
-          </noscript>
         </div>
       </div>
 
@@ -180,6 +180,7 @@
             <p class="mt-4 text-navy-100/90 leading-relaxed max-w-prose">
               Astons Law Chambers is authorised to accept instructions from members of the public under the Bar Standards Board's Public Access scheme. A solicitor is not required for many types of case.
             </p>
+            <a href="/direct-access" class="mt-6 inline-block text-base font-medium text-white underline underline-offset-4 decoration-1 hover:decoration-2">How Direct Access works →</a>
           </div>
 
           <ol class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-px bg-navy-800 border border-navy-800 rounded overflow-hidden">

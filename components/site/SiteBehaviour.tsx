@@ -43,12 +43,10 @@ export function SiteBehaviour() {
     }
     const cleanups: Array<() => void> = []
     if (trigger && mega && header) {
-      const onTriggerClick = (e: Event) => {
-        e.preventDefault()
-        setMega(mega.dataset.open !== 'true')
-      }
+      // #servicesTrigger is a link to /practice-areas. Clicking navigates to
+      // the hub; the mega menu is a hover/focus disclosure layered on top —
+      // so there is no click handler here (it must not preventDefault).
       const open = () => setMega(true)
-      trigger.addEventListener('click', onTriggerClick)
       trigger.addEventListener('mouseenter', open)
       trigger.addEventListener('focus', open)
       mega.addEventListener('mouseenter', open)
@@ -70,7 +68,6 @@ export function SiteBehaviour() {
       document.addEventListener('keydown', onKey)
       document.addEventListener('click', onDocClick)
       cleanups.push(() => {
-        trigger.removeEventListener('click', onTriggerClick)
         document.removeEventListener('keydown', onKey)
         document.removeEventListener('click', onDocClick)
       })
@@ -154,7 +151,6 @@ export function SiteBehaviour() {
       })
     }
     document.addEventListener('click', onClickCapture, { capture: true })
-    trigger?.addEventListener('click', () => track('mega_menu_open', { event_label: 'services' }))
     mobileToggle?.addEventListener('click', () =>
       track('mobile_menu_toggle', { event_label: 'primary_nav' }),
     )
