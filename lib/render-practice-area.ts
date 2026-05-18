@@ -19,11 +19,28 @@ function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
       </a></li>`
 }
 
-/** Practice-areas index page with the grid populated from data. */
+/** Card for police-station representation. It is a top-level page, not a
+ *  PracticeArea, but appears in the practice-area grids — and as a primary
+ *  conversion (KPI) page it sits second, right after Criminal Defence. */
+function policeStationCardHtml(headingTag: 'h2' | 'h3'): string {
+  return `<li><a href="/police-station-representation" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
+        <${headingTag} class="text-xl font-semibold tracking-tight2">Police Station Representation</${headingTag}>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li>`
+}
+
+/** Practice-areas index page with the grid populated from data, plus the
+ *  police-station card inserted second. */
 export function renderPracticeAreaIndex(): string {
   const html = readSection('practice-areas')
-  const cards = practiceAreas.map((a) => cardHtml(a, 'h2')).join('')
-  return html.replace('<!-- Populated by JS from PRACTICE_AREAS -->', cards)
+  const cards = practiceAreas.map((a) => cardHtml(a, 'h2'))
+  cards.splice(1, 0, policeStationCardHtml('h2'))
+  return html.replace('<!-- Populated by JS from PRACTICE_AREAS -->', cards.join(''))
 }
 
 /** Practice-area detail page for a given area. */
