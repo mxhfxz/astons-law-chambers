@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     template: '%s — Astons Law Chambers',
   },
   description:
-    'Criminal defence barrister in London. Direct access available. 24/7 police station support. Call 07922 247 999.',
+    "Criminal defence barrister in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     siteName: 'Astons Law Chambers',
     locale: 'en_GB',
-    url: 'https://astonslaw.com/',
+    url: 'https://astonslaw.com',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
@@ -50,12 +50,22 @@ const jsonLd = {
       '@type': ['LegalService', 'LocalBusiness'],
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
-      url: 'https://astonslaw.com/',
+      url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
       priceRange: '££',
-      address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
-      sameAs: [],
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '85 Great Portland Street, First Floor',
+        addressLocality: 'London',
+        postalCode: 'W1W 7LT',
+        addressCountry: 'GB',
+      },
+      sameAs: [
+        'https://share.google/UUmxWclpCyvczjSSS',
+        'https://www.linkedin.com/company/astons-law-chambers/',
+        'https://uk.trustpilot.com/review/astonslaw.com',
+      ],
       founder: { '@id': 'https://astonslaw.com/#principal' },
       employee: { '@id': 'https://astonslaw.com/#principal' },
     },
@@ -79,7 +89,7 @@ const jsonLd = {
     {
       '@type': 'WebSite',
       '@id': 'https://astonslaw.com/#website',
-      url: 'https://astonslaw.com/',
+      url: 'https://astonslaw.com',
       name: 'Astons Law Chambers',
       publisher: { '@id': 'https://astonslaw.com/#organization' },
     },
@@ -92,6 +102,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://cdn-cookieyes.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
@@ -117,6 +129,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StickyPill />
         <QuickExit />
         <SiteBehaviour />
+
+        {/* Cookie consent — CookieYes CMP + Google Consent Mode v2.
+            GA4 storage is denied by default; CookieYes fires the consent
+            update when the visitor accepts. "Google Consent Mode" must be
+            enabled in the CookieYes dashboard for that update to reach GA4. */}
+        <Script id="consent-mode-default" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  wait_for_update: 500,
+});`}
+        </Script>
+        <Script
+          id="cookieyes"
+          strategy="beforeInteractive"
+          src="https://cdn-cookieyes.com/client_data/d7524e47cae5f257fa8780a88c968ac8/script.js"
+        />
 
         {/* Google Analytics 4 */}
         <Script
@@ -152,15 +185,6 @@ Cal("init", "callback", { origin: "https://cal.com" });
 Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });`}
         </Script>
 
-        {/* GSAP — reveal animations (prefers-reduced-motion guarded in SiteBehaviour) */}
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   )

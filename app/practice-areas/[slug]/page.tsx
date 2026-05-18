@@ -14,8 +14,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const area = getPracticeArea(params.slug)
   if (!area) return {}
   return {
-    title: area.title,
-    description: area.cardSummary,
+    title: area.metaTitle,
+    description: area.metaDescription,
     alternates: { canonical: `/practice-areas/${area.slug}` },
   }
 }

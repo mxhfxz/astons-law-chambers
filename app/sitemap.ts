@@ -15,10 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/complaints',
     '/timescales',
     '/terms-of-engagement',
+    '/privacy-policy',
   ]
   const now = new Date()
   const staticEntries: MetadataRoute.Sitemap = routes.map((path) => ({
-    url: `${BASE}${path}`,
+    url: path === '/' ? BASE : `${BASE}${path}`,
     lastModified: now,
     changeFrequency: 'monthly',
     priority: path === '/' ? 1 : 0.7,

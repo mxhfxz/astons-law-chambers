@@ -3,29 +3,16 @@
 // Client-side behaviour for the ported site. This is the prototype's
 // foot-of-body script (preview/index.html) minus the hash router — Next.js
 // App Router handles routing now. Listeners on persistent chrome are wired
-// once; per-route work (GSAP reveals, GA page_view, cal facade) re-runs on
+// once; per-route work (GA page_view, cal facade) re-runs on
 // pathname change.
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 declare global {
   interface Window {
-    gsap?: { set: (t: unknown, v: unknown) => void; to: (t: unknown, v: unknown) => void }
     gtag?: (...args: unknown[]) => void
     Cal?: { ns?: Record<string, (action: string, cfg: unknown) => void> }
   }
-}
-
-function armReveals() {
-  const targets = document.querySelectorAll<HTMLElement>('.reveal')
-  if (!targets.length) return
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reduced || typeof window.gsap === 'undefined') {
-    targets.forEach((el) => (el.style.opacity = '1'))
-    return
-  }
-  window.gsap.set(targets, { opacity: 0 })
-  window.gsap.to(targets, { opacity: 1, duration: 0.7, ease: 'power1.out', stagger: 0.08 })
 }
 
 export function SiteBehaviour() {
@@ -181,9 +168,8 @@ export function SiteBehaviour() {
     }
   }, [])
 
-  // Per-route: GSAP reveals, GA page_view, cal.com facade, close mobile menu.
+  // Per-route: GA page_view, cal.com facade, close mobile menu.
   useEffect(() => {
-    armReveals()
     const mm = document.getElementById('mobileMenu')
     mm?.classList.add('hidden')
 

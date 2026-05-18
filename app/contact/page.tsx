@@ -3,7 +3,8 @@ import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Contact Astons Law Chambers. Call 07922 247 999 or message on WhatsApp.',
+  description:
+    'Contact Astons Law Chambers, a criminal defence barrister in London. Call 07922 247 999, message on WhatsApp, or book a callback. Direct instruction available.',
   alternates: { canonical: '/contact' },
 }
 

@@ -69,8 +69,8 @@ components/
   sections/                  # page section components (Hero, PracticeZone, FAQ)
 lib/
   practice-areas.ts          # array of 10 practice area objects (slug, title, body paragraphs)
-  contact.ts                 # single source of truth for phone, WhatsApp, cal.com URL
-  site.ts                    # site name, meta defaults, BSB-required fields
+  contact.ts                 # phone/WhatsApp/cal.com constants (not yet wired into content/*.html)
+  site.ts                    # site name + canonical URL (used by app/robots.ts)
 styles/
   tokens.css                 # CSS custom properties (primitive → semantic → component)
 .claude/agents/              # design-reader, code-reviewer, component-builder subagents

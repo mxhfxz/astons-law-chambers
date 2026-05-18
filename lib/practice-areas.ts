@@ -10,6 +10,10 @@ export interface PracticeAreaFaq {
 export interface PracticeArea {
   slug: string
   title: string
+  /** SEO <title> (the layout template appends " — Astons Law Chambers"). */
+  metaTitle: string
+  /** SEO meta description, 140–160 chars. */
+  metaDescription: string
   kicker: string
   cardSummary: string
   situation: string
@@ -25,6 +29,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
+    metaTitle: 'Criminal Defence Barrister, London',
+    metaDescription:
+      'Criminal defence barrister in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     situation:
@@ -59,6 +66,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
+    metaTitle: 'Violent Crime Barrister, London',
+    metaDescription:
+      'London barrister defending assault, ABH, GBH, affray and robbery allegations. Instructed direct, from the police station through to Crown Court trial.',
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     situation:
@@ -93,6 +103,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
+    metaTitle: 'Youth Crime Barrister, London',
+    metaDescription:
+      'London barrister defending clients under 18 in the Youth Court and Crown Court — instructed direct, with the procedures the youth jurisdiction requires.',
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     situation:
@@ -125,6 +138,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'driving-offences',
     title: 'Driving Offences',
+    metaTitle: 'Driving Offence Barrister, London',
+    metaDescription:
+      'London barrister for driving offences — drink and drug driving, totting-up and exceptional-hardship arguments, and licence-loss work. Instructed direct.',
     kicker: 'Criminal',
     cardSummary: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
     situation:
@@ -157,6 +173,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
+    metaTitle: 'Drug Offence Barrister, London',
+    metaDescription:
+      'London barrister defending drug allegations — possession, supply, importation and production. Instructed direct, with forensic and disclosure challenges.',
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     situation:
@@ -189,6 +208,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'appeals',
     title: 'Appeals',
+    metaTitle: 'Criminal Appeals Barrister, London',
+    metaDescription:
+      'London barrister for criminal appeals against conviction and sentence — advice on prospects, drafting of grounds, and representation in the Court of Appeal.',
     kicker: 'Post-trial',
     cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
     situation:
@@ -220,6 +242,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'inquests',
     title: 'Inquests',
+    metaTitle: 'Inquest Barrister, London',
+    metaDescription:
+      'London barrister representing families and interested persons at inquests, from the pre-inquest review through to the substantive hearing in the Coroner’s Court.',
     kicker: 'Coroner’s Court',
     cardSummary: 'Family and interested-person representation. Pre-inquest review through hearing.',
     situation:
