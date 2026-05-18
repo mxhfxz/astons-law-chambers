@@ -103,6 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://cdn-cookieyes.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
@@ -128,6 +129,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StickyPill />
         <QuickExit />
         <SiteBehaviour />
+
+        {/* Cookie consent — CookieYes CMP + Google Consent Mode v2.
+            GA4 storage is denied by default; CookieYes fires the consent
+            update when the visitor accepts. "Google Consent Mode" must be
+            enabled in the CookieYes dashboard for that update to reach GA4. */}
+        <Script id="consent-mode-default" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  wait_for_update: 500,
+});`}
+        </Script>
+        <Script
+          id="cookieyes"
+          strategy="beforeInteractive"
+          src="https://cdn-cookieyes.com/client_data/d7524e47cae5f257fa8780a88c968ac8/script.js"
+        />
 
         {/* Google Analytics 4 */}
         <Script
