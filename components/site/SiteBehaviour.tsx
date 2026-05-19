@@ -78,11 +78,20 @@ export function SiteBehaviour() {
     const mobileMenu = document.getElementById('mobileMenu')
     const onMobileToggle = () => {
       if (!mobileMenu || !mobileToggle) return
-      const isOpen = !mobileMenu.classList.contains('hidden')
+      const willOpen = mobileMenu.classList.contains('hidden')
       mobileMenu.classList.toggle('hidden')
-      mobileToggle.setAttribute('aria-expanded', String(!isOpen))
+      mobileToggle.setAttribute('aria-expanded', String(willOpen))
+      mobileToggle.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu')
+      // Lock page scroll behind the full-screen menu.
+      document.body.classList.toggle('menu-open', willOpen)
     }
     mobileToggle?.addEventListener('click', onMobileToggle)
+    const onMobileKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        onMobileToggle()
+      }
+    }
+    document.addEventListener('keydown', onMobileKey)
 
     // --- Police banner ----------------------------------------------------
     // The banner is pinned below the navbar and always visible — no scroll
@@ -138,6 +147,7 @@ export function SiteBehaviour() {
 
     return () => {
       document.removeEventListener('click', onClickCapture, { capture: true } as EventListenerOptions)
+      document.removeEventListener('keydown', onMobileKey)
       mobileToggle?.removeEventListener('click', onMobileToggle)
       quickExits.forEach((el) => el.removeEventListener('click', leaveSite))
       cleanups.forEach((fn) => fn())
@@ -148,6 +158,12 @@ export function SiteBehaviour() {
   useEffect(() => {
     const mm = document.getElementById('mobileMenu')
     mm?.classList.add('hidden')
+    // Reset the open-menu state so scroll isn't left locked and the
+    // hamburger morphs back after a client-side navigation.
+    document.body.classList.remove('menu-open')
+    const mt = document.getElementById('mobileMenuToggle')
+    mt?.setAttribute('aria-expanded', 'false')
+    mt?.setAttribute('aria-label', 'Open menu')
 
     if (firstRoute.current) {
       firstRoute.current = false
