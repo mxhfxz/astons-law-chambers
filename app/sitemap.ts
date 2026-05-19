@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
 import { practiceAreas } from '@/lib/practice-areas'
+import { guides } from '@/lib/guides'
 
 const BASE = 'https://astonslaw.com'
 
@@ -20,6 +21,7 @@ function mtime(rel: string): Date {
 const staticRoutes: Array<{ path: string; source: string }> = [
   { path: '/', source: 'content/sections/home.html' },
   { path: '/practice-areas', source: 'content/sections/practice-areas.html' },
+  { path: '/guides', source: 'content/sections/guides-index.html' },
   { path: '/police-station-representation', source: 'content/sections/police-station.html' },
   { path: '/fees', source: 'content/sections/fees.html' },
   { path: '/direct-access', source: 'content/sections/direct-access.html' },
@@ -46,5 +48,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.8,
   }))
-  return [...staticEntries, ...areaEntries]
+  // Guide article pages render from content/sections/guide-*.html.
+  const guideEntries: MetadataRoute.Sitemap = guides.map((g) => ({
+    url: `${BASE}/guides/${g.slug}`,
+    lastModified: mtime(`content/sections/${g.section}.html`),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+  return [...staticEntries, ...areaEntries, ...guideEntries]
 }
