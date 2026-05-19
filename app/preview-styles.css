@@ -214,6 +214,32 @@
        Positioning and colours come from utility classes on the element;
        no transform, no scroll show/hide. */
 
+    /* Mobile menu — hamburger morphs to an X, panel fills the screen.
+       Morph is driven off #mobileMenuToggle[aria-expanded]; the JS toggles
+       body.menu-open for the scroll lock and the header z-lift. */
+    .burger { position: relative; display: block; width: 22px; height: 16px; }
+    .burger-bar {
+      position: absolute; left: 0; width: 100%; height: 2px;
+      background: currentColor; border-radius: 1px;
+      transition: top 240ms ease, transform 240ms ease, opacity 160ms ease;
+    }
+    .burger-bar:nth-child(1) { top: 0; }
+    .burger-bar:nth-child(2) { top: 7px; }
+    .burger-bar:nth-child(3) { top: 14px; }
+    #mobileMenuToggle[aria-expanded="true"] .burger-bar:nth-child(1) { top: 7px; transform: rotate(45deg); }
+    #mobileMenuToggle[aria-expanded="true"] .burger-bar:nth-child(2) { opacity: 0; }
+    #mobileMenuToggle[aria-expanded="true"] .burger-bar:nth-child(3) { top: 7px; transform: rotate(-45deg); }
+    @media (prefers-reduced-motion: reduce) { .burger-bar { transition: none; } }
+
+    /* Open menu fills the screen below the 64px mobile navbar. The element
+       keeps `hidden` until opened; this rule positions the shown state. */
+    #mobileMenu { position: fixed; inset: 64px 0 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    /* Scroll lock — scoped to mobile so a mobile→desktop resize while the
+       menu is open cannot strand the lock. */
+    @media (max-width: 767px) { body.menu-open { overflow: hidden; } }
+    /* Lift the header (and its full-screen menu) above the z-40 call pill. */
+    body.menu-open #siteHeader { z-index: 50; }
+
     /* Availability pulse — green ring around the "available" dot in the sticky pill */
     @keyframes avail-pulse {
       0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
