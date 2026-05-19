@@ -48,6 +48,8 @@ const jsonLd = {
       '@type': ['LegalService', 'LocalBusiness'],
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
+      description:
+        "Criminal defence barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
       url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
