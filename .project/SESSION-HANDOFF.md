@@ -1,4 +1,4 @@
-# Session Handoff — 2026-05-19 (SEO audit + homepage CRO restructure — COMPLETE, live)
+# Session Handoff — 2026-05-19 (SEO keyword + perf + audit session)
 
 Read this FIRST, after `MEMORY.md` and `.project/_START_HERE.md`. It supersedes
 every earlier handoff (they remain in git history).
@@ -7,156 +7,154 @@ every earlier handoff (they remain in git history).
 
 ## ⚠️ APEX RULE — SKILLS FIRST, NEVER CLAUDE DEFAULTS
 
-**Non-negotiable. This overrides every default behaviour.**
+**Non-negotiable.** Every task — answering, exploring, frontend/CSS, copy, git,
+deploys, debugging, verification — routes through the relevant installed
+**skill FIRST**, before any action including clarifying questions. Enforced by
+a `UserPromptSubmit` hook. Routing: debugging → `systematic-debugging`;
+verifying → `verification-before-completion`; frontend → `frontend-design` +
+`frontend-dev-guidelines`; git/deploys → git skills + `vercel-deployment`;
+planning → `project-mgmt`; SEO → `seo-audit` (+ `seo-technical`,
+`schema-markup`, `seo-meta-optimizer`, `seo-geo`); copy → `copywriting` +
+`avoid-ai-writing`.
 
-Every task on this project — answering, exploring, frontend/CSS, copy, git,
-deploys, accessibility, debugging, verification — routes through the relevant
-installed **skill FIRST**, before any action including clarifying questions.
-Claude default behaviour is **never** to be used here.
-
-- It is enforced by a `UserPromptSubmit` hook that re-injects the rule on every
-  prompt, and written in `CLAUDE.md` and `memory/feedback_no_claude_defaults_use_skills.md`.
-- Red-flag thoughts that mean STOP and pick the skill: "I'll just do this
-  directly", "this is simple enough", "I'll skip the skill this once", "I
-  already know how to do this".
-- Routing: debugging → `systematic-debugging`; verifying/claiming done →
-  `verification-before-completion`; frontend → `frontend-design` +
-  `frontend-dev-guidelines`; clean code → `clean-code`; accessibility →
-  `fixing-accessibility`/`a11y-audit`/`wcag-audit-patterns`; git/deploys → git
-  skills + `vercel-deployment`; planning → `project-mgmt`; SEO → `seo-audit`;
-  CRO → `page-cro`; copy → `copywriting` + `avoid-ai-writing`; schema →
-  `schema-markup`. No single fit → invoke one to scaffold the decision and
-  route it back to the user. Improvising defaults has repeatedly produced work
-  the user then had to catch and correct.
-
-Other standing rules (do not regress):
-- **No broken sites to `main`** — nothing reaches `main` without build +
-  type-check + a real-browser check. `main` is live production.
-- **Documents are input for evaluation, not implementation specs** — never
-  build from a pasted doc unless the user explicitly says to.
-- **No Claude-default copy** — barrister voice only (see §6).
+Standing rules: **nothing reaches `main` without build + type-check + a real
+browser check**; documents are input for evaluation, not build specs; barrister
+voice only (no marketing speak / AI-isms / em-dash maximalism, entity-first).
 
 ---
 
 ## 1. Production state
 
-**Production HEAD:** `main` at `b7e5f12` (2026-05-19). Live on `astonslaw.com`
-via Vercel auto-deploy. Build verified clean (23/23 static pages), type-check
-clean, browser-checked desktop + mobile, no console errors.
+**Production HEAD:** `main` at `9506e98` — live on `astonslaw.com` via Vercel
+auto-deploy. Build verified clean (23/23 static pages), type-check clean,
+desktop + mobile browser-checked, no console errors from site code.
 
-The whole session's work is **complete, merged, and live**. Nothing is
-half-finished in code. The only open items are client-side (see §3).
+Live performance after this session (Lighthouse 13, real astonslaw.com):
+**mobile 98–100, desktop 99–100.**
 
-## 2. What this session shipped
+Git is **main-only** — all feature branches were merged and deleted (local +
+remote). Repo is clean.
 
-Worked across two days (2026-05-18 → 2026-05-19). Eight units of work, each
-verified and merged to `main`:
+## 2. What this session shipped (all live on `main`)
 
 | Commit | Scope |
 |--------|-------|
-| `6fb9976` | **SEO audit fix** — 9 findings: `og:url` no longer hardcoded to homepage; `/practice-areas` H1 keyword; "Defence work" header item is now a real link to the hub + hub links in mega/mobile menus; `/direct-access` linked from the homepage; `lang="en-GB"`; sitemap `lastmod` tracks file mtimes; hero `<img>` width/height; `geo`+`image` in JSON-LD; false `<noscript>` removed |
-| `bcb2bfb` | **Mega menu repair + banner pin** — fixed a regression (3 Tailwind classes that don't exist in the precompiled CSS — see §5); police banner moved off `position:fixed` |
-| `4aad5af` | Hero background `bg-navy-950` → `bg-footer` (#232536) — softer step into the red |
-| `a05b1ab` | **Homepage CRO restructure** — police banner pinned into the sticky header as a 2nd row; red emergency band replaced with a grey police-station card (red CTA); new "What to do now" 3-card situation section; old "Before you call" card folded in |
-| `9eceefb` | Hero CTA widened (384px, `max-w-sm`); header `border-b` removed (stray line under the red banner); police card made full-width, 2-column |
-| `6c9519c` | "24/7 police station support" moved out of the hero CTA into a ghost button below it |
-| `0335722` | **Mobile menu** — hamburger morphs to an X (CSS, `prefers-reduced-motion` guarded); open menu fills the screen; page scroll locks behind it |
-| `b7e5f12` | Hero "24/7" ghost button now initiates a call (`tel:`); `description` added to the LegalService JSON-LD |
+| `cf18816` | **SEO keyword reintegration + self-hosted fonts.** Reintroduced "criminal defence lawyer" (analytics tied ~1800% organic lift to the phrase; a prior rewrite had replaced every instance with "barrister"). Added to body copy + meta descriptions on home, criminal-defence, the practice-areas hub, about, police-station, violent/youth/drug PAs. **Title tags stayed barrister-led** (user decision). "Solicitor" only ever in referral context (fees + direct-access name a "criminal defence solicitor" partner firm). Also: self-hosted IBM Plex Sans (woff2 in `public/fonts/`, `@font-face` in `app/preview-styles.css`), removed the Google Fonts `<link>`. |
+| `8db5189` | **Mobile performance fix.** Deferred third-party scripts off the critical render path: CookieYes `beforeInteractive`→`afterInteractive` (the inline consent DEFAULT stays `beforeInteractive` — that enforces compliance); cal.com `cal-init` `afterInteractive`→`lazyOnload`. GA left at `afterInteractive` to keep early conversion-click tracking. Live result: mobile ~78 → **98–100**, desktop unchanged ~100. |
+| `9506e98` | docs: mobile-perf findings + keyword/perf specs. |
 
-## 3. PENDING — client actions (NOT code)
+Specs/findings written this session:
+- `.project/keyword-reintegration-2026-05-19/` (spec + findings)
+- `.project/mobile-perf-2026-05-19/` (spec + findings — includes the full
+  debugging record)
+- `.project/seo-audit-2026-05-19/findings.md` (the deep SEO audit — see §4)
 
-1. **Two PDF guides — Ghulam's green light to publish.** The situation section
-   (`content/sections/home.html`) has commented-out RESOURCE SLOTs in card 1
-   (Arrested) and card 2 (Police interview). When cleared:
-   - move the two PDFs from repo root into `public/resources/`
-     (`first-24-hours-after-arrest.pdf`,
-     `voluntary-police-interview-under-caution.pdf`)
-   - uncomment the resource `<a>` in each card.
-   - **Tell Ghulam:** each PDF should end with the phone number and "the first
-     call is free" so the guide itself converts, not just informs.
-2. **Instructional copy sign-off.** The police card + 3 situation cards carry
-   legal-adjacent guidance ("right to stay silent", "voluntary interview is
-   under caution", etc.). It is conservative and reuses vetted site wording,
-   but a regulated barrister's site should have Ghulam confirm it.
-3. **Carried from the prior handoff (still open):** privacy-policy firm-specific
-   blanks (data controller name, ICO number, retention periods, DPO); the
-   CookieYes dashboard "Google Consent Mode" toggle.
+## 3. Debugging note — the "desktop dropped to 70" report
 
-## 4. Open / non-code (no action by decision)
+The user reported desktop PageSpeed fell 100→70 after the font change.
+Investigated via `systematic-debugging` + repeated Lighthouse runs: **desktop
+is 99–100, stable — no regression.** The "70" was a single noisy PageSpeed
+run. The font change is performance-neutral and was kept (it also removes
+Google as a third party — a GDPR positive). Full record in
+`.project/mobile-perf-2026-05-19/findings.md`.
 
-- Backlink profile is near-empty — biggest cause of weak rankings. Free options
-  only. Client owns.
-- The two arrest PDFs sit untracked in the repo root with the other untracked
-  files (see §7).
+**Measurement lesson (important for next session):** localhost is too fast to
+expose third-party render gating (everything scores ~96), and raw
+`*.vercel.app` deployment URLs are cold/uncached (everything scores ~71).
+**Only the warm production custom domain `astonslaw.com` gives a
+representative PageSpeed/Lighthouse number.** Measure there, post-deploy.
 
-## 5. Architecture notes & gotchas — READ BEFORE TOUCHING CSS
+## 4. PENDING — SEO audit fixes (not yet implemented)
 
-- **The precompiled-CSS trap (caused a live breakage this session).**
-  `app/preview-tailwind.css` is a **precompiled static stylesheet**.
-  `tailwind.config.ts` only scans `app/` and `components/` — **never**
-  `content/*.html`. A Tailwind class added to a `content/*.html` fragment that
-  is not already present in `preview-tailwind.css` has **no rule** and silently
-  breaks layout (the build still passes). **Always grep
-  `app/preview-tailwind.css` for a class before using it in a content
-  fragment.** `app/preview-styles.css` is the separate hand-written CSS and is
-  editable. Full detail: `memory/project_preview_tailwind_precompiled.md`.
-- **Verify rendered layout with screenshots, not just DOM checks.** A headless
-  DOM/behaviour check passed while the mega menu was visibly broken. Always
-  screenshot.
-- **`playwright_navigate` does not resize an existing viewport.** To truly
-  switch desktop↔mobile, close the browser and reopen at the new width.
-- **Content-file edits don't bust the Next build cache.** `rm -rf .next`
-  before any verifying build when only `content/*.html` changed.
+`.project/seo-audit-2026-05-19/findings.md` is a full audit. The site is
+technically sound (CWV, HTTPS, canonicals, redirects, sitemap, schema all
+good). Open code fixes, all low-risk, ready to do as one branch:
+
+- **Title tags** — `/fees`, `/contact`, `/timescales`, `/about`,
+  `/practice-areas` are too short; rewrite to use the 50–60 char budget with
+  keywords + location (suggested rewrites are in the findings doc).
+- **`public/llms.txt`** — missing; add it for AI-crawler guidance.
+- **BreadcrumbList schema** — only on practice-area pages; add to the other
+  deep pages (fees, about, direct-access, police-station, complaints,
+  timescales) — they have visual breadcrumbs but no JSON-LD.
+- **Per-practice-area `Service` schema** — PA pages have FAQPage + Breadcrumb
+  but nothing describing the practice area as a service.
+- **Person `sameAs`** — the Ghulam Humayun Person node has no entity links.
+- **police-station FAQPage schema** — its visible FAQ block has no schema.
+
+**Two decisions needed from the user before some of the above:**
+- Homepage `<title>` is brand-first; keyword-first usually wins more clicks.
+- `aggregateRating` (review stars in SERP) — 🚩 needs the client's verified
+  Trustpilot review count; project rule requires 20+ verified. Do not add
+  without that number.
+
+## 5. PENDING — client actions (not code)
+
+1. **Two arrest PDF guides** — await Ghulam's go-ahead. On approval: move the
+   2 PDFs from repo root into `public/resources/`, uncomment the RESOURCE SLOT
+   `<a>` in cards 1 + 2 of `content/sections/home.html`. Ghulam should append
+   the phone number + "first call is free" to each PDF. **Better still
+   (SEO/AEO):** publish them as HTML articles with Article schema + dates, not
+   only PDFs — far more citable.
+2. **Instructional copy sign-off** — the police card + 3 situation cards carry
+   legal-adjacent guidance; needs Ghulam's confirmation.
+3. **Privacy-policy blanks** — data controller name, ICO number, retention
+   periods, DPO.
+4. **CookieYes dashboard** — enable "Google Consent Mode" toggle.
+5. **SEO off-site (the real ranking ceiling):** backlink profile is
+   near-empty; brand mentions (Reddit/YouTube/Wikipedia/LinkedIn) matter ~3×
+   more than backlinks for AI-search visibility; confirm Google Search Console
+   + Bing Webmaster Tools verified with sitemap submitted; confirm a Google
+   Business Profile exists and is optimised.
+
+## 6. Open / no action by decision
+
+- **Hero image recompression** (~17–36 KiB) — deferred: no webp encoder on the
+  dev machine (`cwebp` absent, macOS `sips` can't encode webp). `brew install
+  webp` then one `cwebp` command finishes it, or the client re-exports.
+
+## 7. Architecture notes & gotchas — READ BEFORE TOUCHING CODE
+
+- **The precompiled-CSS trap.** `app/preview-tailwind.css` is a precompiled
+  static stylesheet; `tailwind.config.ts` scans only `app/` + `components/`,
+  never `content/*.html`. A Tailwind class used in a `content/*.html` fragment
+  that is not already in `preview-tailwind.css` has no rule and silently
+  breaks layout (build still passes). Grep `preview-tailwind.css` for a class
+  before using it in a content fragment. `app/preview-styles.css` is the
+  separate hand-written, editable CSS.
+- `rm -rf .next` before any verifying build when only `content/*.html` changed.
+- Verify rendered layout with screenshots, not DOM-only checks.
 - The site renders from static HTML fragments in `content/sections/*.html` and
-  `content/chrome/*.html`, injected via `lib/content.ts`. That is the source of
-  truth for copy and links.
-- The police banner is now the 2nd row of the sticky `<header>` (in
-  `content/chrome/header.html`), not a separate component. `police-banner.html`
-  and the `PoliceBanner` export were deleted.
+  `content/chrome/*.html`, injected via `lib/content.ts`. That is the source
+  of truth for copy.
+- Practice-area detail pages + the hub grid render from `lib/practice-areas.ts`
+  via `lib/render-practice-area.ts` (server-side, build time).
+- Fonts: IBM Plex Sans is self-hosted — `@font-face` in `preview-styles.css`,
+  woff2 in `public/fonts/`. No Google Fonts. No font `<link rel=preload>` (it
+  caused a console warning; fonts are same-origin and fast without it).
+- Third-party scripts in `app/layout.tsx`: consent-mode-default
+  `beforeInteractive` (compliance), CookieYes `afterInteractive`, GA
+  `afterInteractive`, cal.com `lazyOnload`. Do not move CookieYes back to
+  `beforeInteractive` — that was the mobile-perf regression cause.
 - `lib/site.ts` / `lib/contact.ts` are orphaned stubs — only `site.url` is used
   (by `app/robots.ts`). Not a source of truth.
-- Two homepage practice grids stay in sync: the homepage grid is hardcoded in
-  `content/sections/home.html`; the `/practice-areas` hub grid is generated by
-  `renderPracticeAreaIndex()` in `lib/render-practice-area.ts`.
 
-## 6. Copy rules (barrister voice — not SaaS)
+## 8. Git state
 
-Project memory overrides the generic `copywriting` skill. No marketing speak,
-no rhetorical questions, no triadic/aphoristic flourishes, **no em-dash
-maximalism**, entity-first ("Astons Law Chambers", minimise "Ghulam"). Short
-declarative sentences. When writing copy, also invoke `avoid-ai-writing`. Reuse
-wording already vetted on the live site rather than inventing claims; flag any
-new operational/legal claim with 🚩 and never fabricate it.
-
-## 7. Git state
-
-- **`main` `b7e5f12`** is production and is clean.
-- Working tree has pre-existing **untracked** files that are NOT part of any
-  shipped work and were deliberately left alone: the 2 arrest PDFs, the
-  `.project/preview/` and `.project/research/` dirs, `.mcp.json.disabled`, a
-  settings backup, and a modified `.gitignore`. Decide what to do with these
-  with the user — do not blanket `git add -A`.
-- Session feature branches, all merged to `main`, safe to delete:
-  `fix/seo-audit-2026-05-18`, `fix/homepage-cro-2026-05-19`,
-  `fix/mobile-menu-2026-05-19`, `fix/hero-call-schema-2026-05-19`
-  (and the older `fix/audit-sweep-2026-05-17`).
-- Process note: a couple of small changes this session were committed straight
-  to `main` (already on `main` from a prior merge) rather than branch→merge.
-  Verified before push, so production stayed clean — but follow branch→verify→
-  merge as the norm.
-
-## 8. Spec files written this session
-
-- `.project/seo-audit-2026-05-18/spec.md`
-- `.project/homepage-cro-2026-05-19/spec.md`
-- `.project/mobile-menu-2026-05-19/spec.md`
+- **`main` `9506e98`** is production, clean, main-only (no other branches).
+- Untracked, pre-existing, deliberately left alone: a modified `.gitignore`,
+  `.mcp.json.disabled`, a settings backup, the 2 arrest PDFs in the repo root,
+  `.project/preview/`, `.project/research/`. Decide with the user — do not
+  blanket `git add -A`.
+- Process: branch → build + type-check + browser-verify → merge → verify live
+  on astonslaw.com.
 
 ## 9. What to do next
 
 Session start: read `MEMORY.md`, `.project/_START_HERE.md`, then this file.
-Confirm the apex rule (§0) and the precompiled-CSS trap (§5). Then **ask the
-user what the next task is** — do not pick one and start.
+Confirm the apex rule (§0) and the precompiled-CSS trap + measurement lesson
+(§3, §7). Then **ask the user what the next task is** — do not pick one.
 
-Likely next threads: chasing the client actions in §3 (PDFs, copy sign-off,
-privacy policy); cleaning up the untracked files in §7; or new work the user
-brings.
+Most likely next thread: implement the §4 SEO audit code fixes (one branch:
+title tags, `llms.txt`, breadcrumb schema, Service schema, Person `sameAs`,
+police-station FAQ) once the user confirms the two decisions.
