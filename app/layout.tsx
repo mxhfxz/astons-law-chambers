@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: '%s — Astons Law Chambers',
   },
   description:
-    "Criminal defence barrister in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
+    "Criminal defence lawyer in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
@@ -49,7 +49,7 @@ const jsonLd = {
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
       description:
-        "Criminal defence barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
+        "Criminal defence lawyer and barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
       url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
@@ -106,14 +106,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://cdn-cookieyes.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+        {/* IBM Plex Sans is self-hosted — @font-face is in preview-styles.css,
+            served same-origin. No external font request, no Google Fonts chain. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

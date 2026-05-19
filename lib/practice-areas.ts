@@ -31,11 +31,11 @@ export const practiceAreas: PracticeArea[] = [
     title: 'Criminal Defence',
     metaTitle: 'Criminal Defence Barrister, London',
     metaDescription:
-      'Criminal defence barrister in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
+      'Criminal defence lawyer in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     situation:
-      'From arrest to verdict, Astons Law Chambers acts for the defence at every stage. Police station attendance, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
+      'Astons Law Chambers acts as a criminal defence lawyer at every stage, from arrest to verdict. Police station attendance, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
     actions: [
       'Police station representation, at any hour.',
       'Bail applications and contested bail hearings.',
@@ -72,7 +72,7 @@ export const practiceAreas: PracticeArea[] = [
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     situation:
-      'Defence in allegations of violence — from common assault through to the most serious offences against the person. Magistrates’ Court and Crown Court representation.',
+      'Astons Law Chambers acts as a criminal defence lawyer in allegations of violence — from common assault through to the most serious offences against the person. Magistrates’ Court and Crown Court representation.',
     actions: [
       'Assault, ABH and GBH allegations.',
       'Affray and public order matters.',
@@ -109,7 +109,7 @@ export const practiceAreas: PracticeArea[] = [
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     situation:
-      'Defence for clients under 18 in the Youth Court and, where allocated, the Crown Court. Conducted with the specific procedures and welfare considerations the youth jurisdiction requires.',
+      'Astons Law Chambers acts as a criminal defence lawyer for clients under 18 in the Youth Court and, where allocated, the Crown Court. Conducted with the specific procedures and welfare considerations the youth jurisdiction requires.',
     actions: [
       'Youth Court trials and sentencing.',
       'Crown Court representation where the case is allocated up.',
@@ -179,7 +179,7 @@ export const practiceAreas: PracticeArea[] = [
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     situation:
-      'Defence in drug allegations — possession through to supply, importation, and production. Magistrates’ Court and Crown Court representation.',
+      'Astons Law Chambers acts as a criminal defence lawyer in drug allegations — possession through to supply, importation, and production. Magistrates’ Court and Crown Court representation.',
     actions: [
       'Possession allegations, including with intent to supply.',
       'Supply, conspiracy, and importation cases.',
