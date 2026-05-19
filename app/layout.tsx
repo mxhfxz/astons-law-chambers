@@ -132,9 +132,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteBehaviour />
 
         {/* Cookie consent — CookieYes CMP + Google Consent Mode v2.
-            GA4 storage is denied by default; CookieYes fires the consent
-            update when the visitor accepts. "Google Consent Mode" must be
-            enabled in the CookieYes dashboard for that update to reach GA4. */}
+            The consent DEFAULT (storage denied) stays beforeInteractive so
+            nothing can store before the page runs — this is what enforces
+            compliance, not the timing of the banner script. The CookieYes
+            banner script itself is afterInteractive: it is a third-party CDN
+            request and does not need to block first paint. It still loads
+            right after hydration, shows the banner, and fires the consent
+            update on accept. "Google Consent Mode" must be enabled in the
+            CookieYes dashboard for that update to reach GA4. */}
         <Script id="consent-mode-default" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -148,7 +153,7 @@ gtag('consent', 'default', {
         </Script>
         <Script
           id="cookieyes"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           src="https://cdn-cookieyes.com/client_data/d7524e47cae5f257fa8780a88c968ac8/script.js"
         />
 
@@ -164,8 +169,12 @@ gtag('js', new Date());
 gtag('config', 'G-8TDVMH13D7', { send_page_view: true });`}
         </Script>
 
-        {/* cal.com embed loader */}
-        <Script id="cal-init" strategy="afterInteractive">
+        {/* cal.com embed loader — lazyOnload: the homepage shows a facade and
+            only mounts the calendar on click. The facade handler in
+            SiteBehaviour retries for window.Cal for ~4s, so initialising Cal
+            during idle (rather than right after hydration) cannot miss it,
+            and embed.js no longer loads on every page during the load window. */}
+        <Script id="cal-init" strategy="lazyOnload">
           {`(function (C, A, L) {
   let p = function (a, ar) { a.q.push(ar); };
   let d = C.document;
