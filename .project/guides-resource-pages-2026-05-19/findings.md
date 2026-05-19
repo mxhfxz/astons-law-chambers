@@ -99,6 +99,28 @@ situation-card guide links render.
    does not list Guides. Optional future addition — not a bug, not changed
    unprompted.
 
+### Live console finding — CookieYes (pre-existing, NOT from this work)
+
+Post-deploy live check (`type: all`) surfaced 21 `[exception]` entries +
+1 `[error] 404`, all from CookieYes:
+
+> "Looks like your website URL has changed. To ensure the proper functioning
+> of your banner, update the registered URL on your CookieYes account…"
+
+Resource-timing check: **zero same-origin (astonslaw.com) resources fail** —
+all CSS, JS chunks, 4 fonts, hero image return 200. The failures are all
+cross-origin CookieYes API/config calls.
+
+Root cause: the **registered site URL in the CookieYes dashboard does not
+match `astonslaw.com`** — a SaaS dashboard config issue. NOT introduced this
+session: `app/layout.tsx` (the CookieYes integration) was untouched, and no
+commit changed any URL. Earlier `type: error` console checks missed it
+because CookieYes logs as `[exception]`, not `[error]`.
+
+**Client action required** (add to the handoff §5 CookieYes item): log into
+the CookieYes account → Organizations & Sites → update the registered URL to
+`https://astonslaw.com`. Not a code fix.
+
 ## Canonical rule (recorded to memory)
 
 Dark page heroes use **`bg-footer` (#232536)**. `bg-navy-950` (#0E1628) is
