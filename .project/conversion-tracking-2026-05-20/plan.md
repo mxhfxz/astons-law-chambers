@@ -52,3 +52,20 @@ existing cal.com mount flow. No content-fragment edits — the
 
 - 2026-05-20: spec + plan written. Decisions: count-only, runbook for the
   client.
+- 2026-05-20: implemented `lib/analytics.ts` + edited `SiteBehaviour.tsx`
+  (4 targeted edits). Build clean (26/26), type-check + lint clean.
+  Browser-tested locally: all 5 click event types fire with enriched
+  params (`cta_type`, `placement`, `page_type`, `page_path`, `outbound_url`
+  for tel/wa/cal); `page_type` derives correctly for `home` and
+  `guide_article`.
+- 2026-05-20: merged to `main` (`ac8ce49..a993f00`), pushed, branch
+  deleted. Vercel production live; new layout chunk
+  `layout-114c4cc70cba4c65.js` contains the new code. Live browser test on
+  `astonslaw.com` confirms `call_click`, `book_click`, `guide_click` all
+  fire with full enriched params. `booking_completed` (cal.com inline
+  embed) will light up the first time someone completes a booking — code
+  follows the cal-embed `on/bookingSuccessful` docs pattern.
+- Outstanding: client side — work through `ANALYTICS-RUNBOOK.md` in GA4
+  (mark Key Events, register Custom Dimensions, enable Enhanced
+  Measurement, build the Conversion Funnel v1 exploration). Plus the
+  pre-existing CookieYes dashboard URL fix flagged last turn.
