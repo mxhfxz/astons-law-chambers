@@ -7,6 +7,7 @@
 // pathname change.
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { getCtaType, getPageType } from '@/lib/analytics'
 
 declare global {
   interface Window {
@@ -14,6 +15,11 @@ declare global {
     Cal?: { ns?: Record<string, (action: string, cfg: unknown) => void> }
   }
 }
+
+// Module-level: cal.com 'bookingSuccessful' listener is wired at most once
+// per page-load, even if the user clicks "Book a call" and re-mounts the
+// embed multiple times (e.g. after a route change back to /).
+let bookingListenerWired = false
 
 export function SiteBehaviour() {
   const pathname = usePathname()
@@ -120,25 +126,40 @@ export function SiteBehaviour() {
     const onClickCapture = (e: MouseEvent) => {
       const target = (e.target as HTMLElement)?.closest('a, button') as HTMLElement | null
       if (!target) return
+      const href = target.getAttribute('href') || ''
       let name = target.dataset.track
       if (!name) {
-        const href = target.getAttribute('href') || ''
         if (href.startsWith('tel:')) name = 'call_click'
         else if (href.startsWith('https://wa.me/')) name = 'whatsapp_click'
         else if (href.includes('cal.com/astonslaw')) name = 'book_click'
       }
       if (!name) return
-      let loc = target.dataset.trackLocation
-      if (!loc) {
+      let placement = target.dataset.trackLocation
+      if (!placement) {
         const wrap = target.closest('[data-track-loc]') as HTMLElement | null
-        loc = wrap?.dataset.trackLoc || 'unspecified'
+        placement = wrap?.dataset.trackLoc || 'unspecified'
       }
-      track(name, {
-        event_category: 'engagement',
-        event_label: loc,
-        location: loc,
+      // Outbound destination — only for off-platform links so reports can
+      // group by destination without polluting on-site clicks.
+      const isOutbound =
+        href.startsWith('tel:') ||
+        href.startsWith('https://wa.me/') ||
+        href.includes('cal.com')
+      const params: Record<string, unknown> = {
+        // GA4-native funnel dimensions (the useful ones).
+        cta_type: getCtaType(name),
+        placement,
+        page_type: getPageType(window.location.pathname),
         page_path: window.location.pathname,
-      })
+        // Legacy UA-style fields kept for back-compat with anything built on
+        // event_label / location. GA4 ignores them in the standard UI; they
+        // cost nothing and avoid breaking older custom reports.
+        event_category: 'engagement',
+        event_label: placement,
+        location: placement,
+      }
+      if (isOutbound) params.outbound_url = href
+      track(name, params)
     }
     document.addEventListener('click', onClickCapture, { capture: true })
     mobileToggle?.addEventListener('click', () =>
@@ -172,6 +193,7 @@ export function SiteBehaviour() {
         page_path: pathname,
         page_location: window.location.href,
         page_title: document.title,
+        page_type: getPageType(pathname),
       })
     }
 
@@ -195,6 +217,27 @@ export function SiteBehaviour() {
             config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' },
             calLink: 'astonslaw/callback',
           })
+          // Wire the booking_completed listener once per page-load. Without
+          // this we only count book intent (book_click), never the closure.
+          if (!bookingListenerWired) {
+            try {
+              cal.ns.callback('on', {
+                action: 'bookingSuccessful',
+                callback: () => {
+                  if (typeof window.gtag !== 'function') return
+                  window.gtag('event', 'booking_completed', {
+                    cta_type: 'book',
+                    placement: 'cal_inline',
+                    page_type: getPageType(window.location.pathname),
+                    page_path: window.location.pathname,
+                  })
+                },
+              })
+              bookingListenerWired = true
+            } catch {
+              /* no-op — embed not ready for 'on' yet; retried by interval */
+            }
+          }
           return true
         } catch {
           return false
