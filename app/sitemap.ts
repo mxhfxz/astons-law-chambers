@@ -25,6 +25,8 @@ const staticRoutes: Array<{ path: string; source: string }> = [
   { path: '/police-station-representation', source: 'content/sections/police-station.html' },
   { path: '/fees', source: 'content/sections/fees.html' },
   { path: '/direct-access', source: 'content/sections/direct-access.html' },
+  { path: '/authorised-to-conduct-litigation', source: 'content/sections/authorised-to-conduct-litigation.html' },
+  { path: '/legal-aid', source: 'content/sections/legal-aid.html' },
   { path: '/about', source: 'content/sections/about.html' },
   { path: '/contact', source: 'content/sections/contact.html' },
   { path: '/complaints', source: 'content/sections/complaints.html' },
