@@ -91,6 +91,18 @@ const jsonLd = {
         'Criminal appeals',
         'Inquests',
       ],
+      // T2.1 (Branch 4, 2026-05-21): Person sameAs grounds the practitioner
+      // entity to the regulator-published BSB Register identity — the single
+      // safe Person-level sameAs. No personal LinkedIn/X/Inn bio: those expose
+      // the practitioner's connection graph, photo, or non-BSB facts (safety
+      // baseline). The URL ends in a 32-char content hash, not a slug or bar
+      // number, so a major BSB re-index could rotate it. Grep for
+      // "0A9C84A0E6BE3846C117FA4B4290EAD2" on a periodic check; if it 404s,
+      // replace with the register-search URL used on /home. Same hash also on
+      // /about and /authorised-to-conduct-litigation.
+      sameAs: [
+        'https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html',
+      ],
     },
     {
       '@type': 'WebSite',
