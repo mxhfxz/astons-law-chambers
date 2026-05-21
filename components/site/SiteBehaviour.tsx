@@ -214,7 +214,14 @@ export function SiteBehaviour() {
         try {
           cal.ns.callback('inline', {
             elementOrSelector: '#cal-callback-inline',
-            config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' },
+            // layout: "column_view" — cro-2026 BE1 / T1.6 default-selected-
+            // slot move (2026-05-21). Column view surfaces the next available
+            // slot at the top of the chronological list instead of requiring
+            // the visitor to click a date on a month grid first; cuts the
+            // unspent decision per cro-2026 default-architecture analysis.
+            // Look-ahead window is unchanged — that is the cal.com dashboard
+            // "Future bookings limit" setting, not a layout option.
+            config: { layout: 'column_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' },
             calLink: 'astonslaw/callback',
           })
           // Wire the booking_completed listener once per page-load. Without

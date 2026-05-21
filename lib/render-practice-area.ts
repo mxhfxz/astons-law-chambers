@@ -104,8 +104,18 @@ export function renderPracticeAreaDetail(area: PracticeArea): string {
   return html
 }
 
-/** FAQPage + BreadcrumbList JSON-LD for a practice-area detail page. */
+/** FAQPage + BreadcrumbList + Service JSON-LD for a practice-area detail
+ *  page. The Service node is the T1.4 add (safety-aware-implementation-
+ *  plan.md, 2026-05-21).
+ *
+ *  Safety control: `provider` deliberately references `#organization`,
+ *  NOT `#principal`. This keeps individual-attached service data off the
+ *  knowledge graph, so an AI assistant composes "Astons Law Chambers
+ *  offers X" rather than "Ghulam Humayun personally offers X at Y price".
+ *  No `serviceOutput.employee`, no `provider.employee`, no Person link
+ *  of any kind on Service nodes. */
 export function practiceAreaJsonLd(area: PracticeArea): string {
+  const pageUrl = `https://astonslaw.com/practice-areas/${area.slug}`
   const faq = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -125,9 +135,56 @@ export function practiceAreaJsonLd(area: PracticeArea): string {
         '@type': 'ListItem',
         position: 3,
         name: area.title,
-        item: `https://astonslaw.com/practice-areas/${area.slug}`,
+        item: pageUrl,
       },
     ],
   }
-  return JSON.stringify([faq, crumbs])
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
+    name: area.title,
+    description: area.cardSummary,
+    serviceType: serviceTypeFor(area),
+    provider: { '@id': 'https://astonslaw.com/#organization' },
+    areaServed: ['London', 'England', 'Wales'],
+    audience: {
+      '@type': 'Audience',
+      audienceType: audienceTypeFor(area),
+    },
+  }
+  return JSON.stringify([faq, crumbs, service])
+}
+
+/** serviceType is a short human-readable label for the legal service the
+ *  page describes. Each maps to the practice area's slug; defaults
+ *  catch-all to keep new PAs working without code changes. */
+function serviceTypeFor(area: PracticeArea): string {
+  switch (area.slug) {
+    case 'criminal-defence':
+      return 'Criminal defence representation'
+    case 'violent-crimes':
+      return 'Criminal defence representation in violent crime allegations'
+    case 'youth-crimes':
+      return 'Criminal defence representation for clients under 18'
+    case 'driving-offences':
+      return 'Criminal defence representation in driving offences'
+    case 'drug-offences':
+      return 'Criminal defence representation in drug offences'
+    case 'appeals':
+      return 'Criminal appeals representation'
+    case 'inquests':
+      return 'Inquest representation in the Coroner’s Court'
+    default:
+      return 'Criminal defence representation'
+  }
+}
+
+/** Inquests serve families and interested persons, not defendants; the
+ *  other PAs serve defendants. Audience phrasing reflects that. */
+function audienceTypeFor(area: PracticeArea): string {
+  if (area.slug === 'inquests') {
+    return 'Families and interested persons in coronial proceedings, England and Wales'
+  }
+  return 'Defendants in criminal proceedings, England and Wales'
 }

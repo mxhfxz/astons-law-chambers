@@ -206,7 +206,14 @@ gtag('config', 'G-8TDVMH13D7', __alcGaConfig);`}
   };
 })(window, "https://app.cal.com/embed/embed.js", "init");
 Cal("init", "callback", { origin: "https://cal.com" });
-Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });`}
+// layout: "column_view" — cro-2026 BE1 / T1.6 default-selected-slot
+// move. Column view lists available slots in chronological order with
+// the next available pre-emphasised at the top, so the visitor's choice
+// is "accept the suggested slot or pick another" rather than "scan a
+// month grid and pick a date first". Look-ahead window is unchanged —
+// that is the cal.com dashboard "Future bookings limit" setting (kept
+// narrow per the safety baseline), independent of the layout option.
+Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "column_view" });`}
         </Script>
 
       </body>
