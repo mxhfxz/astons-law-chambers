@@ -166,7 +166,18 @@ gtag('consent', 'default', {
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
-gtag('config', 'G-8TDVMH13D7', { send_page_view: true });`}
+var __alcGaConfig = { send_page_view: true };
+try {
+  // Opt-in debug mode via ?gtm_debug=true on any URL — events from this
+  // session land in GA4 DebugView immediately. Off by default; no impact
+  // on normal visitors. Lets us verify tracking without the Chrome
+  // extension. Once set on config, debug_mode is inherited by every
+  // subsequent gtag('event', ...) call in the session.
+  if (new URLSearchParams(window.location.search).get('gtm_debug') === 'true') {
+    __alcGaConfig.debug_mode = true;
+  }
+} catch (e) { /* SSR / no URL — fall through to default config */ }
+gtag('config', 'G-8TDVMH13D7', __alcGaConfig);`}
         </Script>
 
         {/* cal.com embed loader — lazyOnload: the homepage shows a facade and

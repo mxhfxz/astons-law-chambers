@@ -69,3 +69,23 @@ existing cal.com mount flow. No content-fragment edits — the
   (mark Key Events, register Custom Dimensions, enable Enhanced
   Measurement, build the Conversion Funnel v1 exploration). Plus the
   pre-existing CookieYes dashboard URL fix flagged last turn.
+
+- 2026-05-21: debug session — user reported "GA showing no activity"
+  + DebugView empty. Root cause was NOT a tracker bug. Diagnosis
+  layers verified live:
+    1. Tag fires (gtag called with correct params) ✓
+    2. Network ping reaches GA — direct probe to /g/collect with
+       tid=G-8TDVMH13D7 returned HTTP 204 (accepted) ✓
+    3. Measurement ID matches the destination property
+       (DSGNLY → Astons Law Chambers, user-confirmed) ✓
+    4. Property accepts the events — three debug-tagged probe events
+       fired (`test_call_click`, `test_page_view`, `test_engagement`)
+       appeared in user's DebugView/Realtime ✓
+  Symptoms explained by: (a) GA4 reports lag 24–48h, (b) cookieless
+  pings on unconsented visitors fragment user counts in reports,
+  (c) Realtime shows zero unless someone is actually on the site.
+  Lesson: when verifying analytics setup, claim "verified" only after
+  closing the WHOLE loop (gtag → wire → GA receipt → property ingest →
+  Realtime surfaces it). Verifying only the outbound leg is sloppy.
+- 2026-05-21: runbook step 1 corrected — `?_dbg=1` doesn't enable GA4
+  debug mode; the Google Analytics Debugger Chrome extension does.
