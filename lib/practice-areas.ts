@@ -98,7 +98,11 @@ export const practiceAreas: PracticeArea[] = [
       body: 'Identification, self-defence, and witness account are best framed in the first weeks after charge. Earlier is better.',
     },
     policeStation: { title: 'In custody for assault, ABH or GBH — speak to the barrister before the interview.' },
-    related: ['criminal-defence', 'drug-offences', 'appeals'],
+    // Sibling rebalance 2026-05-21: swap drug-offences + appeals (over-linked)
+    // for youth-crimes + inquests (under-linked). Editorial adjacencies:
+    // youth ↔ violent (assault by under-18s); inquests ↔ violent (death from
+    // violence). Revert: `git restore lib/practice-areas.ts`.
+    related: ['criminal-defence', 'youth-crimes', 'inquests'],
   },
   {
     slug: 'youth-crimes',
@@ -203,7 +207,9 @@ export const practiceAreas: PracticeArea[] = [
       body: 'Drug cases turn on what is in the disclosure schedules and what is missing from them. Early review sets the strategy.',
     },
     policeStation: { title: 'In custody for possession or supply — call before the interview begins.' },
-    related: ['criminal-defence', 'violent-crimes', 'appeals'],
+    // Sibling rebalance 2026-05-21: swap appeals (over-linked) for
+    // driving-offences (under-linked). Adjacency: drug-driving cases bridge.
+    related: ['criminal-defence', 'driving-offences', 'violent-crimes'],
   },
   {
     slug: 'appeals',
