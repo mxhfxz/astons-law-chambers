@@ -12,43 +12,58 @@
         <div class="max-w-wide mx-auto px-6 pt-12 pb-16 md:pt-20 md:pb-20 lg:pb-24">
           <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
 
-            <!-- LEFT: kicker, H1, lead, CTAs, regulator line -->
+            <!-- LEFT: eyebrow, H1, sub w/ inline link, single full-width CTA, trust strip.
+                 LOCKED hero spec 2026-05-21 (see .project/cro-deep-audit-2026-05-21/cro-2026-overlay.md).
+                 Revert: `git restore content/sections/home.html` returns the prior 5-CTA layout. -->
             <div class="flex flex-col max-w-2xl">
               <p class="fluid-eyebrow font-semibold uppercase text-navy-100/80">
-                Astons Law Chambers · Barristers, London
+                Astons Law Chambers · Criminal defence barrister, London
               </p>
               <h1 class="mt-5 fluid-h1 font-bold text-white">
-                Speak to a barrister before the police interview.
+                24/7 Emergency criminal defence barrister.
               </h1>
               <p class="mt-6 fluid-lead text-navy-100/90 max-w-prose">
-                Whatever stage the case is at — police station, first hearing, trial, or appeal — Astons Law Chambers acts as a criminal defence lawyer and takes instructions direct. Available 24/7 for police station support.
+                Police station support in London and throughout England and Wales. Legal aid <a href="/legal-aid" data-track="legal_aid_link" data-track-location="hero_sub" class="underline underline-offset-4 decoration-1 hover:decoration-2 text-white">available</a>.
               </p>
 
               <div class="mt-8 md:mt-10 max-w-sm">
                 <a
                   href="tel:+447922247999"
-                  aria-label="Call Astons Law Chambers now"
+                  aria-label="Call Astons Law Chambers on 07922 247 999"
                   data-track="call_click"
                   data-track-location="hero"
                   class="btn btn-xl btn-inverse w-full"
                 >
                   <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
-                  Call now
-                </a>
-                <a
-                  href="tel:+447922247999"
-                  aria-label="Call now for 24/7 police station support"
-                  data-track="call_click"
-                  data-track-location="hero_secondary"
-                  class="btn btn-lg btn-on-dark w-full mt-3"
-                >
-                  <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
-                  24/7 police station support
+                  Call 07922 247 999
                 </a>
               </div>
 
-              <p class="mt-8 text-sm text-navy-100/70">
-                Regulated by the Bar Standards Board.
+              <!-- Trust strip — 3 unstyled inline links, small grey on dark, underline on hover only.
+                   Subordinate to the CTA visually; never read as competing actions. -->
+              <p class="mt-8 text-sm text-navy-100/70 flex flex-wrap items-center gap-3">
+                <a
+                  href="https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record/the-barristers-register.html"
+                  target="_blank"
+                  rel="noopener"
+                  class="hover:text-white hover:underline underline-offset-4 decoration-1"
+                >Regulated by the Bar Standards Board</a>
+                <span aria-hidden="true">·</span>
+                <a
+                  href="https://share.google/UUmxWclpCyvczjSSS"
+                  target="_blank"
+                  rel="noopener"
+                  data-track="reviews_click"
+                  data-track-location="hero"
+                  class="hover:text-white hover:underline underline-offset-4 decoration-1"
+                >4.9 stars on Google</a>
+                <span aria-hidden="true">·</span>
+                <a
+                  href="/authorised-to-conduct-litigation"
+                  data-track="litigation_link"
+                  data-track-location="hero"
+                  class="hover:text-white hover:underline underline-offset-4 decoration-1"
+                >Authorised to conduct litigation</a>
               </p>
             </div>
 
