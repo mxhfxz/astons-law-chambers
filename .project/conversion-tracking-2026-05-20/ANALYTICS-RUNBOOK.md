@@ -14,8 +14,14 @@ come back, finish whichever sections still show ☐.
 This proves the code change is working before you touch any settings.
 
 1. Open GA4 → Admin (gear icon) → **DebugView**.
-2. In a new tab open `https://astonslaw.com/?_dbg=1` (any URL on the site).
-3. On that tab, install the **Google Analytics Debugger** Chrome extension and toggle it ON, then reload. (Or just click around — events still arrive in DebugView, only slower.)
+2. Install the **Google Analytics Debugger** Chrome extension (by Google
+   itself — search the Chrome Web Store). DebugView ONLY shows events from
+   browsers in debug mode; without the extension toggled on it stays empty
+   even though tracking is working fine in the background. (`?_dbg=1` does
+   NOT enable GA4 debug mode — that's a different vendor's flag.)
+3. On `astonslaw.com`, click the extension icon to toggle it ON, then
+   reload the page. You should see "Debug Device: 1" in DebugView within
+   ~10 seconds.
 4. Click **Call now** in the homepage hero.
 5. Within ~10 seconds you should see in DebugView:
    - `call_click` event
