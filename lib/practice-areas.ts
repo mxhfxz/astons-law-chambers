@@ -16,6 +16,12 @@ export interface PracticeArea {
   metaDescription: string
   kicker: string
   cardSummary: string
+  /** Neutral, entity-free "What is [practice area]" definition. Rendered as
+   *  the lead paragraph above `situation`. AEO add (T2.2c, 2026-05-21):
+   *  LLMs cite clean category definitions. Required so every PA page carries
+   *  one. BSB-safe — no statutory section numbers, sentencing figures, or
+   *  case citations (feedback_legal_specificity). 🚩 Ghulam sign-off pending. */
+  definition: string
   situation: string
   actions: string[]
   process: string[]
@@ -34,6 +40,8 @@ export const practiceAreas: PracticeArea[] = [
       'Criminal defence lawyer in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
+    definition:
+      'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, to trial and any appeal that follows.',
     situation:
       'Astons Law Chambers acts as a criminal defence lawyer at every stage, from arrest to verdict. Police station attendance, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
     actions: [
@@ -71,6 +79,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister defending assault, ABH, GBH, affray and robbery allegations. Instructed direct, from the police station through to Crown Court trial.',
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
+    definition:
+      'Violent crime covers allegations involving violence or the threat of it: assault, actual and grievous bodily harm, affray, and robbery. The less serious are heard in the Magistrates’ Court. The most serious go to the Crown Court.',
     situation:
       'Astons Law Chambers acts as a criminal defence lawyer in allegations of violence — from common assault through to the most serious offences against the person. Magistrates’ Court and Crown Court representation.',
     actions: [
@@ -112,6 +122,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister defending clients under 18 in the Youth Court and Crown Court — instructed direct, with the procedures the youth jurisdiction requires.',
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
+    definition:
+      'Youth crime is a criminal allegation against someone under 18. Most cases are heard in the Youth Court, which has its own procedure and considers the young person’s welfare. The most serious go to the Crown Court.',
     situation:
       'Astons Law Chambers acts as a criminal defence lawyer for clients under 18 in the Youth Court and, where allocated, the Crown Court. Conducted with the specific procedures and welfare considerations the youth jurisdiction requires.',
     actions: [
@@ -147,6 +159,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister for driving offences — drink and drug driving, totting-up and exceptional-hardship arguments, and licence-loss work. Instructed direct.',
     kicker: 'Criminal',
     cardSummary: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
+    definition:
+      'Driving offences range from fixed-penalty matters to charges tried in the Crown Court. They include drink and drug driving, speeding, careless and dangerous driving, and losing a licence through totting-up. Many carry penalty points or a disqualification.',
     situation:
       'Driving offences from fixed-penalty appeals to Crown Court trial. Drink and drug driving, totting-up, exceptional-hardship arguments, and disqualification work.',
     actions: [
@@ -182,6 +196,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister defending drug allegations — possession, supply, importation and production. Instructed direct, with forensic and disclosure challenges.',
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
+    definition:
+      'Drug offences cover the possession, supply, production, and importation of controlled drugs. Simple possession is usually dealt with in the Magistrates’ Court. Supply, conspiracy, and importation are tried in the Crown Court.',
     situation:
       'Astons Law Chambers acts as a criminal defence lawyer in drug allegations — possession through to supply, importation, and production. Magistrates’ Court and Crown Court representation.',
     actions: [
@@ -219,6 +235,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister for criminal appeals against conviction and sentence — advice on prospects, drafting of grounds, and representation in the Court of Appeal.',
     kicker: 'Post-trial',
     cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
+    definition:
+      'A criminal appeal challenges a conviction or a sentence after the case has been decided. Appeals from the Magistrates’ Court go to the Crown Court, and appeals from the Crown Court go to the Court of Appeal. The time to appeal is short and starts on the day of the decision.',
     situation:
       'Appeals against conviction and sentence, in the Crown Court and the Court of Appeal. Advice on prospects, drafting of grounds, and representation at the appeal hearing.',
     actions: [
@@ -253,6 +271,8 @@ export const practiceAreas: PracticeArea[] = [
       'London barrister representing families and interested persons at inquests, from the pre-inquest review through to the substantive hearing in the Coroner’s Court.',
     kicker: 'Coroner’s Court',
     cardSummary: 'Family and interested-person representation. Pre-inquest review through hearing.',
+    definition:
+      'An inquest is an inquiry in the Coroner’s Court into how someone died. It is not a trial and decides no one’s guilt. A family, or another interested person, can be represented at the pre-inquest review and at the inquest itself.',
     situation:
       'Representation of families and interested persons in the Coroner’s Court — pre-inquest review hearings through to the substantive inquest.',
     actions: [

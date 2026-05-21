@@ -7,7 +7,12 @@
           </p>
           <p class="mt-6 text-xs font-semibold tracking-[0.15em] uppercase text-grey-600" data-bind="kicker">—</p>
           <h1 class="mt-2 text-4xl md:text-6xl font-semibold tracking-tight2 leading-[1.05]" data-bind="title">—</h1>
-          <p class="mt-6 text-lg text-navy-700 leading-relaxed max-w-prose" data-bind="situation">—</p>
+          <!-- T2.2c (Branch 4, 2026-05-21): neutral "What is [practice area]"
+               definition, set as the lead above the situation paragraph. AEO
+               add — LLMs cite clean category definitions. Entity-free and
+               BSB-safe; copy lives in lib/practice-areas.ts `definition`. -->
+          <p class="mt-6 text-lg text-navy-700 leading-relaxed max-w-prose" data-bind="definition">—</p>
+          <p class="mt-4 text-lg text-navy-700 leading-relaxed max-w-prose" data-bind="situation">—</p>
 
           <div class="mt-10 btn-row">
             <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_top" class="btn btn-lg btn-primary btn-full">
