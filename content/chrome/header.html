@@ -95,15 +95,18 @@
           <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </a>
 
-        <!-- Mobile: single tap-to-call, fills the bar -->
+        <!-- Mobile: single tap-to-call, fills the bar. Copy locked 2026-05-21:
+             "Press to call" frames the action in the visitor's own terms
+             (JTBD — press = the physical act they're already considering).
+             Revert: `git restore content/chrome/header.html`. -->
         <a
           href="tel:+447922247999"
           data-track="call_click"
           data-track-location="police_banner_mobile"
           class="sm:hidden flex-1 inline-flex items-center justify-center gap-2 font-semibold tracking-tightish"
-          aria-label="Call now for police station representation"
+          aria-label="Press to call for police station representation"
         >
-          Call now for police station representation
+          Press to call for police station representation
           <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </a>
       </div>

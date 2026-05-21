@@ -1,10 +1,16 @@
+  <!-- Quick-exit (safety mechanism). Moved from bottom-left to top-left on
+       2026-05-21 because CookieYes' new consent-revert button now occupies
+       bottom-left. Position is set by .quick-exit-fixed in preview-styles.css
+       (top: 7.25rem mobile-sm / top: 8rem md+) to sit 0.5rem below the sticky
+       header + police-banner stack. Label rewrite still under review.
+       Revert: `git restore content/chrome/quick-exit.html app/preview-styles.css`. -->
   <button
-    aria-label="Quick exit — leave this site immediately"
+    aria-label="Hide this page — leave this site immediately"
     data-leave-site
     data-track="quick_exit"
     data-track-location="desktop_corner"
-    class="btn btn-sm btn-quick-exit fixed z-40 bottom-4 left-4 hidden sm:inline-flex shadow-[0_10px_28px_-12px_rgba(0,0,0,0.45)]"
+    class="btn btn-sm btn-quick-exit quick-exit-fixed z-40 hidden sm:inline-flex shadow-[0_10px_28px_-12px_rgba(0,0,0,0.45)]"
   >
     <svg class="ico" aria-hidden="true"><use href="#i-close"/></svg>
-    Quick exit
+    Hide this page
   </button>

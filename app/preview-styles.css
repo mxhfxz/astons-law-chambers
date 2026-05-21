@@ -401,3 +401,13 @@
     .btn.hidden { display: none; }
     @media (min-width: 640px) { .btn.sm\:inline-flex { display: inline-flex; } }
     @media (min-width: 768px) { .btn.md\:inline-flex { display: inline-flex; } }
+
+    /* Quick-exit button position 2026-05-21. Bottom-left was occupied by a
+       newly-added CookieYes consent revert button, so the safety button
+       moves to top-left and pins 0.5rem below the sticky header+banner
+       stack. Two breakpoints because the header heights step at md:
+         sm (640-767px): header h-16 (64px) + banner h-11 (44px) + gap 8px = 116px = 7.25rem
+         md+ (768px+):   header h-[72px] (72px) + banner h-12 (48px) + gap 8px = 128px = 8rem
+       Revert: `git restore app/preview-styles.css content/chrome/quick-exit.html`. */
+    .quick-exit-fixed { position: fixed; top: 7.25rem; left: 1rem; }
+    @media (min-width: 768px) { .quick-exit-fixed { top: 8rem; } }
