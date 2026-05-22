@@ -42,6 +42,36 @@ const nextConfig = {
         destination: '/practice-areas',
         permanent: true,
       })),
+
+      // --- legacy /offences/* silo (previous site) — indexed in GSC, now 404.
+      //     Intent-matched explicit mappings first; wildcard catch-all last
+      //     (Next.js applies the first matching redirect in array order). ---
+      { source: '/offences/held-by-police', destination: '/police-station-representation', permanent: true },
+      { source: '/offences/immediate-advice', destination: '/police-station-representation', permanent: true },
+      { source: '/offences/robbery-armed-robbery', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/assault', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/murder-manslaughter', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/violence-against-emergency-workers', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/gang-related-violence', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/public-order-offences-affray-riot', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/historical-violence-allegations', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/offences/court-appearance', destination: '/practice-areas/criminal-defence', permanent: true },
+      // POCA / confiscation / tainted gifts were removed from scope — no honest
+      // detail page exists, so the hub is the least-bad target.
+      { source: '/offences/:path*', destination: '/practice-areas', permanent: true },
+
+      // --- legacy /transparency/* silo (previous site) ---
+      { source: '/transparency/how-to-instruct-us', destination: '/direct-access', permanent: true },
+      { source: '/transparency/your-rights-with-the-legal-ombudsman', destination: '/complaints', permanent: true },
+      { source: '/transparency/timescales-how-long-cases-take', destination: '/timescales', permanent: true },
+      { source: '/transparency/terms-conditions', destination: '/terms-of-engagement', permanent: true },
+      { source: '/transparency/:path*', destination: '/', permanent: true },
+
+      // --- legacy top-level crime URLs (previous site) ---
+      { source: '/violent-crimes', destination: '/practice-areas/violent-crimes', permanent: true },
+      { source: '/drug-offences', destination: '/practice-areas/drug-offences', permanent: true },
+      { source: '/fraud-allegations', destination: '/practice-areas/criminal-defence', permanent: true },
+      { source: '/restraint-confiscation-orders', destination: '/practice-areas', permanent: true },
     ]
   },
 }
