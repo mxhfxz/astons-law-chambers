@@ -30,3 +30,9 @@ Thumbs.db
 
 # Vercel
 .vercel
+.gstack/
+
+# Audit / verification screenshots under .project (disposable artifacts).
+# Note: 6 reference screenshots committed in earlier sessions stay tracked;
+# gitignore does not untrack them. This only stops new ones cluttering status.
+.project/**/*.png
