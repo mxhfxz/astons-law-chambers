@@ -56,6 +56,7 @@ export function renderPracticeAreaDetail(area: PracticeArea): string {
 
   setVal('title', area.title)
   setVal('kicker', area.kicker)
+  setVal('definition', area.definition)
   setVal('situation', area.situation)
   if (area.context) {
     setVal('contextEyebrow', area.context.eyebrow)

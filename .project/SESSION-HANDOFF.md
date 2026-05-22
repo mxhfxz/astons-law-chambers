@@ -1,6 +1,6 @@
-# Session Handoff — 2026-05-21 (Branch 3 — T1.5 legal-aid callout)
+# Session Handoff — 2026-05-22 (Branch 4 — T2.1 Person sameAs + T2.2 three list-form adds)
 
-Read this FIRST, after `MEMORY.md` and `.project/_START_HERE.md`. **Supersedes the previous 2026-05-21 Branch-2 handoff** (still in git history at `108b694`).
+Read this FIRST, after `MEMORY.md` and `.project/_START_HERE.md`. **Supersedes the 2026-05-21 Branch-3 handoff** (still in git history at `fa4d6d4`).
 
 ---
 
@@ -13,7 +13,7 @@ Routing:
 - Verifying → `verification-before-completion`
 - Frontend → `frontend-design` + `frontend-dev-guidelines`
 - Accessibility → `fixing-accessibility` / `a11y-audit` / `wcag-audit-patterns`
-- Git / deploys → git skills + `vercel-deployment`
+- Git / deploys → git skills + `vercel-deployment`, worktree work → `using-git-worktrees`
 - Config / settings.json / hooks → `update-config`
 - Planning → `project-mgmt`
 - SEO / schema → `seo-audit` (+ `seo-technical`, `schema-markup`, `seo-meta-optimizer`, `seo-geo`)
@@ -26,206 +26,176 @@ Standing rules: **nothing reaches `main` without build + type-check + a real-bro
 
 ## 1. Production state
 
-**Production HEAD:** `main` at `1a3b3fc` — live on `astonslaw.com` via Vercel auto-deploy. Build clean (28/28 static pages), type-check clean. Live verification at 22:28 BST 2026-05-21 via two curl probes of `https://astonslaw.com/fees`:
+**Production HEAD:** `main` is live on `astonslaw.com` via Vercel auto-deploy. Branch 4 shipped as `d242efa` (this handoff commit sits on top of it). The latest Vercel production deployment (`dpl_8vDxA73ecBX38imieGzH2QhSWZCN`, commit `d242efa`) is `state: READY`, `target: production`.
 
-- "That call is where suitability is decided" — present in HTML body (line 240 of the rendered doc) + once more in the Next.js RSC hydration payload. Normal single visible render.
-- "Summarised at the top of this page" — pointer paragraph at the bottom-of-page collapsed section, same render pattern.
+Live verification 2026-05-22 against `https://astonslaw.com`:
+- **T2.1** — homepage JSON-LD parsed clean (1 `@graph` block, types `LegalService`, `LocalBusiness`, `Person`, `WebSite`). `Person.sameAs = ["https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html"]` — BSB Register URL only, matching the locked safety-baseline Person allowlist. The BSB URL itself resolves `HTTP 200`.
+- **T2.2** — `/fees` carries "What to bring to a first conference"; `/direct-access` carries the "Instructing directly, or through a solicitor" comparison; `/practice-areas/[slug]` carries the "What is …" definition + situation as the page lead.
 
-Git is main-only — `fix/cro-tier1-copy-2026-05-21` was fast-forwarded into main and deleted.
+Pre-ship verification (in isolated worktree, on the rebased branch): build 28/28 static pages, type-check 0, contrast audit 0 failures / 397 elements, em-dash check on the added copy clean (only code comments + auto-replaced template placeholders carry em dashes), real-browser screenshots of all three changed page types.
+
+**On the Google Rich Results Test (deferred gate from the prior handoff):** done as a live structured-data validation — the deployed JSON-LD is syntactically valid and the `Person.sameAs` is correct. Note for whoever wants the literal Google tool: `Person` is **not** a rich-result-eligible type, so `search.google.com/test/rich-results` will report "no rich results detected" for the Person node (expected, not a failure); it will show eligibility for the page's other types. `sameAs` feeds the Knowledge Graph, not rich results. The right manual tool for Person syntax is `validator.schema.org`. That manual check, if wanted, is the only outstanding verification item and is non-blocking.
 
 ## 2. What this session shipped
 
 | Commit | Scope |
 |---|---|
-| `1a3b3fc` | **Branch 3 — T1.5/F26 legal-aid callout on `/fees`.** Single-file change in `content/sections/fees.html` (+17 / -4). |
+| `24752e3` | **T2.1 — Person `sameAs` → BSB direct profile URL only.** `app/layout.tsx` `#principal.sameAs` gets exactly one entry (the 32-char-hash BSB profile URL). Hash-stability comment added inline. |
+| `d242efa` | **T2.2 — three list-form AEO adds.** (a) `/direct-access` 5-row "Instructing directly, or through a solicitor" comparison; (b) `/fees` 7-item "What to bring to a first conference" checklist (the PA-detail "Before you call" aside left in place, added not replaced); (c) each PA detail page gets a required `definition` field rendered as the "What is …" lead above the situation paragraph. Files: `content/sections/direct-access.html`, `content/sections/fees.html`, `content/sections/pa-detail.html`, `lib/practice-areas.ts`, `lib/render-practice-area.ts`. |
 
-What the commit does:
+Ghulam's legal-accuracy sign-off on the literal wording was obtained in the prior session ("ship now"). The `[PENDING GHULAM SIGN-OFF]` tag still in the `d242efa` commit message is a stale leftover — sign-off is complete; the tag was not worth a history rewrite of approved, tested commits.
 
-- **Callout above the fee table.** Insert a `bg-offwhite` blockquote between the page intro and the column grid in `content/sections/fees.html` (immediately above the `<h2>Indicative fee ranges</h2>` H2 on desktop; immediately above the table on mobile where the aside collapses). Two-line max, sized to `max-w-prose`.
-- **Wording mirrors live `/legal-aid`.** Ghulam approved using the existing `/legal-aid` blockquote sentence verbatim rather than F26's literal text — keeps the visitor's read consistent across the two pages. Exact body: *"Astons Law Chambers is not a legal aid contract holder. Where legal aid applies, the case is referred to a partner solicitor firm at no cost. The first call is free either way. That call is where suitability is decided."*
-- **Bottom-of-page section collapsed to a pointer per the DoD.** Old paragraph + `/legal-aid` link replaced with: *"Summarised at the top of this page. The detailed explainer is on the legal aid page."* The `<h2>` keeps a new `id="legal-aid"` so any inbound deep link (e.g. `/fees#legal-aid`) still lands somewhere semantic.
-- **Visual reuse of established pattern.** Same `border-l-2 border-navy-950 bg-offwhite pl-5 pr-4 py-4 max-w-prose` classes as the `/legal-aid` and `/authorised-to-conduct-litigation` blockquotes. See §10 caveat about the silently-missing left border — it's a site-wide pre-existing issue, not introduced here.
+### How it shipped (git mechanics — read before the next ship)
 
-## 3. Open files and the canonical doc
+- Branch 4 was held unshipped on `fix/cro-tier2-person-sameas-listicles-2026-05-21` while the insights CMS work (Thread B, §3) sat as uncommitted WIP in the main working dir.
+- Shipped via an **isolated git worktree** (`/tmp/alc-cro-tier2-ship`, entered with `EnterWorktree`) so the insights WIP in the main working dir was never touched.
+- The 2 commits were **rebased onto `origin/main`** (which had advanced to `90342dd` "Create .pages.yml (via Pages CMS)") — clean, no conflicts (no file overlap). Then pushed `HEAD:main` as a fast-forward. Local `main` reconciled to `origin/main`.
+- The `fix/cro-tier2-…` branch was deleted after the ship (its commits are in `main`).
 
-**The canonical doc remains** `.project/cro-deep-audit-2026-05-21/safety-aware-implementation-plan.md`.
+**⚠️ NEW STANDING GOTCHA — Pages CMS writes to `origin/main` directly.** A Pages CMS is connected to this repo and commits straight to `origin/main` (`.pages.yml` was the first such commit). `main` therefore moves outside your local pushes. **Always `git fetch` and reconcile/rebase onto `origin/main` immediately before any push.** This session's rebase onto `90342dd` is the proof case.
 
-- Branch 1 (T4.1, anti-tracker baseline) ✅ shipped `f1f433d`.
-- Branch 2 (T1.1/T1.2/T1.3/T1.4/T1.6) ✅ shipped `285245c`.
-- Branch 3 (T1.5) ✅ shipped `1a3b3fc` (this session).
-- Branches 4–5 remain.
+## 3. Thread B — insights CMS (IN PROGRESS, NOT shipped)
 
-The **ten locked safety exclusions** ([project_safety_baseline_2026_05_21.md](.claude/projects/-Users-mahfuzpholby-Documents-Agency-Work-astons-law-chambers/memory/project_safety_baseline_2026_05_21.md)) continue to apply. T1.5 is copy-only, BSB-safe, zero person exposure.
+A parallel feature, the **insights CMS**, is in progress on branch `feat/insights-cms-2026-05-22` (main working dir). As of this handoff it is **uncommitted WIP**, deliberately left untouched by the Branch-4 ship:
+
+- Modified: `package.json`, `package-lock.json` (deps), `styles/globals.css`, `.project/security-notes.md`, `.gitignore`.
+- Untracked: `styles/prose.css`, `lib/insights.ts`, `lib/render-insight.ts`, `app/insights/`, `content/insights/`, `.project/insights-cms-2026-05-22/`, `.project/preview/`, `.project/research/`.
+
+The `feat/insights-cms-2026-05-22` branch tip is still at the old `fa4d6d4`; it has **not** picked up `90342dd` (.pages.yml) or Branch 4 (`d242efa`). When that thread resumes it should rebase/merge `origin/main` to get current. This thread was not authored or inspected in the Branch-4 session — pick up intent/scope from the user.
 
 ## 4. The cadence
 
 User wants one branch per session, with a hard session boundary (`/clear`) between branches to avoid context drift. **Always** end each session with a detailed handoff (this file) + an updated pickup prompt (§7 below).
 
-Order in `safety-aware-implementation-plan.md`:
+Order in `.project/cro-deep-audit-2026-05-21/safety-aware-implementation-plan.md` (the canonical doc):
 
-- **Branch 1 — `safety-baseline-2026-05-21`** ✅ shipped as `f1f433d`.
-- **Branch 2 — `cro-tier1-content-schema-2026-05-21`** ✅ shipped as `285245c`.
-- **Branch 3 — `cro-tier1-copy-2026-05-21`** ✅ shipped as `1a3b3fc` (this session).
-- **Branch 4 — `cro-tier2-person-sameas-listicles-2026-05-21`** — **NEXT.** T2.1 (Person `sameAs` → BSB direct profile URL only) + T2.2 (three list-form content adds). Needs Ghulam list-content review.
-- **Branch 5 — `cro-tier3-decisions-2026-05-21`** — T3.1 (24/7 wording site-wide), T3.2 (CookieYes layout), T3.3 (call-attribution), T3.4 (loss-frame line), T3.5 (Google-Extended decision — likely no-op). Five client decisions; ship when each is in.
+- **Branch 1 — `safety-baseline-2026-05-21`** ✅ shipped `f1f433d`.
+- **Branch 2 — `cro-tier1-content-schema-2026-05-21`** ✅ shipped `285245c`.
+- **Branch 3 — `cro-tier1-copy-2026-05-21`** ✅ shipped `1a3b3fc`.
+- **Branch 4 — `cro-tier2-person-sameas-listicles-2026-05-21`** ✅ shipped `24752e3` + `d242efa` (this session).
+- **Branch 5 — `cro-tier3-decisions-2026-05-21`** — **NEXT.** T3.1 (24/7 wording site-wide), T3.2 (CookieYes layout), T3.3 (call-attribution), T3.4 (loss-frame line), T3.5 (Google-Extended decision — likely no-op). Five client decisions; ship each item only once its decision is in.
 
-Tier 4.2 quarterly sweep is calendar, not branch.
+Tier 4.2 quarterly safety re-sweep is calendar, not branch (next due per the safety baseline schedule).
 
-## 5. Standing client 🚩 needed before Branches 4–5
+The insights CMS (Thread B, §3) is a separate workstream that interleaves with this branch cadence.
 
-1. **List-form content adds (Branch 4).** Drafts go to Ghulam for legal-accuracy review:
-   - `/direct-access`: 5-item comparison "When to instruct a barrister directly vs through a solicitor".
-   - `/fees` or `/practice-areas/criminal-defence`: 5–7 item "What to bring to a first conference" list.
-   - Each PA detail page: a single-paragraph "What is [practice area]" definition above the situation paragraph.
-2. **F29 24/7 wording (Branch 5).** Recommended scope-narrowed lock: *"Available 24/7 for police station support. Other calls answered during working hours; voicemail and WhatsApp returned within business hours."*
-3. **CookieYes layout (Branch 5).** Recommended (a) bar at bottom.
-4. **Call-attribution (Branch 5).** (a) 10-sec post-call sheet + Measurement Protocol upload, or (b) status quo. Bandwidth decision.
-5. **Loss-frame homepage line (Branch 5).** *"Most criminal cases are decided by what happens in the first call and the first hearing — not the trial."* — needs verification of the literal wording.
-6. **Google-Extended in `robots.ts` (Branch 5).** Recommended: keep blocked (safety wins over small AEO upside).
+## 5. Client decisions needed before Branch 5
 
-## 6. Standing client 🚩 from earlier sessions (recorded but not blocking)
+Branch 5 ships item-by-item; each item is gated on its own client decision.
+
+1. **F29 24/7 wording (T3.1).** Recommended scope-narrowed lock: *"Available 24/7 for police station support. Other calls answered during working hours; voicemail and WhatsApp returned within business hours."* Applies site-wide (the sticky bar + every hero/banner that currently says "Available 24/7 for police station support").
+2. **CookieYes layout (T3.2).** Recommended (a) bar at bottom.
+3. **Call-attribution (T3.3).** (a) 10-sec post-call sheet + Measurement Protocol upload, or (b) status quo. Bandwidth decision.
+4. **Loss-frame homepage line (T3.4).** *"Most criminal cases are decided by what happens in the first call and the first hearing — not the trial."* — needs verification of the literal wording (🚩 imported-claim rule: confirm with Ghulam before it goes in copy).
+5. **Google-Extended in `robots.ts` (T3.5).** Recommended: keep blocked (safety wins over small AEO upside) — likely a no-op confirmation.
+
+## 6. Standing client items from earlier sessions (recorded, not blocking)
 
 - **cal.com "Future bookings limit" dashboard setting** — confirm narrow (≤30 days, the default) per the locked safety baseline. Dashboard check, not code.
-- **BSB profile URL stability** — 32-char content hash; quarterly re-check is in the safety baseline T4.2 calendar. Branch 4's T2.1 will pin this URL into Person `sameAs`.
+- **BSB profile URL stability** — now pinned into `Person.sameAs` (T2.1) AND on `/about` + `/authorised-to-conduct-litigation`. 32-char content hash; a BSB re-index could rotate it. Quarterly re-check is in the T4.2 calendar. If the URL 404s, grep for `0A9C84A0E6BE3846C117FA4B4290EAD2` across `app/` + `content/` and replace all occurrences with the register-search URL.
 
-## 7. Pickup prompt for the next session (Branch 4)
+## 7. Pickup prompt for the next session (Branch 5)
 
-Use this verbatim to start the next session. It's self-contained and lets a fresh context window pick up the exact next move.
+Use this verbatim to start the next session. It is self-contained.
 
 ```
-Astons Law Chambers — Branch 4 of the safety-aware implementation plan.
+Astons Law Chambers — Branch 5 of the safety-aware implementation plan
+(CRO Tier-3 client decisions). NOTE: there is also a parallel
+insights-CMS thread in progress (feat/insights-cms-2026-05-22, uncommitted
+WIP) — confirm with the user which to advance before acting.
 
-Production is live on main at 1a3b3fc after Branch 3 (T1.5 legal-aid
-callout above the /fees fee table). This session ships Branch 4 of
+Production is live on main after Branch 4 (T2.1 Person sameAs → BSB URL
+only + T2.2 three list-form adds), shipped 2026-05-22 at d242efa, deploy
+verified READY. This session ships Branch 5 of
 .project/cro-deep-audit-2026-05-21/safety-aware-implementation-plan.md:
-T2.1 (Person sameAs → BSB direct profile URL only) + T2.2 (three
-list-form content adds across /direct-access, /fees or
-/practice-areas/criminal-defence, and each PA detail page).
+T3.1 (24/7 wording site-wide), T3.2 (CookieYes layout), T3.3
+(call-attribution), T3.4 (loss-frame homepage line), T3.5 (Google-Extended
+in robots.ts — likely no-op). Each item ships only once its client decision
+is in (see §5 of SESSION-HANDOFF.md).
 
-Standing rules apply: HARD RULE — skills first, no Claude defaults;
-APEX rule — Penpot existing pages off-limits; no broken sites to main
-(build + type-check + real-browser pass before any push);
-practitioner-safety threat model + ten locked safety exclusions per
+Standing rules apply: HARD RULE — skills first, no Claude defaults; APEX —
+Penpot existing pages off-limits; no broken sites to main (build +
+type-check + real-browser pass before any push); practitioner-safety
+threat model + ten locked safety exclusions per
 .claude/projects/.../memory/project_safety_baseline_2026_05_21.md.
+
+⚠️ GIT — Pages CMS writes to origin/main directly (.pages.yml). main moves
+outside local pushes. ALWAYS git fetch + rebase onto origin/main
+immediately before any push. Verify with git fetch + git status first.
 
 Read first, in order:
  1. MEMORY.md (auto-loaded; respect every feedback rule, especially
-    project_safety_baseline_2026_05_21.md — section "Locked safety
-    exclusions" matters for what NOT to add to Person sameAs)
- 2. .project/SESSION-HANDOFF.md (this file; §1, §2, §3 set context,
-    §5 lists the Ghulam list-content review 🚩, §10 has the open
-    site-wide CSS caveat about border-l-2)
+    project_safety_baseline_2026_05_21.md)
+ 2. .project/SESSION-HANDOFF.md (this file; §1 production state, §3
+    insights-CMS thread state, §5 the five Branch-5 client decisions,
+    §10 the open site-wide border-l-2 CSS caveat)
  3. .project/cro-deep-audit-2026-05-21/safety-aware-implementation-
-    plan.md — T2.1 and T2.2 sections
- 4. .project/cro-deep-audit-2026-05-21/findings.md — for the audit
-    context behind the three list-form adds
+    plan.md — T3.1–T3.5 sections
+ 4. .project/cro-deep-audit-2026-05-21/findings.md — audit context
 
-Work to ship this session in branch
-fix/cro-tier2-person-sameas-listicles-2026-05-21 (single branch,
-then merge to main, then push):
+Before building each T3 item, confirm its client decision is in (§5).
+Skills-first: copywriting + avoid-ai-writing for T3.1/T3.4 copy;
+legal-advisor for any operational-claim wording (24/7, loss-frame line —
+imported-claim rule, confirm literal wording with Ghulam); update-config
+for robots.ts / settings; verification-before-completion for every
+"passes" claim.
 
- 1. T2.1 — Person `#principal.sameAs` array in app/layout.tsx gets
-    exactly one entry: the direct BSB profile URL
-    https://www.barstandardsboard.org.uk/barristers-register/
-    0A9C84A0E6BE3846C117FA4B4290EAD2.html
-    No other social/personal-profile URLs. The hash-stability comment
-    pattern is already established on /about and
-    /authorised-to-conduct-litigation — copy it onto the schema add.
- 2. T2.2 — three list-form content blocks:
-    a) /direct-access — 5-item comparison "When to instruct a
-       barrister directly vs through a solicitor".
-    b) /fees OR /practice-areas/criminal-defence — 5–7 item
-       "What to bring to a first conference" list. (Promotes the
-       existing "Before you call" aside into list form; don't replace
-       the aside, ADD the list on one page.)
-    c) Each PA detail page (lib/render-practice-area.ts or per-PA
-       content fragment) — a single-paragraph "What is [practice
-       area]" definition above the situation paragraph.
+Build + type-check + real-browser screenshots (375×667 mobile + 1440
+desktop) on every page touched, before commit.
 
-🚩 Ghulam must sign off on the literal wording of each list-form
-block before merge (legal-accuracy review). Surface drafts; do not
-ship until he confirms. If he isn't reachable this session, do the
-prep (component changes ready on the feature branch, build +
-type-check + screenshots verified) but DO NOT merge to main —
-wait for sign-off.
+To ship: one commit per logical T3 item (or bundle tightly-scoped ones),
+git fetch + rebase onto origin/main, push main, poll astonslaw.com until
+live, then supersede SESSION-HANDOFF.md with the next pickup prompt.
 
-For the work itself:
- - Skills-first: copywriting + avoid-ai-writing for the list copy;
-   legal-advisor for BSB-compliance sanity-check on the comparison
-   list claims; schema-markup for T2.1; verification-before-
-   completion for every "passes" claim.
- - Build + type-check + real-browser check before commit.
- - Real-browser screenshots at 375×667 mobile + 1440 desktop on
-   every page touched (/direct-access, the list-form host page, one
-   PA detail page).
- - Verify the new Person sameAs in Rich Results Test before push.
-
-After everything is verified AND Ghulam has signed off:
- - One commit per logical change (T2.1 separate from T2.2 is fine,
-   or bundle if scope stays tight).
- - Push main.
- - Poll astonslaw.com until the changes are live.
- - Update SESSION-HANDOFF.md (supersede this file) with the next
-   pickup prompt for Branch 5.
-
-If Ghulam has not signed off:
- - Save the work locally on the feature branch; do NOT merge to main.
- - Update SESSION-HANDOFF.md describing the blocked state and what
-   drafts were proposed.
-
-Open client items already known to be NOT this branch's scope:
- · Five client-decision items (Branch 5)
- · Site-wide CSS caveat from §10 of this handoff — separate fix-up,
-   not blocking Branch 4
+Not this branch's scope:
+ · The §10 site-wide CSS fix-up (border-l-2 / border-navy-950) — separate,
+   non-blocking. Recommended fix is Option 4 (see §10).
+ · The insights CMS thread (§3) unless the user chooses to advance it.
 ```
 
 ## 8. Architecture notes & gotchas — READ BEFORE TOUCHING CODE
 
-(Carried forward from prior handoffs + one new caveat from this session — see §10.)
+(Carried forward; the Pages-CMS gotcha in §2 is new this session.)
 
-- **`cal.com` config has TWO load-bearing locations.** The `ui` callback in `app/layout.tsx` sets the *namespace default*. The `inline` mount in `components/site/SiteBehaviour.tsx` carries an explicit `config: { layout, ... }` that runs when the visitor clicks the homepage booking facade — this **overrides the `ui` default**. If you change one, change the other.
-- **The precompiled-CSS trap.** `app/preview-tailwind.css` is a precompiled static stylesheet; `tailwind.config.ts` scans only `app/` + `components/`, never `content/*.html`. A Tailwind class used in a `content/*.html` fragment that is not already in `preview-tailwind.css` (or compiled into the live bundle via `app/`/`components/` usage) has no rule and silently breaks layout (build still passes). Grep the live `_next/static/css/*.css` bundle, not just `preview-tailwind.css`, for the full picture.
+- **Pages CMS writes to `origin/main` directly** — see §2. Fetch + reconcile before every push.
+- **`cal.com` config has TWO load-bearing locations.** The `ui` callback in `app/layout.tsx` sets the *namespace default*. The `inline` mount in `components/site/SiteBehaviour.tsx` carries an explicit `config: { layout, ... }` that **overrides the `ui` default**. Change one, change the other.
+- **The precompiled-CSS trap.** `app/preview-tailwind.css` is a precompiled static stylesheet; `tailwind.config.ts` scans only `app/` + `components/`, never `content/*.html`. A Tailwind class used in a `content/*.html` fragment that is not already in the compiled bundle has no rule and silently breaks layout (build still passes). Grep the live `_next/static/css/*.css` bundle, not just `preview-tailwind.css`. See §10 for the live instance of this.
 - `rm -rf .next` before any verifying build when only `content/*.html` changed.
-- Verify rendered layout with real-browser screenshots, not DOM-only checks. Playwright's `playwright_screenshot` `width`/`height` are for the screenshot canvas, not the viewport — set viewport in `playwright_navigate`.
+- Verify rendered layout with real-browser screenshots, not DOM-only checks. Playwright's `playwright_screenshot` `width`/`height` are the screenshot canvas, not the viewport — set viewport in `playwright_navigate`.
 - Static HTML fragments in `content/sections/*.html` + `content/chrome/*.html` injected via `lib/content.ts`. Source of truth for copy.
-- PA detail pages + hub grid render from `lib/practice-areas.ts` via `lib/render-practice-area.ts`. `practiceAreaJsonLd` emits FAQPage + BreadcrumbList + Service.
+- PA detail pages + hub grid render from `lib/practice-areas.ts` via `lib/render-practice-area.ts`. `PracticeArea.definition` and `.situation` are **required `string` fields** (T2.2) — all 7 PAs (criminal-defence, violent-crimes, youth-crimes, driving-offences, drug-offences, appeals, inquests) carry them; the `data-bind="definition">—<` / `data-bind="situation">—<` placeholders in `pa-detail.html` are auto-replaced at render and never show a bare em-dash. `practiceAreaJsonLd` emits FAQPage + BreadcrumbList + Service.
 - Fonts: IBM Plex Sans self-hosted. No Google Fonts. No `<link rel=preload>` for fonts.
 - Third-party scripts in `app/layout.tsx`: `consent-mode-default` beforeInteractive (7 GCM categories denied), CookieYes afterInteractive, GA afterInteractive, cal.com lazyOnload. Do not move CookieYes back to beforeInteractive.
 - Only the production custom domain `astonslaw.com` gives a representative PageSpeed/Lighthouse number.
 
 ## 9. Git + working tree state
 
-- **`main` `1a3b3fc`** is production, clean, main-only.
-- Untracked, pre-existing, deliberately left alone: `.gitignore` modification (background macOS noise, adds `.gstack/`), `.mcp.json.disabled`, settings backup, three locked-hero PNGs in `.project/cro-deep-audit-2026-05-21/`, `.project/preview/`, `.project/research/`, `.claude/scheduled_tasks.lock`, `.claude/settings.local.json.bak.2026-05-14-cleanup`.
-- **New untracked from this session** (verification artefacts, deliberately not committed): `.project/cro-deep-audit-2026-05-21/fees-mobile-375x667-callout-and-table-2026-05-21T21-26-50-412Z.png`, `fees-desktop-1440-callout-and-table-2026-05-21T21-26-58-664Z.png`, `fees-desktop-1440-callout-and-table-v2-2026-05-21T21-27-28-957Z.png`. Decide with the user whether to add to `.gitignore` (alongside other audit screenshots) or leave as-is.
+- **`main`** is production (this handoff commit, on top of Branch 4 `d242efa`), pushed to `origin/main`, deploy READY.
+- **`feat/insights-cms-2026-05-22`** (main working dir) holds the Thread B insights-CMS uncommitted WIP at base `fa4d6d4` — see §3. Untouched by the Branch-4 ship.
+- `fix/cro-tier2-person-sameas-listicles-2026-05-21` was deleted after the ship (commits are in `main`).
+- The `/tmp/alc-cro-tier2-ship` worktree was removed at session end.
+- Untracked, pre-existing, deliberately left alone: settings backup (`.claude/settings.local.json.bak.2026-05-14-cleanup`), `.mcp.json.disabled`, locked-hero / audit PNGs in `.project/cro-deep-audit-2026-05-21/`. Decide with the user whether to add the audit screenshots to `.gitignore`.
 
-## 10. New caveat from this session — site-wide silent missing border
+## 10. Open caveat (carried forward) — site-wide silent missing border
 
-The blockquote pattern used by `/legal-aid`, `/authorised-to-conduct-litigation`, and now the new `/fees` callout uses Tailwind classes `border-l-2` and `border-navy-950`. **Neither class is present in the live `_next/static/css/*.css` bundle** (verified via `curl https://astonslaw.com/_next/static/css/f0a06f79cdaf20a6.css | grep`). Result: the left navy bar that's *visually intended* on all three blockquote callouts is silently invisible in production. The `bg-offwhite` background is rendered (so the panel still reads as a callout), but the border that gives it visual emphasis is missing.
+The blockquote pattern on `/legal-aid`, `/authorised-to-conduct-litigation`, and the `/fees` callout uses Tailwind classes `border-l-2` and `border-navy-950`. **Neither is present in the live `_next/static/css/*.css` bundle**, because `tailwind.config.ts` scans only `app/**` + `components/**`, and both classes appear only in `content/*.html`. Result: the intended left navy bar is silently invisible in production (the `bg-offwhite` panel still renders, so it still reads as a callout). Pre-existing, not introduced by any recent branch.
 
-Why: `tailwind.config.ts` scans only `app/**/*.{ts,tsx}` and `components/**/*.{ts,tsx}`. Both classes only appear in `content/*.html` fragments, so Tailwind JIT never generates the rules. They're also absent from the precompiled `app/preview-tailwind.css`.
-
-This is **pre-existing**, not introduced by Branch 3 — the new `/fees` callout simply inherits the same fate. Visual parity with `/legal-aid` is intact.
-
-Fix options (any future session, not blocking Branch 4):
-1. Add `border-l-2` and `border-navy-950` to a Tailwind safelist in `tailwind.config.ts`.
-2. Add a sentinel reference in any `app/` or `components/` file (e.g. a comment `// safelist: border-l-2 border-navy-950`).
-3. Switch the three blockquote callouts to a class that *is* in the live bundle (e.g. `border-grey-300` plus a heavier `border-l-4`, after verifying both exist).
-4. Add the rule directly to `styles/globals.css` or `app/preview-styles.css` as a one-line `.border-l-2 { border-left-width: 2px } .border-navy-950 { border-left-color: var(--color-navy-950) }` pair.
-
-Recommend Option 4 — explicit, surgical, doesn't widen Tailwind's content scan. Option 1 if a sweep adds more `content/*.html`-only classes.
+Fix options (any future session, not blocking):
+1. Add `border-l-2` + `border-navy-950` to a Tailwind safelist in `tailwind.config.ts`.
+2. Add a sentinel reference in any `app/` or `components/` file (e.g. `// safelist: border-l-2 border-navy-950`).
+3. Switch the callouts to classes that are in the live bundle.
+4. **Recommended** — add the rule directly to `styles/globals.css`: a one-line `.border-l-2 { border-left-width: 2px } .border-navy-950 { border-left-color: var(--color-navy-950) }` pair. Explicit, surgical, doesn't widen Tailwind's content scan.
 
 ## 11. Verified anchors for next session
 
-- **`/fees` callout sentence:** *"That call is where suitability is decided"* (single visible render + once in RSC hydration payload).
-- **`/fees` pointer sentence:** *"Summarised at the top of this page"*.
-- **`/fees` deep anchor (new):** `id="legal-aid"` on the bottom-of-page `<h2>`.
+- **`/fees` (T2.2):** "What to bring to a first conference" (7-item checklist). Earlier anchors still hold: "That call is where suitability is decided", "Summarised at the top of this page", `id="legal-aid"` on the bottom `<h2>`.
+- **`/direct-access` (T2.2):** "Instructing directly, or through a solicitor" comparison (5 rows, inline-label so it reads identically mobile + desktop).
+- **`/practice-areas/[slug]` (T2.2):** "What is [practice area]" definition is the page lead (e.g. criminal-defence: "Criminal defence is the representation of someone accused of a crime…").
 - llms.txt URL: `https://astonslaw.com/llms.txt`.
-- BSB direct profile URL (Branch 4 T2.1 target): `https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html` — 32-char content hash, quarterly re-check.
-- Practitioner verified facts: name, jobTitle "Barrister", Date of Call Mar 2018, Inner Temple, full rights of audience, public access, conduct of litigation, Crime + Other practice areas, no disciplinary findings. All BSB-published.
+- **Person `sameAs` (T2.1, now LIVE):** `https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html` — single entry, BSB Register only. 32-char content hash, quarterly re-check (see §6). Also on `/about` + `/authorised-to-conduct-litigation`.
+- Practitioner verified facts: name "Ghulam Humayun", jobTitle "Barrister", Date of Call Mar 2018, Inner Temple, full rights of audience, public access, conduct of litigation, Crime + Other practice areas, no disciplinary findings. All BSB-published.
 - Locked address: 85 Great Portland Street, First Floor, London W1W 7LT.
 - Phone: 07922 247 999 (also `tel:+447922247999`).
 - WhatsApp: `https://wa.me/447922247999` with `?text=I need legal support for...`.
 - cal.com: `https://cal.com/astonslaw/callback?overlayCalendar=true`, layout `column_view`.
-- Org `sameAs`: Google profile, LinkedIn company page, Trustpilot review URL. Person `sameAs` still empty until Branch 4 T2.1.
-- Per-PA Service node @ids: `https://astonslaw.com/practice-areas/<slug>#service`. `provider → #organization` only.
+- Org `sameAs`: Google profile, LinkedIn company page, Trustpilot review URL.
