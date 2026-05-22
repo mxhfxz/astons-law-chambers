@@ -411,3 +411,88 @@
        Revert: `git restore app/preview-styles.css content/chrome/quick-exit.html`. */
     .quick-exit-fixed { position: fixed; top: 7.25rem; left: 1rem; }
     @media (min-width: 768px) { .quick-exit-fixed { top: 8rem; } }
+
+    /* ============================================================
+       INSIGHTS ARTICLE BODY — .insight-body
+       Scoped typography for client-authored /insights articles. The body
+       HTML is sanitised and class-free (lib/render-insight.ts strips every
+       class), so these are bare element selectors that depend on NO Tailwind
+       utility — immune to the precompiled-bundle / JIT-scan trap. Lives in
+       THIS stylesheet because it is the one actually loaded by app/layout.tsx
+       (styles/globals.css is not imported anywhere). Isolated to
+       .insight-body so it never affects the shared .prose container used by
+       other pages. WCAG-AA: navy-700 body / navy-950 headings on white.
+       Heading levels are normalised upstream to a gap-free h2->h4 outline.
+       ============================================================ */
+    .insight-body {
+      max-width: 70ch;
+      color: var(--color-navy-700);
+      font-size: 1.125rem;
+      line-height: 1.7;
+    }
+    .insight-body > * + * { margin-top: 1rem; }
+    .insight-body > :first-child { margin-top: 0; }
+
+    .insight-body h2 {
+      margin-top: 3rem; margin-bottom: 0.75rem;
+      font-size: 1.5rem; font-weight: 600; line-height: 1.25;
+      letter-spacing: -0.02em; color: var(--color-navy-950);
+    }
+    .insight-body h3 {
+      margin-top: 2rem; margin-bottom: 0.5rem;
+      font-size: 1.25rem; font-weight: 600; line-height: 1.3;
+      letter-spacing: -0.01em; color: var(--color-navy-950);
+    }
+    .insight-body h4 {
+      margin-top: 1.5rem; margin-bottom: 0.5rem;
+      font-size: 1.125rem; font-weight: 600; color: var(--color-navy-950);
+    }
+
+    .insight-body p { margin-bottom: 0; }
+    .insight-body strong, .insight-body b { font-weight: 600; color: var(--color-navy-950); }
+    .insight-body em, .insight-body i { font-style: italic; }
+
+    .insight-body a {
+      color: var(--color-navy-800);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+    .insight-body a:hover { color: var(--color-navy-700); text-decoration-thickness: 2px; }
+    .insight-body a:focus-visible {
+      outline: 2px solid var(--color-navy-800); outline-offset: 2px; border-radius: 2px;
+    }
+
+    .insight-body ul, .insight-body ol { padding-left: 1.5rem; }
+    .insight-body ul { list-style: disc; }
+    .insight-body ol { list-style: decimal; }
+    .insight-body li { margin-top: 0.5rem; }
+    .insight-body li::marker { color: #4B5563; }
+    .insight-body li > ul, .insight-body li > ol { margin-top: 0.5rem; }
+
+    .insight-body blockquote {
+      padding: 1rem 1.25rem;
+      border-left: 3px solid var(--color-navy-700);
+      background: var(--color-offwhite);
+      color: var(--color-navy-950);
+    }
+    .insight-body blockquote > * + * { margin-top: 0.75rem; }
+
+    .insight-body img {
+      display: block; max-width: 100%; height: auto;
+      margin-top: 1.5rem; margin-bottom: 1.5rem; border-radius: 4px;
+    }
+    .insight-body hr {
+      margin-top: 2rem; margin-bottom: 2rem;
+      border: 0; border-top: 1px solid #D1D5DB;
+    }
+    .insight-body code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.9em; padding: 0.1em 0.3em;
+      background: var(--color-offwhite); border: 1px solid #D1D5DB; border-radius: 3px;
+    }
+    .insight-body pre {
+      padding: 1rem; overflow-x: auto;
+      background: var(--color-offwhite); border: 1px solid #D1D5DB; border-radius: 4px;
+    }
+    .insight-body pre code { padding: 0; background: none; border: 0; }

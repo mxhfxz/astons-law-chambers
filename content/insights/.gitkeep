@@ -1,0 +1,3 @@
+# Client-authored Insights articles (Markdown + YAML frontmatter), written by
+# Pages CMS to the content-staging branch. Parsed at build by lib/insights.ts.
+# This file keeps the directory tracked when no articles exist yet.

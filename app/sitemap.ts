@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { practiceAreas } from '@/lib/practice-areas'
 import { guides } from '@/lib/guides'
+import { insights } from '@/lib/insights'
 
 const BASE = 'https://astonslaw.com'
 
@@ -57,5 +58,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.7,
   }))
-  return [...staticEntries, ...areaEntries, ...guideEntries]
+  // Insights index + article pages render from content/insights/*.md.
+  const insightEntries: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE}/insights`,
+      lastModified: insights[0] ? new Date(insights[0].dateModified) : mtime('content/insights'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    ...insights.map((post) => ({
+      url: `${BASE}/insights/${post.slug}`,
+      lastModified: new Date(post.dateModified),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  ]
+  return [...staticEntries, ...areaEntries, ...guideEntries, ...insightEntries]
 }
