@@ -1,0 +1,105 @@
+# Pages CMS configuration — Astons Law Chambers
+# Gives the client a no-code WYSIWYG editor for /insights articles.
+#
+# How it fits the airtight build (.project/insights-cms-2026-05-22/):
+#  - Saving here commits a Markdown file to content/insights/. The static
+#    Next.js build sanitises it, normalises headings, and injects image
+#    dimensions. The client never reasons about H1/H2 or HTML.
+#  - This config should be used on the `content-staging` branch (select it in
+#    the Pages CMS UI). Saved articles get a Vercel preview for review, then a
+#    merge to main publishes them. Nothing auto-publishes to production.
+#  - `draft` defaults to true: a new article does not appear on the live site
+#    until it is reviewed and the box is unchecked.
+
+media:
+  - name: insights-media
+    label: Article images
+    input: public/insights
+    output: /insights
+    # SVG is intentionally excluded — it can carry scripts.
+    extensions: [jpg, jpeg, png, webp]
+    categories: [image]
+
+content:
+  - name: insights
+    label: Insights (articles)
+    type: collection
+    path: content/insights
+    filename: '{fields.slug}.md'
+    view:
+      fields: [title, datePublished, draft]
+      sort: [datePublished, title]
+      default:
+        sort: datePublished
+        order: desc
+    fields:
+      - name: title
+        label: Headline
+        type: string
+        required: true
+        description: The article headline. Shown as the page title and the H1.
+
+      - name: slug
+        label: Web address
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          message: Use lowercase letters, numbers and hyphens only — for example, first-hearing-magistrates-court
+        description: The end of the page URL — lowercase words separated by hyphens. This becomes /insights/your-web-address.
+
+      - name: description
+        label: Summary
+        type: text
+        required: true
+        description: One or two plain sentences. Shown on the Insights index and used as the search-result snippet.
+
+      - name: author
+        label: Author
+        type: select
+        default: Ghulam Humayun
+        options:
+          values: [Ghulam Humayun]
+        description: Shown as the byline at the foot of the article.
+
+      - name: datePublished
+        label: Date published
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+
+      - name: dateModified
+        label: Date last reviewed
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: Optional. Set this when you update an existing article.
+
+      - name: heroImage
+        label: Lead image (optional)
+        type: image
+        options:
+          media: insights-media
+        description: Optional. Do NOT upload a photograph of a person. Landscape images work best.
+
+      - name: heroAlt
+        label: Lead image description
+        type: string
+        description: A short description of the lead image for screen readers and search. Leave blank if there is no image.
+
+      - name: draft
+        label: Keep as draft
+        type: boolean
+        default: true
+        description: Leave ticked while writing. Untick to publish — only after the article has been reviewed.
+
+      - name: body
+        label: Article
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: insights-media
+          # Inline images the client adds inside the article also land in
+          # public/insights and are dimension-injected + sanitised at build.

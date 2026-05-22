@@ -57,6 +57,29 @@ Installed version: 14.2.35.
 
 ---
 
+## 2026-05-22 — dependency change re-eval (Insights/Pages CMS feature)
+
+Trigger: `package.json` gained build-time markdown dependencies for the `/insights` feature
+(`gray-matter`, `unified`, `remark-parse`, `remark-gfm`, `remark-rehype`, `rehype-raw`,
+`rehype-sanitize`, `rehype-stringify`, `unist-util-visit`, `image-size`).
+
+- **`npm audit` after install reproduced the SAME five findings as 2026-05-14** — `glob`,
+  `next` (13 advisories), `postcss`. **The new dependencies added zero new advisories.**
+  The exact-same `next@16.2.6` breaking-change remains the only `audit fix --force` path;
+  rejected for the same reason (Next 14.x locked, live site, breaking change out of scope).
+- **Re-checked the `next` advisories against the new attack surface.** The feature introduces
+  user-submitted content (client Markdown via Pages CMS) flowing into the render pipeline.
+  This does NOT change any `next` advisory status: the content is sanitised by *our own*
+  `rehype-sanitize` allowlist at build time, never reaching PostCSS Stringify (postcss
+  advisory still N/A) or any runtime Next code path (site stays static SSG). No Server
+  Actions, middleware, runtime RSC, WebSockets, or CSP nonces are added.
+- **Deliberate choice to preserve posture:** images are rendered as raw `<img>` with build-time
+  dimension injection (`image-size`, pure-JS, no native deps), NOT via `next/image`. This keeps
+  the Next Image Optimization API out of the critical path — which is the stated reason several
+  Next advisories above (GHSA-9g9p-9gw9-jx7f, GHSA-3x4c-7xq6-9pq8, GHSA-h64f-5h5j-jqjh) do not
+  apply. `sharp` was intentionally NOT added (native dep + would not change this posture).
+- Action: accept, unchanged. No new findings attributable to this feature.
+
 ## Reassessment triggers
 
 Re-run `npm audit` and re-evaluate every entry in this file when any of the following changes:
