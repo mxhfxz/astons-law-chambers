@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Barrister Fees',
+  title: 'Barrister Fees & Legal Aid',
   description:
     'How fees work at Astons Law Chambers — pricing models, indicative ranges, and VAT status, with a written client-care letter agreed before any work begins.',
   alternates: { canonical: '/fees' },

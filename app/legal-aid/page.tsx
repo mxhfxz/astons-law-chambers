@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Criminal Legal Aid | Astons Law Chambers',
+  title: 'Criminal Legal Aid in London',
   description:
-    'Criminal legal aid covers the police station, Magistrates’ and Crown Court. Astons Law Chambers is not a legal aid contract holder; eligible cases are referred to a partner solicitor firm at no cost. The first call is free either way.',
+    'Criminal legal aid at the police station, Magistrates’ and Crown Court. Astons Law Chambers refers eligible cases to a partner firm at no cost.',
   alternates: { canonical: '/legal-aid' },
 }
 
