@@ -35,3 +35,7 @@ export function StickyBar() {
 export function QuickExit() {
   return <Raw html={readChrome('quick-exit')} />
 }
+
+export function DesktopFab() {
+  return <Raw html={readChrome('desktop-fab')} />
+}

@@ -587,6 +587,53 @@ body.has-sticky-bar {
 .sticky-bar-wa:hover  { background: #0a1527; }
 .sticky-bar-wa:active { background: #080f1e; }
 
+/* ── Desktop floating action buttons ─────────────────────────────────────── */
+/* Two 48×48 circle FABs — WhatsApp + Book — stacked vertically,
+   0.5rem from the bottom-right corner. Hidden on mobile. */
+#desktopFab {
+  display: none;
+}
+@media (min-width: 768px) {
+  #desktopFab {
+    position: fixed;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+.desktop-fab-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background: var(--color-navy-900);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.18);
+  transition: background-color 0.15s ease, transform 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.desktop-fab-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.desktop-fab-btn:hover { background: var(--color-navy-800); }
+.desktop-fab-btn:active { transform: scale(0.93); }
+.desktop-fab-btn:focus-visible {
+  outline: 2px solid var(--color-navy-900);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .desktop-fab-btn { transition: none; }
+  .desktop-fab-btn:active { transform: none; }
+}
+
 /* Book button — icon only, navy */
 .sticky-bar-book {
   flex: 1;

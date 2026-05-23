@@ -5,6 +5,7 @@ import {
   SiteHeader,
   SiteFooter,
   StickyBar,
+  DesktopFab,
   QuickExit,
 } from '@/components/site/chrome'
 import { SiteBehaviour } from '@/components/site/SiteBehaviour'
@@ -140,6 +141,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <SiteFooter />
         <StickyBar />
+        <DesktopFab />
         <QuickExit />
         <SiteBehaviour />
 
