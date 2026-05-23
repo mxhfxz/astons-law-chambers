@@ -570,21 +570,35 @@ body.has-sticky-bar {
   line-height: 1.3;
 }
 
-/* WhatsApp button — takes 2/5 of the bar, WA green */
+/* WhatsApp button — icon only, navy, subtle right divider before Book */
 .sticky-bar-wa {
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: var(--color-whatsapp);
+  background: var(--color-navy-950);
   color: #ffffff;
-  font-size: 0.9375rem;
-  font-weight: 700;
   text-decoration: none;
-  padding: 13px 16px;
+  padding: 13px 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
   transition: background-color 0.12s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.sticky-bar-wa:hover  { background: var(--color-whatsapp-dark); }
-.sticky-bar-wa:active { background: #043d35; }
+.sticky-bar-wa:hover  { background: #0a1527; }
+.sticky-bar-wa:active { background: #080f1e; }
+
+/* Book button — icon only, navy */
+.sticky-bar-book {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-navy-950);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 13px 0;
+  transition: background-color 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.sticky-bar-book:hover  { background: #0a1527; }
+.sticky-bar-book:active { background: #080f1e; }
