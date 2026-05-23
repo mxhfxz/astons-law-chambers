@@ -1,4 +1,4 @@
-# Session Handoff — 2026-05-23 (CRO sprint complete)
+# Session Handoff — 2026-05-23 (CTA bar finalised + hero dual-CTA)
 
 Read MEMORY.md first, then this file.
 
@@ -8,71 +8,105 @@ Read MEMORY.md first, then this file.
 
 Every task routes through the relevant skill FIRST. No exceptions.
 
-SEO / content: `seo-2026` → `avoid-ai-writing` → implement
-CRO / copy / conversion: `cro-2026` → `page-cro` → implement
-Frontend / layout: `project-mgmt` → `frontend-design` → `frontend-dev-guidelines`
+Frontend / layout: `frontend-design` → `frontend-dev-guidelines` → implement
+CRO / copy: `cro-2026` → `page-cro` → implement
 Git / deploy: git skills + `vercel-deployment`
+Brainstorm: `brainstorming` → `multi-agent-brainstorming` for high-impact decisions
 Verification: `verification-before-completion`
 
 ---
 
 ## 1. Production state
 
-**`main`** → `4196451` (live on astonslaw.com — all commits below are deployed)
+**`main`** → `5a153dc` (live on astonslaw.com)
 
-All the following are LIVE:
+### What is LIVE on main
 
-### Homepage hero
-- H1: `24/7 Support for arrests, police station interviews, and court summons`
-- Sub: `Call before the interview begins. Astons Law Chambers attends police stations across London and the UK at any hour.`
-- CTA: red `btn-emergency` button, no phone icon, reads "Call 07922 247 999"
-
-### Site header
-- Red police station banner is the **first row** of the sticky header (above the white navbar)
-- Order: red banner → white navbar with logo + nav
-- The mega menu and mobile menu are unchanged
-
-### Mobile sticky pill (below `sm:`)
-- Full-width navy (`bg-navy-950`) call button, white semibold text, "Call 07922 247 999 now", floating shadow
-- White circle 3-dot button (44×44px), `#f9f9f9` border outline, subtle ring shadow
-- 3-dot opens an upward `<details>` dropdown with:
-  1. Book an appointment → cal.com
-  2. Message on WhatsApp → wa.me
-  3. Send an email → `info@astonslaw.com`
-
-### Desktop sticky pill (sm: and up)
-- Unchanged: white call button with avail-dot + green WhatsApp button in dark navy container
-
-### 13 page titles
-- Visual disruptor brackets added to all commercial pages (commit `b894264`)
+- Red police station banner above the white navbar
+- Homepage H1: `24/7 Support for arrests, police station interviews, and court summons`
+- Hero sub + red `btn-emergency` CTA: "Call 07922 247 999"
+- Mobile sticky: **the old floating pill is still live on main** — the new bar has NOT been merged yet
+- Desktop: avail-dot call chip + WhatsApp chip in dark navy pill (unchanged)
+- 13 commercial page titles with visual disruptor brackets
 
 ---
 
-## 2. Commits this session (all on main)
+## 2. Active feature branch — `cta-bar` (PENDING USER REVIEW)
+
+**Branch at `ec15b7f`. Vercel preview:**
+`https://alc-staging-git-cta-bar-dsgnly.vercel.app`
+
+**Do NOT merge until user has reviewed the Vercel preview and approved.**
+
+### Changes on `cta-bar` vs `main`
+
+| File | Change |
+|------|--------|
+| `content/chrome/sticky-bar.html` | Mobile bar: avail-dot (green pulse) removed |
+| `content/chrome/desktop-fab.html` | NEW — two 48×48 navy circle FABs (WA + book) |
+| `components/site/chrome.tsx` | Added `DesktopFab` export |
+| `app/layout.tsx` | `<StickyPill />` replaced with `<StickyBar />` + `<DesktopFab />` |
+| `app/preview-styles.css` | Mobile bar CSS + desktop FAB CSS |
+| `content/sections/home.html` | Hero CTA row: "Book a Free Consultation" added |
+
+### Mobile bar (current design)
+
+Three-button full-bleed bottom bar, all navy, **no avail-dot**:
 
 ```
-4196451  cro(pill): navy call button + white circle dots with f9f9f9 outline
-039d7e5  feat: police banner above navbar + pill 'now' + circle dots
-317a75a  cro(pill): white floating call btn + grey 3-dot upward dropdown
-24b9735  cro(pill): mobile full-width call button + 3-dot menu
-07470dd  cro(hero): restore proven H1 + strip 'first call free' + remove phone icon
-beca865  cro: rewrite homepage hero for call conversion
-5a61128  docs(seo): record GSC baseline + critical finding on query intent mismatch
-b894264  seo(ctr): add visual disruptor brackets to all commercial page titles
+┌──────────────────────────┬──────────┬──────────┐
+│  📞  Call now            │          │          │
+│      07922 247 999       │  WA icon │ Cal icon │
+└──────────────────────────┴──────────┴──────────┘
+```
+
+- `border-top: 2px solid var(--color-navy-900)`
+- `padding-bottom: env(safe-area-inset-bottom)`
+- Hidden md+ (`@media (min-width: 768px) { display: none }`)
+
+### Desktop FABs (NEW — replaces old floating pill)
+
+Two 48×48 navy circle FABs, fixed bottom-right 0.5rem:
+
+```
+      [ WA icon  ]   ← WhatsApp
+      [ Cal icon ]   ← Book
+```
+
+- `var(--color-navy-900)` fill, white icons (20px SVG)
+- box-shadow, hover/active/focus-visible states, reduced-motion guard
+- Visible md+ only (`#desktopFab { display: none }` → `@media (min-width: 768px) { display: flex }`)
+- Defined in `content/chrome/desktop-fab.html` + `app/preview-styles.css`
+
+### Hero CTA (NEW)
+
+On desktop (640px+): red "Call 07922 247 999" + white outline "Book a Free Consultation" side-by-side.
+On mobile: only the red call button (book CTA hidden via `hidden sm:inline-flex`).
+
+```html
+<div class="mt-8 md:mt-10 btn-row">
+  <a ... class="btn btn-xl btn-emergency btn-full">Call 07922 247 999</a>
+  <a ... class="btn btn-xl btn-on-dark hidden sm:inline-flex">Book a Free Consultation</a>
+</div>
 ```
 
 ---
 
-## 3. Deferred tasks — do AFTER client confirms call volume improving
+## 3. Desktop sticky pill (dead code on `cta-bar`)
+
+`StickyPill` export + `content/chrome/sticky-pill.html` still exist but are no longer
+used in `layout.tsx` on the `cta-bar` branch. Clean up after merge.
+
+---
+
+## 4. Deferred tasks (unchanged)
 
 ### TASK 1: SEO lawyer→barrister sweep
-
-**Rationale:** The site currently appears in solicitor SERPs, not barrister SERPs, because "lawyer" is the entity signal in key copy. This is the highest-leverage SEO task after CRO stabilises.
 
 **`lib/practice-areas.ts`:**
 - Line 40: `metaDescription` criminal-defence → "Criminal defence lawyer" → "Criminal defence barrister"
 - Line 46: `situation` criminal-defence → "acts as a criminal defence lawyer" → "acts as a criminal defence barrister"
-- Line 79: `metaDescription` violent-crimes → remove "from the police station through to Crown Court trial" (dilutes intent)
+- Line 79: `metaDescription` violent-crimes → remove "from the police station through to Crown Court trial"
 - Line 85: `situation` violent-crimes → "acts as a criminal defence lawyer" → "acts as a criminal defence barrister"
 - Line 128: `situation` youth-crimes → "acts as a criminal defence lawyer" → "acts as a criminal defence barrister"
 - Line 202: `situation` drug-offences → "acts as a criminal defence lawyer" → "acts as a criminal defence barrister"
@@ -85,69 +119,53 @@ b894264  seo(ctr): add visual disruptor brackets to all commercial page titles
 
 **`content/sections/police-station.html`:**
 - Line 48: "A criminal defence lawyer attends the station" → "A criminal defence barrister attends"
-- Line 62: "A solicitor is not required for police station representation" → remove or reframe (competes in solicitor SERP)
+- Line 62: Remove or reframe "A solicitor is not required..." (competes in wrong SERP)
 
 **`app/police-station-representation/page.tsx`:**
-- title: "Police Station Representation [24/7], London" → "Criminal Representation After Arrest [Direct Access], London"
-- description: "Criminal defence lawyer representation" → "Criminal defence barrister representation"
-
----
+- title: → "Criminal Representation After Arrest [Direct Access], London"
+- description: → "Criminal defence barrister representation"
 
 ### TASK 2: Police station page reframe (after Task 1)
 
-The police station SERP is 100% solicitor firms. The page is structurally unwinnable for barrister search terms without a full reframe to "direct access barrister after arrest" framing.
-
----
+SERP is 100% solicitor firms. Needs reframe to "direct access barrister after arrest" framing.
 
 ### TASK 3: Direct access content cluster
 
-Build sub-pages targeting the direct-access barrister queries — the fastest near-term ranking path. Entity footprint currently at 2 sources; AI citation threshold is 3+.
-
-Spec file: `.project/seo-intent-fix/spec.md` (not yet created — do this as first step)
-
----
+Sub-pages for direct-access barrister queries. Entity footprint at 2 sources; AI citation threshold is 3+.
 
 ### TASK 4: llms.txt update for Insights blog
 
-The Insights blog (`/insights`) launched in the previous session (PR #2, merged). The `llms.txt` file at the domain root needs updating to include the Insights section so AI crawlers discover it.
-
----
-
-## 4. Files most recently touched (verify before editing)
-
-| File | What changed |
-|------|-------------|
-| `content/chrome/sticky-pill.html` | Complete mobile pill redesign; desktop unchanged |
-| `content/chrome/header.html` | Police banner moved to top (first child of `<header>`) |
-| `content/sections/home.html` | H1, sub, removed phone icon from CTA |
-| `app/preview-styles.css` | `.pill-call`, `.pill-dots`, `.pill-menu`, `.pill-menu-item`, WebKit marker fix |
+`/insights` is merged. `llms.txt` needs the Insights section added.
 
 ---
 
 ## 5. Standing gotchas
 
+- **`cta-bar` branch is NOT on main.** Do not merge without user reviewing the preview.
+- **`StickyPill` is now dead code** on `cta-bar` — `layout.tsx` uses `StickyBar`. Clean up after merge.
 - **Pages CMS writes to `origin/main` directly.** Always `git fetch` + check before push.
-- **Precompiled CSS trap.** `app/preview-tailwind.css` is static. Only classes already in it work. Grep before adding any new Tailwind class. Custom CSS goes in `preview-styles.css`.
-- **`avail-dot` is in `preview-styles.css`** — not Tailwind. Safe to use.
-- **`<details>` summary marker** — `list-none` handles Firefox; `.list-none::-webkit-details-marker { display: none }` rule is now in `preview-styles.css`.
-- **`bg-navy-950`** is `#0E1628` — the dark brand navy, used in pill call button and logo.
-- **`bg-emergency-500`** is `#C23616` — the red used in the police banner and hero CTA.
-- **`bg-footer`** is `#232536` — used for dark page heroes. NOT the same as navy-950.
-- **CRO priority over SEO** — confirm call volume improving before starting SEO sweep.
+- **Precompiled CSS trap.** `app/preview-tailwind.css` is static. Grep before adding Tailwind classes. Custom CSS in `preview-styles.css`.
+- **`--color-whatsapp` is `#075E54`** (dark teal) — NOT bright green. Use the token.
+- **`bg-footer`** is `#232536` — dark page heroes. NOT navy-950 (`#0E1628`).
+- **`avail-dot` is in `preview-styles.css`** — not Tailwind. Still defined but no longer used on any live element.
+- **Hero markup is duplicated per fragment** — touching one hero means checking all.
+- **`btn-on-dark hidden sm:inline-flex`** — the `.btn.hidden` + `.btn.sm\:inline-flex` override rules in `preview-styles.css` handle this pattern. Do not use plain Tailwind `hidden`/`sm:block` outside of `.btn` context without verifying precompiled bundle.
 
 ---
 
-## 6. Session start skills (invoke in this order)
+## 6. Session start — next session
 
-1. `cro-2026` — if client reports on call volume
-2. `seo-2026` + `avoid-ai-writing` — when starting the lawyer→barrister sweep
-3. `frontend-design` + `frontend-dev-guidelines` — for any UI work
-4. `verification-before-completion` — gate all completions
+1. Check Vercel preview: `https://alc-staging-git-cta-bar-dsgnly.vercel.app`
+   - Mobile: bar without dot, red call button only in hero
+   - Desktop: two navy circle FABs bottom-right, dual-CTA in hero
+2. If approved → merge `cta-bar` to `main` using `verification-before-completion`
+3. After merge → clean up `StickyPill` + `sticky-pill.html`
+4. After merge → run Task 1 (lawyer→barrister sweep) on a new branch
 
 ---
 
 ## 7. Git state
 
-- **`main`** → `4196451` (live, all CRO changes deployed)
-- No active feature branches
-- Next branch to create: `seo/intent-fix-2026-05-23` for the lawyer→barrister sweep
+- **`main`** → `5a153dc` (live — old floating pill still active)
+- **`cta-bar`** → `ec15b7f` (pushed, Vercel rebuilding)
+- No other active branches

@@ -1920,33 +1920,47 @@
   </footer>
 
   <!-- ============================================================
-       STICKY CORNER PILL  (phone · message — always visible)
-       Single horizontal pill: dark shell wrapping a white tel chip
-       (with availability dot) and a green WhatsApp chip.
+       STICKY BOTTOM BAR  (mobile only — hidden md+)
+       Full-bleed bar pinned to viewport bottom. Uses
+       env(safe-area-inset-bottom) so it clears the iOS home indicator
+       and Android gesture bar. Hard top border distinguishes it from
+       browser chrome. Two labeled actions: Call (primary) + WhatsApp.
        ============================================================ -->
-  <div class="fixed z-40 bottom-4 right-4 left-4 sm:left-auto flex justify-center sm:justify-end" id="stickyPill">
-    <div class="inline-flex items-center gap-1 bg-navy-950 p-1 rounded-full shadow-[0_12px_40px_-12px_rgba(14,22,40,0.45)] ring-1 ring-black/5" role="group" aria-label="Contact Astons Law Chambers">
-      <a
-        href="tel:+447922247999"
-        aria-label="Call 07922 247 999 — available now"
-        data-track="call_click"
-        data-track-location="sticky_pill"
-        class="inline-flex items-center gap-2.5 bg-white hover:bg-grey-100 text-navy-950 font-semibold text-sm sm:text-[15px] tracking-tightish pl-3 pr-4 py-2.5 rounded-full transition-colors"
-      >
-        <span class="avail-dot" aria-hidden="true" title="Available now"></span>
-        <span>Call <span class="tabular-nums">07922 247 999</span></span>
-      </a>
-      <a
-        href="https://wa.me/447922247999"
-        aria-label="Message Astons Law Chambers on WhatsApp"
-        data-track="whatsapp_click"
-        data-track-location="sticky_pill"
-        class="inline-flex items-center gap-2 bg-whatsapp hover:bg-whatsapp-dark text-white font-semibold text-sm sm:text-[15px] tracking-tightish pl-3 pr-4 py-2.5 rounded-full transition-colors"
-      >
-        <svg class="w-[18px] h-[18px]" aria-hidden="true"><use href="#i-whatsapp"/></svg>
-        <span>Message now</span>
-      </a>
-    </div>
+  <div id="stickyBar" role="group" aria-label="Contact Astons Law Chambers">
+    <a
+      href="tel:+447922247999"
+      aria-label="Call 07922 247 999 — available 24/7"
+      data-track="call_click"
+      data-track-location="sticky_bar"
+      class="sticky-bar-call"
+    >
+      <svg class="w-[18px] h-[18px] shrink-0" aria-hidden="true"><use href="#i-phone"/></svg>
+      <span class="sticky-bar-call-text">
+        <span class="sticky-bar-label">Call now</span>
+        <span class="sticky-bar-num tabular-nums">07922 247 999</span>
+      </span>
+      <span class="avail-dot" aria-hidden="true" title="Available 24/7"></span>
+    </a>
+    <a
+      href="https://wa.me/447922247999"
+      aria-label="Message Astons Law Chambers on WhatsApp"
+      data-track="whatsapp_click"
+      data-track-location="sticky_bar"
+      class="sticky-bar-wa"
+    >
+      <svg class="w-[18px] h-[18px]" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+      <span class="sr-only">WhatsApp</span>
+    </a>
+    <a
+      href="https://cal.com/astonslaw/callback?overlayCalendar=true"
+      aria-label="Book a callback with Astons Law Chambers"
+      data-track="book_click"
+      data-track-location="sticky_bar"
+      class="sticky-bar-book"
+    >
+      <svg class="w-[18px] h-[18px]" aria-hidden="true"><use href="#i-calendar"/></svg>
+      <span class="sr-only">Book a call</span>
+    </a>
   </div>
 
   <!-- ============================================================
