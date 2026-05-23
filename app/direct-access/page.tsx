@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Direct Access to a Barrister',
+  title: 'Direct Access to a Barrister [No Solicitor Needed]',
   description:
     'Instructing a criminal defence barrister directly, without a solicitor, under the Bar Standards Board Public Access scheme — how Direct Access works in London.',
   alternates: { canonical: '/direct-access' },
