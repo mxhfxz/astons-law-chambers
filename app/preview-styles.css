@@ -265,9 +265,9 @@
     #mobileMenuToggle[aria-expanded="true"] .burger-bar:nth-child(3) { top: 7px; transform: rotate(-45deg); }
     @media (prefers-reduced-motion: reduce) { .burger-bar { transition: none; } }
 
-    /* Open menu fills the screen below the 64px mobile navbar. The element
-       keeps `hidden` until opened; this rule positions the shown state. */
-    #mobileMenu { position: fixed; inset: 64px 0 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    /* Open menu fills below the full mobile header: banner h-11 (44px) + navbar h-16 (64px) = 108px = 6.75rem.
+       Previously 64px (navbar only) — adding the police banner made the panel cover the close button. */
+    #mobileMenu { position: fixed; inset: 6.75rem 0 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     /* Scroll lock — scoped to mobile so a mobile→desktop resize while the
        menu is open cannot strand the lock. */
     @media (max-width: 767px) { body.menu-open { overflow: hidden; } }
@@ -503,24 +503,26 @@
 
 /* ── Mobile sticky pill ───────────────────────────────────────────────────── */
 
-/* Navy floating call button */
+/* White floating call button with Astons navy outline */
 .pill-call {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  border: 1.5px solid var(--color-navy-900);
   box-shadow:
-    0 4px 20px -4px rgba(14, 22, 40, 0.32),
-    0 1px 4px rgba(14, 22, 40, 0.12);
-  transition: box-shadow 0.15s ease, background-color 0.15s ease;
+    0 4px 20px -4px rgba(14, 22, 40, 0.18),
+    0 1px 4px rgba(14, 22, 40, 0.08);
+  transition: box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 .pill-call:hover {
-  background-color: #16223c;
+  background-color: #f8f9fb;
+  border-color: var(--color-navy-950);
   box-shadow:
-    0 6px 28px -4px rgba(14, 22, 40, 0.40),
-    0 1px 4px rgba(14, 22, 40, 0.12);
+    0 6px 28px -4px rgba(14, 22, 40, 0.28),
+    0 1px 4px rgba(14, 22, 40, 0.08);
 }
 .pill-call:active {
-  background-color: #1f2e50;
-  box-shadow: 0 2px 10px -2px rgba(14, 22, 40, 0.20);
+  background-color: #f3f4f6;
+  box-shadow: 0 2px 10px -2px rgba(14, 22, 40, 0.14);
 }
 
 /* White 3-dot trigger — explicit circle, f9f9f9 outline ring */
@@ -576,3 +578,16 @@
 .pill-menu-item:last-child { border-bottom: 0; }
 .pill-menu-item:hover { background-color: #f8f9fb; }
 .pill-menu-item svg { opacity: 0.65; }
+
+/* 3-dot dropdown — expands from the button origin (bottom-right) */
+@keyframes pill-menu-in {
+  from { opacity: 0; transform: scale(0.88) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+details[open] .pill-menu {
+  animation: pill-menu-in 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+}
+@media (prefers-reduced-motion: reduce) {
+  details[open] .pill-menu { animation: none; }
+}

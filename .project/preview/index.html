@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Astons Law Chambers — preview</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --color-navy-950: #0E1628;
+      --color-navy-900: #16223C;
+      --color-navy-800: #1F2E50;
+      --color-navy-700: #283A64;
+      --color-navy-100: #E8EDF5;
+      --color-white: #FFFFFF;
+      --color-off-white: #F8F9FB;
+      --color-emergency-500: #C23616;
+      --color-emergency-600: #A12B10;
+      --color-whatsapp: #25D366;
+      --color-whatsapp-dark: #1EBE57;
+      --color-grey-900: #111827;
+      --color-grey-600: #4B5563;
+      --color-grey-400: #9CA3AF;
+      --color-grey-300: #D1D5DB;
+      --color-grey-200: #E5E7EB;
+      --color-grey-100: #F3F4F6;
+
+      --color-text-primary: var(--color-navy-950);
+      --color-text-secondary: var(--color-grey-600);
+      --color-text-inverse: var(--color-white);
+      --color-text-muted: var(--color-grey-400);
+      --color-bg-base: var(--color-white);
+      --color-bg-subtle: var(--color-off-white);
+      --color-bg-dark: var(--color-navy-900);
+      --color-bg-footer: var(--color-navy-800);
+      --color-border-default: var(--color-grey-200);
+      --color-border-strong: var(--color-navy-700);
+      --color-link: var(--color-navy-800);
+      --color-link-hover: var(--color-navy-700);
+
+      --nav-height: 72px;
+      --nav-height-mobile: 64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      color: var(--color-text-primary);
+      background: var(--color-bg-base);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'ss01' 1;
+    }
+
+    .display {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    .display-tight { letter-spacing: -0.03em; }
+    .numerals-tabular { font-variant-numeric: tabular-nums; }
+
+    /* Fluid type scale — clamp(min, fluid, max) */
+    .t-eyebrow      { font-size: clamp(0.72rem, 0.68rem + 0.2vw, 0.82rem); letter-spacing: 0.14em; text-transform: uppercase; }
+    .t-display-xl   { font-size: clamp(2.4rem, 1.6rem + 4.4vw, 5.5rem); line-height: 1.02; letter-spacing: -0.03em; font-weight: 600; }
+    .t-display-lg   { font-size: clamp(2rem, 1.4rem + 3.2vw, 4rem);    line-height: 1.05; letter-spacing: -0.025em; font-weight: 600; }
+    .t-display-md   { font-size: clamp(1.6rem, 1.2rem + 2.2vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
+    .t-display-sm   { font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem); line-height: 1.2; letter-spacing: -0.015em; font-weight: 600; }
+    .t-lead         { font-size: clamp(1rem, 0.92rem + 0.55vw, 1.25rem); line-height: 1.6; }
+    .t-body         { font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem); line-height: 1.7; }
+    .t-small        { font-size: clamp(0.82rem, 0.8rem + 0.15vw, 0.95rem); line-height: 1.55; }
+    .t-phone-hero   { font-size: clamp(1.9rem, 1.2rem + 3.2vw, 3.25rem); font-weight: 600; letter-spacing: -0.02em; }
+
+    .prose-body {
+      max-width: 70ch;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+    }
+    .prose-body p + p { margin-top: 1.1em; }
+
+    /* Route system: each <section[data-route]> is a "page". JS toggles .is-active. */
+    main > section[data-route] { display: none; }
+    main > section[data-route].is-active { display: block; }
+
+    /* Police station banner — separate sticky layer BELOW the navbar.
+       Lower z-index than the navbar; hides on scroll down, reappears on scroll up. */
+    .police-strip {
+      position: sticky;
+      top: var(--nav-height-mobile);
+      z-index: 40; /* lower than .site-header (z-50) */
+      background: var(--color-emergency-500);
+      color: var(--color-text-inverse);
+      transform: translateY(0);
+      transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: block;
+    }
+    @media (min-width: 1024px) {
+      .police-strip { top: var(--nav-height); }
+    }
+    .police-strip.is-hidden { transform: translateY(-100%); }
+    .police-strip:hover { background: var(--color-emergency-600); }
+
+    /* Sticky corner pill — ALWAYS visible (no scroll hide) */
+    .corner-pill {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 60;
+      display: flex;
+      gap: 6px;
+      box-shadow: 0 10px 30px rgba(14, 22, 40, 0.18);
+      border-radius: 999px;
+      background: var(--color-navy-950);
+      padding: 6px;
+    }
+    .corner-pill a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: clamp(0.85rem, 0.78rem + 0.3vw, 0.95rem);
+      line-height: 1;
+      white-space: nowrap;
+      transition: background 150ms ease;
+    }
+    .corner-pill a.phone { background: var(--color-white); color: var(--color-navy-950); }
+    .corner-pill a.phone:hover { background: var(--color-navy-100); }
+    .corner-pill a.wa { background: var(--color-whatsapp); color: var(--color-white); }
+    .corner-pill a.wa:hover { background: var(--color-whatsapp-dark); }
+    .corner-pill .wa-icon { width: 16px; height: 16px; }
+
+    /* Availability dot — green pulse signals the barrister is reachable */
+    .availability-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #22C55E; /* live green, distinct from WA brand green */
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+      animation: availability-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      flex-shrink: 0;
+    }
+    @keyframes availability-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+      70%  { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .availability-dot { animation: none; }
+    }
+
+    /* Hero image (40vw on desktop, full hero height) */
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: var(--color-navy-900);
+    }
+
+    /* Leave-site pill */
+    .leave-pill {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 60;
+      background: var(--color-grey-900);
+      color: var(--color-white);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .leave-pill:hover { background: #000; }
+
+    /* Practice area card */
+    .area-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px;
+      border: 1px solid var(--color-border-default);
+      background: var(--color-white);
+      transition: border-color 180ms ease, transform 180ms ease;
+      min-height: 180px;
+    }
+    .area-card:hover { border-color: var(--color-navy-700); transform: translateY(-2px); }
+    .area-card .num {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--color-text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .area-card .title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: auto;
+    }
+    .area-card .arrow {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--color-navy-800);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Inline anchors */
+    a.inline-link {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    a.inline-link:hover { color: var(--color-link-hover); }
+
+    /* Dark emphasis section */
+    .dark-band {
+      background: var(--color-bg-dark);
+      color: var(--color-text-inverse);
+    }
+    .dark-band a.inline-link { color: var(--color-navy-100); }
+
+    /* Hero phone number — typography is the conversion */
+    .phone-display {
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-navy-950);
+      display: inline-block;
+      padding: 18px 28px;
+      background: var(--color-white);
+      border: 1px solid var(--color-navy-950);
+    }
+    .phone-display:hover { background: var(--color-navy-950); color: var(--color-white); }
+
+    /* Header */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-border-default);
+      backdrop-filter: saturate(180%) blur(12px);
+    }
+
+    /* Nav links */
+    .nav-link {
+      font-size: 14px;
+      color: var(--color-text-primary);
+      font-weight: 500;
+      padding: 8px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-link:hover { color: var(--color-navy-700); border-bottom-color: var(--color-navy-700); }
+    .nav-link.is-current { border-bottom-color: var(--color-navy-950); }
+
+    /* Practice area list (in nav drawer) */
+    .area-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border-default);
+      font-size: 15px;
+    }
+    .area-link:hover .area-link-title { color: var(--color-navy-700); }
+    .area-link:last-child { border-bottom: 0; }
+
+    /* Drawer */
+    .drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      pointer-events: none;
+    }
+    .drawer.is-open { pointer-events: auto; }
+    .drawer-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(14, 22, 40, 0.4);
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+    .drawer.is-open .drawer-backdrop { opacity: 1; }
+    .drawer-panel {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: min(440px, 92vw);
+      background: var(--color-white);
+      transform: translateX(100%);
+      transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+    .drawer.is-open .drawer-panel { transform: translateX(0); }
+
+    /* FAQ accordion */
+    details.faq {
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    details.faq summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-weight: 500;
+      font-size: 17px;
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after {
+      content: '+';
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--color-text-secondary);
+    }
+    details.faq[open] summary::after { content: '–'; }
+    details.faq[open] summary { color: var(--color-navy-700); }
+    details.faq .faq-body {
+      padding: 0 0 24px;
+      max-width: 70ch;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--color-bg-footer);
+      color: var(--color-text-inverse);
+    }
+    footer.site-footer a { color: var(--color-navy-100); }
+    footer.site-footer a:hover { color: var(--color-white); }
+
+    /* Flag for unconfirmed copy */
+    .flag-pending {
+      background: #FEF3C7;
+      color: #78350F;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    /* Section vertical rhythm */
+    .section-y { padding-top: 96px; padding-bottom: 96px; }
+    @media (max-width: 768px) { .section-y { padding-top: 64px; padding-bottom: 64px; } }
+
+    /* Page-top breadcrumb */
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.04em;
+    }
+    .breadcrumb a:hover { color: var(--color-navy-700); }
+
+    /* Pre-hydration: hide route content until JS picks the active one */
+    html:not(.routed) main > section[data-route] { display: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+
+  <!-- ============================================================ HEADER -->
+  <header class="site-header">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-10 h-[64px] lg:h-[72px] flex items-center justify-between">
+      <a href="#/" class="flex items-center gap-3" data-link>
+        <span class="display text-[20px] lg:text-[22px] tracking-tight">Astons Law Chambers</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#/practice-areas" class="nav-link" data-link data-route-match="^/practice-areas">Practice areas</a>
+        <a href="#/direct-access" class="nav-link" data-link data-route-match="^/direct-access">Direct access</a>
+        <a href="#/fees" class="nav-link" data-link data-route-match="^/fees">Fees &amp; legal aid</a>
+        <a href="#/about" class="nav-link" data-link data-route-match="^/about">About</a>
+        <a href="#/contact" class="nav-link" data-link data-route-match="^/contact">Contact</a>
+        <a href="tel:+447922247999"
+           class="numerals-tabular ml-2 inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-navy-950)] text-white text-[14px] font-semibold rounded-none hover:bg-[var(--color-navy-800)] transition-colors">
+          <span aria-hidden="true">●</span>
+          07922 247 999
+        </a>
+      </nav>
+      <button id="open-menu" class="lg:hidden inline-flex items-center gap-2 text-[14px] font-medium" aria-label="Open menu">
+        Menu
+        <span aria-hidden="true">≡</span>
+      </button>
+    </div>
+
+    <!-- Police-station banner (single use, signal-preserving) -->
+    <a href="tel:+447922247999" class="police-strip block">
+      <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-2.5 flex items-center justify-between text-[13px] lg:text-[14px] font-medium">
+        <span>Police station callout — 24 hours</span>
+        <span class="numerals-tabular">Call 07922 247 999 →</span>
+      </div>
+    </a>
+  </header>
+
+  <!-- ============================================================ MOBILE DRAWER -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <aside class="drawer-panel" role="dialog" aria-label="Site menu">
+      <div class="p-6 flex items-center justify-between border-b border-[var(--color-border-default)]">
+        <span class="display text-[18px]">Astons Law Chambers</span>
+        <button data-close-drawer aria-label="Close menu" class="text-[20px]">×</button>
+      </div>
+      <div class="p-6 space-y-2">
+        <a href="#/practice-areas" class="block py-2 text-[15px] font-medium" data-link>Practice areas</a>
+        <a href="#/direct-access" class="block py-2 text-[15px] font-medium" data-link>Direct access</a>
+        <a href="#/fees" class="block py-2 text-[15px] font-medium" data-link>Fees &amp; legal aid</a>
+        <a href="#/about" class="block py-2 text-[15px] font-medium" data-link>About</a>
+        <a href="#/contact" class="block py-2 text-[15px] font-medium" data-link>Contact</a>
+        <a href="#/complaints" class="block py-2 text-[15px] font-medium" data-link>Complaints</a>
+      </div>
+      <div class="p-6 border-t border-[var(--color-border-default)] space-y-3">
+        <a href="tel:+447922247999" class="numerals-tabular block w-full text-center py-3 bg-[var(--color-navy-950)] text-white font-semibold">07922 247 999</a>
+        <a id="drawer-wa" href="#" class="block w-full text-center py-3 bg-[var(--color-whatsapp)] text-white font-semibold">WhatsApp</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============================================================ MAIN / ROUTES -->
+  <main>
+
+    <!-- ========================= HOME -->
+    <section data-route="/">
+      <!-- Hero -->
+      <div class="section-y bg-white">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
+          <div class="lg:col-span-8">
+            <p class="text-[13px] font-medium tracking-[0.14em] uppercase text-[var(--color-text-secondary)] mb-6">
+              Astons Law Chambers — Barristers, London
+            </p>
+            <h1 class="display display-tight text-[44px] sm:text-[60px] lg:text-[80px] mb-8">
+              Defence representation,<br />
+              direct from the barrister.
+            </h1>
+            <p class="prose-body text-[17px] lg:text-[19px] text-[var(--color-text-secondary)]">
+              Astons Law Chambers acts for individuals and families facing criminal, motoring, regulatory and immigration matters. Instructions are taken direct, by phone or WhatsApp. Police station callouts are available 24 hours.
+            </p>
+          </div>
+          <div class="lg:col-span-4">
+            <p class="text-[12px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Call the barrister</p>
+            <a href="tel:+447922247999" class="phone-display numerals-tabular block text-center">07922 247 999</a>
+            <a id="hero-wa" href="#" class="mt-3 block text-center w-full py-3 bg-[var(--color-whatsapp)] text-white font-semibold">WhatsApp</a>
+            <p class="mt-3 text-[13px] text-[var(--color-text-secondary)] leading-relaxed">
+              First call is free. No duration framing, no booking required.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practice areas grid -->
+      <div class="border-t border-[var(--color-border-default)] section-y bg-[var(--color-bg-subtle)]">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+          <div class="flex items-end justify-between mb-12">
+            <div>
+              <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Practice</p>
+              <h2 class="display text-[32px] lg:text-[44px]">Ten areas of work.</h2>
+            </div>
+            <a href="#/practice-areas" data-link class="hidden sm:inline-flex items-center gap-2 text-[14px] font-medium text-[var(--color-navy-800)] hover:text-[var(--color-navy-950)]">All practice areas →</a>
+          </div>
+          <div id="home-areas-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-border-default)]"></div>
+        </div>
+      </div>
+
+      <!-- Direct access strip -->
+      <div class="border-t border-[var(--color-border-default)] section-y">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
+          <div class="lg:col-span-5">
+            <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Direct access</p>
+            <h2 class="display text-[28px] lg:text-[36px]">Instruct a barrister without a solicitor.</h2>
+          </div>
+          <div class="lg:col-span-7 prose-body text-[16px] lg:text-[17px] text-[var(--color-text-secondary)]">
+            <p>
+              Direct access (also called public access) lets members of the public instruct a barrister without going through a solicitor first. Not every case is suitable for the route; some matters still need a solicitor's involvement at certain stages.
+            </p>
+            <p>
+              <a href="#/direct-access" data-link class="inline-link">Read when direct access works and when it doesn't →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fees & legal aid signpost -->
+      <div class="dark-band section-y">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
+          <div class="lg:col-span-5">
+            <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-navy-100)] opacity-80 mb-3">Fees &amp; legal aid</p>
+            <h2 class="display text-[28px] lg:text-[36px]">How fees work, and when legal aid applies.</h2>
+          </div>
+          <div class="lg:col-span-7 prose-body text-[16px] lg:text-[17px] text-[var(--color-navy-100)]">
+            <p>
+              Astons Law Chambers publishes indicative fee ranges and VAT treatment for the practice areas where the Bar Standards Board requires it. Legal aid is available for eligible cases — provided through the firms Astons Law Chambers works with, rather than directly.
+            </p>
+            <p>
+              <a href="#/fees" data-link class="inline-link">See fee ranges and the legal aid route →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regulator strip -->
+      <div class="section-y bg-[var(--color-bg-subtle)] border-t border-[var(--color-border-default)]">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
+          <div class="lg:col-span-5">
+            <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Regulator</p>
+            <h2 class="display text-[28px] lg:text-[36px]">Regulated by the Bar Standards Board.</h2>
+          </div>
+          <div class="lg:col-span-7 prose-body text-[16px] lg:text-[17px] text-[var(--color-text-secondary)]">
+            <p>
+              The Barristers' Register confirms the regulatory status of every practising barrister in England and Wales. The Public Access Guidance for Lay Clients sets out what direct instruction involves and where the limits sit.
+            </p>
+            <p>
+              <a href="https://www.barstandardsboard.org.uk/search-barrister.html" target="_blank" rel="noopener" class="inline-link">Barristers' Register →</a> &nbsp;·&nbsp;
+              <a href="https://www.barcouncil.org.uk/i-am-a-member-of-the-public/going-to-court/public-access.html" target="_blank" rel="noopener" class="inline-link">Public Access Guidance →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact strip -->
+      <div class="section-y border-t border-[var(--color-border-default)]">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 text-center">
+          <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-6">Speak to the barrister</p>
+          <a href="tel:+447922247999" class="phone-display numerals-tabular inline-block">07922 247 999</a>
+          <p class="mt-6 text-[14px] text-[var(--color-text-secondary)]">
+            Prefer to write? <a id="contact-strip-wa" href="#" class="inline-link">WhatsApp</a> &nbsp;·&nbsp;
+            <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" target="_blank" rel="noopener" class="inline-link">Book a callback</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= PRACTICE AREAS INDEX -->
+    <section data-route="/practice-areas">
+      <div class="section-y">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / Practice areas</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-6">Practice areas.</h1>
+          <p class="prose-body text-[17px] text-[var(--color-text-secondary)] mb-12">
+            Astons Law Chambers accepts instructions across ten areas of work. The list is ordered by frequency of instruction, not importance — every matter listed is taken seriously.
+          </p>
+          <div id="practice-index-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-border-default)]"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= PRACTICE AREA TEMPLATE (10 dynamic routes) -->
+    <!-- Generated by JS, see <template id="practice-template"> below -->
+
+    <!-- ========================= DIRECT ACCESS -->
+    <section data-route="/direct-access">
+      <div class="section-y">
+        <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / Direct access</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">Direct access.</h1>
+
+          <div class="prose-body text-[17px] space-y-6">
+            <p class="text-[20px] text-[var(--color-text-secondary)] leading-relaxed">
+              Direct access — sometimes called public access — is the route that lets a member of the public instruct a barrister without first going through a solicitor.
+            </p>
+
+            <p>
+              Astons Law Chambers takes direct instructions for the majority of its caseload. Initial contact is by phone or WhatsApp. From there, the barrister will tell you whether direct access is suitable for your matter, or whether a solicitor's involvement is needed before instructions can be accepted.
+            </p>
+
+            <h2 class="display text-[24px] mt-12 mb-4">When direct access works</h2>
+            <ul class="list-disc pl-6 space-y-3 text-[var(--color-text-secondary)]">
+              <li>Police station representation — including out-of-hours callouts.</li>
+              <li>Magistrates' and Crown Court hearings where evidence is straightforward and documentary preparation is contained.</li>
+              <li>Motoring matters where the issue is identified early.</li>
+              <li>Immigration applications and appeals where the paperwork is manageable directly.</li>
+              <li>Advice on the merits of an investigation, charge, or appeal, before deciding next steps.</li>
+            </ul>
+
+            <h2 class="display text-[24px] mt-12 mb-4">When a solicitor is needed</h2>
+            <ul class="list-disc pl-6 space-y-3 text-[var(--color-text-secondary)]">
+              <li>Cases requiring sustained investigative work, witness management, or document handling at scale.</li>
+              <li>Matters where legal aid is the right funding route — legal aid is administered through partner solicitor firms.</li>
+              <li>Some complex Crown Court trials, depending on the nature of the evidence and the volume of disclosure.</li>
+            </ul>
+            <p class="text-[var(--color-text-secondary)]">
+              Where a solicitor is needed, Astons Law Chambers will refer to a firm it works with and can continue to be instructed as counsel.
+            </p>
+
+            <h2 class="display text-[24px] mt-12 mb-4">Direct access training</h2>
+            <p class="text-[var(--color-text-secondary)]">
+              Direct access work is regulated under the Bar Standards Board's Public Access scheme. <span class="flag-pending">🚩 Confirm</span> A barrister taking direct instructions must hold the required Public Access training. Astons Law Chambers operates under this scheme.
+            </p>
+          </div>
+
+          <div class="mt-16 p-8 bg-[var(--color-bg-subtle)] border border-[var(--color-border-default)]">
+            <h3 class="display text-[20px] mb-3">Speak to the barrister</h3>
+            <p class="text-[var(--color-text-secondary)] mb-6 text-[15px]">First call is free. The barrister will tell you whether direct access is the right route.</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="tel:+447922247999" class="numerals-tabular px-5 py-3 bg-[var(--color-navy-950)] text-white font-semibold">07922 247 999</a>
+              <a class="cta-wa px-5 py-3 bg-[var(--color-whatsapp)] text-white font-semibold" href="#">WhatsApp</a>
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" target="_blank" rel="noopener" class="px-5 py-3 border border-[var(--color-navy-950)] text-[var(--color-navy-950)] font-semibold">Book a callback</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= FEES & LEGAL AID -->
+    <section data-route="/fees">
+      <div class="section-y">
+        <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / Fees &amp; legal aid</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">Fees &amp; legal aid.</h1>
+
+          <div class="prose-body text-[17px] space-y-6">
+            <p class="text-[20px] text-[var(--color-text-secondary)] leading-relaxed">
+              Astons Law Chambers publishes indicative fee ranges and VAT treatment for the practice areas where the Bar Standards Board requires it. Other areas are quoted on instruction.
+            </p>
+
+            <h2 class="display text-[24px] mt-12 mb-4">Indicative fee ranges</h2>
+
+            <div class="space-y-6 mt-6">
+
+              <div class="p-6 border border-[var(--color-border-default)]">
+                <div class="flex items-baseline justify-between mb-2">
+                  <h3 class="display text-[20px]">Motoring Law</h3>
+                  <span class="flag-pending">🚩 Confirm</span>
+                </div>
+                <p class="text-[var(--color-text-secondary)] text-[15px]">
+                  Fixed-fee ranges for common charges (drink drive, drug drive, speeding, totting up). VAT treatment to be confirmed.
+                </p>
+                <div class="mt-4 grid sm:grid-cols-2 gap-4 text-[14px] text-[var(--color-text-primary)]">
+                  <div><span class="text-[var(--color-text-secondary)]">Magistrates' court representation</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                  <div><span class="text-[var(--color-text-secondary)]">Plea in mitigation</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                </div>
+              </div>
+
+              <div class="p-6 border border-[var(--color-border-default)]">
+                <div class="flex items-baseline justify-between mb-2">
+                  <h3 class="display text-[20px]">Immigration</h3>
+                  <span class="flag-pending">🚩 Confirm</span>
+                </div>
+                <p class="text-[var(--color-text-secondary)] text-[15px]">
+                  Hourly and fixed-fee structures depending on application type. VAT treatment to be confirmed.
+                </p>
+                <div class="mt-4 grid sm:grid-cols-2 gap-4 text-[14px] text-[var(--color-text-primary)]">
+                  <div><span class="text-[var(--color-text-secondary)]">First-tier appeal representation</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                  <div><span class="text-[var(--color-text-secondary)]">Application advice</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                </div>
+              </div>
+
+              <div class="p-6 border border-[var(--color-border-default)]">
+                <div class="flex items-baseline justify-between mb-2">
+                  <h3 class="display text-[20px]">Licensing</h3>
+                  <span class="flag-pending">🚩 Confirm</span>
+                </div>
+                <p class="text-[var(--color-text-secondary)] text-[15px]">
+                  Fee structure varies with hearing length and licensing committee complexity. VAT treatment to be confirmed.
+                </p>
+                <div class="mt-4 grid sm:grid-cols-2 gap-4 text-[14px] text-[var(--color-text-primary)]">
+                  <div><span class="text-[var(--color-text-secondary)]">Licensing review representation</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                  <div><span class="text-[var(--color-text-secondary)]">Advice on application</span><br/><span class="numerals-tabular font-semibold">£— to £—</span></div>
+                </div>
+              </div>
+
+            </div>
+
+            <h2 class="display text-[24px] mt-16 mb-4">VAT</h2>
+            <p class="text-[var(--color-text-secondary)]">
+              <span class="flag-pending">🚩 Confirm</span> VAT registration status and treatment per practice area.
+            </p>
+
+            <h2 class="display text-[24px] mt-16 mb-4">Legal aid</h2>
+            <p class="text-[var(--color-text-secondary)]">
+              Legal aid funding is administered through solicitor firms. Where a case qualifies, Astons Law Chambers refers to a partner firm and can continue to be instructed as counsel. Eligibility depends on the type of case and the client's means.
+            </p>
+
+            <h2 class="display text-[24px] mt-16 mb-4">First call</h2>
+            <p class="text-[var(--color-text-secondary)]">
+              The initial conversation is free of charge. There is no duration framing and no booking required — phone, WhatsApp, or a callback through Cal.com.
+            </p>
+
+            <h2 class="display text-[24px] mt-16 mb-4">How to instruct</h2>
+            <ol class="list-decimal pl-6 space-y-3 text-[var(--color-text-secondary)]">
+              <li>Call or message with a short description of the matter.</li>
+              <li>The barrister will confirm whether direct access is appropriate.</li>
+              <li>A client care letter setting out scope, fees, and VAT is issued before any work begins.</li>
+              <li>Funds are taken on account against the agreed scope.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= ABOUT -->
+    <section data-route="/about">
+      <div class="section-y">
+        <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / About</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">About the chambers.</h1>
+          <div class="prose-body text-[17px] space-y-6">
+            <p class="text-[20px] text-[var(--color-text-secondary)] leading-relaxed">
+              Astons Law Chambers is a barristers' practice based at 85 Great Portland Street, London. The chambers takes direct instructions across criminal, motoring, regulatory and immigration work, with a 24-hour police station service.
+            </p>
+            <p class="text-[var(--color-text-secondary)]">
+              The practice operates on direct access where the case suits the route, and works alongside solicitor firms where the matter requires legal aid or sustained investigative work. Conversion is by phone, WhatsApp, or callback — no contact form, no email funnel.
+            </p>
+            <h2 class="display text-[24px] mt-12 mb-4">Regulator</h2>
+            <p class="text-[var(--color-text-secondary)]">
+              Astons Law Chambers is regulated by the Bar Standards Board. The Barristers' Register confirms regulatory status.
+              <span class="flag-pending">🚩 BSB no.</span>
+            </p>
+            <p>
+              <a href="https://www.barstandardsboard.org.uk/search-barrister.html" target="_blank" rel="noopener" class="inline-link">Barristers' Register →</a> &nbsp;·&nbsp;
+              <a href="#/complaints" data-link class="inline-link">Complaints procedure →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= CONTACT -->
+    <section data-route="/contact">
+      <div class="section-y">
+        <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / Contact</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">Contact.</h1>
+
+          <div class="grid lg:grid-cols-2 gap-10">
+            <div>
+              <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Call the barrister</p>
+              <a href="tel:+447922247999" class="phone-display numerals-tabular block text-center">07922 247 999</a>
+              <p class="mt-4 text-[15px] text-[var(--color-text-secondary)]">
+                First call is free. Police station callouts are available 24 hours.
+              </p>
+            </div>
+            <div>
+              <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Other channels</p>
+              <a id="contact-page-wa" href="#" class="block w-full text-center py-3 bg-[var(--color-whatsapp)] text-white font-semibold">WhatsApp</a>
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" target="_blank" rel="noopener" class="mt-3 block w-full text-center py-3 border border-[var(--color-navy-950)] text-[var(--color-navy-950)] font-semibold">Book a callback</a>
+              <p class="mt-4 text-[15px] text-[var(--color-text-secondary)]">
+                There is no email address or contact form on this site. Phone, WhatsApp, and Cal.com are the only routes in.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-16 pt-10 border-t border-[var(--color-border-default)]">
+            <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-3">Chambers address</p>
+            <p class="text-[18px]">85 Great Portland Street<br/>First Floor<br/>London W1W 7LT</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= COMPLAINTS -->
+    <section data-route="/complaints">
+      <div class="section-y">
+        <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+          <p class="breadcrumb mb-4"><a href="#/" data-link>Home</a> / Complaints</p>
+          <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">Complaints.</h1>
+          <div class="prose-body text-[17px] space-y-6 text-[var(--color-text-secondary)]">
+            <p class="text-[20px] leading-relaxed">
+              Astons Law Chambers takes complaints seriously and aims to resolve them quickly and fairly.
+            </p>
+            <h2 class="display text-[24px] text-[var(--color-text-primary)] mt-12 mb-4">Internal procedure</h2>
+            <p>
+              A complaint may be made in writing to the chambers. Astons Law Chambers will acknowledge the complaint and respond within a defined timeframe. <span class="flag-pending">🚩 Response window</span>
+            </p>
+            <h2 class="display text-[24px] text-[var(--color-text-primary)] mt-12 mb-4">Legal Ombudsman</h2>
+            <p>
+              If the matter is not resolved internally, a complaint may be referred to the Legal Ombudsman. Time limits apply: ordinarily within six years of the act or omission, or three years of when the issue should reasonably have been known.
+            </p>
+            <p>
+              <a href="https://www.legalombudsman.org.uk" target="_blank" rel="noopener" class="inline-link">legalombudsman.org.uk</a> &nbsp;·&nbsp; 0300 555 0333
+            </p>
+            <h2 class="display text-[24px] text-[var(--color-text-primary)] mt-12 mb-4">Bar Standards Board</h2>
+            <p>
+              Serious misconduct may be reported to the Bar Standards Board, which regulates barristers in England and Wales.
+              <a href="https://www.barstandardsboard.org.uk/search-barrister.html" target="_blank" rel="noopener" class="inline-link">Barristers' Register →</a>
+            </p>
+            <h2 class="display text-[24px] text-[var(--color-text-primary)] mt-12 mb-4">Decision data</h2>
+            <p>
+              <span class="flag-pending">🚩 LeO data link</span> A link to the Legal Ombudsman's published decision data is required on chambers websites.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= 404 / FALLBACK -->
+    <section data-route="*">
+      <div class="section-y">
+        <div class="max-w-[800px] mx-auto px-6 lg:px-10">
+          <h1 class="display display-tight text-[40px] lg:text-[56px] mb-6">Page not found.</h1>
+          <p class="text-[17px] text-[var(--color-text-secondary)] mb-8">The route you tried doesn't exist in this preview.</p>
+          <a href="#/" data-link class="inline-link text-[15px]">← Back to home</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ FOOTER -->
+  <footer class="site-footer">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+      <div class="grid lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-5">
+          <p class="display text-[22px] mb-4">Astons Law Chambers</p>
+          <p class="text-[14px] text-[var(--color-navy-100)] opacity-80 leading-relaxed">
+            85 Great Portland Street<br/>First Floor<br/>London W1W 7LT
+          </p>
+          <div class="mt-6 space-y-2">
+            <a href="tel:+447922247999" class="numerals-tabular block text-[20px] font-semibold">07922 247 999</a>
+            <a id="footer-wa" href="#" class="block text-[14px] underline underline-offset-4">WhatsApp</a>
+            <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" target="_blank" rel="noopener" class="block text-[14px] underline underline-offset-4">Book a callback</a>
+          </div>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[12px] uppercase tracking-[0.14em] opacity-70 mb-4">Practice</p>
+          <ul id="footer-areas" class="space-y-2 text-[14px]"></ul>
+        </div>
+        <div class="lg:col-span-2">
+          <p class="text-[12px] uppercase tracking-[0.14em] opacity-70 mb-4">Chambers</p>
+          <ul class="space-y-2 text-[14px]">
+            <li><a href="#/about" data-link>About</a></li>
+            <li><a href="#/fees" data-link>Fees &amp; legal aid</a></li>
+            <li><a href="#/direct-access" data-link>Direct access</a></li>
+            <li><a href="#/contact" data-link>Contact</a></li>
+            <li><a href="#/complaints" data-link>Complaints</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-2">
+          <p class="text-[12px] uppercase tracking-[0.14em] opacity-70 mb-4">Regulator</p>
+          <ul class="space-y-2 text-[14px]">
+            <li><a href="https://www.barstandardsboard.org.uk/search-barrister.html" target="_blank" rel="noopener">Barristers' Register</a></li>
+            <li><a href="https://www.barcouncil.org.uk/i-am-a-member-of-the-public/going-to-court/public-access.html" target="_blank" rel="noopener">Public Access Guidance</a></li>
+            <li><a href="https://www.legalombudsman.org.uk" target="_blank" rel="noopener">Legal Ombudsman</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-[var(--color-navy-700)] text-[13px] opacity-75 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p>Regulated by the Bar Standards Board. <span class="flag-pending">🚩 BSB no.</span></p>
+        <p>© <span id="year"></span> Astons Law Chambers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================ STICKY PILL + LEAVE PILL -->
+  <div class="corner-pill" id="corner-pill" aria-hidden="true">
+    <a class="phone numerals-tabular" href="tel:+447922247999">
+      <span aria-hidden="true">●</span> 07922 247 999
+    </a>
+    <a class="wa" id="pill-wa" href="#" aria-label="Message on WhatsApp">
+      WhatsApp
+    </a>
+  </div>
+
+  <a class="leave-pill" href="https://www.google.com" rel="noopener">
+    <span aria-hidden="true">✕</span> Leave site
+  </a>
+
+  <!-- ============================================================ DATA + RUNTIME -->
+  <template id="practice-area-template"></template>
+
+  <script>
+    /* ----------------------------- DATA ----------------------------- */
+    const contact = {
+      phone: '07922 247 999',
+      phoneTel: 'tel:+447922247999',
+      whatsapp: 'https://wa.me/447922247999',
+      whatsappPrefill: 'Replace this with what you need assistance with. I will respond to you asap. Police station callouts are available 24 hours, and I am also able to provide legal aid through the firms I work with',
+      calUrl: 'https://cal.com/astonslaw/callback?overlayCalendar=true',
+    };
+    const waLink = contact.whatsapp + '?text=' + encodeURIComponent(contact.whatsappPrefill);
+
+    const practiceAreas = [
+      {
+        slug: 'criminal-defence',
+        title: 'Criminal Defence',
+        priority: 'P0',
+        feeFlag: false,
+        lead: 'Representation across investigation, charge, magistrates’ and Crown Court hearings, with a 24-hour police station service.',
+        body: [
+          'Astons Law Chambers acts in criminal matters from the first point of contact — typically a police station callout, arrest, or letter from the police. The barrister advises at interview, sets out the realistic case theory, and takes the matter through to hearing or trial.',
+          'Cases range from summary motoring and public order offences through to indictable matters in the Crown Court. The work is taken on direct access where suitable; where legal aid is the right funding route, instructions continue through a partner solicitor firm.'
+        ],
+      },
+      {
+        slug: 'motoring-law',
+        title: 'Motoring Law',
+        priority: 'P0',
+        feeFlag: true,
+        lead: 'Drink drive, drug drive, speeding, totting up and disqualification matters. Fixed-fee where the issue is identified early.',
+        body: [
+          'Motoring instructions are typically time-sensitive: a court date is already set, and the disqualification implications are clear before papers arrive. The barrister advises on the merits of contesting versus mitigating, on special reasons and exceptional hardship arguments, and on the realistic outcome at hearing.',
+          'Fixed-fee ranges apply for the most common charges. Variations are agreed in writing before instructions are accepted.'
+        ],
+      },
+      {
+        slug: 'immigration',
+        title: 'Immigration',
+        priority: 'P0',
+        feeFlag: true,
+        lead: 'Applications, appeals and bail in immigration matters. Direct access where the paperwork is manageable; partner firms where legal aid applies.',
+        body: [
+          'Immigration instructions cover applications, refusals, appeals to the First-tier Tribunal, and bail hearings for those held in immigration detention. Where the matter is suitable for direct access the barrister works on it from the outset; otherwise a partner solicitor firm is instructed and the chambers continues as counsel.',
+          'Fees depend on the application type and tribunal involvement. An indicative range is published with VAT treatment.'
+        ],
+      },
+      {
+        slug: 'family-law',
+        title: 'Family Law',
+        priority: 'P1',
+        feeFlag: false,
+        lead: 'Representation in private and public family law proceedings, including children and finance matters.',
+        body: [
+          'Family instructions cover children matters (contact, residence, prohibited steps), financial remedy on divorce, and proceedings where the local authority is a party. The barrister advises on prospects, on the likely directions a court will give, and on whether mediation, negotiation, or contested hearing is the right route.',
+          'Legal aid is available in some family matters and is provided through partner solicitor firms.'
+        ],
+      },
+      {
+        slug: 'proceeds-of-crime',
+        title: 'Proceeds of Crime',
+        priority: 'P1',
+        feeFlag: false,
+        lead: 'Restraint and confiscation proceedings, cash forfeiture, and account freezing orders.',
+        body: [
+          'Proceeds of crime work runs alongside the underlying criminal proceedings but is decided on different rules and standards of proof. The barrister advises on the criminal lifestyle assumption, available amount calculations, and contested benefit figures.',
+          'Cases include restraint orders, confiscation hearings, cash forfeiture under the Proceeds of Crime Act, and account freezing orders. Instructions are taken on direct access where the procedural stage allows it.'
+        ],
+      },
+      {
+        slug: 'licensing',
+        title: 'Licensing',
+        priority: 'P1',
+        feeFlag: true,
+        lead: 'Premises and personal licence applications, reviews and appeals before licensing committees and magistrates’ court.',
+        body: [
+          'Licensing instructions cover premises licence applications and variations, personal licence matters, reviews triggered by the police or licensing authority, and appeals against decisions of the licensing committee. The barrister appears at committee hearings and on appeal at the magistrates’ court.',
+          'Fees depend on hearing length and the complexity of the licensing objective being argued. An indicative range is published with VAT treatment.'
+        ],
+      },
+      {
+        slug: 'regulatory-law',
+        title: 'Regulatory Law',
+        priority: 'P2',
+        feeFlag: false,
+        lead: 'Representation in professional regulatory and disciplinary proceedings.',
+        body: [
+          'Regulatory instructions cover proceedings before professional regulators — fitness to practise hearings, interim orders, and appeals against regulatory decisions. The barrister advises on the case to answer, on agreed outcomes where appropriate, and on the realistic sanction.',
+          'Direct access works where the matter is contained and the timetable is manageable; where significant investigative work is needed, instructions continue through a solicitor firm.'
+        ],
+      },
+      {
+        slug: 'extradition',
+        title: 'Extradition',
+        priority: 'P2',
+        feeFlag: false,
+        lead: 'Representation in extradition proceedings at Westminster Magistrates’ Court and on appeal.',
+        body: [
+          'Extradition cases are heard at Westminster Magistrates’ Court and proceed on tight timetables. The barrister advises on the bars to extradition that may be available — dual criminality, passage of time, human rights, prison conditions — and on the appeal route to the High Court if the case requires it.',
+          'Legal aid is available in extradition matters and is administered through partner solicitor firms.'
+        ],
+      },
+      {
+        slug: 'inquests',
+        title: 'Inquests',
+        priority: 'P2',
+        feeFlag: false,
+        lead: 'Representation of families and interested persons at coronial inquests.',
+        body: [
+          'Inquest work covers representation of bereaved families and other interested persons at coroners’ hearings. The barrister advises on the scope of the inquest, on the realistic findings open to the coroner, and on the questioning of witnesses where representation is needed.',
+          'Funding routes vary: privately funded representation, exceptional case funding, and inquests arising from Article 2 obligations. The right route is identified at first contact.'
+        ],
+      },
+      {
+        slug: 'civil-litigation',
+        title: 'Civil Litigation',
+        priority: 'P2',
+        feeFlag: false,
+        lead: 'Representation in civil disputes, including contract, debt, and small claims through to multi-track work.',
+        body: [
+          'Civil instructions cover contract and debt disputes, small claims and fast-track matters, and multi-track proceedings where the value or complexity warrants it. The barrister advises on the merits, on the realistic recoverable value, and on whether settlement or trial is the better route.',
+          'Direct access is suitable for most civil matters; where the volume of disclosure is significant a solicitor is brought in.'
+        ],
+      },
+    ];
+
+    /* ----------------------------- RENDER: practice area routes ----------------------------- */
+    const main = document.querySelector('main');
+    const tplWrapper = document.createElement('div');
+
+    practiceAreas.forEach((a, i) => {
+      const sec = document.createElement('section');
+      sec.setAttribute('data-route', '/practice-areas/' + a.slug);
+      sec.innerHTML = `
+        <div class="section-y">
+          <div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+            <p class="breadcrumb mb-4">
+              <a href="#/" data-link>Home</a> /
+              <a href="#/practice-areas" data-link>Practice areas</a> /
+              ${a.title}
+            </p>
+            <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-4 numerals-tabular">
+              ${String(i + 1).padStart(2, '0')} of 10
+            </p>
+            <h1 class="display display-tight text-[40px] lg:text-[64px] mb-8">${a.title}.</h1>
+            <p class="text-[20px] text-[var(--color-text-secondary)] leading-relaxed max-w-[70ch] mb-12">
+              ${a.lead}
+            </p>
+
+            <div class="prose-body text-[17px] space-y-6 text-[var(--color-text-secondary)]">
+              ${a.body.map((p) => `<p>${p}</p>`).join('')}
+            </div>
+
+            ${
+              a.feeFlag
+                ? `
+            <div class="mt-12 p-6 bg-[var(--color-bg-subtle)] border border-[var(--color-border-default)]">
+              <div class="flex items-baseline justify-between mb-2">
+                <h3 class="display text-[20px] text-[var(--color-text-primary)]">Indicative fees</h3>
+                <span class="flag-pending">🚩 Confirm</span>
+              </div>
+              <p class="text-[14px] text-[var(--color-text-secondary)]">
+                The Bar Standards Board requires an indicative fee range and VAT treatment for this practice area.
+                <a href="#/fees" data-link class="inline-link">See full fee schedule →</a>
+              </p>
+            </div>`
+                : ''
+            }
+
+            <div class="mt-16 p-8 bg-[var(--color-navy-950)] text-white">
+              <div class="grid lg:grid-cols-2 gap-6 items-center">
+                <div>
+                  <p class="text-[13px] uppercase tracking-[0.14em] opacity-70 mb-2">Speak to the barrister</p>
+                  <p class="text-[16px] opacity-90">First call is free. The barrister will say whether direct access is the right route for your matter.</p>
+                </div>
+                <div class="flex flex-wrap gap-3 lg:justify-end">
+                  <a href="${contact.phoneTel}" class="numerals-tabular px-5 py-3 bg-white text-[var(--color-navy-950)] font-semibold">${contact.phone}</a>
+                  <a class="cta-wa px-5 py-3 bg-[var(--color-whatsapp)] text-white font-semibold" href="#">WhatsApp</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-16 pt-10 border-t border-[var(--color-border-default)]">
+              <p class="text-[13px] uppercase tracking-[0.14em] text-[var(--color-text-secondary)] mb-6">Other practice areas</p>
+              <div class="grid sm:grid-cols-2 gap-3 text-[15px]">
+                ${practiceAreas
+                  .filter((p) => p.slug !== a.slug)
+                  .slice(0, 6)
+                  .map(
+                    (p) =>
+                      `<a href="#/practice-areas/${p.slug}" data-link class="py-2 border-b border-[var(--color-border-default)] hover:text-[var(--color-navy-700)]">${p.title} →</a>`
+                  )
+                  .join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      tplWrapper.appendChild(sec);
+    });
+
+    // Inject practice-area sections before the 404 fallback section
+    const fallback = main.querySelector('section[data-route="*"]');
+    while (tplWrapper.firstChild) main.insertBefore(tplWrapper.firstChild, fallback);
+
+    /* ----------------------------- RENDER: homepage areas grid ----------------------------- */
+    function renderAreasGrid(containerId, items) {
+      const c = document.getElementById(containerId);
+      if (!c) return;
+      c.innerHTML = items
+        .map(
+          (a, i) => `
+        <a href="#/practice-areas/${a.slug}" data-link class="area-card bg-white">
+          <span class="num">${String(items.indexOf(a) + 1).padStart(2, '0')}</span>
+          <span class="title">${a.title}</span>
+          <span class="arrow">View →</span>
+        </a>
+      `
+        )
+        .join('');
+    }
+    renderAreasGrid('home-areas-grid', practiceAreas);
+    renderAreasGrid('practice-index-grid', practiceAreas);
+
+    /* ----------------------------- RENDER: footer area list ----------------------------- */
+    const footerAreas = document.getElementById('footer-areas');
+    if (footerAreas) {
+      footerAreas.innerHTML = practiceAreas
+        .map(
+          (a) =>
+            `<li><a href="#/practice-areas/${a.slug}" data-link>${a.title}</a></li>`
+        )
+        .join('');
+    }
+
+    /* ----------------------------- WIRE WHATSAPP LINKS ----------------------------- */
+    [
+      'hero-wa',
+      'drawer-wa',
+      'contact-strip-wa',
+      'contact-page-wa',
+      'footer-wa',
+      'pill-wa',
+    ].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('href', waLink);
+    });
+    document.querySelectorAll('a.cta-wa').forEach((a) => a.setAttribute('href', waLink));
+
+    /* ----------------------------- ROUTER ----------------------------- */
+    const routes = Array.from(document.querySelectorAll('main > section[data-route]'));
+
+    function currentPath() {
+      const h = location.hash || '#/';
+      return h.replace(/^#/, '') || '/';
+    }
+
+    function showRoute(path) {
+      let matched = null;
+      for (const sec of routes) {
+        const r = sec.getAttribute('data-route');
+        if (r === path) {
+          matched = sec;
+          break;
+        }
+      }
+      if (!matched) matched = routes.find((s) => s.getAttribute('data-route') === '*');
+
+      routes.forEach((s) => s.classList.toggle('is-active', s === matched));
+
+      // Update nav active state
+      document.querySelectorAll('[data-route-match]').forEach((a) => {
+        const re = new RegExp(a.getAttribute('data-route-match'));
+        a.classList.toggle('is-current', re.test(path));
+      });
+
+      // Close drawer on navigation
+      document.getElementById('drawer').classList.remove('is-open');
+
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+      // Run GSAP page intro if available + motion allowed
+      runPageIntro(matched);
+    }
+
+    window.addEventListener('hashchange', () => showRoute(currentPath()));
+
+    // Intercept data-link clicks to push hash routes cleanly
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[data-link]');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      e.preventDefault();
+      const next = href.slice(1);
+      if (next === currentPath()) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        location.hash = next;
+      }
+    });
+
+    /* ----------------------------- DRAWER ----------------------------- */
+    document.getElementById('open-menu').addEventListener('click', () => {
+      document.getElementById('drawer').classList.add('is-open');
+    });
+    document.querySelectorAll('[data-close-drawer]').forEach((el) =>
+      el.addEventListener('click', () => {
+        document.getElementById('drawer').classList.remove('is-open');
+      })
+    );
+
+    /* ----------------------------- POLICE STRIP + STICKY PILL VISIBILITY ----------------------------- */
+    const policeStrip = document.querySelector('.police-strip');
+    const cornerPill = document.getElementById('corner-pill');
+    let lastY = 0;
+    function onScroll() {
+      const y = window.scrollY;
+      // Police strip shows when scrolling up after passing initial fold
+      if (y > 200 && y < lastY) policeStrip.classList.add('is-shown');
+      else if (y <= 100 || y > lastY) policeStrip.classList.remove('is-shown');
+      // Corner pill shows after passing hero
+      if (y > 500) cornerPill.classList.add('is-visible');
+      else cornerPill.classList.remove('is-visible');
+      lastY = y;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* ----------------------------- GSAP PAGE INTRO (motion-guarded) ----------------------------- */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function runPageIntro(sec) {
+      if (prefersReducedMotion || typeof gsap === 'undefined') return;
+      const targets = sec.querySelectorAll('h1, h2, .prose-body, .area-card, .phone-display');
+      if (!targets.length) return;
+      gsap.fromTo(
+        targets,
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out', stagger: 0.04 }
+      );
+    }
+
+    /* ----------------------------- BOOT ----------------------------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.documentElement.classList.add('routed');
+    showRoute(currentPath());
+  </script>
+</body>
+</html>
