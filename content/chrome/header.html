@@ -1,4 +1,38 @@
   <header class="sticky top-0 z-30 bg-white" id="siteHeader">
+    <!-- Police-station banner — first row of the sticky header, above the
+         navbar. In normal flow, so navbar + banner pin as one unit. -->
+    <div
+      id="policeBanner"
+      class="bg-emergency-500 text-white"
+      role="region"
+      aria-label="Police station support"
+    >
+      <div class="max-w-wide mx-auto px-6 h-11 md:h-12 flex items-center justify-center gap-4 text-sm md:text-[15px] font-medium">
+        <!-- Desktop / tablet: one cohesive sentence, the whole bar is tappable -->
+        <a
+          href="tel:+447922247999"
+          data-track="call_click"
+          data-track-location="police_banner_desktop"
+          class="hidden sm:inline-flex items-center gap-3 tracking-tightish hover:underline underline-offset-4 decoration-1"
+        >
+          <span>Available 24/7 for police station support — <span class="font-semibold">Call 07922 247 999 now</span></span>
+          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+
+        <!-- Mobile: single tap-to-call, fills the bar -->
+        <a
+          href="tel:+447922247999"
+          data-track="call_click"
+          data-track-location="police_banner_mobile"
+          class="sm:hidden flex-1 inline-flex items-center justify-center gap-2 font-semibold tracking-tightish"
+          aria-label="Press to call for police station representation"
+        >
+          Press to call for police station representation
+          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+
     <div class="max-w-wide mx-auto px-6 h-16 md:h-[72px] flex items-center justify-between gap-6">
       <a href="/" class="flex items-center group" aria-label="Astons Law Chambers — Home">
         <svg width="148" height="34" viewBox="0 0 148 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-7 md:h-8 w-auto" aria-hidden="true">
@@ -72,44 +106,6 @@
             <span class="burger-bar"></span>
           </span>
         </button>
-      </div>
-    </div>
-
-    <!-- Police-station banner — second row of the sticky header, directly
-         below the navbar. In normal flow (not fixed), so navbar + banner pin
-         and scroll as one unit and the mega menu (top-full) drops below it. -->
-    <div
-      id="policeBanner"
-      class="bg-emergency-500 text-white"
-      role="region"
-      aria-label="Police station support"
-    >
-      <div class="max-w-wide mx-auto px-6 h-11 md:h-12 flex items-center justify-center gap-4 text-sm md:text-[15px] font-medium">
-        <!-- Desktop / tablet: one cohesive sentence, the whole bar is tappable -->
-        <a
-          href="tel:+447922247999"
-          data-track="call_click"
-          data-track-location="police_banner_desktop"
-          class="hidden sm:inline-flex items-center gap-3 tracking-tightish hover:underline underline-offset-4 decoration-1"
-        >
-          <span>Available 24/7 for police station support — <span class="font-semibold">Call 07922 247 999 now</span></span>
-          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
-
-        <!-- Mobile: single tap-to-call, fills the bar. Copy locked 2026-05-21:
-             "Press to call" frames the action in the visitor's own terms
-             (JTBD — press = the physical act they're already considering).
-             Revert: `git restore content/chrome/header.html`. -->
-        <a
-          href="tel:+447922247999"
-          data-track="call_click"
-          data-track-location="police_banner_mobile"
-          class="sm:hidden flex-1 inline-flex items-center justify-center gap-2 font-semibold tracking-tightish"
-          aria-label="Press to call for police station representation"
-        >
-          Press to call for police station representation
-          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
       </div>
     </div>
 
