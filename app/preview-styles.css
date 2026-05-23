@@ -503,40 +503,46 @@
 
 /* ── Mobile sticky pill ───────────────────────────────────────────────────── */
 
-/* White floating call button */
+/* Navy floating call button */
 .pill-call {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
   box-shadow:
-    0 4px 20px -4px rgba(14, 22, 40, 0.20),
-    0 1px 4px rgba(14, 22, 40, 0.08);
+    0 4px 20px -4px rgba(14, 22, 40, 0.32),
+    0 1px 4px rgba(14, 22, 40, 0.12);
   transition: box-shadow 0.15s ease, background-color 0.15s ease;
 }
 .pill-call:hover {
-  background-color: #f8f9fb;
+  background-color: #16223c;
   box-shadow:
-    0 6px 28px -4px rgba(14, 22, 40, 0.26),
-    0 1px 4px rgba(14, 22, 40, 0.08);
+    0 6px 28px -4px rgba(14, 22, 40, 0.40),
+    0 1px 4px rgba(14, 22, 40, 0.12);
 }
 .pill-call:active {
-  box-shadow: 0 2px 10px -2px rgba(14, 22, 40, 0.18);
+  background-color: #1f2e50;
+  box-shadow: 0 2px 10px -2px rgba(14, 22, 40, 0.20);
 }
 
-/* Grey 3-dot trigger — explicit circle, flex-shrink guard */
+/* White 3-dot trigger — explicit circle, f9f9f9 outline ring */
 .pill-dots {
   width: 44px;
   height: 44px;
   min-width: 44px;
-  background-color: #e0e3e8;
-  color: #4b5563;
-  box-shadow: 0 1px 3px rgba(14, 22, 40, 0.10);
+  background-color: #ffffff;
+  color: #374151;
+  border: 1.5px solid #f9f9f9;
+  box-shadow:
+    0 0 0 1px rgba(14, 22, 40, 0.06),
+    0 1px 3px rgba(14, 22, 40, 0.10);
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 .pill-dots:hover {
-  background-color: #d1d5db;
-  box-shadow: 0 2px 6px rgba(14, 22, 40, 0.14);
+  background-color: #f8f9fb;
+  box-shadow:
+    0 0 0 1px rgba(14, 22, 40, 0.08),
+    0 2px 6px rgba(14, 22, 40, 0.14);
 }
-.pill-dots:active { background-color: #c4c9d1; }
+.pill-dots:active { background-color: #f3f4f6; }
 
 /* Upward dropdown */
 .pill-menu {
