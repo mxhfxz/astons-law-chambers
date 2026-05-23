@@ -496,3 +496,7 @@
       background: var(--color-offwhite); border: 1px solid #D1D5DB; border-radius: 4px;
     }
     .insight-body pre code { padding: 0; background: none; border: 0; }
+
+/* Hide <details> summary marker — list-none handles Firefox; WebKit needs the vendor selector */
+.list-none::-webkit-details-marker,
+.list-none::marker { display: none; }
