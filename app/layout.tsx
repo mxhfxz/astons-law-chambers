@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: '%s — Astons Law Chambers',
   },
   description:
-    "Criminal defence lawyer in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
+    "Criminal defence barrister in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
@@ -50,7 +50,7 @@ const jsonLd = {
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
       description:
-        "Criminal defence lawyer and barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
+        "Criminal defence barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
       url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],

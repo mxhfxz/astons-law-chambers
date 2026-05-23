@@ -8,12 +8,23 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
       },
-      // AI crawlers: GPTBot (OpenAI) and CCBot (Common Crawl) are allowed so
-      // the site can be cited by ChatGPT and Perplexity — a visibility channel
+      // AI crawlers: explicit allows for citation-eligible crawlers so the site
+      // appears in ChatGPT, Claude, and Perplexity answers — a direct channel
       // for an audience that asks AI assistants what to do after an arrest.
-      // Google-Extended (Gemini model training) and Bytespider (ByteDance)
-      // stay blocked. Googlebot and Google AI Overviews are unaffected either
-      // way.
+      // Google-Extended (Gemini training) and Bytespider (ByteDance) stay
+      // blocked. Googlebot and Google AI Overviews are unaffected either way.
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'OAI-SearchBot',
+        allow: '/',
+      },
       {
         userAgent: 'Google-Extended',
         disallow: ['/'],

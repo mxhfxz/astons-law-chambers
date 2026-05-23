@@ -17,10 +17,12 @@ function mtime(rel: string): Date {
   }
 }
 
+type ChangeFreq = 'weekly' | 'monthly' | 'yearly'
+
 // Route -> content source file. Each static route's <lastmod> tracks the
 // fragment it renders from.
-const staticRoutes: Array<{ path: string; source: string }> = [
-  { path: '/', source: 'content/sections/home.html' },
+const staticRoutes: Array<{ path: string; source: string; freq?: ChangeFreq }> = [
+  { path: '/', source: 'content/sections/home.html', freq: 'weekly' },
   { path: '/practice-areas', source: 'content/sections/practice-areas.html' },
   { path: '/guides', source: 'content/sections/guides-index.html' },
   { path: '/police-station-representation', source: 'content/sections/police-station.html' },
@@ -30,17 +32,17 @@ const staticRoutes: Array<{ path: string; source: string }> = [
   { path: '/legal-aid', source: 'content/sections/legal-aid.html' },
   { path: '/about', source: 'content/sections/about.html' },
   { path: '/contact', source: 'content/sections/contact.html' },
-  { path: '/complaints', source: 'content/sections/complaints.html' },
+  { path: '/complaints', source: 'content/sections/complaints.html', freq: 'yearly' },
   { path: '/timescales', source: 'content/sections/timescales.html' },
-  { path: '/terms-of-engagement', source: 'content/sections/terms-of-engagement.html' },
-  { path: '/privacy-policy', source: 'content/sections/privacy-policy.html' },
+  { path: '/terms-of-engagement', source: 'content/sections/terms-of-engagement.html', freq: 'yearly' },
+  { path: '/privacy-policy', source: 'content/sections/privacy-policy.html', freq: 'yearly' },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map(({ path: p, source }) => ({
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map(({ path: p, source, freq }) => ({
     url: p === '/' ? BASE : `${BASE}${p}`,
     lastModified: mtime(source),
-    changeFrequency: 'monthly',
+    changeFrequency: freq ?? 'monthly',
     priority: p === '/' ? 1 : 0.7,
   }))
   // Practice-area detail pages render from lib/practice-areas.ts.
@@ -63,7 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${BASE}/insights`,
       lastModified: insights[0] ? new Date(insights[0].dateModified) : mtime('content/insights'),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.7,
     },
     ...insights.map((post) => ({
