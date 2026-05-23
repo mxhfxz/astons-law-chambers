@@ -35,7 +35,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: 'Criminal Defence Barrister, London',
+    metaTitle: 'Criminal Defence Barrister [Direct Access], London',
     metaDescription:
       'Criminal defence lawyer in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
     kicker: 'Criminal',
@@ -74,7 +74,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: 'Violent Crime Barrister, London',
+    metaTitle: 'Violent Crime Barrister [Direct Access], London',
     metaDescription:
       'London barrister defending assault, ABH, GBH, affray and robbery allegations. Instructed direct, from the police station through to Crown Court trial.',
     kicker: 'Criminal',
@@ -117,7 +117,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: 'Youth Crime Barrister, London',
+    metaTitle: 'Youth Crime Barrister [Direct Access], London',
     metaDescription:
       'London barrister defending clients under 18 in the Youth Court and Crown Court — instructed direct, with the procedures the youth jurisdiction requires.',
     kicker: 'Criminal',
@@ -154,7 +154,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'driving-offences',
     title: 'Driving Offences',
-    metaTitle: 'Driving Offence Barrister, London',
+    metaTitle: 'Driving Offence Barrister [Direct Access], London',
     metaDescription:
       'London barrister for driving offences — drink and drug driving, totting-up and exceptional-hardship arguments, and licence-loss work. Instructed direct.',
     kicker: 'Criminal',
@@ -191,7 +191,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: 'Drug Offence Barrister, London',
+    metaTitle: 'Drug Offence Barrister [Direct Access], London',
     metaDescription:
       'London barrister defending drug allegations — possession, supply, importation and production. Instructed direct, with forensic and disclosure challenges.',
     kicker: 'Criminal',
@@ -230,7 +230,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'appeals',
     title: 'Appeals',
-    metaTitle: 'Criminal Appeals Barrister, London',
+    metaTitle: 'Criminal Appeals Barrister [Direct Access], London',
     metaDescription:
       'London barrister for criminal appeals against conviction and sentence — advice on prospects, drafting of grounds, and representation in the Court of Appeal.',
     kicker: 'Post-trial',
@@ -266,7 +266,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'inquests',
     title: 'Inquests',
-    metaTitle: 'Inquest Barrister, London',
+    metaTitle: 'Inquest Barrister [Direct Access], London',
     metaDescription:
       'London barrister representing families and interested persons at inquests, from the pre-inquest review through to the substantive hearing in the Coroner’s Court.',
     kicker: 'Coroner’s Court',
