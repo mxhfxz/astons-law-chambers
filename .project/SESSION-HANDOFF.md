@@ -1,4 +1,4 @@
-# Session Handoff — 2026-05-23 (CTA bar brainstorm + staging)
+# Session Handoff — 2026-05-23 (CTA bar: wired into Next.js + three-button layout)
 
 Read MEMORY.md first, then this file.
 
@@ -25,47 +25,70 @@ Verification: `verification-before-completion`
 - Red police station banner above the white navbar
 - Homepage H1: `24/7 Support for arrests, police station interviews, and court summons`
 - Hero sub + red `btn-emergency` CTA: "Call 07922 247 999"
-- Mobile sticky: **the old floating pill is live** — full-width navy call button + 3-dot circle.
-  The new bottom bar has NOT been merged to main yet.
-- Desktop: unchanged (avail-dot call chip + WhatsApp chip in dark navy pill)
+- Mobile sticky: **the old floating pill is still live on main** — the new bar has NOT been merged yet
+- Desktop: avail-dot call chip + WhatsApp chip in dark navy pill (unchanged)
 - 13 commercial page titles with visual disruptor brackets
 
 ---
 
-## 2. Active feature branch — `cta-bar` (PENDING REVIEW)
+## 2. Active feature branch — `cta-bar` (PENDING USER REVIEW)
 
-**Branch pushed to origin, Vercel preview at:**
+**Branch pushed to origin at `b776f27`. Vercel preview:**
 `https://alc-staging-git-cta-bar-dsgnly.vercel.app`
 
-**What changed on `cta-bar`:**
+**Root cause fixed this session:**
+
+The previous `cta-bar` commits only changed `preview/index.html` (a dev artifact Vercel
+does not serve) and `app/preview-styles.css`. The Next.js layout was still rendering
+`<StickyPill />` from `content/chrome/sticky-pill.html` (old pill with email link).
+
+Three files added/updated to wire the bar into the actual Next.js build:
 
 | File | Change |
 |------|--------|
-| `preview/index.html` | `#stickyPill` replaced with `#stickyBar` |
-| `app/preview-styles.css` | Old `.pill-call/.pill-dots/.pill-menu` removed; new `.sticky-bar-call/.sticky-bar-wa` + body padding added |
+| `content/chrome/sticky-bar.html` | New chrome fragment — the actual bar HTML |
+| `components/site/chrome.tsx` | Added `StickyBar` export reading `sticky-bar` |
+| `app/layout.tsx` | Replaced `<StickyPill />` with `<StickyBar />` |
 
-**Design decision (three-agent brainstorm 2026-05-23):**
+**Bar design (as of `b776f27`):**
 
-Replaced the floating pill with a full-bleed branded bottom bar. Rationale:
+Three-button full-bleed bottom bar, all navy:
 
-1. `bottom: 16px` with no safe-area handling made the pill float in a broken gap above iOS Safari / Android Chrome browser chrome
-2. The 3-dot expand icon directly mirrored Safari's own 3-dot share button — UX confusion
-3. Three agents (CRO, Mobile UX / iOS HIG, Crisis Psychology) ran in parallel. CRO + Mobile UX both concluded: two always-visible labeled buttons, no expand mechanism, hard top border for content boundary. Psychology pushed for single dominant CTA — outvoted on zero-friction grounds for 2am crisis use
+```
+┌──────────────────────────┬──────────┬──────────┐
+│  📞  Call now            │          │          │
+│      07922 247 999  ●    │  WA icon │ Cal icon │
+└──────────────────────────┴──────────┴──────────┘
+         flex: 3              flex: 1    flex: 1
+         (navy + text)        (navy)     (navy)
+                           ↑ divider  ↑ no border
+```
 
-**New bar spec:**
-- `position: fixed; bottom: 0; left: 0; right: 0` — full-bleed
-- `padding-bottom: env(safe-area-inset-bottom)` — clears iOS home indicator + Android gesture bar
-- `border-top: 2px solid var(--color-navy-900)` — hard content boundary, unmistakably not browser chrome
-- Left: `.sticky-bar-call` (flex 3) — navy, phone icon + stacked "Call now" label + "07922 247 999" number + avail-dot
-- Right: `.sticky-bar-wa` (flex 2) — `var(--color-whatsapp)` teal, WhatsApp icon + "WhatsApp"
-- `@media (min-width: 768px) { #stickyBar { display: none; } }` — hidden on md+
-- `body.has-sticky-bar` gets `padding-bottom: calc(58px + env(safe-area-inset-bottom))` on mobile, 0 on md+
+- Call button: phone icon + stacked "Call now" label + number + avail-dot. Primary action.
+- WhatsApp: icon only, same navy, `border-right` divider on its right edge
+- Book: calendar icon (`i-calendar` from sprite), icon only, navy, no right border
+- `border-top: 2px solid var(--color-navy-900)` — hard top border vs browser chrome
+- `padding-bottom: env(safe-area-inset-bottom)` — iOS/Android safe area
+- Hidden md+ (`@media (min-width: 768px) { display: none }`)
+- `sr-only` spans on icon-only buttons for accessibility
 
-**Status:** User has critiques — DO NOT MERGE until next session critique round is addressed.
+**Status:** Vercel preview rebuilding. User needs to check it before merging to main.
+
+**Do NOT merge until user has reviewed the Vercel preview and approved.**
 
 ---
 
-## 3. Deferred tasks (unchanged from last handoff)
+## 3. Desktop sticky pill (unchanged — still on main)
+
+The desktop floating pill (avail-dot call chip + WhatsApp chip in dark navy pill) is
+unchanged and not part of the `cta-bar` branch. It lives in
+`content/chrome/sticky-pill.html` and `components/site/chrome.tsx` (`StickyPill` export).
+`StickyPill` is still exported from chrome.tsx but no longer used in layout.tsx on
+`cta-bar`. Once cta-bar merges, `StickyPill` + `sticky-pill.html` can be cleaned up.
+
+---
+
+## 4. Deferred tasks (unchanged from previous handoff)
 
 ### TASK 1: SEO lawyer→barrister sweep
 
@@ -97,49 +120,38 @@ SERP is 100% solicitor firms. Needs reframe to "direct access barrister after ar
 
 ### TASK 3: Direct access content cluster
 
-Sub-pages for direct-access barrister queries. Entity footprint at 2 sources; AI citation threshold is 3+. Spec file: `.project/seo-intent-fix/spec.md` (not yet created).
+Sub-pages for direct-access barrister queries. Entity footprint at 2 sources; AI citation threshold is 3+.
 
 ### TASK 4: llms.txt update for Insights blog
 
-The Insights blog (`/insights`) is merged. `llms.txt` needs the Insights section added.
-
----
-
-## 4. Files most recently touched
-
-| File | What changed |
-|------|-------------|
-| `preview/index.html` | `#stickyPill` → `#stickyBar` (on branch `cta-bar`) |
-| `app/preview-styles.css` | Pill CSS replaced with bar CSS (on branch `cta-bar`) |
-| `content/chrome/header.html` | Police banner (on `main`) |
-| `content/sections/home.html` | H1, sub, CTA (on `main`) |
+`/insights` is merged. `llms.txt` needs the Insights section added.
 
 ---
 
 ## 5. Standing gotchas
 
-- **`cta-bar` branch is NOT on main.** Do not merge without addressing user critiques.
+- **`cta-bar` branch is NOT on main.** Do not merge without user reviewing the preview.
+- **`StickyPill` is now dead code** on `cta-bar` — `layout.tsx` uses `StickyBar`. Clean up after merge.
 - **Pages CMS writes to `origin/main` directly.** Always `git fetch` + check before push.
 - **Precompiled CSS trap.** `app/preview-tailwind.css` is static. Grep before adding Tailwind classes. Custom CSS in `preview-styles.css`.
-- **`--color-whatsapp` is `#075E54`** (dark teal) — NOT bright green. Use the token, not a hex.
+- **`--color-whatsapp` is `#075E54`** (dark teal) — NOT bright green. Use the token.
 - **`bg-footer`** is `#232536` — dark page heroes. NOT navy-950 (`#0E1628`).
-- **`bg-emergency-500`** is `#C23616` — red, police banner and hero CTA.
 - **`avail-dot` is in `preview-styles.css`** — not Tailwind.
-- **hero markup is duplicated per fragment** — touching one hero means checking all.
+- **Hero markup is duplicated per fragment** — touching one hero means checking all.
 
 ---
 
 ## 6. Session start — next session
 
-1. User will give critiques of the `cta-bar` Vercel preview
-2. Invoke `frontend-design` before addressing any critique
-3. Commit fixes to `cta-bar` and push to update the preview URL
-4. Only merge to main once user approves the bar — use `verification-before-completion`
+1. Check Vercel preview: `https://alc-staging-git-cta-bar-dsgnly.vercel.app`
+2. User reviews the three-button bar on mobile
+3. If approved → merge `cta-bar` to `main` using `verification-before-completion`
+4. After merge → run Task 1 (lawyer→barrister sweep) on a new branch
 
 ---
 
 ## 7. Git state
 
 - **`main`** → `5a153dc` (live — old floating pill still active)
-- **`cta-bar`** → `19693db` (pushed to origin, Vercel preview building)
+- **`cta-bar`** → `b776f27` (pushed, Vercel rebuilding)
 - No other active branches
