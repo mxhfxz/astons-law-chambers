@@ -1,4 +1,4 @@
-# Session Handoff — 2026-05-23 (CTA bar: wired into Next.js + three-button layout)
+# Session Handoff — 2026-05-23 (CTA bar finalised + hero dual-CTA)
 
 Read MEMORY.md first, then this file.
 
@@ -33,62 +33,73 @@ Verification: `verification-before-completion`
 
 ## 2. Active feature branch — `cta-bar` (PENDING USER REVIEW)
 
-**Branch pushed to origin at `b776f27`. Vercel preview:**
+**Branch at `ec15b7f`. Vercel preview:**
 `https://alc-staging-git-cta-bar-dsgnly.vercel.app`
 
-**Root cause fixed this session:**
+**Do NOT merge until user has reviewed the Vercel preview and approved.**
 
-The previous `cta-bar` commits only changed `preview/index.html` (a dev artifact Vercel
-does not serve) and `app/preview-styles.css`. The Next.js layout was still rendering
-`<StickyPill />` from `content/chrome/sticky-pill.html` (old pill with email link).
-
-Three files added/updated to wire the bar into the actual Next.js build:
+### Changes on `cta-bar` vs `main`
 
 | File | Change |
 |------|--------|
-| `content/chrome/sticky-bar.html` | New chrome fragment — the actual bar HTML |
-| `components/site/chrome.tsx` | Added `StickyBar` export reading `sticky-bar` |
-| `app/layout.tsx` | Replaced `<StickyPill />` with `<StickyBar />` |
+| `content/chrome/sticky-bar.html` | Mobile bar: avail-dot (green pulse) removed |
+| `content/chrome/desktop-fab.html` | NEW — two 48×48 navy circle FABs (WA + book) |
+| `components/site/chrome.tsx` | Added `DesktopFab` export |
+| `app/layout.tsx` | `<StickyPill />` replaced with `<StickyBar />` + `<DesktopFab />` |
+| `app/preview-styles.css` | Mobile bar CSS + desktop FAB CSS |
+| `content/sections/home.html` | Hero CTA row: "Book a Free Consultation" added |
 
-**Bar design (as of `b776f27`):**
+### Mobile bar (current design)
 
-Three-button full-bleed bottom bar, all navy:
+Three-button full-bleed bottom bar, all navy, **no avail-dot**:
 
 ```
 ┌──────────────────────────┬──────────┬──────────┐
 │  📞  Call now            │          │          │
-│      07922 247 999  ●    │  WA icon │ Cal icon │
+│      07922 247 999       │  WA icon │ Cal icon │
 └──────────────────────────┴──────────┴──────────┘
-         flex: 3              flex: 1    flex: 1
-         (navy + text)        (navy)     (navy)
-                           ↑ divider  ↑ no border
 ```
 
-- Call button: phone icon + stacked "Call now" label + number + avail-dot. Primary action.
-- WhatsApp: icon only, same navy, `border-right` divider on its right edge
-- Book: calendar icon (`i-calendar` from sprite), icon only, navy, no right border
-- `border-top: 2px solid var(--color-navy-900)` — hard top border vs browser chrome
-- `padding-bottom: env(safe-area-inset-bottom)` — iOS/Android safe area
+- `border-top: 2px solid var(--color-navy-900)`
+- `padding-bottom: env(safe-area-inset-bottom)`
 - Hidden md+ (`@media (min-width: 768px) { display: none }`)
-- `sr-only` spans on icon-only buttons for accessibility
 
-**Status:** Vercel preview rebuilding. User needs to check it before merging to main.
+### Desktop FABs (NEW — replaces old floating pill)
 
-**Do NOT merge until user has reviewed the Vercel preview and approved.**
+Two 48×48 navy circle FABs, fixed bottom-right 0.5rem:
+
+```
+      [ WA icon  ]   ← WhatsApp
+      [ Cal icon ]   ← Book
+```
+
+- `var(--color-navy-900)` fill, white icons (20px SVG)
+- box-shadow, hover/active/focus-visible states, reduced-motion guard
+- Visible md+ only (`#desktopFab { display: none }` → `@media (min-width: 768px) { display: flex }`)
+- Defined in `content/chrome/desktop-fab.html` + `app/preview-styles.css`
+
+### Hero CTA (NEW)
+
+On desktop (640px+): red "Call 07922 247 999" + white outline "Book a Free Consultation" side-by-side.
+On mobile: only the red call button (book CTA hidden via `hidden sm:inline-flex`).
+
+```html
+<div class="mt-8 md:mt-10 btn-row">
+  <a ... class="btn btn-xl btn-emergency btn-full">Call 07922 247 999</a>
+  <a ... class="btn btn-xl btn-on-dark hidden sm:inline-flex">Book a Free Consultation</a>
+</div>
+```
 
 ---
 
-## 3. Desktop sticky pill (unchanged — still on main)
+## 3. Desktop sticky pill (dead code on `cta-bar`)
 
-The desktop floating pill (avail-dot call chip + WhatsApp chip in dark navy pill) is
-unchanged and not part of the `cta-bar` branch. It lives in
-`content/chrome/sticky-pill.html` and `components/site/chrome.tsx` (`StickyPill` export).
-`StickyPill` is still exported from chrome.tsx but no longer used in layout.tsx on
-`cta-bar`. Once cta-bar merges, `StickyPill` + `sticky-pill.html` can be cleaned up.
+`StickyPill` export + `content/chrome/sticky-pill.html` still exist but are no longer
+used in `layout.tsx` on the `cta-bar` branch. Clean up after merge.
 
 ---
 
-## 4. Deferred tasks (unchanged from previous handoff)
+## 4. Deferred tasks (unchanged)
 
 ### TASK 1: SEO lawyer→barrister sweep
 
@@ -136,16 +147,19 @@ Sub-pages for direct-access barrister queries. Entity footprint at 2 sources; AI
 - **Precompiled CSS trap.** `app/preview-tailwind.css` is static. Grep before adding Tailwind classes. Custom CSS in `preview-styles.css`.
 - **`--color-whatsapp` is `#075E54`** (dark teal) — NOT bright green. Use the token.
 - **`bg-footer`** is `#232536` — dark page heroes. NOT navy-950 (`#0E1628`).
-- **`avail-dot` is in `preview-styles.css`** — not Tailwind.
+- **`avail-dot` is in `preview-styles.css`** — not Tailwind. Still defined but no longer used on any live element.
 - **Hero markup is duplicated per fragment** — touching one hero means checking all.
+- **`btn-on-dark hidden sm:inline-flex`** — the `.btn.hidden` + `.btn.sm\:inline-flex` override rules in `preview-styles.css` handle this pattern. Do not use plain Tailwind `hidden`/`sm:block` outside of `.btn` context without verifying precompiled bundle.
 
 ---
 
 ## 6. Session start — next session
 
 1. Check Vercel preview: `https://alc-staging-git-cta-bar-dsgnly.vercel.app`
-2. User reviews the three-button bar on mobile
-3. If approved → merge `cta-bar` to `main` using `verification-before-completion`
+   - Mobile: bar without dot, red call button only in hero
+   - Desktop: two navy circle FABs bottom-right, dual-CTA in hero
+2. If approved → merge `cta-bar` to `main` using `verification-before-completion`
+3. After merge → clean up `StickyPill` + `sticky-pill.html`
 4. After merge → run Task 1 (lawyer→barrister sweep) on a new branch
 
 ---
@@ -153,5 +167,5 @@ Sub-pages for direct-access barrister queries. Entity footprint at 2 sources; AI
 ## 7. Git state
 
 - **`main`** → `5a153dc` (live — old floating pill still active)
-- **`cta-bar`** → `b776f27` (pushed, Vercel rebuilding)
+- **`cta-bar`** → `ec15b7f` (pushed, Vercel rebuilding)
 - No other active branches
