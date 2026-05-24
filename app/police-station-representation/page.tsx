@@ -4,7 +4,7 @@ import { readSection } from '@/lib/content'
 export const metadata: Metadata = {
   title: { absolute: '24/7 Police Station Representation | Legal Aid – Astons Law Chambers' },
   description:
-    'Criminal defence barrister at the police station, 24/7. Call before the interview begins — Astons Law Chambers attends in person. Legal Aid available. Call 07922 247 999.',
+    'Police station representation available 24/7. Call before the interview begins — Astons Law Chambers attends in person. Legal Aid available. Call 07922 247 999.',
   alternates: { canonical: '/police-station-representation' },
 }
 

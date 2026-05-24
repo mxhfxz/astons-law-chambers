@@ -35,9 +35,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: "Criminal Defence Barrister | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Criminal Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      "Criminal defence barrister in London. Police station representation 24/7, Magistrates' and Crown Court. Legal aid available. Call 07922 247 999.",
+      "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
@@ -74,9 +74,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: "Assault, ABH & GBH | Criminal Defence Barrister – Astons Law Chambers",
+    metaTitle: "Assault, ABH & GBH Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      "Criminal defence barrister for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     definition:
@@ -117,9 +117,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: "Youth Court Defence | Criminal Defence Barrister – Astons Law Chambers",
+    metaTitle: "Youth Court Defence | Under 18 Support | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      "Criminal defence barrister for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     definition:
@@ -191,9 +191,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: "Drug Possession & Supply | Criminal Defence Barrister – Astons Law Chambers",
+    metaTitle: "Drug Possession & Supply Charges | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      "Criminal defence barrister for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     definition:

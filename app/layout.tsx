@@ -15,7 +15,7 @@ import './preview-styles.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://astonslaw.com'),
   title: {
-    default: 'Criminal Defence Barrister | Emergency Advice & Legal Aid – Astons Law Chambers',
+    default: 'Emergency Criminal Defence | Legal Aid – Astons Law Chambers',
     template: '%s — Astons Law Chambers',
   },
   description:
