@@ -59,3 +59,31 @@ Plan 2 supersedes Plan 1's task ordering.
 - Vercel preview: `https://alc-staging-git-growth-t1-dsgnly.vercel.app`
 
 **Gotcha discovered:** Edit tool introduced curly-quote string delimiters in practice-areas.ts, breaking build. Fixed with Python byte-level replacement. Added to standing gotchas in handoff.
+
+---
+
+## 2026-05-24 — Session 3
+
+**Outcome:** Week 1 fully shipped to main. Three standing corrections locked. Week 2 ready.
+
+**Shipped to `main` this session (in order):**
+1. `growth-t1` merged → `main` (`af71bcf`) — Week 1 complete
+2. StickyPill dead code removed — `chrome.tsx` export + `sticky-pill.html` deleted (`a325cc4`)
+3. "police station attendance" → "police station support" — 7 files swept (`53824fe`)
+
+**main is now at:** `53824fe`
+
+**Three standing corrections locked (memory files created):**
+1. Phone = primary KPI. WhatsApp is contextual/secondary. (`feedback_phone_is_primary_kpi.md`)
+2. Direct access is not a conversion lead. Not a Week 2 priority. (`feedback_direct_access_secondary.md`)
+3. "Police station support" preferred term. Research confirmed in-person is PACE Code C default; video call (JIIP) is contested/exceptional. (`project_police_station_attendance_2026.md`)
+
+**Week 2 corrected task list:**
+- W2.1 Police station page reframe (needs Ghulam first-person voice)
+- W2.2 Phone trust signal (not WhatsApp)
+- W2.4 FAQPage schema — evaluate post-April 2026 update first
+- W2.5 `definition` field as above-fold answer block
+
+**W2.3 (direct access hub) removed from Week 2** per user correction.
+
+**Next session:** create `growth-t2` from main, start Week 2 tasks (after client input on W2.1 + W2.2).
