@@ -43,7 +43,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, to trial and any appeal that follows.',
     situation:
-      'Astons Law Chambers acts as a criminal defence barrister at every stage, from arrest to verdict. Police station attendance, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
+      'Astons Law Chambers acts as a criminal defence barrister at every stage, from arrest to verdict. Police station support, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
     actions: [
       'Police station representation, at any hour.',
       'Bail applications and contested bail hearings.',
@@ -66,7 +66,7 @@ export const practiceAreas: PracticeArea[] = [
     context: {
       eyebrow: 'Custody — 24/7',
       title: 'Speak to the barrister before the interview begins.',
-      body: 'Police station attendance is available at any hour. Calls from custody are answered direct.',
+      body: 'Police station support is available at any hour. Calls from custody are answered direct.',
     },
     policeStation: { title: 'If you or a family member is at a police station, call before the interview.' },
     related: ['violent-crimes', 'drug-offences', 'appeals'],
@@ -139,7 +139,7 @@ export const practiceAreas: PracticeArea[] = [
       'Representation at every hearing in the Youth Court or, where allocated, the Crown Court.',
     ],
     faqs: [
-      { q: 'My child has been arrested — what do I do first?', a: 'Call 07922 247 999. Police station attendance can be arranged from the same call. The young person is entitled to a parent or guardian present at interview.' },
+      { q: 'My child has been arrested — what do I do first?', a: 'Call 07922 247 999. Police station support can be arranged from the same call. The young person is entitled to a parent or guardian present at interview.' },
       { q: 'Will the case stay in the Youth Court?', a: 'Most youth matters remain in the Youth Court. Some are sent to the Crown Court depending on the allegation and the client’s age. The first call covers which is likely.' },
       { q: 'Can a parent instruct on the young person’s behalf?', a: 'A parent or guardian is involved throughout, but the young person remains the client. The first conference is taken with both on the line.' },
     ],
