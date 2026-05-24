@@ -1,5 +1,0 @@
-# astonslaw.com — production. Allow all crawlers.
-User-agent: *
-Allow: /
-
-Sitemap: https://astonslaw.com/sitemap.xml
