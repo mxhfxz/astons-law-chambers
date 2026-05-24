@@ -1,60 +1,60 @@
-# Session Handoff — 2026-05-24
+# Session Handoff — 2026-05-24 (session close)
 
 ## Production state
 
-**`main`** → `fd79ad0` (live on astonslaw.com)
-Build and type-check: clean as of session start.
+**`main`** → `fd57386` (live on astonslaw.com via Vercel)
+Build and type-check: clean. Merged `fix/seo-keyword-restore-2026-05-24` → main.
 
 ---
 
 ## What happened this session
 
-1. **Repo cleaned.** All stale sprint folders, planning docs, foreign repos (banana-claude, claude-ads), root preview prototype, and 00_Design System deleted. Committed at `fd79ad0`. Repo is now only the live site.
+### Investigation: zero calls since Monday 2026-05-19
 
-2. **Prior positioning decisions cleared.** The growth sprint plan, "permission page" framing, "phone trust signal" tactic, three-visitor-type framework, and all W2 task framing are discarded. Do not re-introduce them.
+Full systematic audit traced the drop to three regressions introduced in commits `e73138a` and `53824fe` (both 2026-05-24):
 
-3. **Search positioning rewritten (before/after produced, not yet implemented).** Intent-first titles and descriptions were proposed for every page. The user reviewed them and has fixes.
+1. **"criminal defence lawyer" keyword removed** from homepage meta description and JSON-LD LegalService description. This keyword had a documented ~1800% organic lift (commit `cf18816`, 2026-05-19). Removing it directly reduced visibility in the solicitor/lawyer SERPs where most arrest-time searches happen.
 
----
+2. **"Police station representation/attendance" replaced with "support"** across the police station page and practice area situation paragraphs. "Police station representation" and "police station attendance" are the specific UK legal terms people search for under PACE.
 
-## What to do next
+3. **CookieYes consent banner covering sticky call bar on mobile.** CookieYes z-index (~999999) stacks above the sticky bar (z-index: 40), blocking the call button on every new mobile visitor's first page load. Client confirmed switching CMP.
 
-**The user will open this session with their corrected positioning.**
+### Fixes shipped → `fd57386`
 
-Take their corrections, implement across:
+| File | Change |
+|------|--------|
+| `app/layout.tsx` | Meta description: "Criminal defence lawyer in London and the UK…" (lawyer restored). JSON-LD description: "lawyer and barrister" restored. CookieYes preconnect + Script removed. Stale comment updated. |
+| `lib/practice-areas.ts` | 4 situation paragraphs (criminal-defence, violent-crimes, youth-crimes, drug-offences): "lawyer and barrister" restored. |
+| `app/police-station-representation/page.tsx` | Title: "24/7 Police Station Representation" (was "support"). Description: "representation available 24/7 … attends in person". |
 
-| File | What changes |
-|------|-------------|
-| `app/layout.tsx` | Homepage default title + description |
-| `app/police-station-representation/page.tsx` | Title + description |
-| `app/practice-areas/page.tsx` | Title + description |
-| `app/about/page.tsx` | Title + description |
-| `app/fees/page.tsx` | Title + description |
-| `app/direct-access/page.tsx` | Title + description |
-| `app/legal-aid/page.tsx` | Title + description |
-| `app/contact/page.tsx` | Title + description |
-| `app/guides/page.tsx` | Title + description |
-| `app/timescales/page.tsx` | Title + description |
-| `app/authorised-to-conduct-litigation/page.tsx` | Title + description |
-| `lib/practice-areas.ts` | `metaTitle` + `metaDescription` for all 7 PA slugs |
+### Anti-drift hooks confirmed in place
 
-Branch: `search-positioning` from main.
-Verify: `npm run build && npm run type-check` before merge.
+`PreCompact` and `PostCompact` hooks already exist in `.claude/settings.local.json`. No changes needed.
 
 ---
 
-## Positioning direction (locked this session)
+## Open items for next session
 
-- Intent-first titles: descriptor of the visitor's situation, then `— Astons Law Chambers`
-- Descriptions: lead with the most urgent fact for that visitor, end with `Call 07922 247 999`
-- "Legal Aid can be discussed" where relevant
-- Always "barrister" never "lawyer"
-- No marketing speak
+### High priority
+
+1. **GA4 phone click baseline.** With CookieYes removed, UK traffic should stop being depressed in analytics. Monitor calls + phone click events in GA4 over 48–72 hours. If zero calls continue after this deploy, re-investigate.
+
+2. **CMP replacement.** Client is switching to a new consent management platform. When the new CMP is wired, it must call `gtag('consent', 'update', {...})` on accept to restore `analytics_storage`. The consent defaults in `layout.tsx` are intentionally strict — they stay until the new CMP fires.
+
+3. **`ui-alignment` branch exists** (local + possibly remote — check `git branch -a`). Unknown what it contains. Investigate before merging or discarding.
+
+4. **`.project/search-positioning.csv`** is untracked. It contains before/after title/description proposals for all pages. Most of the "Proposed" values were already applied by `50551f4`. The remaining pages (Practice Areas, About, Fees, Direct Access, Legal Aid, Contact, Guides, Timescales, Authorised to Conduct Litigation, and all PA sub-pages) have not been reviewed against the regression findings. Do not blindly apply the CSV — validate each against the "lawyer" keyword requirement.
 
 ---
 
-## Standing gotchas
+## Non-negotiable rules (always apply)
 
-- **Pages CMS commits to `origin/main` directly** — always `git fetch` before any push
-- **Precompiled CSS** — new Tailwind classes need to exist in `app/preview-tailwind.css`; new CSS goes in `app/preview-styles.css`
-- **Curly-quote trap** — Edit tool can introduce curly apostrophes in TS strings; check if build fails on a just-edited line
+- No practitioner portrait anywhere
+- No marketing speak, no triadic structures, no rhetorical questions
+- No email capture or contact forms
+- Conversion = phone (primary) → WhatsApp → cal.com only
+- Phone: 07922 247 999 | WhatsApp: wa.me/447922247999
+- Active CSS: `app/preview-tailwind.css` + `app/preview-styles.css` ONLY — not globals.css/tokens.css
+- Pages CMS writes directly to origin/main — always `git fetch` before any push
+- Nothing merges to main without build + type-check passing
+- "criminal defence lawyer" must be present in homepage meta description (organic lift keyword)
