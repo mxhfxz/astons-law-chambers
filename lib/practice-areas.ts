@@ -43,7 +43,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, to trial and any appeal that follows.',
     situation:
-      'Astons Law Chambers acts as a criminal defence barrister at every stage, from arrest to verdict. Police station support, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister at every stage, from arrest to verdict. Police station support, Magistrates’ Court hearings, Crown Court trial and sentence, and post-conviction work.',
     actions: [
       'Police station representation, at any hour.',
       'Bail applications and contested bail hearings.',
@@ -82,7 +82,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Violent crime covers allegations involving violence or the threat of it: assault, actual and grievous bodily harm, affray, and robbery. The less serious are heard in the Magistrates’ Court. The most serious go to the Crown Court.',
     situation:
-      'Astons Law Chambers acts as a criminal defence barrister in allegations of violence — from common assault through to the most serious offences against the person. Magistrates’ Court and Crown Court representation.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister in allegations of violence — from common assault through to the most serious offences against the person. Magistrates’ Court and Crown Court representation.',
     actions: [
       'Assault, ABH and GBH allegations.',
       'Affray and public order matters.',
@@ -125,7 +125,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Youth crime is a criminal allegation against someone under 18. Most cases are heard in the Youth Court, which has its own procedure and considers the young person’s welfare. The most serious go to the Crown Court.',
     situation:
-      'Astons Law Chambers acts as a criminal defence barrister for clients under 18 in the Youth Court and, where allocated, the Crown Court. Conducted with the specific procedures and welfare considerations the youth jurisdiction requires.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister for clients under 18 in the Youth Court and, where allocated, the Crown Court. Conducted with the specific procedures and welfare considerations the youth jurisdiction requires.',
     actions: [
       'Youth Court trials and sentencing.',
       'Crown Court representation where the case is allocated up.',
@@ -199,7 +199,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Drug offences cover the possession, supply, production, and importation of controlled drugs. Simple possession is usually dealt with in the Magistrates’ Court. Supply, conspiracy, and importation are tried in the Crown Court.',
     situation:
-      'Astons Law Chambers acts as a criminal defence barrister in drug allegations — possession through to supply, importation, and production. Magistrates’ Court and Crown Court representation.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister in drug allegations — possession through to supply, importation, and production. Magistrates’ Court and Crown Court representation.',
     actions: [
       'Possession allegations, including with intent to supply.',
       'Supply, conspiracy, and importation cases.',
