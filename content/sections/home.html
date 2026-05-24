@@ -1,77 +1,65 @@
 
-      <!-- HERO — text-led on the left, image panel on the right.
-           Columns are CONTAINER-relative (1.3fr / 1fr) — never viewport
-           units. A vw-based image column blows up on wide monitors and
-           crushes the headline; fr units track the capped max-w-wide
-           container, so the ~664:512 split holds at every screen size. -->
-      <!-- bg-footer (#232536), not bg-navy-950 — softer dark that eases the
-           contrast step into the police-station card below (client request).
-           The police banner is now part of the sticky header (in normal
-           flow), so the hero no longer reserves space for a fixed banner. -->
-      <div class="bg-footer">
-        <div class="max-w-wide mx-auto px-6 pt-12 pb-16 md:pt-20 md:pb-20 lg:pb-24">
-          <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-14 items-start">
+      <!-- HERO — full-bleed 50/50 split. Left: text+CTAs. Right: image fills half.
+           bg-footer (#232536), not bg-navy-950 — softer dark that eases the
+           contrast step into the police-station card below (client request). -->
+      <div class="bg-footer hero-split">
 
-            <!-- LEFT: eyebrow, H1, sub w/ inline link, single full-width CTA, trust strip.
-                 LOCKED hero spec 2026-05-21 (see .project/cro-deep-audit-2026-05-21/cro-2026-overlay.md).
-                 Revert: `git restore content/sections/home.html` returns the prior 5-CTA layout. -->
-            <div class="flex flex-col max-w-2xl">
-              <p class="fluid-eyebrow font-semibold uppercase text-navy-100/80">
-                Astons Law Chambers · Criminal defence
-              </p>
-              <h1 class="mt-5 fluid-h1 font-bold text-white">
-                24/7 Support for arrests, police station interviews, and court summons
-              </h1>
-              <p class="mt-6 fluid-lead text-navy-100/90 max-w-prose">
-                Call before the interview begins. Astons Law Chambers attends police stations across London and the UK at any hour.
-              </p>
+        <!-- LEFT: eyebrow, H1, sub, single full-width CTA, trust strip.
+             LOCKED hero spec 2026-05-21 (see .project/cro-deep-audit-2026-05-21/cro-2026-overlay.md).
+             Revert: `git restore content/sections/home.html` returns the prior 5-CTA layout. -->
+        <div class="hero-split-left">
+          <div class="flex flex-col max-w-2xl">
+            <p class="fluid-eyebrow font-semibold uppercase text-navy-100/80">
+              Astons Law Chambers · Criminal defence
+            </p>
+            <h1 class="mt-5 fluid-h1 font-bold text-white">
+              24/7 Support for arrests, police station interviews, and court summons
+            </h1>
+            <p class="mt-6 fluid-lead text-navy-100/90 max-w-prose">
+              Call before the interview begins. Astons Law Chambers attends police stations across London and the UK at any hour.
+            </p>
 
-              <div class="mt-8 md:mt-10 btn-row">
-                <a
-                  href="tel:+447922247999"
-                  aria-label="Call Astons Law Chambers on 07922 247 999"
-                  data-track="call_click"
-                  data-track-location="hero"
-                  class="btn btn-xl btn-emergency btn-full"
-                >
-                  Call 07922 247 999
-                </a>
-                <a
-                  href="https://cal.com/astonslaw/callback?overlayCalendar=true"
-                  aria-label="Book a free consultation with Astons Law Chambers"
-                  data-track="book_click"
-                  data-track-location="hero"
-                  class="btn btn-xl btn-on-dark hidden sm:inline-flex"
-                >
-                  Book a Free Consultation
-                </a>
-              </div>
-
-              <p class="mt-8 text-sm">
-                <a
-                  href="https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record/the-barristers-register.html"
-                  target="_blank"
-                  rel="noopener"
-                  class="text-white underline underline-offset-4 decoration-1 hover:decoration-2"
-                >Regulated by the Bar Standards Board</a>
-              </p>
+            <div class="mt-8 md:mt-10 btn-row">
+              <a
+                href="tel:+447922247999"
+                aria-label="Call Astons Law Chambers on 07922 247 999"
+                data-track="call_click"
+                data-track-location="hero"
+                class="btn btn-xl btn-emergency btn-full"
+              >
+                Call 07922 247 999
+              </a>
+              <a
+                href="https://cal.com/astonslaw/callback?overlayCalendar=true"
+                aria-label="Book a free consultation with Astons Law Chambers"
+                data-track="book_click"
+                data-track-location="hero"
+                class="btn btn-xl btn-on-dark hidden sm:inline-flex"
+              >
+                Book a Free Consultation
+              </a>
             </div>
 
-            <!-- RIGHT: hero image panel. Client-supplied image — City of London
-                 skyline at dusk (720x656 webp, ~74KB). This fragment is injected
-                 as static markup via dangerouslySetInnerHTML, so it is a plain
-                 <img>, not next/image. The asset is already webp and is preloaded
-                 with fetchpriority="high" from app/page.tsx. -->
-            <div class="relative rounded-md overflow-hidden bg-navy-900 aspect-[4/5] lg:aspect-auto lg:min-h-[clamp(420px,62vh,640px)]">
-              <!-- absolute inset-0: image is out of flow, so the panel's height
-                   is fixed by aspect-ratio / min-h alone — image load cannot shift
-                   the page (CLS-safe regardless of when the image arrives).
-                   width/height carry the intrinsic ratio for crawlers. -->
-              <img src="/hero_image.webp" alt="" width="720" height="656" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
-            </div>
-
+            <p class="mt-8 text-sm">
+              <a
+                href="https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record/the-barristers-register.html"
+                target="_blank"
+                rel="noopener"
+                class="text-white underline underline-offset-4 decoration-1 hover:decoration-2"
+              >Regulated by the Bar Standards Board</a>
+            </p>
           </div>
         </div>
+
+        <!-- RIGHT: hero image fills the full right half.
+             Client-supplied City of London skyline at dusk (720×656 webp, ~74KB).
+             Injected as static markup via dangerouslySetInnerHTML — plain <img>,
+             not next/image. Asset is webp and preloaded with fetchpriority="high"
+             from app/page.tsx. absolute inset-0 keeps the panel CLS-safe. -->
+        <div class="hero-split-right">
+          <img src="/hero_image.webp" alt="" width="720" height="656" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-center" />
+        </div>
+
       </div>
 
       <!-- POLICE-STATION CARD — replaces the former red emergency band.
