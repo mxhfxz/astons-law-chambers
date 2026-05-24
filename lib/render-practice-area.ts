@@ -161,24 +161,16 @@ export function practiceAreaJsonLd(area: PracticeArea): string {
  *  page describes. Each maps to the practice area's slug; defaults
  *  catch-all to keep new PAs working without code changes. */
 function serviceTypeFor(area: PracticeArea): string {
-  switch (area.slug) {
-    case 'criminal-defence':
-      return 'Criminal defence representation'
-    case 'violent-crimes':
-      return 'Criminal defence representation in violent crime allegations'
-    case 'youth-crimes':
-      return 'Criminal defence representation for clients under 18'
-    case 'driving-offences':
-      return 'Criminal defence representation in driving offences'
-    case 'drug-offences':
-      return 'Criminal defence representation in drug offences'
-    case 'appeals':
-      return 'Criminal appeals representation'
-    case 'inquests':
-      return 'Inquest representation in the Coroner’s Court'
-    default:
-      return 'Criminal defence representation'
+  const types: Record<string, string> = {
+    'criminal-defence': 'Criminal defence barrister (direct access), London',
+    'violent-crimes': 'Criminal defence barrister for violent crime allegations, London',
+    'youth-crimes': 'Criminal defence barrister for clients under 18, Youth Court, London',
+    'driving-offences': 'Criminal defence barrister for driving offences, London',
+    'drug-offences': 'Criminal defence barrister for drug offences, London',
+    'appeals': 'Criminal appeals barrister, Crown Court and Court of Appeal, London',
+    'inquests': "Inquest representation by a barrister, Coroner's Court, London",
   }
+  return types[area.slug] ?? 'Criminal defence barrister (direct access), London'
 }
 
 /** Inquests serve families and interested persons, not defendants; the

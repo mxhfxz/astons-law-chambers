@@ -35,9 +35,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: "Criminal Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Criminal Defence Barrister | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence barrister in London. Police station representation 24/7, Magistrates' and Crown Court. Legal aid available. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
@@ -74,9 +74,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: "Assault, ABH & GBH Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Assault, ABH & GBH | Criminal Defence Barrister – Astons Law Chambers",
     metaDescription:
-      "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence barrister for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     definition:
@@ -117,9 +117,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: "Youth Court Defence | Under 18 Support | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Youth Court Defence | Criminal Defence Barrister – Astons Law Chambers",
     metaDescription:
-      "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence barrister for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     definition:
@@ -162,7 +162,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'Driving offences range from fixed-penalty matters to charges tried in the Crown Court. They include drink and drug driving, speeding, careless and dangerous driving, and losing a licence through totting-up. Many carry penalty points or a disqualification.',
     situation:
-      'Driving offences from fixed-penalty appeals to Crown Court trial. Drink and drug driving, totting-up, exceptional-hardship arguments, and disqualification work.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister for driving offences — fixed-penalty matters through to Crown Court trial. Drink and drug driving, totting-up, exceptional-hardship arguments, and disqualification work.',
     actions: [
       'Drink and drug driving defence.',
       'Speeding, careless, and dangerous driving cases.',
@@ -191,9 +191,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: "Drug Possession & Supply Charges | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Drug Possession & Supply | Criminal Defence Barrister – Astons Law Chambers",
     metaDescription:
-      "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
+      "Criminal defence barrister for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     definition:
@@ -238,7 +238,7 @@ export const practiceAreas: PracticeArea[] = [
     definition:
       'A criminal appeal challenges a conviction or a sentence after the case has been decided. Appeals from the Magistrates’ Court go to the Crown Court, and appeals from the Crown Court go to the Court of Appeal. The time to appeal is short and starts on the day of the decision.',
     situation:
-      'Appeals against conviction and sentence, in the Crown Court and the Court of Appeal. Advice on prospects, drafting of grounds, and representation at the appeal hearing.',
+      'Astons Law Chambers acts as a criminal defence lawyer and barrister for criminal appeals — against conviction and sentence in the Crown Court and the Court of Appeal. Advice on prospects, drafting of grounds, and representation at the appeal hearing.',
     actions: [
       'Advice on prospects of appealing conviction or sentence.',
       'Drafting of grounds of appeal.',

@@ -15,7 +15,7 @@ import './preview-styles.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://astonslaw.com'),
   title: {
-    default: 'Emergency Criminal Defence | Legal Aid – Astons Law Chambers',
+    default: 'Criminal Defence Barrister | Emergency Advice & Legal Aid – Astons Law Chambers',
     template: '%s — Astons Law Chambers',
   },
   description:
@@ -68,6 +68,12 @@ const jsonLd = {
         latitude: 51.5203,
         longitude: -0.1437,
       },
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
       sameAs: [
         'https://share.google/UUmxWclpCyvczjSSS',
         'https://www.linkedin.com/company/astons-law-chambers/',
@@ -84,7 +90,11 @@ const jsonLd = {
       worksFor: { '@id': 'https://astonslaw.com/#organization' },
       knowsAbout: [
         'Criminal defence',
+        'Criminal defence barrister',
+        'Direct access barrister',
         'Police station representation',
+        'Crown Court advocacy',
+        'Magistrates Court representation',
         'Violent crimes',
         'Youth crimes',
         'Driving offences',
