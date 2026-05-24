@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: '%s — Astons Law Chambers',
   },
   description:
-    'Criminal defence in London and the UK. Serious Crimes, Violence, Fraud and more. 24/7 Police station support, legal aid available. Call 07922 247 999.',
+    'Criminal defence lawyer in London and the UK. Police station representation 24/7, Magistrates’ and Crown Court. Legal aid available. Call 07922 247 999.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
@@ -50,7 +50,7 @@ const jsonLd = {
       '@id': 'https://astonslaw.com/#organization',
       name: 'Astons Law Chambers',
       description:
-        "Criminal defence barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
+        "Criminal defence lawyer and barrister in London, instructed direct under the Bar Standards Board Public Access scheme. Representation at the police station, Magistrates' Court and Crown Court.",
       url: 'https://astonslaw.com',
       telephone: '+447922247999',
       areaServed: ['London', 'England', 'Wales'],
@@ -120,7 +120,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-GB">
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://cdn-cookieyes.com" />
         {/* IBM Plex Sans is self-hosted — @font-face is in preview-styles.css,
             served same-origin. No external font request, no Google Fonts chain. */}
         <script
@@ -145,15 +144,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <QuickExit />
         <SiteBehaviour />
 
-        {/* Cookie consent — CookieYes CMP + Google Consent Mode v2.
-            The consent DEFAULT (storage denied) stays beforeInteractive so
-            nothing can store before the page runs — this is what enforces
-            compliance, not the timing of the banner script. The CookieYes
-            banner script itself is afterInteractive: it is a third-party CDN
-            request and does not need to block first paint. It still loads
-            right after hydration, shows the banner, and fires the consent
-            update on accept. "Google Consent Mode" must be enabled in the
-            CookieYes dashboard for that update to reach GA4. */}
+        {/* Google Consent Mode v2 default — storage denied until CMP fires
+            an update. CMP (CookieYes) removed 2026-05-24; replacement TBD.
+            Consent defaults must stay so GA4 does not record unconsented
+            sessions. When the new CMP is wired, it must call gtag('consent',
+            'update', {...}) on accept to restore analytics_storage. */}
         <Script id="consent-mode-default" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -168,11 +163,6 @@ gtag('consent', 'default', {
   wait_for_update: 500,
 });`}
         </Script>
-        <Script
-          id="cookieyes"
-          strategy="afterInteractive"
-          src="https://cdn-cookieyes.com/client_data/d7524e47cae5f257fa8780a88c968ac8/script.js"
-        />
 
         {/* Google Analytics 4 */}
         <Script
