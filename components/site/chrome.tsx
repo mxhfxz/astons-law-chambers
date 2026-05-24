@@ -24,10 +24,6 @@ export function SiteFooter() {
   return <Raw html={readChrome('footer')} />
 }
 
-export function StickyPill() {
-  return <Raw html={readChrome('sticky-pill')} />
-}
-
 export function StickyBar() {
   return <Raw html={readChrome('sticky-bar')} />
 }
