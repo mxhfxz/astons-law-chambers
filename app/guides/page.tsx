@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { renderGuidesIndex, guidesHubJsonLd } from '@/lib/render-guide'
 
 export const metadata: Metadata = {
-  title: 'Guides — Arrest & Police Interviews',
+  title: { absolute: 'Know Your Rights | Police interviews, court summons, appeals & more – Astons Law Chambers' },
   description:
-    'Plain-English guides on arrest, police custody and police interviews in the UK — your rights and what to do next, from a criminal defence barrister in London.',
+    'Know your rights before speaking to anyone. Guides on arrest, custody, police interviews, and more. Call 07922 247 999.',
   alternates: { canonical: '/guides' },
 }
 

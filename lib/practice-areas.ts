@@ -35,9 +35,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: 'Criminal Defence Barrister [Direct Access], London',
+    metaTitle: "Criminal Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      'Criminal defence barrister in London, instructed direct. Police station, Magistrates’ and Crown Court representation, from investigation through trial.',
+      "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
@@ -74,9 +74,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: 'Violent Crime Barrister [Direct Access], London',
+    metaTitle: "Assault, ABH & GBH Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      'London barrister defending assault, ABH, GBH, affray and robbery allegations. Instructed direct, from the police station through to Crown Court trial.',
+      "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     definition:
@@ -117,9 +117,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: 'Youth Crime Barrister [Direct Access], London',
+    metaTitle: "Youth Court Defence | Under 18 Support | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      'London barrister defending clients under 18 in the Youth Court and Crown Court — instructed direct, with the procedures the youth jurisdiction requires.',
+      "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     definition:
@@ -154,9 +154,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'driving-offences',
     title: 'Driving Offences',
-    metaTitle: 'Driving Offence Barrister [Direct Access], London',
+    metaTitle: "Drink Driving & Driving Offences | Avoid a Ban | Legal Aid Available – Astons Law Chambers",
     metaDescription:
-      'London barrister for driving offences — drink and drug driving, totting-up and exceptional-hardship arguments, and licence-loss work. Instructed direct.',
+      "Criminal defence for drink driving, drug driving and totting-up in London. Exceptional hardship arguments. Written quote on the same call. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
     definition:
@@ -191,9 +191,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: 'Drug Offence Barrister [Direct Access], London',
+    metaTitle: "Drug Possession & Supply Charges | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
     metaDescription:
-      'London barrister defending drug allegations — possession, supply, importation and production. Instructed direct, with forensic and disclosure challenges.',
+      "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     definition:
@@ -230,9 +230,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'appeals',
     title: 'Appeals',
-    metaTitle: 'Criminal Appeals Barrister [Direct Access], London',
+    metaTitle: "Criminal Appeals, Conviction & Sentence | Legal Aid Available | London based, UK barrister – Astons Law Chambers",
     metaDescription:
-      'London barrister for criminal appeals against conviction and sentence — advice on prospects, drafting of grounds, and representation in the Court of Appeal.',
+      "Appealing a criminal conviction or sentence in London. Advice on prospects, grounds of appeal and Court of Appeal representation. Call 07922 247 999.",
     kicker: 'Post-trial',
     cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
     definition:
@@ -266,9 +266,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'inquests',
     title: 'Inquests',
-    metaTitle: 'Inquest Barrister [Direct Access], London',
+    metaTitle: "Inquest Representation | London based, UK barrister – Astons Law Chambers",
     metaDescription:
-      'London barrister representing families and interested persons at inquests, from the pre-inquest review through to the substantive hearing in the Coroner’s Court.',
+      "Representing families and interested persons at inquests in London. Pre-inquest review through to the substantive hearing. Call 07922 247 999.",
     kicker: 'Coroner’s Court',
     cardSummary: 'Family and interested-person representation. Pre-inquest review through hearing.',
     definition:

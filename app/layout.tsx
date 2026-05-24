@@ -15,11 +15,11 @@ import './preview-styles.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://astonslaw.com'),
   title: {
-    default: 'Criminal Defence Barrister [Direct Access] — London | Astons Law Chambers',
+    default: 'Emergency Criminal Defence | Legal Aid – Astons Law Chambers',
     template: '%s — Astons Law Chambers',
   },
   description:
-    "Criminal defence barrister in London, instructed direct without a solicitor. Police station, Magistrates' and Crown Court representation. Call 07922 247 999.",
+    'Criminal defence in London and the UK. Serious Crimes, Violence, Fraud and more. 24/7 Police station support, legal aid available. Call 07922 247 999.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
