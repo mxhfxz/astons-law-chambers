@@ -1,49 +1,95 @@
-# Session Handoff — 2026-05-24 (session close)
+# Session Handoff — 2026-05-24 (UI alignment sprint)
 
 ## Production state
 
-**`main`** → `fd57386` (live on astonslaw.com via Vercel)
-Build and type-check: clean. Merged `fix/seo-keyword-restore-2026-05-24` → main.
+**`main`** → `37c860b` (live on astonslaw.com via Vercel)
+Build and type-check: clean. Browser-verified via `npx next start`.
 
 ---
 
 ## What happened this session
 
-### Investigation: zero calls since Monday 2026-05-19
+### UI alignment sprint — dark heroes + closing strip on all inner pages
 
-Full systematic audit traced the drop to three regressions introduced in commits `e73138a` and `53824fe` (both 2026-05-24):
+All primary and secondary pages now share the same structural pattern as the homepage: dark hero with breadcrumb → white body → dark closing strip.
 
-1. **"criminal defence lawyer" keyword removed** from homepage meta description and JSON-LD LegalService description. This keyword had a documented ~1800% organic lift (commit `cf18816`, 2026-05-19). Removing it directly reduced visibility in the solicitor/lawyer SERPs where most arrest-time searches happen.
-
-2. **"Police station representation/attendance" replaced with "support"** across the police station page and practice area situation paragraphs. "Police station representation" and "police station attendance" are the specific UK legal terms people search for under PACE.
-
-3. **CookieYes consent banner covering sticky call bar on mobile.** CookieYes z-index (~999999) stacks above the sticky bar (z-index: 40), blocking the call button on every new mobile visitor's first page load. Client confirmed switching CMP.
-
-### Fixes shipped → `fd57386`
+**Files changed (content fragments only — no TSX, no CSS, no config):**
 
 | File | Change |
 |------|--------|
-| `app/layout.tsx` | Meta description: "Criminal defence lawyer in London and the UK…" (lawyer restored). JSON-LD description: "lawyer and barrister" restored. CookieYes preconnect + Script removed. Stale comment updated. |
-| `lib/practice-areas.ts` | 4 situation paragraphs (criminal-defence, violent-crimes, youth-crimes, drug-offences): "lawyer and barrister" restored. |
-| `app/police-station-representation/page.tsx` | Title: "24/7 Police Station Representation" (was "support"). Description: "representation available 24/7 … attends in person". |
+| `content/sections/about.html` | Dark hero added (`bg-footer`). Closing strip appended (`about_final_strip`). |
+| `content/sections/contact.html` | Full rewrite. Dark hero + 3 channel cards (phone/WhatsApp/book) in a responsive 3-col grid. Aside removed (cards serve that function). Address section retained. |
+| `content/sections/direct-access.html` | Dark hero added. Closing strip appended (`direct_access_final_strip`). |
+| `content/sections/fees.html` | Dark hero added. White body and original intro text preserved. Closing strip appended (`fees_final_strip`). |
+| `content/sections/practice-areas.html` | Dark hero added (eyebrow "Criminal defence"). Closing strip appended (`practice_areas_final_strip`). |
+| `content/sections/pa-detail.html` | Most complex edit — shared template for all 8 practice area detail pages. Hero wrapper added (`bg-footer`); breadcrumb text updated to `text-navy-100/80`; definition/situation copy colours updated for dark background; CTAs updated to `btn-inverse`/`btn-on-dark`; police station banner background adjusted to `bg-navy-900`; fee strip made dark-themed (`bg-navy-900` cells, `bg-navy-800` gap, `text-white`). |
+| `content/sections/police-station.html` | Closing strip appended (`police_station_final_strip`). Hero already existed. |
+| `content/sections/legal-aid.html` | Closing strip appended (`legal_aid_final_strip`). |
+| `content/sections/authorised-to-conduct-litigation.html` | Closing strip appended (`litigation_final_strip`). |
+| `content/sections/timescales.html` | Closing strip appended (`timescales_final_strip`). |
+| `content/sections/guides-index.html` | Closing strip appended (`guides_final_strip`). |
 
-### Anti-drift hooks confirmed in place
+**Dark hero pattern used throughout:**
+```html
+<div class="bg-footer text-white">
+  <div class="max-w-wide mx-auto px-6 pt-14 pb-12 md:pt-20 md:pb-16">
+    <p class="text-sm font-medium text-navy-100/80 tracking-tightish">…breadcrumb…</p>
+    <p class="mt-6 fluid-eyebrow font-semibold uppercase text-navy-100/80">…kicker…</p>
+    <h1 class="mt-3 fluid-h1 font-semibold tracking-tight2">…</h1>
+    <p class="mt-6 fluid-lead text-navy-100/90 max-w-prose">…</p>
+    <div class="mt-8 btn-row">
+      <a … class="btn btn-lg btn-inverse btn-full">Call now</a>
+      <a … class="btn btn-lg btn-on-dark btn-full">WhatsApp</a>
+    </div>
+  </div>
+</div>
+```
 
-`PreCompact` and `PostCompact` hooks already exist in `.claude/settings.local.json`. No changes needed.
+**Closing strip pattern (same on all pages, slug varies):**
+```html
+<div class="relative overflow-hidden bg-navy-950 text-white" data-track-loc="[page]_final_strip">
+  <svg viewBox="0 0 32 32" aria-hidden="true" class="final-strip-mark">…</svg>
+  <div class="relative max-w-wide mx-auto px-6 py-16 md:py-24">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-sm font-medium text-navy-100/80 tracking-tightish">Contact</p>
+      <h2 class="mt-2 text-3xl md:text-5xl font-semibold tracking-tight2 leading-tight">Speak to someone today</h2>
+      <p class="mt-4 text-navy-100 leading-relaxed max-w-prose mx-auto">…</p>
+      <div class="mt-8 flex flex-col gap-3 w-full max-w-[300px] mx-auto">
+        <a … class="btn btn-xl btn-inverse w-full flex">Call now</a>
+        <a … class="btn btn-lg btn-on-dark w-full flex">Message on WhatsApp</a>
+        <a … class="btn btn-lg btn-on-dark w-full flex">Book a call</a>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## Previous session (keyword regressions) — context preserved
+
+Prior commit `fd57386` fixed three regressions:
+1. "criminal defence lawyer" keyword restored to homepage meta + JSON-LD
+2. "Police station representation/attendance" terminology restored (vs "support")
+3. CookieYes consent banner removed (was blocking sticky call bar on mobile)
 
 ---
 
 ## Open items for next session
 
-### High priority
+### Highest priority
 
-1. **GA4 phone click baseline.** With CookieYes removed, UK traffic should stop being depressed in analytics. Monitor calls + phone click events in GA4 over 48–72 hours. If zero calls continue after this deploy, re-investigate.
+1. **GA4 phone click baseline.** Monitor calls + phone click events in GA4 over 48–72 hours since CookieYes removal. If zero calls persist, re-investigate.
 
-2. **CMP replacement.** Client is switching to a new consent management platform. When the new CMP is wired, it must call `gtag('consent', 'update', {...})` on accept to restore `analytics_storage`. The consent defaults in `layout.tsx` are intentionally strict — they stay until the new CMP fires.
+2. **CMP replacement.** When client wires the new CMP, it must call `gtag('consent', 'update', {...})` on accept to restore `analytics_storage`. Consent defaults in `layout.tsx` stay strict until new CMP fires.
 
-3. **`ui-alignment` branch exists** (local + possibly remote — check `git branch -a`). Unknown what it contains. Investigate before merging or discarding.
+3. **`ui-alignment` branch** — was created early in this session then `smart_commit.sh` pushed directly to `main` instead. The branch exists locally and possibly remotely. Check `git branch -a`; delete if stale.
 
-4. **`.project/search-positioning.csv`** is untracked. It contains before/after title/description proposals for all pages. Most of the "Proposed" values were already applied by `50551f4`. The remaining pages (Practice Areas, About, Fees, Direct Access, Legal Aid, Contact, Guides, Timescales, Authorised to Conduct Litigation, and all PA sub-pages) have not been reviewed against the regression findings. Do not blindly apply the CSV — validate each against the "lawyer" keyword requirement.
+4. **`.project/search-positioning.csv`** is still untracked. Remaining pages not yet reviewed against the "lawyer" keyword requirement. Do not blindly apply — validate each row.
+
+5. **Branch 5 (CRO Tier-3)** — five client decisions still pending (pre-existing backlog).
+
+6. **`content-staging` branch for insights CMS** — after PR #2 merges to main.
 
 ---
 
@@ -58,3 +104,4 @@ Full systematic audit traced the drop to three regressions introduced in commits
 - Pages CMS writes directly to origin/main — always `git fetch` before any push
 - Nothing merges to main without build + type-check passing
 - "criminal defence lawyer" must be present in homepage meta description (organic lift keyword)
+- Dark heroes use `bg-footer` (#232536) — NOT `bg-navy-950`. Check all heroes when touching one.
