@@ -695,16 +695,11 @@ body.has-sticky-bar {
 }
 
 /* ── Cookie consent banner ─────────────────────────────────────────────────── */
-/* Passive strip — below header on mobile (top: 108px), bottom-left card on
-   desktop. z-index 35: above header (z-30), below sticky bar + desktop FAB
-   (both z-40). Slides from above on mobile, fades up on desktop.
-   Mobile header heights: police banner h-11 (44px) + nav h-16 (64px) = 108px. */
+/* Mobile: in page flow (scrolls with content), appears immediately at
+   hydration — no animation. Rendered between <SiteHeader> and <main> in DOM.
+   Desktop: fixed bottom-left card (position: fixed; bottom/left 1.5rem),
+   fades up on entry. z-index 35 on desktop only (in-flow on mobile). */
 #consentBanner {
-  position: fixed;
-  top: 108px;
-  left: 0;
-  right: 0;
-  z-index: 35;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -714,23 +709,16 @@ body.has-sticky-bar {
   background: var(--color-offwhite);
   border-bottom: 1px solid #D1D5DB;
   box-shadow: 0 2px 8px rgba(14, 22, 40, 0.06);
-  transform: translateY(-100%);
-  animation: cbSlideIn 320ms cubic-bezier(0.32, 0, 0.2, 1) 700ms both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #consentBanner {
-    animation: none;
-    transform: translateY(0);
-  }
 }
 
 @media (min-width: 768px) {
   #consentBanner {
+    position: fixed;
     top: auto;
     left: 1.5rem;
     right: auto;
     bottom: 1.5rem;
+    z-index: 35;
     width: 320px;
     flex-direction: column;
     align-items: flex-start;
@@ -745,9 +733,12 @@ body.has-sticky-bar {
   }
 }
 
-@keyframes cbSlideIn {
-  from { transform: translateY(-100%); }
-  to   { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  #consentBanner {
+    animation: none;
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes cbFadeUp {

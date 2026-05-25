@@ -1,202 +1,114 @@
-# Session Handoff — 2026-05-25 (full-bleed 50/50 hero split)
+# Session Handoff — 2026-05-26 (consent banner + GA4 zero-data fix)
 
 ## Production state
 
-**`main`** → `37c860b` (live on astonslaw.com via Vercel — unchanged this session)
-**`hero-two-column`** → `90b6ad4` (pushed, Vercel preview live)
+**`main`** → `53e7615` (live on astonslaw.com via Vercel — unchanged this session)
+**`feat/consent-banner`** → `02c1e23` (pushed, Vercel preview building)
 
-Build: clean (`npm run build` passed, 87.4 kB First Load JS, all 15+ static pages).
+Build: clean (`npm run build` passed, zero errors, all static pages).
 
 ---
 
 ## What happened this session
 
-### Task: true 50/50 full-bleed hero split on every page
+### Root cause investigation — GA4 zero data (2 days)
 
-The previous session had committed a first-pass two-column hero layout (`20232f1`) using an intermediate `lg:grid-cols-[1.3fr_1fr]` approach inside a `max-w-wide` container. The user directed a second pass: true 50/50 split, image covering the entire right half, applied to every page.
+Diagnosed via systematic-debugging. Root cause confirmed in one pass:
 
-**Two-pass summary:**
+- Commit `082e0ab` (2026-05-24) removed CookieYes from `app/layout.tsx`
+- The consent default (`analytics_storage: 'denied'`, `wait_for_update: 500`) was left in place — correct, intentional
+- But nothing now calls `gtag('consent', 'update', ...)` to upgrade consent
+- Every session since 2026-05-24 has fired with `analytics_storage: 'denied'` → GA4 records nothing
 
-| Pass | What changed | Commit |
-|------|-------------|--------|
-| First pass | Added two-column grid to all heroes (constrained by max-w-wide container) | `20232f1` |
-| Second pass | Full-bleed CSS system + all pages migrated | `90b6ad4` |
+### Fix shipped to `feat/consent-banner`
 
-**Second-pass files changed:**
+Three files changed:
 
-| File | Change |
-|------|--------|
-| `app/preview-styles.css` | New `.hero-split` / `.hero-split-left` / `.hero-split-right` CSS system appended |
-| `content/sections/home.html` | Migrated to `hero-split` with `<img>` covering right half |
-| `content/sections/about.html` | Migrated to `hero-split` with `hero-right-mark` (decorative SVG) on right |
-| `content/sections/contact.html` | Same |
-| `content/sections/direct-access.html` | Same |
-| `content/sections/fees.html` | Same |
-| `content/sections/practice-areas.html` | Same |
-| `content/sections/police-station.html` | Same |
-| `content/sections/guides-index.html` | Same |
-| `content/sections/guide-first-24-hours.html` | Same |
-| `content/sections/guide-voluntary-interview.html` | Same |
-| `content/sections/pa-detail.html` | Migrated; fee strip moved below the split into its own `max-w-wide` wrapper |
+**`components/site/ConsentBanner.tsx`** (new)
+- `'use client'` React component
+- On mount: checks `localStorage.getItem('alc_consent_v1')`. If no key → shows banner. If key exists → returns null (no flicker).
+- Accept → `gtag('consent', 'update', { analytics_storage: 'granted', ... })` + stores key
+- Decline → stores key, consent stays denied, banner hides
 
----
+**`app/layout.tsx`** (modified)
+- Imports and renders `<ConsentBanner />` (after `<SiteBehaviour />`)
+- Adds a new `beforeInteractive` script (`consent-restore`) that reads localStorage and fires the consent update within the 500ms `wait_for_update` window — handles returning visitors before React hydrates
 
-## CSS system (second pass)
-
-In `app/preview-styles.css`, appended at the bottom:
-
-```css
-/* ── Full-bleed 50/50 hero split ── */
-.hero-split {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.hero-split-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 3.5rem 1.5rem 3rem;
-}
-.hero-split-right {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-navy-900);
-  min-height: clamp(240px, 45vw, 480px);
-}
-@media (min-width: 768px) {
-  .hero-split-left { padding: 5rem 3rem 4rem; }
-  .hero-split-right { min-height: clamp(300px, 40vw, 540px); }
-}
-@media (min-width: 1024px) {
-  .hero-split {
-    grid-template-columns: 1fr 1fr;
-    min-height: clamp(540px, 82vh, 900px);
-  }
-  .hero-split-left {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    padding-left: clamp(1.5rem, calc((100vw - 1360px) / 2 + 1.5rem), 8rem);
-    padding-right: 4rem;
-  }
-  .hero-split-right { min-height: 0; }
-}
-.hero-right-mark {
-  display: none;
-  background: linear-gradient(150deg, var(--color-navy-900) 0%, var(--color-navy-950) 100%);
-  align-items: center;
-  justify-content: center;
-}
-.hero-right-mark > svg {
-  width: 14rem;
-  height: 14rem;
-  opacity: 0.07;
-  fill: #ffffff;
-}
-@media (min-width: 1024px) {
-  .hero-right-mark { display: flex; }
-}
-```
-
-Key architectural decision: `lg:grid-cols-2` is NOT in the precompiled Tailwind bundle (`app/preview-tailwind.css`). The CSS must live in `preview-styles.css` using semantic class names.
+**`app/preview-styles.css`** (modified)
+- `#consentBanner`: `position: fixed; top: 108px; z-index: 35` (mobile) — below header (z-30), above sticky bar (z-40)
+- Desktop: `bottom: 1.5rem; left: 1.5rem; width: 320px` card
+- Animations: `cbSlideIn` (mobile) / `cbFadeUp` (desktop), both with `prefers-reduced-motion` guards
+- All styles hand-authored (no Tailwind JIT dependency)
 
 ---
 
-## Homepage hero structure (reference)
+## Next session start
 
-```html
-<div class="bg-footer hero-split">
-  <div class="hero-split-left">
-    <div class="flex flex-col max-w-2xl">
-      [eyebrow, h1, lead, CTAs, BSB link]
-    </div>
-  </div>
-  <div class="hero-split-right">
-    <img src="/hero_image.webp" alt="" width="720" height="656"
-         fetchpriority="high"
-         class="absolute inset-0 w-full h-full object-cover object-center" />
-  </div>
-</div>
-```
+### 1. Check Vercel preview
+Preview URL: `https://alc-staging-git-feat-consent-banner-dsgnly.vercel.app`
 
-## Secondary page hero structure (reference)
+Verify on mobile (iPhone viewport):
+- Banner appears below the police banner + nav (below 108px from top)
+- Red call CTA in hero is NOT obscured (it's ~200px below header — below the banner strip)
+- Sticky bottom bar is fully clear — banner is at top, bar is at bottom
 
-```html
-<div class="bg-footer text-white hero-split">
-  <div class="hero-split-left">
-    [breadcrumb, eyebrow, h1, lead, buttons]
-  </div>
-  <div class="hero-split-right hero-right-mark" aria-hidden="true">
-    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 1H32V17C23.1634 17 16 9.83656 16 1Z"/>
-      <path d="M31.9984 17C31.9993 17 32 17.0007 32 17.0016L32 33L16.0016 33C16.0007 33 16 32.9993 16 32.9984C16 24.1627 23.1627 17 31.9984 17Z"/>
-      <path d="M16 33L9.53674e-07 33L2.35244e-06 17C8.83656 17 16 24.1634 16 33Z"/>
-      <path d="M0 17L-6.99382e-07 1L16 1C16 9.83656 8.83656 17 0 17Z"/>
-    </svg>
-  </div>
-</div>
-```
+Verify on desktop:
+- Bottom-left card appears after 700ms
+- Does not conflict with desktop FABs (bottom-right)
 
-## pa-detail structure (reference — fee strip below split)
+### 2. Apply tweaks
+User has tweaks. Edit:
+- **CSS/position/size** → `app/preview-styles.css`, search for `/* ── Cookie consent banner`
+- **JSX/copy** → `components/site/ConsentBanner.tsx`
+  - COPY IS READ-ONLY per HARD RULE — only change copy if user provides exact new text
+- **Animation timing** → `cbSlideIn` / `cbFadeUp` keyframes + `700ms` delay value
 
-```html
-<article class="bg-white">
-  <div class="bg-footer text-white">
-    <div class="hero-split">
-      <div class="hero-split-left">
-        [breadcrumb, h1, definition, situation, CTAs, police banner]
-      </div>
-      <div class="hero-split-right hero-right-mark" aria-hidden="true">
-        [SVG]
-      </div>
-    </div>
-    <div class="max-w-wide mx-auto px-6 pb-8">
-      <dl class="mt-10 grid grid-cols-2 md:grid-cols-4 ...">[fee items]</dl>
-      <p class="mt-3 text-xs text-navy-100/80">Indicative only...</p>
-    </div>
-  </div>
-  [white body]
-</article>
-```
+### 3. Verify GA data resumes
+After merging, on the live site:
+1. Open GA4 → Realtime report
+2. Visit site in a fresh browser session
+3. Accept cookies
+4. Confirm a session appears in Realtime
+
+Or use DebugView: visit `https://astonslaw.com/?gtm_debug=true` → accept → watch events in GA4 DebugView.
+
+### 4. Merge to main
+Use `finishing-a-development-branch` skill. Branch has one clean commit (`02c1e23`).
+
+Before merging, check unstaged changes on the branch:
+- `CLAUDE.md` — 14 lines added (gstack routing rules — review before committing)
+- `package.json` + `package-lock.json` — 1 package drift (review — likely unrelated)
+
+Do NOT commit these to the consent-banner branch unless intentional.
 
 ---
 
-## Branch state
+## Z-index stack (for reference when touching positioning)
 
-| Branch | Status |
-|--------|--------|
-| `main` | Live production — NOT touched this session |
-| `hero-two-column` | `90b6ad4` pushed, Vercel preview live |
+| Element | z-index | Position |
+|---|---|---|
+| `#siteHeader` | 30 (50 when menu-open) | sticky top-0 |
+| `#consentBanner` | **35** | fixed top: 108px mobile / bottom-left desktop |
+| `#stickyBar` | 40 | fixed bottom: 0 (mobile only) |
+| `#desktopFab` | 40 | fixed bottom-right (desktop only) |
 
-**Preview URL:** `https://alc-staging-git-hero-two-column-dsgnly.vercel.app`
+## Header height reference (for `top: 108px`)
 
-The `hero-two-column` branch has NOT been merged to `main`. User must review the preview and confirm before merge.
+| Component | Mobile | Desktop |
+|---|---|---|
+| Police banner | `h-11` = 44px | `h-12` = 48px |
+| Nav bar | `h-16` = 64px | `h-[72px]` = 72px |
+| **Total** | **108px** | **120px** |
 
----
+Desktop banner is a bottom-left card so the 120px desktop total is irrelevant — noted here in case the header is ever resized.
 
-## Uncommitted change
+## Consent storage key
 
-`CLAUDE.md` shows as modified but the diff is not significant to the build — it is likely a whitespace or metadata drift. Do NOT commit it without checking the diff first (`git diff CLAUDE.md`).
+`localStorage key: 'alc_consent_v1'`
+`values: 'granted' | 'denied'`
 
----
+To test the banner again (simulate new visitor): open DevTools → Application → Local Storage → delete `alc_consent_v1` → reload.
 
-## Open items for next session
+## GA4 measurement ID
 
-1. **Review the preview** — open `https://alc-staging-git-hero-two-column-dsgnly.vercel.app` and check all pages at desktop + mobile.
-2. **Merge `hero-two-column` → `main`** once the user confirms the preview looks right.
-3. **User may want the right-half content on secondary pages to change** — currently it shows the decorative SVG mark. If the user wants images on specific pages, those will need assets added to `public/` and the HTML updated.
-4. **Any other in-flight work** — check the previous handoff (2026-05-24) for items that were deferred.
-
----
-
-## Previous session context (2026-05-24)
-
-Prior production state carried forward:
-- SEO fix: "barrister" removed from meta titles/descriptions (`1c3b614`)
-- UI fix: H1 and lead copy restored on about, contact, direct-access, practice-areas (`b8be8f3`)
-- UI alignment sprint: dark heroes + closing strips on all pages (`37c860b`)
-- CookieYes removed, call tracking baseline established
-
-Prior open items (still relevant):
-- Phone click events are the primary Week 1 KPI measurement
-- FAQPage schema needs re-evaluation post-April 2026 update
-- Entity footprint at 2 sources (AI threshold is 3+) — direct access cluster is fastest near-term ranking path
+`G-8TDVMH13D7` — in `app/layout.tsx:179`

@@ -148,13 +148,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <IconSprite />
         <SiteHeader />
+        <ConsentBanner />
         <main id="main">{children}</main>
         <SiteFooter />
         <StickyBar />
         <DesktopFab />
         <QuickExit />
         <SiteBehaviour />
-        <ConsentBanner />
 
         {/* Google Consent Mode v2 default — storage denied until CMP fires
             an update. Fires beforeInteractive so nothing can store before
