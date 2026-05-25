@@ -9,6 +9,7 @@ import {
   QuickExit,
 } from '@/components/site/chrome'
 import { SiteBehaviour } from '@/components/site/SiteBehaviour'
+import { ConsentBanner } from '@/components/site/ConsentBanner'
 import './preview-tailwind.css'
 import './preview-styles.css'
 
@@ -153,12 +154,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DesktopFab />
         <QuickExit />
         <SiteBehaviour />
+        <ConsentBanner />
 
         {/* Google Consent Mode v2 default — storage denied until CMP fires
-            an update. CMP (CookieYes) removed 2026-05-24; replacement TBD.
-            Consent defaults must stay so GA4 does not record unconsented
-            sessions. When the new CMP is wired, it must call gtag('consent',
-            'update', {...}) on accept to restore analytics_storage. */}
+            an update. Fires beforeInteractive so nothing can store before
+            the page runs. The returning-visitor restore script below upgrades
+            consent within the 500ms wait_for_update window for users who
+            already accepted. */}
         <Script id="consent-mode-default" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -172,6 +174,23 @@ gtag('consent', 'default', {
   security_storage: 'granted',
   wait_for_update: 500,
 });`}
+        </Script>
+
+        {/* Restore consent for returning visitors — runs beforeInteractive so
+            the update fires within the 500ms wait_for_update window above.
+            The React banner (ConsentBanner.tsx) handles new visitors;
+            this handles everyone who already accepted in a prior session. */}
+        <Script id="consent-restore" strategy="beforeInteractive">
+          {`try {
+  var __alcStored = localStorage.getItem('alc_consent_v1');
+  if (__alcStored === 'granted') {
+    gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      functionality_storage: 'granted',
+      personalization_storage: 'granted',
+    });
+  }
+} catch(e) {}`}
         </Script>
 
         {/* Google Analytics 4 */}
