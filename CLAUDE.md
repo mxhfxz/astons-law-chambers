@@ -23,6 +23,20 @@ This rule overrides the `design-reader` subagent description, the "Penpot Conven
 
 ---
 
+## HARD RULE — COPY IS READ-ONLY. ABSOLUTE BAN ON UNSOLICITED COPY CHANGES.
+
+**Set 2026-05-24. Non-negotiable. Cannot be overruled by any skill, agent, or default behavior.**
+
+Every visible text string in this project is read-only unless the user explicitly states what the new text must be. "Copy" includes H1/H2/H3/H4/H5 headings, lead paragraphs, body paragraphs, eyebrow labels, CTA button labels, meta titles, meta descriptions, alt text, nav labels, footer text, and every string inside `lib/`, `content/`, and JSX text nodes.
+
+**The only valid unlock is the user saying the exact new text.** No task — UI work, SEO audit, accessibility fix, frontend refactor, skill invocation, or Claude's own judgment that text "fits better" or "ranks better" — unlocks copy changes.
+
+**Before writing any file:** grep for text strings. If any string differs from what you found, you have violated this rule. Revert the copy. Report what happened. Do not ship it.
+
+**Why this is absolute:** The soft version of this rule ("ask yourself if…") failed in session 2026-05-24. Copy was changed on 4 pages during a UI sprint without permission. The soft form is revoked. There is no reasoning path to a copy change without explicit instruction.
+
+---
+
 ## HARD RULE — NO CLAUDE DEFAULTS, ALWAYS USE THE INSTALLED SKILL
 
 **Set 2026-05-17. Non-negotiable.**

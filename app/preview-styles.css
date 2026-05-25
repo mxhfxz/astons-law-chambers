@@ -694,6 +694,115 @@ body.has-sticky-bar {
   }
 }
 
+/* ── Cookie consent banner ─────────────────────────────────────────────────── */
+/* Mobile: in page flow (scrolls with content), appears immediately at
+   hydration — no animation. Rendered between <SiteHeader> and <main> in DOM.
+   Desktop: fixed bottom-left card (position: fixed; bottom/left 1.5rem),
+   fades up on entry. z-index 35 on desktop only (in-flow on mobile). */
+#consentBanner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--color-offwhite);
+  border-bottom: 1px solid #D1D5DB;
+  box-shadow: 0 2px 8px rgba(14, 22, 40, 0.06);
+}
+
+@media (min-width: 768px) {
+  #consentBanner {
+    position: fixed;
+    top: auto;
+    left: 1.5rem;
+    right: auto;
+    bottom: 1.5rem;
+    z-index: 35;
+    width: 320px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(14, 22, 40, 0.12);
+    transform: translateY(12px);
+    opacity: 0;
+    animation: cbFadeUp 280ms cubic-bezier(0.32, 0, 0.2, 1) 700ms both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #consentBanner {
+    animation: none;
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cbFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.consent-banner-text {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-navy-700);
+  flex: 1;
+}
+
+.consent-banner-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.consent-banner-link:hover { color: var(--color-navy-950); }
+
+.consent-banner-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .consent-banner-actions { width: 100%; flex-shrink: unset; }
+}
+
+.consent-btn {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 7px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background-color 0.12s ease;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .consent-btn { transition: none; }
+}
+
+.consent-btn-accept {
+  background: var(--color-navy-900);
+  color: #fff;
+  border-color: var(--color-navy-900);
+}
+.consent-btn-accept:hover { background: var(--color-navy-800); }
+
+.consent-btn-decline {
+  background: transparent;
+  color: var(--color-navy-700);
+  border-color: #D1D5DB;
+}
+.consent-btn-decline:hover {
+  background: #F3F4F6;
+  color: var(--color-navy-950);
+  border-color: #9CA3AF;
+}
+
 /* Decorative mark for secondary-page right panels.
    Hidden on mobile so the hero stays compact below 1024px. */
 .hero-right-mark {
