@@ -649,3 +649,67 @@ body.has-sticky-bar {
 }
 .sticky-bar-book:hover  { background: #0a1527; }
 .sticky-bar-book:active { background: #080f1e; }
+
+/* ── Full-bleed 50/50 hero split ────────────────────────────────────────── */
+/* Used on every page hero. Left column: text+CTAs with viewport-aware padding.
+   Right column: image or decorative mark filling 100% of its half.
+   Mobile: single column, text above, right panel below. */
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.hero-split-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3.5rem 1.5rem 3rem;
+}
+.hero-split-right {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-navy-900);
+  min-height: clamp(240px, 45vw, 480px);
+}
+@media (min-width: 768px) {
+  .hero-split-left {
+    padding: 5rem 3rem 4rem;
+  }
+  .hero-split-right {
+    min-height: clamp(300px, 40vw, 540px);
+  }
+}
+@media (min-width: 1024px) {
+  .hero-split {
+    grid-template-columns: 1fr 1fr;
+    min-height: clamp(540px, 82vh, 900px);
+  }
+  .hero-split-left {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    padding-left: clamp(1.5rem, calc((100vw - 1360px) / 2 + 1.5rem), 8rem);
+    padding-right: 4rem;
+  }
+  .hero-split-right {
+    min-height: 0;
+  }
+}
+
+/* Decorative mark for secondary-page right panels.
+   Hidden on mobile so the hero stays compact below 1024px. */
+.hero-right-mark {
+  display: none;
+  background: linear-gradient(150deg, var(--color-navy-900) 0%, var(--color-navy-950) 100%);
+  align-items: center;
+  justify-content: center;
+}
+.hero-right-mark > svg {
+  width: 14rem;
+  height: 14rem;
+  opacity: 0.07;
+  fill: #ffffff;
+}
+@media (min-width: 1024px) {
+  .hero-right-mark {
+    display: flex;
+  }
+}
