@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Criminal Litigation Authorisation | Barrister and Solicitor in One – Astons Law Chambers' },
+  title: { absolute: 'Authorised to Conduct Litigation | BSB Regulated | London & UK' },
   description:
     'Astons Law Chambers can file documents and run a case end-to-end. Authorised by the BSB to conduct criminal litigation without a separate solicitor needed. Call 07922 247 999.',
   alternates: { canonical: '/authorised-to-conduct-litigation' },

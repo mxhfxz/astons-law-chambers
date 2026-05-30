@@ -35,7 +35,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: "Criminal Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Criminal Defence Lawyer | London & UK | 24/7 Support",
     metaDescription:
       "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
@@ -74,7 +74,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: "Assault, ABH & GBH Defence | Legal Aid Available & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Assault, GBH & Violence | Criminal Defence | London & UK",
     metaDescription:
       "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
@@ -117,7 +117,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: "Youth Court Defence | Under 18 Support | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Youth Crimes Defence | Under-18 Legal Aid | London & UK",
     metaDescription:
       "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
@@ -154,7 +154,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'driving-offences',
     title: 'Driving Offences',
-    metaTitle: "Drink Driving & Driving Offences | Avoid a Ban | Legal Aid Available – Astons Law Chambers",
+    metaTitle: "Motoring & Driving Offences | Legal Defence | London & UK",
     metaDescription:
       "Criminal defence for drink driving, drug driving and totting-up in London. Exceptional hardship arguments. Written quote on the same call. Call 07922 247 999.",
     kicker: 'Criminal',
@@ -191,7 +191,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: "Drug Possession & Supply Charges | Legal Aid & 24/7 Police Station Representation – Astons Law Chambers",
+    metaTitle: "Drugs & Supply Offences | Criminal Defence | London & UK",
     metaDescription:
       "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
     kicker: 'Criminal',
@@ -230,7 +230,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'appeals',
     title: 'Appeals',
-    metaTitle: "Criminal Appeals, Conviction & Sentence | Legal Aid Available | London based, UK barrister – Astons Law Chambers",
+    metaTitle: "Criminal Appeals & Conviction Review | London & UK",
     metaDescription:
       "Appealing a criminal conviction or sentence in London. Advice on prospects, grounds of appeal and Court of Appeal representation. Call 07922 247 999.",
     kicker: 'Post-trial',
@@ -266,7 +266,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'inquests',
     title: 'Inquests',
-    metaTitle: "Inquest Representation | London based, UK barrister – Astons Law Chambers",
+    metaTitle: "Inquest Representation | London & UK",
     metaDescription:
       "Representing families and interested persons at inquests in London. Pre-inquest review through to the substantive hearing. Call 07922 247 999.",
     kicker: 'Coroner’s Court',

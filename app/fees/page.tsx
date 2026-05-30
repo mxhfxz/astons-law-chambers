@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Criminal Defence Fees & Legal Aid – Astons Law Chambers' },
+  title: { absolute: 'Criminal Defence Fees & Legal Aid Rates | London & UK' },
   description:
     'Transparent fees for criminal defence. Written quote before any work begins. Legal aid available for eligible cases. Call 07922 247 999.',
   alternates: { canonical: '/fees' },

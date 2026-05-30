@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Get in Touch for 24/7 Police station representation & Criminal defence – Astons Law Chambers' },
+  title: { absolute: 'Contact Astons Law | 24/7 Criminal Defence' },
   description:
     'Call 07922 247 999 at any time. WhatsApp or book a callback. Police station support and criminal defence in London and the UK. Legal aid can be offered through partner firms.',
   alternates: { canonical: '/contact' },

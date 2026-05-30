@@ -1,6 +1,10 @@
+import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
-// Homepage. Title/description/canonical inherit the layout defaults.
+export const metadata: Metadata = {
+  title: { absolute: 'Criminal Defence London | Emergency & Legal Aid - Astons Law' },
+}
+
 export default function HomePage() {
   return (
     <>

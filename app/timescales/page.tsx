@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Criminal Case Timescales | What to Expect – Astons Law Chambers' },
+  title: { absolute: 'Criminal Case Timescales | What to Expect | Astons Law' },
   description:
     "How long a criminal case takes in England and Wales – Magistrates' Court, Crown Court and on appeal. Published under BSB transparency rules. Call 07922 247 999.",
   alternates: { canonical: '/timescales' },
