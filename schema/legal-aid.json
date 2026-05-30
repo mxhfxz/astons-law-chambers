@@ -1,0 +1,224 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£ - Legal Aid cases referred to a partner firm at no cost. First call free.",
+    "description": "Criminal legal aid guidance and referral from Astons Law Chambers. Legal Aid for criminal cases can be arranged via a partner solicitor firm. The first call is free and establishes whether Legal Aid, private instruction, or both is the right route.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Legal Aid Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Police Station Legal Aid",
+            "description": "Free and independent legal advice at the police station, available 24/7 to anyone in custody, regardless of income, under the Defence Solicitor Call Centre rota.",
+            "serviceType": "Legal Aid",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Magistrates' Court Legal Aid",
+            "description": "Legal aid for Magistrates' Court criminal proceedings. Subject to the means test and the interests of justice test. Arranged through a partner solicitor firm.",
+            "serviceType": "Legal Aid",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "termsOfService": "Both means test and interests of justice test must be passed. Eligible cases referred to a partner solicitor firm at no cost."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Crown Court Legal Aid",
+            "description": "Legal aid for Crown Court criminal proceedings. Means test determines whether a contribution is required. Interests of justice test taken as met for Crown Court matters. Arranged through a partner solicitor firm.",
+            "serviceType": "Legal Aid",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "termsOfService": "A Contribution Order may apply from income. Capital contribution possible if convicted. Eligible cases referred to a partner solicitor firm."
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Legal Aid enquiries",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Criminal Legal Aid",
+      "Means Test",
+      "Interests of Justice Test",
+      "Widgery Criteria",
+      "Contribution Order",
+      "Advocates' Graduated Fee Scheme",
+      "Legal Aid Agency"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is legal aid free for the entire case?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In the Magistrates' Court, yes, where both the means test and interests of justice test are passed. In the Crown Court, you may be required to contribute toward costs from income, with a possible capital contribution if convicted. The Legal Aid Agency assesses this on application."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I have a job. Should I still apply for legal aid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Eligibility is calculated against income, dependants, housing costs, and disposable income. Many working defendants qualify, especially where there are children at home or significant housing costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I own a house. Can I still get legal aid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Often, yes, for the initial grant. Capital and equity are assessed but home ownership is not an automatic disqualification. A capital contribution may apply at the end of a Crown Court case if you are convicted."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I choose my own solicitor on legal aid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, provided the firm holds a Legal Aid Agency contract. If you call Astons Law Chambers, the referral is made to the practice's partner firm; you remain free to instruct any contracted firm of your choice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Astons Law Chambers charge a referral fee?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Referral fees in criminal proceedings are prohibited under both Bar Standards Board and Solicitors Regulation Authority rules. The referral is made free of charge."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I apply for criminal legal aid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For Magistrates' Court cases, your solicitor applies on your behalf using the Legal Aid Agency form. For Crown Court cases, the court itself processes the application after the case is sent up. You do not apply directly to the Legal Aid Agency yourself."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get legal aid for a Direct Access barrister?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not directly — Direct Access is private instruction. If your case is suitable for legal aid, Astons Law Chambers refers it to a partner solicitor firm. That firm may then instruct the barrister as counsel under the Advocates' Graduated Fee Scheme, with fees billed to the Legal Aid Agency, not to you."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Legal Aid",
+        "item": "https://astonslaw.com/legal-aid"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

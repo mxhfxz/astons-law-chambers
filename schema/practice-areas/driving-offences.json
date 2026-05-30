@@ -1,0 +1,208 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£175–£400 per hour + VAT. Written quote on the same call. Legal Aid can be discussed.",
+    "description": "Criminal defence for driving offences in London. Drink and drug driving, totting-up disqualification, exceptional-hardship arguments, and licence reinstatement. Magistrates' Court representation.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Driving Offence Defence Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Driving Offences Defence",
+            "description": "Driving offences range from fixed-penalty matters to charges tried in the Crown Court. They include drink and drug driving, speeding, careless and dangerous driving, and losing a licence through totting-up. Astons Law Chambers acts for defendants in driving and road traffic matters — fixed-penalty cases through to Crown Court trial.",
+            "serviceType": "Road Traffic Defence",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Driving Offence Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Drink and Drug Driving Defence",
+                    "description": "Defence for drink driving, drug driving, and failure to provide specimen charges."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Speeding, Careless and Dangerous Driving",
+                    "description": "Defence for speeding, careless and dangerous driving matters."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Totting-Up Disqualification and Exceptional Hardship",
+                    "description": "Exceptional-hardship arguments to avoid disqualification under the totting-up procedure."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Special Reasons and Licence Reinstatement",
+                    "description": "Special-reasons arguments and licence reinstatement applications."
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Driving offences enquiries",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Drink Driving Defence",
+      "Drug Driving Defence",
+      "Totting-Up Disqualification",
+      "Exceptional Hardship",
+      "Special Reasons",
+      "Dangerous Driving Defence",
+      "Licence Reinstatement"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I avoid a driving ban under the totting-up procedure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An exceptional-hardship argument is available in some cases. It is not automatic. The first call covers whether the argument is realistic on your facts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I was over the drink drive limit — is there any defence?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There can be, depending on procedure at the roadside and at the station. The disclosure is reviewed before any plea is advised."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will I lose my job if I lose my driving licence?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For many clients the answer drives the case. Hardship arguments are built around exactly this kind of personal consequence and the specific impact on livelihood."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Defence work",
+        "item": "https://astonslaw.com/practice-areas"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Driving Offences",
+        "item": "https://astonslaw.com/practice-areas/driving-offences"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

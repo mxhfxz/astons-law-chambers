@@ -1,0 +1,191 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£ - Fixed-fee structures available. Legal aid can be discussed. First call free.",
+    "description": "Criminal defence barrister practice in London. Magistrates' Court, Crown Court, and Court of Appeal representation. 24/7 police station support. Direct Access instructions accepted.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Criminal Defence Practice Areas",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Criminal Defence",
+            "url": "https://astonslaw.com/practice-areas/criminal-defence",
+            "description": "Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates' Court and, for serious cases, the Crown Court, to trial and any appeal that follows.",
+            "serviceType": "Criminal Defence"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Violent Crimes",
+            "url": "https://astonslaw.com/practice-areas/violent-crimes",
+            "description": "Violent crime covers allegations involving violence or the threat of it: assault, actual and grievous bodily harm, affray, and robbery. The less serious are heard in the Magistrates' Court. The most serious go to the Crown Court.",
+            "serviceType": "Criminal Defence"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Youth Crimes",
+            "url": "https://astonslaw.com/practice-areas/youth-crimes",
+            "description": "Youth crime is a criminal allegation against someone under 18. Most cases are heard in the Youth Court, which has its own procedure and considers the young person's welfare. The most serious go to the Crown Court.",
+            "serviceType": "Youth Court Defence"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Driving Offences",
+            "url": "https://astonslaw.com/practice-areas/driving-offences",
+            "description": "Driving offences range from fixed-penalty matters to charges tried in the Crown Court. They include drink and drug driving, speeding, careless and dangerous driving, and losing a licence through totting-up.",
+            "serviceType": "Road Traffic Defence"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Drug Offences",
+            "url": "https://astonslaw.com/practice-areas/drug-offences",
+            "description": "Drug offences cover the possession, supply, production, and importation of controlled drugs. Simple possession is usually dealt with in the Magistrates' Court. Supply, conspiracy, and importation are tried in the Crown Court.",
+            "serviceType": "Criminal Defence"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Appeals",
+            "url": "https://astonslaw.com/practice-areas/appeals",
+            "description": "A criminal appeal challenges a conviction or a sentence after the case has been decided. Appeals from the Magistrates' Court go to the Crown Court, and appeals from the Crown Court go to the Court of Appeal.",
+            "serviceType": "Criminal Appeals"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Inquests",
+            "url": "https://astonslaw.com/practice-areas/inquests",
+            "description": "An inquest is an inquiry in the Coroner's Court into how someone died. A family, or another interested person, can be represented at the pre-inquest review and at the inquest itself.",
+            "serviceType": "Coronial Law"
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Emergency Defence Team",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Criminal Defence",
+      "Violent Crimes",
+      "Youth Crimes",
+      "Driving Offences",
+      "Drug Offences",
+      "Criminal Appeals",
+      "Inquests"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Defence work",
+        "item": "https://astonslaw.com/practice-areas"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

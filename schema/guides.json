@@ -1,0 +1,98 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "description": "Plain-English legal guides from Astons Law Chambers on arrest, police custody, and police interviews — what is happening, what your rights are, and what to do next.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Emergency Defence Team",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Legal Guides — Astons Law Chambers",
+    "description": "Practical guidance on arrest, police custody, and police interviews written by Ghulam Humayun, criminal barrister at Astons Law Chambers.",
+    "url": "https://astonslaw.com/guides",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "What to do in the first 24 hours after being arrested in the UK",
+        "url": "https://astonslaw.com/guides/first-24-hours-after-arrest",
+        "description": "The custody clock, the rights the police must give, and the police interview — what matters in the next few hours after an arrest."
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Do I need a lawyer at a voluntary police interview under caution?",
+        "url": "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview",
+        "description": "What a voluntary interview under caution actually is, what the caution means, and why taking legal advice before you go is the right call."
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Guides",
+        "item": "https://astonslaw.com/guides"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

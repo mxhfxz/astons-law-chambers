@@ -1,0 +1,224 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£175–£400 per hour + VAT. First call free. Legal Aid can be discussed.",
+    "description": "Criminal defence representation in London. Police station support, Magistrates' Court hearings, Crown Court trial and sentence, and post-conviction work. 24/7 availability for police station support.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Criminal Defence Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Criminal Defence",
+            "description": "Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates' Court and, for serious cases, the Crown Court, to trial and any appeal that follows. Astons Law Chambers acts at every stage — from arrest to verdict.",
+            "serviceType": "Criminal Defence",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Criminal Defence Stages",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Police Station Representation",
+                    "description": "Police station representation at any hour."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Bail Applications and Contested Bail Hearings",
+                    "description": "Bail applications and contested bail hearings in the Magistrates' Court and Crown Court."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plea Advice, Disclosure Review, and Trial Preparation",
+                    "description": "Plea advice, full disclosure review, and conference and trial preparation."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Trial Advocacy and Sentencing Mitigation",
+                    "description": "Trial advocacy and sentencing mitigation in the Magistrates' Court and Crown Court."
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Criminal defence enquiries",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Criminal Defence",
+      "Police Station Representation",
+      "Bail Applications",
+      "Crown Court Trial",
+      "Magistrates' Court",
+      "Sentencing Mitigation",
+      "Disclosure Review"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I instruct a barrister directly for criminal defence?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Astons Law Chambers is authorised under the Bar Standards Board Public Access scheme to take instructions directly from members of the public. A solicitor is not required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I am at a police station now?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Call 07922 247 999. Attendance is arranged from the same call. Ask the custody sergeant not to begin the interview until representation is in place."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is legal aid available for criminal defence?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Astons Law Chambers is not a legal aid contract holder. Where legal aid applies to a case, it is arranged through a partner solicitor firm at no cost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will I have a criminal record?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A conviction creates a record on the Police National Computer. A caution does too. Out-of-court disposals appear on enhanced DBS checks for the periods set by the Rehabilitation of Offenders Act. Whether a matter results in a conviction, caution, out-of-court disposal, or no further action depends on the offence and how the police and CPS exercise their discretion at each stage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will I have to go to court?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Some matters are dealt with out of court — community resolution, fixed penalty notice, conditional caution — without any court appearance. Where the matter is charged, the first hearing is in the Magistrates' Court. Summary offences stay there. Indictable-only offences go to the Crown Court. Either-way offences are allocated depending on seriousness."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Defence work",
+        "item": "https://astonslaw.com/practice-areas"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Criminal Defence",
+        "item": "https://astonslaw.com/practice-areas/criminal-defence"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

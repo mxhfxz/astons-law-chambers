@@ -1,0 +1,89 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Do I need a lawyer at a voluntary police interview under caution?",
+    "description": "If the police have asked you to come in for a voluntary interview, the short answer is yes — you are entitled to free legal advice before you go, and you should take it.",
+    "url": "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview",
+    "@id": "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview",
+    "dateModified": "2026-05-01",
+    "author": {
+      "@type": "Person",
+      "name": "Ghulam Humayun",
+      "jobTitle": "Barrister",
+      "worksFor": {
+        "@type": "LegalService",
+        "name": "Astons Law Chambers",
+        "@id": "https://astonslaw.com"
+      },
+      "sameAs": [
+        "https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html"
+      ]
+    },
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers",
+      "@id": "https://astonslaw.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://astonslaw.com/logo.png"
+      }
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Voluntary Police Interview Under Caution"
+      },
+      {
+        "@type": "Thing",
+        "name": "Police Caution"
+      },
+      {
+        "@type": "Thing",
+        "name": "Right to Silence"
+      },
+      {
+        "@type": "Thing",
+        "name": "Legal Advice Before Police Interview"
+      }
+    ],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Guides",
+        "item": "https://astonslaw.com/guides"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Do I need a lawyer at a voluntary police interview?",
+        "item": "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

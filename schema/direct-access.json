@@ -1,0 +1,144 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£ - One fee, set out in writing before any work begins.",
+    "description": "Direct Access (Public Access) criminal defence barrister in London. Astons Law Chambers is authorised by the Bar Standards Board to accept instructions directly from members of the public — no solicitor required. First call free.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Direct Access Criminal Defence Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Direct Access Criminal Defence",
+            "description": "Members of the public can instruct a barrister directly without a solicitor under the Bar Standards Board Public Access scheme. Suitable for a single defined task — advice, drafting, or a hearing — or, where the practice is authorised to conduct litigation, the full case from police station to verdict.",
+            "serviceType": "Direct Access Legal Representation",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "End-to-End Case Management (Litigation Authorisation)",
+            "description": "Astons Law Chambers is authorised to conduct litigation, so the practice can run a criminal case from instruction through to conclusion — issuing proceedings, filing documents, handling disclosure, and representing at every hearing — without a separate solicitor.",
+            "serviceType": "Criminal Litigation",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            }
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Direct Access enquiries",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Direct Access (Public Access) Scheme",
+      "Bar Standards Board Public Access Rules",
+      "Litigation Authorisation",
+      "Criminal Defence without a Solicitor"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Direct Access",
+        "item": "https://astonslaw.com/direct-access"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

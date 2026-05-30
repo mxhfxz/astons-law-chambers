@@ -1,114 +1,156 @@
-# Session Handoff — 2026-05-26 (consent banner + GA4 zero-data fix)
+# Session Handoff — 2026-05-30 (Schema audit + fixes)
 
 ## Production state
 
-**`main`** → `53e7615` (live on astonslaw.com via Vercel — unchanged this session)
-**`feat/consent-banner`** → `02c1e23` (pushed, Vercel preview building)
-
-Build: clean (`npm run build` passed, zero errors, all static pages).
+**`main`** is live on astonslaw.com. **Nothing from the last two sessions has been pushed to Vercel.** All work below is local-only, uncommitted.
 
 ---
 
-## What happened this session
+## What happened this session (2026-05-30)
 
-### Root cause investigation — GA4 zero data (2 days)
+### 1. Discovered all schema work is uncommitted
 
-Diagnosed via systematic-debugging. Root cause confirmed in one pass:
+The entire `schema/` directory (18 JSON-LD files, created last session) is untracked — never committed, never pushed to Vercel. Additionally, `app/layout.tsx` has 294 lines of uncommitted changes, plus 10 `content/sections/*.html` files and 4 `app/*.tsx` page files modified but not committed.
 
-- Commit `082e0ab` (2026-05-24) removed CookieYes from `app/layout.tsx`
-- The consent default (`analytics_storage: 'denied'`, `wait_for_update: 500`) was left in place — correct, intentional
-- But nothing now calls `gtag('consent', 'update', ...)` to upgrade consent
-- Every session since 2026-05-24 has fired with `analytics_storage: 'denied'` → GA4 records nothing
+### 2. Fixed www → non-www across all schema files
 
-### Fix shipped to `feat/consent-banner`
+All 18 schema JSON files used `https://www.astonslaw.com` in `@id`, `url`, and page URL fields. The canonical URL is `https://astonslaw.com` (non-www confirmed in `lib/site.ts` and `metadataBase` in `app/layout.tsx`). `www.` was replaced with non-www in 120 instances across all 18 files.
 
-Three files changed:
+### 3. Full schema audit against verified facts
 
-**`components/site/ConsentBanner.tsx`** (new)
-- `'use client'` React component
-- On mount: checks `localStorage.getItem('alc_consent_v1')`. If no key → shows banner. If key exists → returns null (no flicker).
-- Accept → `gtag('consent', 'update', { analytics_storage: 'granted', ... })` + stores key
-- Decline → stores key, consent stays denied, banner hides
+Conducted a thorough cross-reference of all schema files against `verified_facts.md`, `project_cro_decisions_2026_05_21.md`, and the live site.
 
-**`app/layout.tsx`** (modified)
-- Imports and renders `<ConsentBanner />` (after `<SiteBehaviour />`)
-- Adds a new `beforeInteractive` script (`consent-restore`) that reads localStorage and fires the consent update within the 500ms `wait_for_update` window — handles returning visitors before React hydrates
+**Issues found and resolved this session:**
+- SRA accreditations removed from `schema/authorised-to-conduct-litigation.json` Person description. Was: "...with Criminal Litigation and Higher Courts Advocacy (Criminal) accreditations from the Solicitors Regulation Authority." Removed — not in verified facts.
 
-**`app/preview-styles.css`** (modified)
-- `#consentBanner`: `position: fixed; top: 108px; z-index: 35` (mobile) — below header (z-30), above sticky bar (z-40)
-- Desktop: `bottom: 1.5rem; left: 1.5rem; width: 320px` card
-- Animations: `cbSlideIn` (mobile) / `cbFadeUp` (desktop), both with `prefers-reduced-motion` guards
-- All styles hand-authored (no Tailwind JIT dependency)
+**User confirmed this session:**
+- Bar number 69956 on Person in `authorised-to-conduct-litigation.json` is accurate — kept.
+- LinkedIn `https://www.linkedin.com/company/astons-law-chambers/` in all `sameAs` arrays is accurate — kept.
+- Legal aid via partner firms framing in `legal-aid.json` is correct — kept.
+
+**Issues NOT yet fixed (carry forward):**
+- Logo in all schema files points to Webflow CDN: `https://cdn.prod.website-files.com/69323f197e64fbf8120dd856/69b7f5e57c3c0e3ce301db6d_logo.avif`. Risk: external CDN, could break if Webflow account changes. Should be migrated to an `astonslaw.com`-hosted asset before push. Needs client/user decision on logo file location.
+- Article `dateModified: "2026-05-01"` in both guide schemas (`guides/first-24-hours-after-arrest.json`, `guides/voluntary-interview.json`) is stale. Should be updated to reflect actual publish/review date.
+- `FAQPage` type on 11 files: won't generate rich results (restricted Aug 2023 to gov/healthcare only). This is acceptable — provides AI citation signals, no harm. No action needed unless user disagrees.
 
 ---
 
-## Next session start
+## Architecture of the schema/ directory
 
-### 1. Check Vercel preview
-Preview URL: `https://alc-staging-git-feat-consent-banner-dsgnly.vercel.app`
+The `schema/` directory contains **standalone JSON-LD reference files** — one per page. These are NOT yet wired into the Next.js app. They were generated as a deliverable for review/audit before integration.
 
-Verify on mobile (iPhone viewport):
-- Banner appears below the police banner + nav (below 108px from top)
-- Red call CTA in hero is NOT obscured (it's ~200px below header — below the banner strip)
-- Sticky bottom bar is fully clear — banner is at top, bar is at bottom
+**How integration works (per the previous handoff):**
+- Global schema (LegalService, Person, WebSite) lives in `app/layout.tsx` — applies to every page.
+- Page-specific schema goes in each `app/[page]/page.tsx` as a `<script type="application/ld+json">` tag.
+- Practice area pages use a shared function in `lib/render-practice-area.ts` → `practiceAreaJsonLd(area)`.
+- Guide pages use `lib/render-guide.ts` → `guideJsonLd()` / `guidesHubJsonLd()`.
 
-Verify on desktop:
-- Bottom-left card appears after 700ms
-- Does not conflict with desktop FABs (bottom-right)
+The `schema/` JSON files are the source-of-truth for what each page's schema should look like. Integration = copy the relevant objects from these files into the correct page files.
 
-### 2. Apply tweaks
-User has tweaks. Edit:
-- **CSS/position/size** → `app/preview-styles.css`, search for `/* ── Cookie consent banner`
-- **JSX/copy** → `components/site/ConsentBanner.tsx`
-  - COPY IS READ-ONLY per HARD RULE — only change copy if user provides exact new text
-- **Animation timing** → `cbSlideIn` / `cbFadeUp` keyframes + `700ms` delay value
-
-### 3. Verify GA data resumes
-After merging, on the live site:
-1. Open GA4 → Realtime report
-2. Visit site in a fresh browser session
-3. Accept cookies
-4. Confirm a session appears in Realtime
-
-Or use DebugView: visit `https://astonslaw.com/?gtm_debug=true` → accept → watch events in GA4 DebugView.
-
-### 4. Merge to main
-Use `finishing-a-development-branch` skill. Branch has one clean commit (`02c1e23`).
-
-Before merging, check unstaged changes on the branch:
-- `CLAUDE.md` — 14 lines added (gstack routing rules — review before committing)
-- `package.json` + `package-lock.json` — 1 package drift (review — likely unrelated)
-
-Do NOT commit these to the consent-banner branch unless intentional.
+**Key rule from previous session:** LegalService is already in `app/layout.tsx` — do NOT repeat it in page files. Only add page-specific objects (BreadcrumbList, Service, FAQPage, Article, etc.).
 
 ---
 
-## Z-index stack (for reference when touching positioning)
+## Full uncommitted file inventory
 
-| Element | z-index | Position |
-|---|---|---|
-| `#siteHeader` | 30 (50 when menu-open) | sticky top-0 |
-| `#consentBanner` | **35** | fixed top: 108px mobile / bottom-left desktop |
-| `#stickyBar` | 40 | fixed bottom: 0 (mobile only) |
-| `#desktopFab` | 40 | fixed bottom-right (desktop only) |
+```
+M  app/about/page.tsx                        — schema additions (Person + Service + BreadcrumbList)
+M  app/contact/page.tsx                      — schema additions (ContactPage + BreadcrumbList)
+M  app/fees/page.tsx                         — schema in progress (see previous handoff)
+M  app/layout.tsx                            — global LegalService schema heavily expanded (+294 lines)
+M  content/chrome/sticky-bar.html            — content update
+M  content/sections/about.html              — content update
+M  content/sections/direct-access.html      — content update
+M  content/sections/fees.html               — content update
+M  content/sections/guide-first-24-hours.html      — content update
+M  content/sections/guide-voluntary-interview.html  — content update
+M  content/sections/guides-index.html       — content update
+M  content/sections/home.html               — content update
+M  content/sections/pa-detail.html          — content update
+M  content/sections/police-station.html     — content update
+M  content/sections/practice-areas.html     — content update
+?? .claude/settings.json                    — Claude Code config (do NOT commit)
+?? schema/                                  — 18 JSON-LD files (all new, all audited)
+```
 
-## Header height reference (for `top: 108px`)
+---
 
-| Component | Mobile | Desktop |
-|---|---|---|
-| Police banner | `h-11` = 44px | `h-12` = 48px |
-| Nav bar | `h-16` = 64px | `h-[72px]` = 72px |
-| **Total** | **108px** | **120px** |
+## Before pushing — checklist
 
-Desktop banner is a bottom-left card so the 120px desktop total is irrelevant — noted here in case the header is ever resized.
+1. **Resolve logo CDN issue** — decide where the logo lives (`/public/logo.avif`?) and update all 18 schema files.
+2. **Update article `dateModified`** in the two guide schemas.
+3. **Run build + type-check** — `npm run build && npm run type-check`.
+4. **Real-browser check** on staging before `main`.
+5. Do NOT commit `.claude/settings.json`.
 
-## Consent storage key
+---
 
-`localStorage key: 'alc_consent_v1'`
-`values: 'granted' | 'denied'`
+## Schema files completed and audited
 
-To test the banner again (simulate new visitor): open DevTools → Application → Local Storage → delete `alc_consent_v1` → reload.
+| File | Types | Status |
+|------|-------|--------|
+| `schema/about.json` | LegalService, Person, BreadcrumbList, WebSite | ✅ audited |
+| `schema/authorised-to-conduct-litigation.json` | LegalService, Person, FAQPage, BreadcrumbList, WebSite | ✅ audited, SRA removed |
+| `schema/contact.json` | LegalService, ContactPage, WebSite | ✅ audited |
+| `schema/direct-access.json` | LegalService, BreadcrumbList, WebSite | ✅ audited |
+| `schema/fees.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/guides.json` | LegalService, ItemList, BreadcrumbList, WebSite | ✅ audited |
+| `schema/guides/first-24-hours-after-arrest.json` | Article, BreadcrumbList, WebSite | ✅ audited |
+| `schema/guides/voluntary-interview.json` | Article, BreadcrumbList, WebSite | ✅ audited |
+| `schema/legal-aid.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/police-station-representation.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas.json` | LegalService, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/appeals.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/criminal-defence.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/driving-offences.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/drug-offences.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/inquests.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/violent-crimes.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
+| `schema/practice-areas/youth-crimes.json` | LegalService, FAQPage, BreadcrumbList, WebSite | ✅ audited |
 
-## GA4 measurement ID
+---
 
-`G-8TDVMH13D7` — in `app/layout.tsx:179`
+## Verified facts updated this session
+
+- **Bar number 69956** — confirmed accurate by user 2026-05-30.
+- **LinkedIn `https://www.linkedin.com/company/astons-law-chambers/`** — confirmed accurate by user 2026-05-30.
+- **BSB Register URL `https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html`** — verified 2026-05-21 against BSB Register. Confirmed facts from register: Date of Call March 2018, Inner Temple, Practising, Full Rights of Audience, Public Access Yes, Conduct of Litigation Yes.
+
+---
+
+## Next session starting point
+
+1. Read this file.
+2. Decision needed: where to host the logo asset so schema `image` fields point to `astonslaw.com` rather than Webflow CDN.
+3. Once logo decision made and article dates updated: run build + type-check, then commit everything (except `.claude/settings.json`) as a single schema commit to a branch.
+4. Push branch → get Vercel preview → verify in Google Rich Results Test.
+5. If clean, merge to `main`.
+
+---
+
+## Previous session notes (2026-05-27)
+
+### Construction rules for schema (user's prompt — apply to every page)
+
+1. JSON array `[...]`, multiple `@context` objects, no `@graph`.
+2. LegalService on every page — already in `layout.tsx`, do not repeat.
+3. hasOfferCatalog depth: nest sub-catalogs for multi-stage services. Add `review` on Offer nodes (role-descriptor author). `termsOfService` on Legal Aid Offer. `areaServed` on geographic Offers.
+4. Person on every page — in `layout.tsx`. Expanded on About with `knowsAbout`. `sameAs`: BSB Register URL only.
+5. WebSite on every page — in `layout.tsx`. No `@id` on WebSite.
+6. Page-specific: Practice area → top-level Service with nested OfferCatalog. FAQ → FAQPage (entity signal, no rich results). About → expanded Person with knowsAbout. Fees → Offer with priceSpecification. Article/Guide → Article with datePublished etc.
+7. Never: dual-type LegalService+LocalBusiness, @graph, flattened service strings, "Verified Client" author, invented facts.
+
+### Role-neutral language rule (set 2026-05-27)
+
+Schema `description` fields only:
+- ✅ "criminal defence lawyers" / "criminal defence law" / "criminal legal defence"
+- ❌ "barrister" / "solicitor" in description fields
+- `jobTitle: "Barrister"` on Person = fine (entity data)
+
+### Skills to invoke at session start
+
+```
+seo-schema                  primary for schema work
+project-mgmt                read this file, organise work
+verification-before-completion  before claiming any page done
+```

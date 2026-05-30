@@ -1,0 +1,199 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£ - One fee, set out in writing. First call free.",
+    "description": "Astons Law Chambers is a barrister practice authorised by the Bar Standards Board to conduct litigation. One barrister can run a criminal case end-to-end — issue proceedings, correspond with the court, handle disclosure, and represent at every hearing — without a separate solicitor.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Authorised to Conduct Litigation",
+        "credentialCategory": "Litigation Extension",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Bar Standards Board",
+          "url": "https://www.barstandardsboard.org.uk"
+        }
+      }
+    ],
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Litigation enquiries",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Conduct of Litigation",
+      "Litigation Extension",
+      "Legal Services Act 2007",
+      "Reserved Legal Activities",
+      "Criminal Case Management"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ghulam Humayun",
+    "jobTitle": "Barrister",
+    "description": "Barrister authorised to conduct litigation. Former solicitor, admitted 2007. Bar number 69956.",
+    "identifier": {
+      "@type": "PropertyValue",
+      "name": "Bar Number",
+      "value": "69956"
+    },
+    "worksFor": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers",
+      "@id": "https://astonslaw.com"
+    },
+    "sameAs": [
+      "https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is \"authorised to conduct litigation\" the same as being a solicitor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. A barrister with the litigation extension can carry out litigation tasks a solicitor would normally do, but is regulated by the Bar Standards Board, not the Solicitors Regulation Authority. The qualification routes and ongoing rules are different."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I check the litigation authorisation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Search the Bar Standards Board Barristers' Register for the practitioner. A barrister authorised to conduct litigation has that fact listed on their Register entry."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it cost more to instruct one practice end-to-end?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Usually not. Because one professional carries the case, there is no separate solicitor fee for the same work. The fee structure is set out in writing before instruction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a barrister authorised to conduct litigation handle a Crown Court trial alone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, where the case suits a single counsel. Larger trials and cases with several co-defendants are reviewed at first instruction to confirm whether additional representation is appropriate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who is authorised to conduct litigation in the UK?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Solicitors, by default. Barristers who hold the Bar Standards Board litigation extension. Chartered Legal Executives with the CILEx litigation right. Self-represented parties acting as litigants-in-person for their own cases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a barrister authorised to conduct litigation send a letter before action?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The litigation extension covers correspondence on behalf of the client, including formal pre-action letters, applications to the court, and communications with the prosecution."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Authorised to Conduct Litigation",
+        "item": "https://astonslaw.com/authorised-to-conduct-litigation"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

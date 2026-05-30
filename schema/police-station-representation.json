@@ -1,0 +1,188 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£ - Single written fee set out before attendance. Legal Aid available at police station.",
+    "description": "24-hour police station representation across London and UK-wide. Calls from custody are answered direct and arrangements with the custody sergeant are made on the same call. Attendance at any hour — day or night.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London and UK-wide",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Police Station Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "24/7 Police Station Attendance",
+            "description": "A criminal defence barrister attends the station and represents the suspect through the interview. Includes disclosure of the allegation, private consultation, representation during the interview, no-comment advice where appropriate, bail representations, and post-interview advice.",
+            "serviceType": "Police Station Representation",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "availableChannel": {
+              "@type": "ServiceChannel",
+              "servicePhone": {
+                "@type": "ContactPoint",
+                "telephone": "+44-7922-247999",
+                "contactType": "Police station emergency",
+                "availableLanguage": "English"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Police station emergency",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Police Station Representation",
+      "Custody Rights",
+      "PACE Code C",
+      "No-Comment Interview",
+      "Bail Representations",
+      "Legal Aid at Police Station"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How quickly can someone attend the police station?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Attendance is arranged from the same call. Travel time to the station depends on its location, but the request to delay the interview is made immediately on the call to the custody sergeant."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is someone being held at a police station entitled to a lawyer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Anyone held at a police station is entitled to free legal advice and to have a representative present at interview. They do not have to accept the duty solicitor — they can choose their own representative."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does private police station representation cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A single written fee is set out in a client-care letter before any attendance. Indicative fee ranges are on the fees page at astonslaw.com/fees."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is legal aid available at the police station?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — and it is free at the police station, regardless of income. Private instruction is the choice clients make when they want a specific representative rather than the duty solicitor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the same barrister carry the case after the police station?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, where the case suits a single counsel. Astons Law Chambers is authorised to conduct litigation, so the practice can run the file end-to-end — from police station through to verdict — without a separate solicitor."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Police station representation",
+        "item": "https://astonslaw.com/police-station-representation"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

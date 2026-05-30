@@ -1,0 +1,89 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What to do in the first 24 hours after being arrested in the UK",
+    "description": "If someone you love has just been arrested, here is what matters in the next few hours — the custody clock, the rights the police must give, and the police interview, which is the decision that matters most.",
+    "url": "https://astonslaw.com/guides/first-24-hours-after-arrest",
+    "@id": "https://astonslaw.com/guides/first-24-hours-after-arrest",
+    "dateModified": "2026-05-01",
+    "author": {
+      "@type": "Person",
+      "name": "Ghulam Humayun",
+      "jobTitle": "Barrister",
+      "worksFor": {
+        "@type": "LegalService",
+        "name": "Astons Law Chambers",
+        "@id": "https://astonslaw.com"
+      },
+      "sameAs": [
+        "https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html"
+      ]
+    },
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers",
+      "@id": "https://astonslaw.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://astonslaw.com/logo.png"
+      }
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Police Custody Rights"
+      },
+      {
+        "@type": "Thing",
+        "name": "Custody Clock"
+      },
+      {
+        "@type": "Thing",
+        "name": "Police Interview"
+      },
+      {
+        "@type": "Thing",
+        "name": "Legal Advice at Police Station"
+      }
+    ],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://astonslaw.com/guides/first-24-hours-after-arrest"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Guides",
+        "item": "https://astonslaw.com/guides"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "First 24 hours after an arrest",
+        "item": "https://astonslaw.com/guides/first-24-hours-after-arrest"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]

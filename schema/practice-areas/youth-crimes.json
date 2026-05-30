@@ -1,0 +1,198 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Astons Law Chambers",
+    "image": "https://astonslaw.com/logo.png",
+    "@id": "https://astonslaw.com",
+    "url": "https://astonslaw.com",
+    "telephone": "+44-7922-247999",
+    "email": "info@astonslaw.com",
+    "priceRange": "£175–£400 per hour + VAT. First call free. Legal Aid can be discussed.",
+    "description": "Criminal defence for clients under 18 in the Youth Court and Crown Court in London. Welfare considerations, Youth Court procedure, and police station support for young people and their families.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "85 Great Portland Street",
+      "addressLocality": "London",
+      "addressRegion": "Greater London",
+      "postalCode": "W1W 7LT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.519053946534214",
+      "longitude": "-0.14223317198718982"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Greater London",
+        "addressCountry": "GB"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Youth Crime Defence Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Youth Crimes Defence",
+            "description": "Youth crime is a criminal allegation against someone under 18. Most cases are heard in the Youth Court, which has its own procedure and considers the young person's welfare. Astons Law Chambers acts for clients under 18 in the Youth Court and, where allocated, the Crown Court — with the specific procedures and welfare considerations the youth jurisdiction requires.",
+            "serviceType": "Youth Court Defence",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Astons Law Chambers"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Youth Court Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Youth Court Trials and Sentencing",
+                    "description": "Youth Court trials and sentencing for defendants under 18."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Crown Court Representation for Youth Defendants",
+                    "description": "Crown Court representation where the case is allocated up from the Youth Court."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Youth Orders and Disposal Advice",
+                    "description": "Advice on referral orders, youth rehabilitation orders, and detention training orders."
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+44-7922-247999",
+        "contactType": "Youth defence and police station support",
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/astons-law-chambers/",
+      "https://www.barstandardsboard.org.uk"
+    ],
+    "knowsAbout": [
+      "Youth Court",
+      "Youth Crime Defence",
+      "Youth Rehabilitation Orders",
+      "Detention Training Orders",
+      "Youth Offending Team"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "My child has been arrested — what do I do first?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Call 07922 247 999. Police station support can be arranged from the same call. The young person is entitled to have a parent or guardian present at interview."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my child's case stay in the Youth Court?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most youth matters remain in the Youth Court. Some are sent to the Crown Court depending on the allegation and the client's age. The first call covers which is likely."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a parent instruct on the young person's behalf?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A parent or guardian is involved throughout, but the young person remains the client. The first conference is taken with both on the line."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://astonslaw.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Defence work",
+        "item": "https://astonslaw.com/practice-areas"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Youth Crimes",
+        "item": "https://astonslaw.com/practice-areas/youth-crimes"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://astonslaw.com",
+    "name": "Astons Law Chambers",
+    "publisher": {
+      "@type": "LegalService",
+      "name": "Astons Law Chambers"
+    }
+  }
+]
