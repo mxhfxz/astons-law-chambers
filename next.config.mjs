@@ -72,6 +72,10 @@ const nextConfig = {
       { source: '/drug-offences', destination: '/practice-areas/drug-offences', permanent: true },
       { source: '/fraud-allegations', destination: '/practice-areas/criminal-defence', permanent: true },
       { source: '/restraint-confiscation-orders', destination: '/practice-areas', permanent: true },
+
+      // --- legacy /uk-immigration/* silo (previous site, scope removed) ---
+      { source: '/uk-immigration/tier-1-investor', destination: '/practice-areas', permanent: true },
+      { source: '/uk-immigration/:path*', destination: '/practice-areas', permanent: true },
     ]
   },
 }
