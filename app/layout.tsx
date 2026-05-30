@@ -51,7 +51,7 @@ const jsonLd = [
     image: 'https://astonslaw.com/logo.png',
     '@id': 'https://astonslaw.com',
     url: 'https://astonslaw.com',
-    telephone: '+44-7922-247999',
+    telephone: '+447922247999',
     email: 'info@astonslaw.com',
     priceRange: '£ - Fixed-fee structures available',
     description: 'Criminal Defence When It Matters Most. Expert, relentless criminal defence. We challenge the evidence, protect your rights, and fight for your future. Emergency 24/7 criminal defence lawyers in London specialising in serious crime, motoring offences, fraud, and youth defence.',
@@ -65,8 +65,8 @@ const jsonLd = [
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: '51.519053946534214',
-      longitude: '-0.14223317198718982',
+      latitude: '51.51858477517324',
+      longitude: '-0.14254003068235244',
     },
     openingHoursSpecification: [
       {
@@ -240,27 +240,21 @@ const jsonLd = [
                 },
               ],
             },
-            review: {
-              '@type': 'Review',
-              reviewRating: { '@type': 'Rating', ratingValue: '5' },
-              author: { '@type': 'Person', name: 'Bereaved Family Client' },
-              reviewBody: 'The team at Astons guided us through the most difficult time with professionalism and genuine compassion. They fought for answers and ensured we understood every step.',
-            },
           },
         },
       ],
     },
-    review: {
-      '@type': 'Review',
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5', worstRating: '1' },
-      author: { '@type': 'Person', name: 'Verified Client' },
-      reviewBody: 'An excellent firm to work with! From start to finish, everything was clearly explained and handled with great professionalism.',
-      itemReviewed: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '41',
+      bestRating: '5',
+      worstRating: '1',
     },
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+44-7922-247999',
+        telephone: '+447922247999',
         contactType: 'Emergency Defence Team',
         availableLanguage: 'English',
         hoursAvailable: {
@@ -272,7 +266,7 @@ const jsonLd = [
       },
       {
         '@type': 'ContactPoint',
-        telephone: '+44-7922-247999',
+        telephone: '+447922247999',
         contactType: 'General enquiries',
         availableLanguage: 'English',
         hoursAvailable: {
