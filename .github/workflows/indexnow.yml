@@ -1,0 +1,45 @@
+name: IndexNow ping
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify IndexNow
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "astonslaw.com",
+              "key": "371c281e8c5d2e3882e2b0d3753fbf385c243140faec5b9a474097a0d11dee09",
+              "urlList": [
+                "https://astonslaw.com/",
+                "https://astonslaw.com/about",
+                "https://astonslaw.com/contact",
+                "https://astonslaw.com/fees",
+                "https://astonslaw.com/legal-aid",
+                "https://astonslaw.com/direct-access",
+                "https://astonslaw.com/police-station-representation",
+                "https://astonslaw.com/practice-areas",
+                "https://astonslaw.com/practice-areas/criminal-defence",
+                "https://astonslaw.com/practice-areas/violent-crimes",
+                "https://astonslaw.com/practice-areas/youth-crimes",
+                "https://astonslaw.com/practice-areas/driving-offences",
+                "https://astonslaw.com/practice-areas/drug-offences",
+                "https://astonslaw.com/practice-areas/appeals",
+                "https://astonslaw.com/practice-areas/inquests",
+                "https://astonslaw.com/guides",
+                "https://astonslaw.com/guides/first-24-hours-after-arrest",
+                "https://astonslaw.com/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview",
+                "https://astonslaw.com/complaints",
+                "https://astonslaw.com/privacy-policy",
+                "https://astonslaw.com/terms-of-engagement",
+                "https://astonslaw.com/timescales",
+                "https://astonslaw.com/authorised-to-conduct-litigation",
+                "https://astonslaw.com/insights"
+              ]
+            }'
