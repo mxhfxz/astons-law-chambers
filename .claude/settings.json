@@ -32,7 +32,8 @@
       "WebFetch(domain:claudeskills.info)",
       "WebFetch(domain:mcpmarket.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:www.firecrawl.dev)"
+      "WebFetch(domain:www.firecrawl.dev)",
+      "Bash(npm i *)"
     ],
     "additionalDirectories": [
       "/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema"

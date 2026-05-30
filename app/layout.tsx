@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 import {
   IconSprite,
   SiteHeader,
@@ -370,6 +371,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DesktopFab />
         <QuickExit />
         <SiteBehaviour />
+        <Analytics />
 
         {/* Google Consent Mode v2 default — storage denied until CMP fires
             an update. Fires beforeInteractive so nothing can store before
