@@ -1,0 +1,66 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ls *)",
+      "Bash(/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/.agents/skills/gstack/node_modules/.bin/playwright --version)",
+      "Bash(/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/.agents/skills/gstack/node_modules/.bin/playwright install *)",
+      "Bash(curl -sI \"https://www.astonslaw.com/\")",
+      "Bash(curl -sI \"http://www.astonslaw.com/\")",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers branch -a)",
+      "Bash(mkdir -p /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema/practice-areas /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema/guides && echo \"dirs created\")",
+      "Bash(xargs -I{} sh -c 'echo \"=== {} ===\" && cat \"{}\"')",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers status --short)",
+      "Bash(xargs sed -i '' 's|https://cdn.prod.website-files.com/69323f197e64fbf8120dd856/69b7f5e57c3c0e3ce301db6d_logo.avif|https://astonslaw.com/logo.png|g')",
+      "Bash(python3 -c \"from PIL import Image; img = Image.open\\('/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/Astons_Logo_Icon.png'\\); print\\(img.size\\)\")",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/Astons_Logo_Icon.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/apple-touch-icon.png /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/icon-192.png /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/icon-512.png)",
+      "Bash(cp /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/Astons_Logo_Icon.png /tmp/icon-source.png)",
+      "Bash(sips -z 180 180 /tmp/icon-source.png --out /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/apple-touch-icon.png)",
+      "Bash(sips -z 192 192 /tmp/icon-source.png --out /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/icon-192.png)",
+      "Bash(sips -z 512 512 /tmp/icon-source.png --out /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/icon-512.png)",
+      "Bash(convert --version)",
+      "Bash(python3 -c \"from PIL import Image; img = Image.open\\('/tmp/icon-source.png'\\); sizes = [\\(16,16\\),\\(32,32\\),\\(48,48\\)]; imgs = [img.resize\\(s, Image.LANCZOS\\) for s in sizes]; imgs[0].save\\('/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/favicon.ico', format='ICO', sizes=sizes\\); print\\('favicon.ico written'\\)\")",
+      "Bash(python3 -c \"from PIL import Image; img = Image.open\\('/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/public/favicon.ico'\\); print\\('sizes:', img.info.get\\('sizes', img.size\\)\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers fetch origin)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers log origin/main..HEAD --oneline)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers add .project/SESSION-HANDOFF.md app/about/page.tsx app/contact/page.tsx app/fees/page.tsx app/layout.tsx content/chrome/sticky-bar.html content/sections/about.html content/sections/direct-access.html content/sections/fees.html content/sections/guide-first-24-hours.html content/sections/guide-voluntary-interview.html content/sections/guides-index.html content/sections/home.html content/sections/pa-detail.html content/sections/police-station.html content/sections/practice-areas.html public/apple-touch-icon.png public/favicon.ico public/icon-192.png public/icon-512.png public/Astons_Logo_Icon.png public/logo.png schema/)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers diff --cached --stat)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers commit -m ' *)",
+      "Bash(git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers push origin main)",
+      "Bash(rm -rf \\\\ *)",
+      "WebFetch(domain:claudeskills.info)",
+      "WebFetch(domain:mcpmarket.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:www.firecrawl.dev)"
+    ],
+    "additionalDirectories": [
+      "/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '{\"systemMessage\":\"VERIFY BEFORE TRUSTING: Run git diff to check what actually changed. Copy has been altered without permission on this project before. Do not accept claimed work without checking the diff.\"}'",
+            "statusMessage": "Accountability check..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' 2>/dev/null | { read -r f; [ -n \"$f\" ] && git -C /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers diff -- \"$f\" 2>/dev/null | head -80 | jq -Rs '{hookSpecificOutput:{hookEventName:\"PostToolUse\",additionalContext:(\"DIFF FOR REVIEW — \"+$f+\": \"+.)}}'  2>/dev/null; } || true",
+            "statusMessage": "Checking diff..."
+          }
+        ]
+      }
+    ]
+  }
+}
