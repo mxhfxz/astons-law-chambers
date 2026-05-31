@@ -124,11 +124,6 @@ function buildDetailHtml(
     .join('')
   html = html.replace('data-bind="related"></ul>', `data-bind="related">${related}</ul>`)
 
-  if (area.policeStation) {
-    html = html.replace('data-bind="policeBanner" hidden ', 'data-bind="policeBanner" ')
-    setVal('policeBannerTitle', area.policeStation.title)
-  }
-
   return html
 }
 

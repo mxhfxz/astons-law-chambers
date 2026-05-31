@@ -1,3 +1,125 @@
+# Session Handoff — 2026-05-31 (Sub-page content research COMPLETE)
+
+## Next session starting point — SUB-PAGE IMPLEMENTATION
+
+**Content research is done.** All 12 pages are written and audited in `.project/sub-pages/findings.md`.
+Architecture and decisions are in `.project/sub-pages/plan.md`.
+
+### What to do next session
+
+1. Read `.project/sub-pages/plan.md` (decisions + implementation checklist).
+2. Create `lib/sub-practice-areas.ts` — new file with `SubPracticeArea` interface extending `PracticeArea` with `parentSlug`, plus the 10 sub-page objects from findings.md.
+3. Append `fraud` and `sexual-offences` objects from findings.md to `lib/practice-areas.ts`.
+4. Create `app/practice-areas/[category]/[slug]/page.tsx` — renders sub-pages using `pa-detail.html` template.
+5. Add breadcrumb logic (Home → Defence work → [Parent PA title] → [Sub-page title]).
+6. Wire sub-page links from parent PA pages.
+7. Schema: BreadcrumbList + Service + FAQPage per sub-page (follow existing `schema/` pattern).
+8. Update sitemap.
+9. Build + type-check → staging branch → Vercel preview.
+
+### Open decisions before going live
+- **Sexual offences page**: review voice against client before shipping. See voice note in findings.md.
+- **Fraud `related` links**: `drug-offences` is a loose adjacency — review after the page is live.
+- **`metaDescription` for drug-supply**: use the 135-char version noted in findings.md (not the 162-char one).
+
+### Skills to invoke
+```
+project-mgmt                read plan.md, organise work
+verification-before-completion  before claiming any page done
+```
+
+---
+
+## What happened this session (2026-05-31)
+
+### Sub-page content research — all 12 pages completed and audited
+
+**URL structure decided:** Nested — `/practice-areas/[parentSlug]/[subSlug]`
+
+**Files created:**
+- `.project/sub-pages/plan.md` — architecture decisions + implementation checklist
+- `.project/sub-pages/findings.md` — TypeScript-ready content objects for all 12 pages
+
+**Pages researched:**
+
+| # | Page | URL |
+|---|------|-----|
+| 1 | Drink Driving | /practice-areas/driving-offences/drink-driving |
+| 2 | Drug Driving | /practice-areas/driving-offences/drug-driving |
+| 3 | Totting Up | /practice-areas/driving-offences/totting-up |
+| 4 | GBH Defence | /practice-areas/violent-crimes/gbh |
+| 5 | Knife Crime | /practice-areas/violent-crimes/knife-crime |
+| 6 | Possession with Intent | /practice-areas/drug-offences/possession-with-intent |
+| 7 | Drug Supply | /practice-areas/drug-offences/drug-supply |
+| 8 | County Lines | /practice-areas/drug-offences/county-lines |
+| 9 | Domestic Abuse | /practice-areas/violent-crimes/domestic-abuse |
+| 10 | Robbery | /practice-areas/violent-crimes/robbery |
+| 11 | Fraud (new top-level PA) | /practice-areas/fraud |
+| 12 | Sexual Offences (new top-level PA) | /practice-areas/sexual-offences |
+
+**Content rules applied:**
+- No statutory section numbers
+- No specific sentencing figures — Sentencing Council guidelines referenced by existence only
+- 🚩 Operational claims flagged in findings.md
+- Definitions: 40–60 words, answer-first, AEO-citable
+- Page titles and metaTitles: "Criminal Defence" variants, never "barrister" in frontend copy
+- FAQs: real defendant search questions with declarative answers
+- Audited against `avoid-ai-writing` skill — 8 AI-isms removed (hollow intensifiers, aphoristic close, vague "shapes what follows")
+- Checked against `seo-2026` and `modern-service-business-cro` principles
+
+---
+
+## Previous session notes (ongoing) — SUB-PAGE CONTENT BRIEF (original)
+
+**Task:** Research and define content for specific-offence sub-pages. One page per offence.
+
+**What the research produces per page:**
+- The right wording for the definition (40-60 words, answer-first, AEO-citeable)
+- The right wording for the situation paragraph (stakes/urgency — why someone calls)
+- The `actions` bullet list (what Astons handles within this specific offence)
+- The `faqs` (3-5 questions real defendants search, with declarative answers)
+- The `contextTitle` / `contextEyebrow` for the sidebar card (the specific legal consequence)
+- Confirmed page title / H1 / meta title using "Criminal Defence" variants — never "barrister"
+
+**Hard rules for the research:**
+- This is NOT a legal wiki. Content exists to get someone to call. Do not educate for its own sake.
+- No statutory section numbers unless verified for 2026 England & Wales
+- No sentencing figures unless they can be sourced (Sentencing Council guidelines)
+- Flag 🚩 any operational claim before writing it (availability, "first call free", etc.)
+- Every page ends with a call CTA — this is the whole point
+
+**Page list to research (priority order):**
+1. Drink driving (Driving Offences)
+2. Drug driving (Driving Offences)
+3. Totting up / licence disqualification (Driving Offences)
+4. GBH / serious assault (Violent Crimes)
+5. Knife crime (Violent Crimes)
+6. Possession with intent to supply (Drug Offences)
+7. Drug supply / dealing (Drug Offences)
+8. County lines (Drug Offences)
+9. Domestic abuse / coercive control (Violent Crimes)
+10. Robbery (Violent Crimes)
+11. Fraud / financial crime (new top-level PA)
+12. Sexual offences (new top-level PA — special treatment, see note)
+
+**Template decision:** All sub-pages reuse the existing `pa-detail.html` template. No new template needed.
+
+**URL structure:** Not yet decided. Flat (`/practice-areas/drink-driving`) vs nested (`/practice-areas/driving-offences/drink-driving`). Resolve at start of build session.
+
+**Special treatment pages:**
+- Sexual offences: content voice differs significantly — accused of serious offence, anonymity implications
+- Inquests sub-pages: audience is bereaved family, not defendant — likely needs its own template variant
+- Appeals sub-pages: post-conviction visitor — different urgency framing
+
+**Skills to invoke at session start:**
+```
+seo-2026                    for keyword/intent validation per page
+modern-service-business-cro for conversion framing
+project-mgmt                read this file, organise work
+```
+
+---
+
 # Session Handoff — 2026-05-30 (Schema audit + fixes)
 
 ## Production state

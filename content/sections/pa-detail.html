@@ -1,4 +1,6 @@
       <article class="bg-white">
+
+        <!-- ── HERO ──────────────────────────────────────────────────────── -->
         <div class="bg-footer text-white">
           <div class="hero-split">
             <div class="hero-split-left">
@@ -9,13 +11,8 @@
                 </p>
                 <p class="mt-6 text-xs font-semibold tracking-[0.15em] uppercase text-navy-100/80" data-bind="kicker">—</p>
                 <h1 class="mt-2 fluid-h1 font-semibold tracking-tight2" data-bind="title">—</h1>
-                <!-- T2.2c (Branch 4, 2026-05-21): neutral "What is [practice area]"
-                     definition, set as the lead above the situation paragraph. AEO
-                     add — LLMs cite clean category definitions. Entity-free and
-                     BSB-safe; copy lives in lib/practice-areas.ts `definition`. -->
                 <p class="mt-6 fluid-lead text-navy-100/90 max-w-prose" data-bind="definition">—</p>
                 <p class="mt-4 text-base text-navy-100/90 leading-relaxed max-w-prose" data-bind="situation">—</p>
-
                 <div class="mt-10 btn-row">
                   <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_top" class="btn btn-lg btn-emergency btn-full">
                     Book a Consultation
@@ -24,33 +21,6 @@
                     <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
                     Call 07922 247 999
                   </a>
-                </div>
-
-                <!-- Police station urgency callout — sits between the primary CTA row and
-                     the fee strip, on practice areas where custody is a plausible entry
-                     point for the reader (or a family member). Shown via the area's
-                     `policeStation` field; hidden by default. Same dark-navy visual
-                     language as the mega-menu CTA panel and the contextual aside, so
-                     the police-station signal is consistent across surfaces. -->
-                <div data-bind="policeBanner" hidden class="mt-8 bg-navy-900 text-white rounded p-6 md:p-8">
-                  <div class="flex flex-col md:flex-row md:items-start gap-5 md:gap-8">
-                    <div class="md:flex-1 md:min-w-0">
-                      <p class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">Police station</p>
-                      <p class="mt-2 text-lg md:text-xl font-semibold tracking-tightish leading-snug" data-bind="policeBannerTitle">—</p>
-                      <p class="mt-2 text-sm text-navy-100/90 leading-relaxed">Astons Law Chambers attends police stations at any hour. The call comes before the interview.</p>
-                      <a href="/police-station-representation" data-track-location="practice_area_police_banner" class="mt-3 inline-block text-sm font-medium text-white underline underline-offset-4 decoration-1 hover:decoration-2">
-                        How attendance works →
-                      </a>
-                    </div>
-                    <div class="md:shrink-0 md:w-[280px]">
-                      <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999 — police station" data-track="call_click" data-track-location="practice_area_police_banner" class="btn btn-md btn-inverse w-full flex">
-                        <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
-                        <span>Call now</span>
-                        <span class="hidden md:inline text-sm font-medium tabular-nums tracking-tightish text-grey-600">07922 247 999</span>
-                      </a>
-                      <p class="mt-3 text-xs text-navy-100/80 leading-relaxed text-center">Available 24/7 for police station support.</p>
-                    </div>
-                  </div>
                 </div>
             </div>
             <div class="hero-split-right hero-right-mark" aria-hidden="true">
@@ -62,128 +32,109 @@
                 </svg>
             </div>
           </div>
-          <div class="max-w-wide mx-auto px-6 pb-8">
-            <!-- Inline fee strip — bridges dark hero into white body -->
-            <dl class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-navy-800 border border-navy-800 rounded overflow-hidden text-sm">
-              <div class="bg-navy-900 p-4">
-                <dt class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">Hourly</dt>
-                <dd class="mt-1 font-semibold tracking-tightish text-white">£175–£400<span class="text-navy-100/80 font-normal"> +VAT</span></dd>
-              </div>
-              <div class="bg-navy-900 p-4">
-                <dt class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">First appearance</dt>
-                <dd class="mt-1 font-semibold tracking-tightish text-white">£500–£1,500</dd>
-              </div>
-              <div class="bg-navy-900 p-4">
-                <dt class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">Single day hearing</dt>
-                <dd class="mt-1 font-semibold tracking-tightish text-white">£700–£3,500</dd>
-              </div>
-              <div class="bg-navy-900 p-4">
-                <dt class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80">Trial brief fee</dt>
-                <dd class="mt-1 font-semibold tracking-tightish text-white">£1,500–£3,000+</dd>
-              </div>
-            </dl>
-            <p class="mt-3 text-xs text-navy-100/80">Indicative only. A written fee is set out in a client-care letter before any instruction is accepted. <a href="/fees" class="text-white underline underline-offset-4 decoration-1 hover:decoration-2">Full fee schedule →</a></p>
-          </div>
         </div>
 
-        <div class="max-w-wide mx-auto px-6 pb-16 md:pb-24">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
-            <div class="lg:col-span-2 space-y-12">
-              <section>
-                <h2 class="text-2xl font-semibold tracking-tight2">What Astons Law Chambers does</h2>
-                <ul class="mt-4 space-y-2 text-navy-700 leading-relaxed" data-bind="actions"></ul>
-              </section>
+        <!-- ── S1: What is [offence] ──────────────────────────────────────── -->
+        <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-3xl font-semibold tracking-tight2">What is <span data-bind="title">—</span>?</h2>
+          <p class="mt-6 text-navy-700 leading-relaxed max-w-3xl" data-bind="definition">—</p>
+        </section>
 
-              <section>
-                <h2 class="text-2xl font-semibold tracking-tight2">Process</h2>
-                <ol class="mt-4 space-y-3 text-navy-700 leading-relaxed list-decimal pl-5" data-bind="process"></ol>
-              </section>
+        <!-- ── S2: Who is Astons Law Chambers ────────────────────────────── -->
+        <!-- PLACEHOLDER: content to be written next session -->
+        <section class="bg-offwhite">
+          <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
+            <h2 class="text-3xl font-semibold tracking-tight2">About Astons Law Chambers</h2>
+            <p class="mt-6 text-navy-700 leading-relaxed max-w-3xl">[Content to be added]</p>
+          </div>
+        </section>
 
-              <!-- Direct Access mini-explainer — closes the knowledge gap before the FAQ block.
-                   Internal links 2026-05-21: this fragment is rendered on every
-                   practice-area page (8 PA pages), so links here are an 8x SEO
-                   multiplier toward Direct Access, litigation authorisation, and
-                   legal aid. -->
-              <section class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
-                <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Instructing directly</p>
-                <h2 class="mt-2 text-xl font-semibold tracking-tightish text-navy-950">A solicitor is not required for this work.</h2>
-                <p class="mt-3 text-navy-700 leading-relaxed">
-                  Astons Law Chambers is authorised under the Bar Standards Board's Public Access scheme to accept instructions directly from members of the public. The practice is also <a href="/authorised-to-conduct-litigation" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">authorised to conduct litigation</a>, so the case can be run end-to-end without a separate solicitor. Suitability is assessed during the first call; where a solicitor is needed, Astons Law Chambers will say so and refer where useful.
-                </p>
-                <p class="mt-3 text-navy-700 leading-relaxed">
-                  For matters that qualify for public funding, see <a href="/legal-aid" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">how legal aid works at Astons Law Chambers</a> &mdash; eligible cases are referred to a partner solicitor firm at no cost.
-                </p>
-                <a href="/direct-access" class="mt-3 inline-block text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">How Direct Access works &rarr;</a>
-              </section>
+        <!-- ── S3: Book a consultation ────────────────────────────────────── -->
+        <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-3xl font-semibold tracking-tight2">Book a consultation</h2>
+          <div class="mt-8 flex flex-col gap-3 max-w-sm">
+            <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_book" class="btn btn-lg btn-primary w-full flex">
+              Book a call
+            </a>
+            <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999" data-track="call_click" data-track-location="practice_area_book" class="btn btn-lg btn-secondary w-full flex">
+              <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+              Call 07922 247 999
+            </a>
+          </div>
+        </section>
 
-              <section>
-                <h2 class="text-2xl font-semibold tracking-tight2">Common questions</h2>
-                <dl class="mt-4 space-y-4" data-bind="faqs"></dl>
-              </section>
-            </div>
+        <!-- ── S4: Types of work ──────────────────────────────────────────── -->
+        <section class="bg-offwhite">
+          <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
+            <h2 class="text-3xl font-semibold tracking-tight2">Types of <span data-bind="title">—</span> work Astons Law Chambers takes on</h2>
+            <ul class="mt-6 space-y-2 text-navy-700 leading-relaxed" data-bind="actions"></ul>
+          </div>
+        </section>
 
-            <div class="space-y-6 lg:sticky lg:top-28 self-start" data-track-loc="detail_aside">
-              <!-- Contextual card — varies per practice area to raise relevance without changing the CTA -->
-              <div class="bg-navy-950 text-white rounded p-6">
-                <p class="text-xs font-semibold tracking-[0.12em] uppercase text-navy-100/80" data-bind="contextEyebrow">—</p>
-                <p class="mt-2 text-lg font-semibold tracking-tightish" data-bind="contextTitle">—</p>
-                <p class="mt-2 text-sm text-navy-100/90 leading-relaxed" data-bind="contextBody">—</p>
-                <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse w-full mt-4">
+        <!-- ── S5: Why Astons Law Chambers ───────────────────────────────── -->
+        <!-- PLACEHOLDER: content to be written next session -->
+        <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-3xl font-semibold tracking-tight2">Why Astons Law Chambers</h2>
+          <p class="mt-6 text-navy-700 leading-relaxed max-w-3xl">[Content to be added]</p>
+        </section>
+
+        <!-- ── S6: Full-width CTA ─────────────────────────────────────────── -->
+        <div class="relative overflow-hidden bg-navy-950 text-white" data-track-loc="practice_area_mid_cta">
+          <svg viewBox="0 0 32 32" aria-hidden="true" class="final-strip-mark">
+            <path d="M16 1H32V17C23.1634 17 16 9.83656 16 1Z"/>
+            <path d="M31.9984 17C31.9993 17 32 17.0007 32 17.0016L32 33L16.0016 33C16.0007 33 16 32.9993 16 32.9984C16 24.1627 23.1627 17 31.9984 17Z"/>
+            <path d="M16 33L9.53674e-07 33L2.35244e-06 17C8.83656 17 16 24.1634 16 33Z"/>
+            <path d="M0 17L-6.99382e-07 1L16 1C16 9.83656 8.83656 17 0 17Z"/>
+          </svg>
+          <div class="relative max-w-wide mx-auto px-6 py-16 md:py-24">
+            <div class="max-w-2xl mx-auto text-center">
+              <h2 class="text-3xl md:text-5xl font-semibold tracking-tight2 leading-tight">Speak to someone today</h2>
+              <p class="mt-4 text-navy-100 leading-relaxed max-w-prose mx-auto">
+                Available 24/7 for police station representation. Call or WhatsApp any time.
+              </p>
+              <div class="mt-8 flex flex-col gap-3 w-full max-w-\[300px\] mx-auto">
+                <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_mid_cta" class="btn btn-xl btn-inverse w-full flex">
                   <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
                   Call now
                 </a>
-              </div>
-              <!-- "Before you call" — reduces first-call anxiety, raises conversion.
-                   Replaces the redundant Fee + Legal-aid blocks (those are linked
-                   inline above and in the footer; repeating them in every aside
-                   diluted the page). -->
-              <div class="bg-offwhite border border-grey-300 rounded p-6">
-                <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Before you call</p>
-                <p class="mt-2 text-base text-navy-700 leading-relaxed">A short, useful first call covers three things:</p>
-                <ul class="mt-3 space-y-2 text-base text-navy-950">
-                  <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> The allegation and any charge.</li>
-                  <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> Any next hearing date.</li>
-                  <li class="flex items-start gap-2"><svg class="w-4 h-4 mt-1.5 shrink-0" aria-hidden="true"><use href="#i-check"/></svg> What you have been told so far.</li>
-                </ul>
-                <p class="mt-4 text-base text-navy-700 leading-relaxed">If you don't have all three, call anyway — the first call is free.</p>
-              </div>
-              <div class="bg-offwhite border border-grey-300 rounded p-6">
-                <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Related work</p>
-                <ul class="mt-3 space-y-2 text-base" data-bind="related"></ul>
+                <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." data-track="whatsapp_click" data-track-location="practice_area_mid_cta" class="btn btn-lg btn-on-dark w-full flex">
+                  <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+                  Message on WhatsApp
+                </a>
+                <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="practice_area_mid_cta" class="btn btn-lg btn-on-dark w-full flex">
+                  Book a call
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <!-- FINAL CONTACT STRIP -->
-      <div class="relative overflow-hidden bg-navy-950 text-white" data-track-loc="practice_area_final_strip">
-        <svg viewBox="0 0 32 32" aria-hidden="true" class="final-strip-mark">
-          <path d="M16 1H32V17C23.1634 17 16 9.83656 16 1Z"/>
-          <path d="M31.9984 17C31.9993 17 32 17.0007 32 17.0016L32 33L16.0016 33C16.0007 33 16 32.9993 16 32.9984C16 24.1627 23.1627 17 31.9984 17Z"/>
-          <path d="M16 33L9.53674e-07 33L2.35244e-06 17C8.83656 17 16 24.1634 16 33Z"/>
-          <path d="M0 17L-6.99382e-07 1L16 1C16 9.83656 8.83656 17 0 17Z"/>
-        </svg>
-        <div class="relative max-w-wide mx-auto px-6 py-16 md:py-24">
-          <div class="max-w-2xl mx-auto text-center">
-            <p class="text-sm font-medium text-navy-100/80 tracking-tightish">Contact</p>
-            <h2 class="mt-2 text-3xl md:text-5xl font-semibold tracking-tight2 leading-tight">Speak to someone today</h2>
-            <p class="mt-4 text-navy-100 leading-relaxed max-w-prose mx-auto">
-              Available 24/7 for police station representation. Call or WhatsApp any time.
+        <!-- ── S7: FAQ ────────────────────────────────────────────────────── -->
+        <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-3xl font-semibold tracking-tight2">Common questions</h2>
+          <dl class="mt-6 space-y-4" data-bind="faqs"></dl>
+        </section>
+
+        <!-- ── S8: Testimonials ───────────────────────────────────────────── -->
+        <!-- ⚠️ PLACEHOLDER: Requires 20+ verified reviews before publishing (CLAUDE.md). Content + reviews to be added next session. -->
+        <section class="bg-offwhite">
+          <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
+            <h2 class="text-3xl font-semibold tracking-tight2">What clients say</h2>
+            <p class="mt-6 text-navy-700 leading-relaxed">[Testimonials to be added]</p>
+          </div>
+        </section>
+
+        <!-- ── S9: Direct Access (all PA pages) ──────────────────────────── -->
+        <div class="max-w-wide mx-auto px-6 pb-16 md:pb-24">
+          <div class="pt-8 border-t border-grey-300">
+            <p class="text-navy-700 leading-relaxed">
+              Astons Law Chambers is authorised under the Bar Standards Board's Public Access scheme to accept instructions directly from members of the public. The practice is also <a href="/authorised-to-conduct-litigation" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">authorised to conduct litigation</a>, so the case can be run end-to-end without a separate solicitor. Suitability is assessed during the first call; where a solicitor is needed, Astons Law Chambers will say so and refer where useful.
             </p>
-            <div class="mt-8 flex flex-col gap-3 w-full max-w-[300px] mx-auto">
-              <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_final_strip" class="btn btn-xl btn-inverse w-full flex">
-                <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
-                Call now
-              </a>
-              <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." data-track="whatsapp_click" data-track-location="practice_area_final_strip" class="btn btn-lg btn-on-dark w-full flex">
-                <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
-                Message on WhatsApp
-              </a>
-              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="practice_area_final_strip" class="btn btn-lg btn-on-dark w-full flex">
-                Book a call
-              </a>
-            </div>
+            <p class="mt-3 text-navy-700 leading-relaxed">
+              For matters that qualify for public funding, see <a href="/legal-aid" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">how legal aid works at Astons Law Chambers</a> &mdash; eligible cases are referred to a partner solicitor firm at no cost.
+            </p>
+            <a href="/direct-access" class="mt-3 inline-block text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Learn more about Direct Access &rarr;</a>
           </div>
         </div>
-      </div>
+
+      </article>

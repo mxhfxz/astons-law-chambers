@@ -681,7 +681,7 @@ body.has-sticky-bar {
 @media (min-width: 1024px) {
   .hero-split {
     grid-template-columns: 1fr 1fr;
-    min-height: clamp(540px, 82vh, 900px);
+    min-height: 50vh;
   }
   .hero-split-left {
     padding-top: 5rem;

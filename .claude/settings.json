@@ -33,10 +33,19 @@
       "WebFetch(domain:mcpmarket.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:www.firecrawl.dev)",
-      "Bash(npm i *)"
+      "Bash(npm i *)",
+      "Bash(mkdir -p /Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/.project/sub-pages)",
+      "Bash(curl -s http://localhost:3001/practice-areas/driving-offences/drink-driving)",
+      "Bash(curl -s http://localhost:3001/practice-areas/driving-offences)",
+      "Bash(curl -s http://localhost:3001/practice-areas/violent-crimes)",
+      "Bash(grep -v \"^$\")",
+      "Bash(curl -s \"http://localhost:3001/_next/static/css/app/layout.css\")",
+      "Bash(curl -s \"http://localhost:3001/practice-areas/drug-offences\")",
+      "Bash(xargs -I{} curl -s \"http://localhost:3001{}\")"
     ],
     "additionalDirectories": [
-      "/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema"
+      "/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/schema",
+      "/Users/mahfuzpholby/Documents/Agency-Work/astons-law-chambers/.project"
     ]
   },
   "hooks": {
