@@ -2,10 +2,25 @@
 // renderPracticeAreaDetail / renderPracticeAreaIndex (preview/index.html),
 // but produces the markup at build time instead of in the browser.
 import { PracticeArea, practiceAreas, getAreaTitle } from './practice-areas'
+import { SubPracticeArea, getSubAreaBySlug } from './sub-practice-areas'
 import { readSection } from './content'
 
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/** Resolve a slug to its href, checking sub-pages first then top-level PAs. */
+function resolveAreaHref(slug: string): string {
+  const sub = getSubAreaBySlug(slug)
+  if (sub) return `/practice-areas/${sub.parentSlug}/${sub.slug}`
+  return `/practice-areas/${slug}`
+}
+
+/** Resolve a slug to its display title, checking sub-pages first then top-level PAs. */
+function resolveAreaTitle(slug: string): string {
+  const sub = getSubAreaBySlug(slug)
+  if (sub) return sub.title
+  return getAreaTitle(slug)
 }
 
 function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
@@ -43,9 +58,21 @@ export function renderPracticeAreaIndex(): string {
   return html.replace('<!-- Populated by JS from PRACTICE_AREAS -->', cards.join(''))
 }
 
-/** Practice-area detail page for a given area. */
-export function renderPracticeAreaDetail(area: PracticeArea): string {
+/** Internal: builds the detail page HTML from the pa-detail template.
+ *  Accepts an optional parentInfo for sub-pages that need a 4-level breadcrumb. */
+function buildDetailHtml(
+  area: PracticeArea,
+  parentInfo?: { slug: string; title: string },
+): string {
   let html = readSection('pa-detail')
+
+  if (parentInfo) {
+    const parentLink = `<a href="/practice-areas/${parentInfo.slug}" class="hover:text-white">${esc(parentInfo.title)}</a>`
+    html = html.replace(
+      /Defence work<\/a>\s*&nbsp;\/&nbsp;\s*<span data-bind="title">/,
+      `Defence work</a> &nbsp;/&nbsp;\n                  ${parentLink} &nbsp;/&nbsp;\n                  <span data-bind="title">`,
+    )
+  }
 
   const setVal = (name: string, value: string) => {
     html = html.replace(
@@ -92,7 +119,7 @@ export function renderPracticeAreaDetail(area: PracticeArea): string {
   const related = area.related
     .map(
       (slug) =>
-        `<li><a href="/practice-areas/${slug}" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">${esc(getAreaTitle(slug))} →</a></li>`,
+        `<li><a href="${resolveAreaHref(slug)}" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">${esc(resolveAreaTitle(slug))} →</a></li>`,
     )
     .join('')
   html = html.replace('data-bind="related"></ul>', `data-bind="related">${related}</ul>`)
@@ -103,6 +130,19 @@ export function renderPracticeAreaDetail(area: PracticeArea): string {
   }
 
   return html
+}
+
+/** Practice-area detail page for a given area. */
+export function renderPracticeAreaDetail(area: PracticeArea): string {
+  return buildDetailHtml(area)
+}
+
+/** Sub-practice-area detail page — same template, 4-level breadcrumb. */
+export function renderSubPracticeAreaDetail(
+  area: SubPracticeArea,
+  parentTitle: string,
+): string {
+  return buildDetailHtml(area, { slug: area.parentSlug, title: parentTitle })
 }
 
 /** FAQPage + BreadcrumbList + Service JSON-LD for a practice-area detail
@@ -146,21 +186,64 @@ export function practiceAreaJsonLd(area: PracticeArea): string {
     '@id': `${pageUrl}#service`,
     name: area.title,
     description: area.cardSummary,
-    serviceType: serviceTypeFor(area),
+    serviceType: serviceTypeFor(area.slug),
     provider: { '@id': 'https://astonslaw.com/#organization' },
     areaServed: ['London', 'England', 'Wales'],
     audience: {
       '@type': 'Audience',
-      audienceType: audienceTypeFor(area),
+      audienceType: audienceTypeFor(area.slug),
+    },
+  }
+  return JSON.stringify([faq, crumbs, service])
+}
+
+/** FAQPage + BreadcrumbList (4-level) + Service JSON-LD for sub-practice-area
+ *  detail pages. Same safety controls as practiceAreaJsonLd. */
+export function subPracticeAreaJsonLd(
+  area: SubPracticeArea,
+  parentTitle: string,
+): string {
+  const pageUrl = `https://astonslaw.com/practice-areas/${area.parentSlug}/${area.slug}`
+  const parentUrl = `https://astonslaw.com/practice-areas/${area.parentSlug}`
+  const faq = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: area.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+  const crumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://astonslaw.com' },
+      { '@type': 'ListItem', position: 2, name: 'Defence work', item: 'https://astonslaw.com/practice-areas' },
+      { '@type': 'ListItem', position: 3, name: parentTitle, item: parentUrl },
+      { '@type': 'ListItem', position: 4, name: area.title, item: pageUrl },
+    ],
+  }
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
+    name: area.title,
+    description: area.cardSummary,
+    serviceType: serviceTypeFor(area.slug),
+    provider: { '@id': 'https://astonslaw.com/#organization' },
+    areaServed: ['London', 'England', 'Wales'],
+    audience: {
+      '@type': 'Audience',
+      audienceType: 'Defendants in criminal proceedings, England and Wales',
     },
   }
   return JSON.stringify([faq, crumbs, service])
 }
 
 /** serviceType is a short human-readable label for the legal service the
- *  page describes. Each maps to the practice area's slug; defaults
- *  catch-all to keep new PAs working without code changes. */
-function serviceTypeFor(area: PracticeArea): string {
+ *  page describes. Covers top-level PAs and sub-pages; defaults catch-all. */
+function serviceTypeFor(slug: string): string {
   const types: Record<string, string> = {
     'criminal-defence': 'Criminal defence barrister (direct access), London',
     'violent-crimes': 'Criminal defence barrister for violent crime allegations, London',
@@ -169,14 +252,26 @@ function serviceTypeFor(area: PracticeArea): string {
     'drug-offences': 'Criminal defence barrister for drug offences, London',
     'appeals': 'Criminal appeals barrister, Crown Court and Court of Appeal, London',
     'inquests': "Inquest representation by a barrister, Coroner's Court, London",
+    'fraud': 'Criminal defence barrister for fraud and financial crime, London',
+    'sexual-offences': 'Criminal defence barrister for sexual offence allegations, London',
+    'drink-driving': 'Criminal defence barrister for drink driving charges, London',
+    'drug-driving': 'Criminal defence barrister for drug driving charges, London',
+    'totting-up': 'Criminal defence barrister for totting-up disqualification, London',
+    'gbh': 'Criminal defence barrister for GBH charges, London',
+    'knife-crime': 'Criminal defence barrister for knife and bladed article offences, London',
+    'domestic-abuse': 'Criminal defence barrister for domestic abuse allegations, London',
+    'robbery': 'Criminal defence barrister for robbery charges, London',
+    'possession-with-intent': 'Criminal defence barrister for possession with intent to supply, London',
+    'drug-supply': 'Criminal defence barrister for drug supply charges, London',
+    'county-lines': 'Criminal defence barrister for county lines charges, London',
   }
-  return types[area.slug] ?? 'Criminal defence barrister (direct access), London'
+  return types[slug] ?? 'Criminal defence barrister (direct access), London'
 }
 
 /** Inquests serve families and interested persons, not defendants; the
  *  other PAs serve defendants. Audience phrasing reflects that. */
-function audienceTypeFor(area: PracticeArea): string {
-  if (area.slug === 'inquests') {
+function audienceTypeFor(slug: string): string {
+  if (slug === 'inquests') {
     return 'Families and interested persons in coronial proceedings, England and Wales'
   }
   return 'Defendants in criminal proceedings, England and Wales'

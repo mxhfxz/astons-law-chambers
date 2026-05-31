@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
 import { practiceAreas } from '@/lib/practice-areas'
+import { subPracticeAreas } from '@/lib/sub-practice-areas'
 import { guides } from '@/lib/guides'
 import { insights } from '@/lib/insights'
 
@@ -53,6 +54,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.8,
   }))
+  // Sub-practice-area pages render from lib/sub-practice-areas.ts.
+  const subAreaModified = mtime('lib/sub-practice-areas.ts')
+  const subAreaEntries: MetadataRoute.Sitemap = subPracticeAreas.map((a) => ({
+    url: `${BASE}/practice-areas/${a.parentSlug}/${a.slug}`,
+    lastModified: subAreaModified,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
   // Guide article pages render from content/sections/guide-*.html.
   const guideEntries: MetadataRoute.Sitemap = guides.map((g) => ({
     url: `${BASE}/guides/${g.slug}`,
@@ -75,5 +84,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     })),
   ]
-  return [...staticEntries, ...areaEntries, ...guideEntries, ...insightEntries]
+  return [...staticEntries, ...areaEntries, ...subAreaEntries, ...guideEntries, ...insightEntries]
 }

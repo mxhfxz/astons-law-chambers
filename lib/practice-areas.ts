@@ -112,7 +112,7 @@ export const practiceAreas: PracticeArea[] = [
     // for youth-crimes + inquests (under-linked). Editorial adjacencies:
     // youth ↔ violent (assault by under-18s); inquests ↔ violent (death from
     // violence). Revert: `git restore lib/practice-areas.ts`.
-    related: ['criminal-defence', 'youth-crimes', 'inquests'],
+    related: ['criminal-defence', 'youth-crimes', 'inquests', 'gbh', 'knife-crime', 'domestic-abuse', 'robbery'],
   },
   {
     slug: 'youth-crimes',
@@ -186,7 +186,7 @@ export const practiceAreas: PracticeArea[] = [
       body: 'After a short conversation, you receive a client-care letter setting out scope and fee before any work begins.',
     },
     policeStation: { title: 'Held for drink driving or failure to provide — call before the interview.' },
-    related: ['criminal-defence', 'drug-offences', 'appeals'],
+    related: ['criminal-defence', 'drug-offences', 'appeals', 'drink-driving', 'drug-driving', 'totting-up'],
   },
   {
     slug: 'drug-offences',
@@ -225,7 +225,7 @@ export const practiceAreas: PracticeArea[] = [
     policeStation: { title: 'In custody for possession or supply — call before the interview begins.' },
     // Sibling rebalance 2026-05-21: swap appeals (over-linked) for
     // driving-offences (under-linked). Adjacency: drug-driving cases bridge.
-    related: ['criminal-defence', 'driving-offences', 'violent-crimes'],
+    related: ['criminal-defence', 'driving-offences', 'violent-crimes', 'possession-with-intent', 'drug-supply', 'county-lines'],
   },
   {
     slug: 'appeals',
@@ -298,6 +298,118 @@ export const practiceAreas: PracticeArea[] = [
       body: 'The PIR is where the case takes its shape. Early instruction allows time to be heard there, not after.',
     },
     related: ['criminal-defence', 'appeals', 'violent-crimes'],
+  },
+  {
+    slug: 'fraud',
+    title: 'Fraud & Financial Crime Defence',
+    metaTitle: 'Fraud Defence | Financial Crime | Criminal Defence London & UK',
+    metaDescription:
+      'Criminal defence for fraud and financial crime in London. False representation, money laundering, Crown Court. Legal aid can be discussed. Call 07922 247 999.',
+    kicker: 'Financial Crime',
+    cardSummary: 'Fraud, false representation, money laundering. Digital evidence. Crown Court.',
+    definition:
+      "Fraud offences involve dishonesty and financial gain: fraud by false representation, fraud by abuse of position, money laundering, and conspiracy to defraud. Most are tried in the Crown Court. The prosecution's case is typically built from digital records and financial transactions.",
+    situation:
+      'Fraud investigations are often long-running before any arrest or charge. By the time the defendant is interviewed, the prosecution may have months or years of financial records, device data, and communications. Early representation — at interview under caution, or before — determines the first account and how the case can be contested.',
+    actions: [
+      'Interview under caution representation — fraud interviews are document-heavy and can be lengthy.',
+      'Financial document and bank record analysis.',
+      'Digital evidence challenges — device data, email and message extraction, forensic procedure.',
+      'Money laundering: knowledge and suspicion arguments.',
+      'Abuse of position cases: fiduciary duty and authorisation arguments.',
+      'Crown Court trial and confiscation proceedings.',
+    ],
+    process: [
+      'A short call to identify the allegation, the stage of the investigation, and whether an interview is pending.',
+      'A written client-care letter setting out scope and fee.',
+      "Review of the prosecution's financial evidence, digital materials, and disclosure schedule.",
+      'Representation at every hearing through to verdict and, where required, confiscation proceedings.',
+    ],
+    faqs: [
+      {
+        q: 'I have received a letter saying I am under investigation — should I act now?',
+        a: 'Yes. The investigation stage is when the key decisions are made. Call 07922 247 999.',
+      },
+      {
+        q: 'What is fraud by false representation?',
+        a: 'Fraud by false representation is what the allegation involves and what it requires the prosecution to prove. Both are covered in the first call. Call 07922 247 999.',
+      },
+      {
+        q: 'Can digital evidence be challenged?',
+        a: 'Yes. The digital evidence and how it was obtained are reviewed in disclosure. The first call covers what the prosecution has. Call 07922 247 999.',
+      },
+      {
+        q: 'What are confiscation proceedings?',
+        a: 'After a conviction, the prosecution can apply for a confiscation order. What that involves is covered in the first call. Call 07922 247 999.',
+      },
+      {
+        q: 'What is money laundering?',
+        a: 'Money laundering is an allegation about dealing with the proceeds of crime. What the charge involves and what applies to your situation are covered in the first call. Call 07922 247 999.',
+      },
+    ],
+    context: {
+      eyebrow: 'Digital evidence',
+      title: 'Fraud cases are built on documents. Documents can be challenged.',
+      body: "Financial records, messages, and device data form the prosecution's case. The defence starts with what those records actually show.",
+    },
+    policeStation: {
+      title: 'Under caution for fraud — call before the interview. Fraud interviews are document-heavy.',
+    },
+    related: ['criminal-defence', 'appeals', 'drug-offences'],
+  },
+  {
+    slug: 'sexual-offences',
+    title: 'Sexual Offences Defence',
+    metaTitle: 'Sexual Offences Defence | Criminal Defence Lawyer | London & UK',
+    metaDescription:
+      'Criminal defence for sexual offence allegations in London. Pre-charge representation, Crown Court. Confidential. Call 07922 247 999.',
+    kicker: 'Criminal',
+    cardSummary: 'Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.',
+    definition:
+      'Sexual offences are among the most serious criminal allegations a person can face. They are tried in the Crown Court. The consequences of an allegation — on employment, relationships, and daily life — begin before any charge or conviction. An accused person has the right to representation at every stage.',
+    situation:
+      'An allegation of a sexual offence has consequences immediately, before any charge or conviction. The investigation can take months or years, during which bail conditions may restrict daily life. Representation at interview under caution — and throughout the investigation — determines every decision that follows.',
+    actions: [
+      'Pre-charge representation — advice during the investigation before a decision to charge.',
+      'Police interview under caution — sexual offence interviews are conducted under specific procedures and can be extended.',
+      'Bail conditions: challenging conditions imposed during the investigation.',
+      'Digital evidence: devices and accounts are routinely examined in sexual offence investigations.',
+      'Complainant evidence: special measures, prior statements, and third-party disclosure.',
+      'Crown Court trial and, where relevant, Sexual Harm Prevention Order hearings.',
+    ],
+    process: [
+      'A short call, in complete confidence, to understand the allegation, the stage of the investigation, and whether an interview has been requested.',
+      'A written client-care letter setting out scope and fee.',
+      "Review of the prosecution's case — the digital evidence, the complainant's account, and any third-party material.",
+      'Representation at every stage: police interview, bail hearings, and Crown Court through to verdict.',
+    ],
+    faqs: [
+      {
+        q: 'I have been arrested but not charged — what happens now?',
+        a: 'The investigation can take months. During that time bail conditions may be in place. Pre-charge representation is available throughout. Call 07922 247 999.',
+      },
+      {
+        q: 'Can the investigation be kept confidential?',
+        a: 'The first call is in complete confidence. What can and cannot be kept private at each stage is covered then. Call 07922 247 999.',
+      },
+      {
+        q: 'What is a Sexual Harm Prevention Order?',
+        a: 'An SHPO is a court order that can be imposed after conviction. What it involves and how it is addressed are covered in the first call. Call 07922 247 999.',
+      },
+      {
+        q: 'Is legal aid available for sexual offences?',
+        a: 'Astons Law Chambers is not a legal aid contract holder. Where legal aid applies, it is arranged through a partner solicitor firm. The funding position is covered in the first call. Call 07922 247 999.',
+      },
+    ],
+    context: {
+      eyebrow: 'Allegation',
+      title: 'The consequences start before any conviction.',
+      body: 'Employment, relationships, and bail conditions are all affected before the case reaches a court. Representation from the earliest stage keeps the options open and the process properly managed.',
+    },
+    policeStation: {
+      title: 'Under caution for a sexual offence — call before the interview. These interviews are long and consequential.',
+    },
+    related: ['criminal-defence', 'appeals', 'youth-crimes'],
   },
 ]
 
