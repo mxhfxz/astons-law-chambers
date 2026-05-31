@@ -38,7 +38,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Criminal Defence Lawyer | London & UK | 24/7 Support",
     metaDescription:
       "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
-    kicker: 'Criminal',
+    kicker: 'Criminal Defence',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
       'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, to trial and any appeal that follows.',
@@ -77,7 +77,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Assault, GBH & Violence | Criminal Defence | London & UK",
     metaDescription:
       "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
-    kicker: 'Criminal',
+    kicker: 'Violent Crimes',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     definition:
       'Violent crime covers allegations involving violence or the threat of it: assault, actual and grievous bodily harm, affray, and robbery. The less serious are heard in the Magistrates’ Court. The most serious go to the Crown Court.',
@@ -120,7 +120,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Youth Crimes Defence | Under-18 Legal Aid | London & UK",
     metaDescription:
       "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
-    kicker: 'Criminal',
+    kicker: 'Youth Crimes',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     definition:
       'Youth crime is a criminal allegation against someone under 18. Most cases are heard in the Youth Court, which has its own procedure and considers the young person’s welfare. The most serious go to the Crown Court.',
@@ -157,7 +157,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Motoring & Driving Offences | Legal Defence | London & UK",
     metaDescription:
       "Criminal defence for drink driving, drug driving and totting-up in London. Exceptional hardship arguments. Written quote on the same call. Call 07922 247 999.",
-    kicker: 'Criminal',
+    kicker: 'Driving Offences',
     cardSummary: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
     definition:
       'Driving offences range from fixed-penalty matters to charges tried in the Crown Court. They include drink and drug driving, speeding, careless and dangerous driving, and losing a licence through totting-up. Many carry penalty points or a disqualification.',
@@ -194,7 +194,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Drugs & Supply Offences | Criminal Defence | London & UK",
     metaDescription:
       "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
-    kicker: 'Criminal',
+    kicker: 'Drug Offences',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     definition:
       'Drug offences cover the possession, supply, production, and importation of controlled drugs. Simple possession is usually dealt with in the Magistrates’ Court. Supply, conspiracy, and importation are tried in the Crown Court.',
@@ -233,7 +233,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Criminal Appeals & Conviction Review | London & UK",
     metaDescription:
       "Appealing a criminal conviction or sentence in London. Advice on prospects, grounds of appeal and Court of Appeal representation. Call 07922 247 999.",
-    kicker: 'Post-trial',
+    kicker: 'Appeals',
     cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
     definition:
       'A criminal appeal challenges a conviction or a sentence after the case has been decided. Appeals from the Magistrates’ Court go to the Crown Court, and appeals from the Crown Court go to the Court of Appeal. The time to appeal is short and starts on the day of the decision.',
@@ -269,7 +269,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: "Inquest Representation | London & UK",
     metaDescription:
       "Representing families and interested persons at inquests in London. Pre-inquest review through to the substantive hearing. Call 07922 247 999.",
-    kicker: 'Coroner’s Court',
+    kicker: 'Inquests',
     cardSummary: 'Family and interested-person representation. Pre-inquest review through hearing.',
     definition:
       'An inquest is an inquiry in the Coroner’s Court into how someone died. It is not a trial and decides no one’s guilt. A family, or another interested person, can be represented at the pre-inquest review and at the inquest itself.',
@@ -305,7 +305,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: 'Fraud Defence | Financial Crime | Criminal Defence London & UK',
     metaDescription:
       'Criminal defence for fraud and financial crime in London. False representation, money laundering, Crown Court. Legal aid can be discussed. Call 07922 247 999.',
-    kicker: 'Financial Crime',
+    kicker: 'Fraud',
     cardSummary: 'Fraud, false representation, money laundering. Digital evidence. Crown Court.',
     definition:
       "Fraud offences involve dishonesty and financial gain: fraud by false representation, fraud by abuse of position, money laundering, and conspiracy to defraud. Most are tried in the Crown Court. The prosecution's case is typically built from digital records and financial transactions.",
@@ -363,7 +363,7 @@ export const practiceAreas: PracticeArea[] = [
     metaTitle: 'Sexual Offences Defence | Criminal Defence Lawyer | London & UK',
     metaDescription:
       'Criminal defence for sexual offence allegations in London. Pre-charge representation, Crown Court. Confidential. Call 07922 247 999.',
-    kicker: 'Criminal',
+    kicker: 'Sexual Offences',
     cardSummary: 'Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.',
     definition:
       'Sexual offences are among the most serious criminal allegations a person can face. They are tried in the Crown Court. The consequences of an allegation — on employment, relationships, and daily life — begin before any charge or conviction. An accused person has the right to representation at every stage.',
