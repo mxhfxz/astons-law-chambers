@@ -28,6 +28,22 @@ export function getPageType(pathname: string): string {
   return 'other'
 }
 
+/** Maps a pathname to a named conversion FUNNEL for Vercel Analytics
+ *  attribution. Practice-area pages collapse to their topic category so the
+ *  Vercel dashboard can be filtered by the thing the visitor was actually
+ *  researching (e.g. `driving-offences`, `violent-crimes`). Everything else
+ *  reuses the `page_type` taxonomy. Returned values are low-cardinality and
+ *  human-readable on purpose. Pure, no side effects. */
+export function getFunnel(pathname: string): string {
+  const p = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  if (p.startsWith('/practice-areas/')) {
+    // ['practice-areas', '<category>', '<sub>?'] — the category is the funnel.
+    const category = p.split('/').filter(Boolean)[1]
+    return category ?? 'practice_areas_hub'
+  }
+  return getPageType(p)
+}
+
 /** Maps a GA4 event name to a higher-level `cta_type` for funnel grouping.
  *  e.g. `call_click` -> `call`. Returns 'other' for unrecognised names. */
 export function getCtaType(eventName: string): string {

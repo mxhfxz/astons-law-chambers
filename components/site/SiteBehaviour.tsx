@@ -7,7 +7,9 @@
 // pathname change.
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { track as vaTrack } from '@vercel/analytics'
 import { getCtaType, getPageType } from '@/lib/analytics'
+import { getJourneyAttribution, recordPageView } from '@/lib/journey'
 
 declare global {
   interface Window {
@@ -160,6 +162,24 @@ export function SiteBehaviour() {
       }
       if (isOutbound) params.outbound_url = href
       track(name, params)
+
+      // --- Vercel Analytics custom event ---------------------------------
+      // Same event name + cta_type + placement as GA4 (one taxonomy), plus
+      // session funnel attribution so the Vercel dashboard shows which path
+      // the visitor followed before contacting. Property values are
+      // string|number only (Vercel requirement). vaTrack no-ops safely when
+      // Analytics isn't mounted and console-logs in development.
+      const attr = getJourneyAttribution()
+      vaTrack(name, {
+        cta_type: getCtaType(name),
+        placement,
+        page_type: getPageType(window.location.pathname),
+        page_path: window.location.pathname,
+        funnel: attr.funnel,
+        entry_page: attr.entry,
+        journey: attr.journey,
+        steps: attr.steps,
+      })
     }
     document.addEventListener('click', onClickCapture, { capture: true })
     mobileToggle?.addEventListener('click', () =>
@@ -177,6 +197,11 @@ export function SiteBehaviour() {
 
   // Per-route: GA page_view, cal.com facade, close mobile menu.
   useEffect(() => {
+    // Record the page in the session journey first — on the first mount this
+    // captures the landing page, on later runs each subsequent step. Powers
+    // the funnel attribution attached to Vercel conversion events.
+    recordPageView(pathname)
+
     const mm = document.getElementById('mobileMenu')
     mm?.classList.add('hidden')
     // Reset the open-menu state so scroll isn't left locked and the
@@ -231,6 +256,19 @@ export function SiteBehaviour() {
               cal.ns.callback('on', {
                 action: 'bookingSuccessful',
                 callback: () => {
+                  // Vercel Analytics — the actual booking closure, with the
+                  // same funnel attribution as the click events.
+                  const attr = getJourneyAttribution()
+                  vaTrack('booking_completed', {
+                    cta_type: 'book',
+                    placement: 'cal_inline',
+                    page_type: getPageType(window.location.pathname),
+                    page_path: window.location.pathname,
+                    funnel: attr.funnel,
+                    entry_page: attr.entry,
+                    journey: attr.journey,
+                    steps: attr.steps,
+                  })
                   if (typeof window.gtag !== 'function') return
                   window.gtag('event', 'booking_completed', {
                     cta_type: 'book',
