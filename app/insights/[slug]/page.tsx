@@ -115,7 +115,7 @@ export default async function InsightPage({ params }: { params: { slug: string }
               <div className="bg-offwhite border border-grey-300 rounded p-6">
                 <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Speak to a barrister</p>
                 <p className="mt-2 text-lg font-semibold tracking-tightish text-navy-950">
-                  If a case is live, the first call is free.
+                  If a case is live, call 07922 247 999 now for immediate support.
                 </p>
                 <a
                   href="tel:+447922247999"

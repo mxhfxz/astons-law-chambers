@@ -29,7 +29,7 @@ export default function InsightsPage() {
             </h1>
             <p className="mt-6 fluid-lead text-navy-100/90 max-w-prose">
               Notes from Astons Law Chambers on criminal law and the questions that come up most.
-              If a case is live, the first call is free.
+              If a case is live, call 07922 247 999 now for immediate support.
             </p>
 
             <div className="mt-8 btn-row">

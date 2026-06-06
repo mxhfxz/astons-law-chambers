@@ -29,7 +29,7 @@ Some offences can only be heard in the Magistrates' Court, some only in the Crow
 
 By the time of the first hearing, the prosecution has set out the allegation and disclosed at least some of the evidence. The decisions that shape a case — how to plead, whether to contest the venue, what to say and what to leave — turn on that material. Reading it properly takes time, and that time exists before the hearing, not on the morning of it.
 
-> Astons Law Chambers is instructed directly, without a solicitor, and stays with the case from the first hearing through to its conclusion. The first call is free.
+> Astons Law Chambers is instructed directly, without a solicitor, and stays with the case from the first hearing through to its conclusion. For immediate support, call 07922 247 999 now.
 
 ## What to do if a hearing is coming up
 
