@@ -1,3 +1,61 @@
+# Session Handoff — 2026-05-31 (PA hero redesign + kicker fix)
+
+## Next session starting point
+
+Branch: `sub-pages` — pushed, Vercel preview building.
+
+### What to check first
+1. Open the Vercel preview for `sub-pages` branch (alc-staging project).
+2. Verify on a PA detail page (e.g. `/practice-areas/violent-crimes`):
+   - Eyebrow reads: **CRIMINAL DEFENCE BARRISTER • VIOLENT CRIMES** (uppercase from CSS)
+   - H1 is the page title only — no paragraphs below it in the hero
+   - Desktop: red "Book a Free Consultation" button visible + white "Call" button
+   - Mobile: only the white "Call" button visible
+   - BSB link below the buttons: "Regulated by the Bar Standards Board"
+3. Verify a sub-page (e.g. `/practice-areas/driving-offences/drink-driving`) — breadcrumb should be 4 levels.
+
+### What was changed this session
+
+**`content/sections/pa-detail.html`** — hero section only:
+- Removed `definition` and `situation` paragraphs from the hero (user: "they hurt conversion")
+- Kicker eyebrow: hardcoded prefix `"Criminal Defence Barrister • "` + `<span data-bind="kicker">` (user explicitly overrode the no-barrister-in-frontend rule for this element only)
+- Breadcrumb-to-kicker gap: `mt-6` → `mt-8` (2rem as annotated in screenshot)
+- Book button: wrapped in `<div class="hidden md:flex">` to fix a `.btn.hidden` CSS specificity clash that was making it invisible on desktop; text changed to "Book a Free Consultation"; keeps `btn-emergency` (red)
+
+**`lib/practice-areas.ts`** — kicker values updated for all 9 top-level PAs:
+
+| Slug | Old | New |
+|------|-----|-----|
+| criminal-defence | 'Criminal' | 'Criminal Defence' |
+| violent-crimes | 'Criminal' | 'Violent Crimes' |
+| youth-crimes | 'Criminal' | 'Youth Crimes' |
+| driving-offences | 'Criminal' | 'Driving Offences' |
+| drug-offences | 'Criminal' | 'Drug Offences' |
+| appeals | 'Post-trial' | 'Appeals' |
+| inquests | 'Coroner's Court' | 'Inquests' |
+| fraud | 'Financial Crime' | 'Fraud' |
+| sexual-offences | 'Criminal' | 'Sexual Offences' |
+
+Sub-pages in `lib/sub-practice-areas.ts` already had correct kicker values ('Driving Offences', 'Violent Crimes', 'Drug Offences') — no changes needed there.
+
+### Known issue fixed this session
+`.btn.hidden { display: none; }` in `preview-styles.css` has specificity 0,2,0 which beats `.md:flex` (0,1,0) even inside a media query. The old `hidden md:flex` on the button itself was silently hidden on all breakpoints. Fix: wrapper `<div class="hidden md:flex">` — the div has no `.btn` class so the specificity rule doesn't apply.
+
+### Remaining work (from previous handoff — not done this session)
+The sub-page implementation checklist is unchanged. Still to do:
+- Schema: BreadcrumbList + Service + FAQPage per sub-page
+- Sitemap update
+- Wire sub-page links from parent PA pages
+- Sexual offences page: client voice review before going live
+
+### Skills to invoke next session
+```
+verification-before-completion   check preview before claiming done
+project-mgmt                     read sub-pages/plan.md for remaining work
+```
+
+---
+
 # Session Handoff — 2026-05-31 (Sub-page content research COMPLETE)
 
 ## Next session starting point — SUB-PAGE IMPLEMENTATION
