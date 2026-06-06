@@ -2,7 +2,7 @@
 // renderPracticeAreaDetail / renderPracticeAreaIndex (preview/index.html),
 // but produces the markup at build time instead of in the browser.
 import { PracticeArea, practiceAreas, getAreaTitle } from './practice-areas'
-import { SubPracticeArea, getSubAreaBySlug } from './sub-practice-areas'
+import { SubPracticeArea, getSubAreaBySlug, subPracticeAreas } from './sub-practice-areas'
 import { readSection } from './content'
 
 function esc(s: string): string {
@@ -32,6 +32,36 @@ function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li>`
+}
+
+/** Card for a sub-practice-area. Same markup as cardHtml but the href points
+ *  at the nested route (/practice-areas/[parent]/[slug]) and the heading is an
+ *  h3 (it sits under the section's h2). */
+function subPageCardHtml(a: SubPracticeArea): string {
+  return `<li><a href="/practice-areas/${a.parentSlug}/${a.slug}" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+        <h3 class="text-xl font-semibold tracking-tight2">${esc(a.title)}</h3>
+        <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
+          <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
+          <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
+        </span>
+      </a></li>`
+}
+
+/** Grid of sub-offence cards for a parent practice area, in the same card grid
+ *  used on the homepage and the practice-areas index. Returns an empty string
+ *  when the area has no sub-pages, so the template placeholder simply collapses
+ *  on childless pages and on the sub-pages themselves. */
+function subPageGridHtml(parentSlug: string): string {
+  const subs = subPracticeAreas.filter((s) => s.parentSlug === parentSlug)
+  if (subs.length === 0) return ''
+  const cards = subs.map(subPageCardHtml).join('')
+  return `<section class="bg-white">
+          <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
+            <h2 class="text-3xl font-semibold tracking-tight2">Offences we defend in this area</h2>
+            <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">${cards}</ul>
+          </div>
+        </section>`
 }
 
 /** Card for police-station representation. It is a top-level page, not a
@@ -115,6 +145,11 @@ function buildDetailHtml(
     )
     .join('')
   html = html.replace('data-bind="faqs"></dl>', `data-bind="faqs">${faqs}</dl>`)
+
+  // Sub-offence grid: only on a top-level parent page (no parentInfo) that has
+  // sub-pages. On sub-pages and childless areas the placeholder collapses to ''.
+  const subGrid = parentInfo ? '' : subPageGridHtml(area.slug)
+  html = html.replace('<!-- data-bind="subpages" -->', subGrid)
 
   const related = area.related
     .map(
