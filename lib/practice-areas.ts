@@ -355,7 +355,7 @@ export const practiceAreas: PracticeArea[] = [
     policeStation: {
       title: 'Under caution for fraud — call before the interview. Fraud interviews are document-heavy.',
     },
-    related: ['criminal-defence', 'appeals', 'drug-offences'],
+    related: ['criminal-defence', 'appeals'],
   },
   {
     slug: 'sexual-offences',
