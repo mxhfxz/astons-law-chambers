@@ -34,6 +34,22 @@ function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
       </a></li>`
 }
 
+/** Consequence callout for a practice area. Renders the context block as a
+ *  bordered card (single-column IA replacement for the old sidebar). Returns an
+ *  empty string when the area has no `context`, so the template placeholder
+ *  collapses rather than showing stray "—" binds. */
+function contextCalloutHtml(area: PracticeArea): string {
+  if (!area.context) return ''
+  const { eyebrow, title, body } = area.context
+  return `<section class="max-w-wide mx-auto px-6">
+          <div class="border border-grey-300 rounded p-6 md:p-8 max-w-3xl">
+            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600">${esc(eyebrow)}</p>
+            <p class="mt-2 text-lg font-semibold tracking-tightish text-navy-950">${esc(title)}</p>
+            <p class="mt-2 text-navy-700 leading-relaxed">${esc(body)}</p>
+          </div>
+        </section>`
+}
+
 /** Card for a sub-practice-area. Same markup as cardHtml but the href points
  *  at the nested route (/practice-areas/[parent]/[slug]) and the heading is an
  *  h3 (it sits under the section's h2). */
@@ -115,11 +131,10 @@ function buildDetailHtml(
   setVal('kicker', area.kicker)
   setVal('definition', area.definition)
   setVal('situation', area.situation)
-  if (area.context) {
-    setVal('contextEyebrow', area.context.eyebrow)
-    setVal('contextTitle', area.context.title)
-    setVal('contextBody', area.context.body)
-  }
+
+  // Consequence callout: conditional — collapses to '' when the area has no
+  // context, so context-less pages show nothing rather than literal "—" binds.
+  html = html.replace('<!-- data-bind="context-callout" -->', contextCalloutHtml(area))
 
   const actions = area.actions
     .map(

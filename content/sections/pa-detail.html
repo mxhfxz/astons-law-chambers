@@ -41,7 +41,11 @@
         <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
           <h2 class="text-3xl font-semibold tracking-tight2">What is <span data-bind="title">—</span>?</h2>
           <p class="mt-6 text-navy-700 leading-relaxed max-w-3xl" data-bind="definition">—</p>
+          <p class="mt-4 text-navy-700 leading-relaxed max-w-3xl" data-bind="situation">—</p>
         </section>
+
+        <!-- ── S1a: Context callout (injected only when the page has context) ── -->
+        <!-- data-bind="context-callout" -->
 
         <!-- ── S1b: Sub-offence grid (injected only for parents with sub-pages) ── -->
         <!-- data-bind="subpages" -->
@@ -66,6 +70,12 @@
             <h2 class="text-3xl font-semibold tracking-tight2">Types of <span data-bind="title">—</span> work Astons Law Chambers takes on</h2>
             <ul class="mt-6 space-y-2 text-navy-700 leading-relaxed" data-bind="actions"></ul>
           </div>
+        </section>
+
+        <!-- ── S5: Process ────────────────────────────────────────────────── -->
+        <section class="max-w-wide mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-3xl font-semibold tracking-tight2">Process</h2>
+          <ol class="mt-6 space-y-3 text-navy-700 leading-relaxed list-decimal pl-5 max-w-3xl" data-bind="process"></ol>
         </section>
 
         <!-- ── S6: Full-width CTA ─────────────────────────────────────────── -->
