@@ -4,34 +4,43 @@ import { site } from '@/lib/site'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      // Catch-all: every crawler may read the whole site. Anything not named
+      // below (Bytespider, Amazonbot, Meta-ExternalAgent, cohere-ai, Applebot,
+      // etc.) is allowed by this rule.
       {
         userAgent: '*',
         allow: '/',
       },
-      // AI crawlers: explicit allows for citation-eligible crawlers so the site
-      // appears in ChatGPT, Claude, and Perplexity answers — a direct channel
-      // for an audience that asks AI assistants what to do after an arrest.
-      // Google-Extended (Gemini training) and Bytespider (ByteDance) stay
-      // blocked. Googlebot and Google AI Overviews are unaffected either way.
+      // AI search/answer crawlers, named explicitly so the site is a clear,
+      // intentional source for ChatGPT, Gemini, Perplexity, Claude, and Apple
+      // Intelligence — the channel an arrested person uses when they ask an AI
+      // assistant what to do. Indexing bots and user-initiated fetch bots are
+      // both listed so the site shows up in training, search, and live answers.
+      // Googlebot and Google AI Overviews are unaffected by these rules.
       {
-        userAgent: 'ClaudeBot',
+        // OpenAI / ChatGPT — training, search, and live user fetches
+        userAgent: ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User'],
         allow: '/',
       },
       {
-        userAgent: 'PerplexityBot',
-        allow: '/',
-      },
-      {
-        userAgent: 'OAI-SearchBot',
-        allow: '/',
-      },
-      {
+        // Google Gemini grounding + training (Googlebot handles normal search)
         userAgent: 'Google-Extended',
-        disallow: ['/'],
+        allow: '/',
       },
       {
-        userAgent: 'Bytespider',
-        disallow: ['/'],
+        // Perplexity — index + live user fetches
+        userAgent: ['PerplexityBot', 'Perplexity-User'],
+        allow: '/',
+      },
+      {
+        // Anthropic / Claude — index, search, and live user fetches
+        userAgent: ['ClaudeBot', 'Claude-SearchBot', 'Claude-User'],
+        allow: '/',
+      },
+      {
+        // Apple Intelligence / Siri
+        userAgent: 'Applebot-Extended',
+        allow: '/',
       },
     ],
     sitemap: `${site.url}/sitemap.xml`,
