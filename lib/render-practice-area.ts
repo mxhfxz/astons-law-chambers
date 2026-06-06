@@ -136,16 +136,29 @@ function buildDetailHtml(
   // context, so context-less pages show nothing rather than literal "—" binds.
   html = html.replace('<!-- data-bind="context-callout" -->', contextCalloutHtml(area))
 
-  const actions = area.actions
-    .map(
-      (s) =>
-        `<li class="pl-4 relative before:content-['—'] before:absolute before:left-0 before:text-grey-300">${esc(s)}</li>`,
-    )
-    .join('')
-  html = html.replace('data-bind="actions"></ul>', `data-bind="actions">${actions}</ul>`)
+  // S4 — "how a case proceeds". Prose when `processProse` is set (Option B,
+  // 2026-06-06); otherwise the legacy numbered list, so un-migrated pages still
+  // render during the page-by-page rewrite.
+  setVal('process-heading', area.processHeading ?? 'How a case proceeds')
+  const processBody = area.processProse
+    ? area.processProse.map((p) => `<p>${esc(p)}</p>`).join('')
+    : `<ol class="space-y-3 list-decimal pl-5">${area.process
+        .map((s) => `<li>${esc(s)}</li>`)
+        .join('')}</ol>`
+  html = html.replace('data-bind="process-body"></div>', `data-bind="process-body">${processBody}</div>`)
 
-  const process = area.process.map((s) => `<li>${esc(s)}</li>`).join('')
-  html = html.replace('data-bind="process"></ol>', `data-bind="process">${process}</ol>`)
+  // S5 — how the defence is built. Prose when `actionsProse` is set; otherwise
+  // the legacy bullet list.
+  setVal('actions-heading', area.actionsHeading ?? 'How the defence is built')
+  const actionsBody = area.actionsProse
+    ? area.actionsProse.map((p) => `<p>${esc(p)}</p>`).join('')
+    : `<ul class="space-y-2">${area.actions
+        .map(
+          (s) =>
+            `<li class="pl-4 relative before:content-['—'] before:absolute before:left-0 before:text-grey-300">${esc(s)}</li>`,
+        )
+        .join('')}</ul>`
+  html = html.replace('data-bind="actions-body"></div>', `data-bind="actions-body">${actionsBody}</div>`)
 
   const faqs = area.faqs
     .map(
