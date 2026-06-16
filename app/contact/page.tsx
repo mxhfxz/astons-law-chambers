@@ -30,37 +30,7 @@ const contactPageJsonLd = {
   name: 'Contact Astons Law Chambers',
   description: 'Get in touch with Astons Law Chambers for criminal defence legal support. Call or WhatsApp 07922 247 999 at any time.',
   url: pageUrl,
-  mainEntity: {
-    '@type': 'LegalService',
-    name: 'Astons Law Chambers',
-    telephone: '+44-7922-247999',
-    contactPoint: [
-      {
-        '@type': 'ContactPoint',
-        telephone: '+44-7922-247999',
-        contactType: 'Emergency Defence Team',
-        availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          opens: '00:00',
-          closes: '23:59',
-        },
-      },
-      {
-        '@type': 'ContactPoint',
-        telephone: '+44-7922-247999',
-        contactType: 'General enquiries',
-        availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          opens: '09:00',
-          closes: '17:30',
-        },
-      },
-    ],
-  },
+  mainEntity: { '@id': 'https://astonslaw.com/#organization' },
 }
 
 export default function ContactPage() {

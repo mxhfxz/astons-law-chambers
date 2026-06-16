@@ -14,11 +14,7 @@ const serviceJsonLd = {
   name: 'Criminal Defence Legal Services',
   description:
     'Criminal defence law with indicative fee ranges. Written fee agreed before any instruction is accepted.',
-  provider: {
-    '@type': 'LegalService',
-    name: 'Astons Law Chambers',
-    url: 'https://astonslaw.com',
-  },
+  provider: { '@id': 'https://astonslaw.com/#organization' },
   areaServed: { '@type': 'Country', name: 'England and Wales' },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',

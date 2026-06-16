@@ -1,3 +1,136 @@
+# Session Handoff — 2026-06-16 (Legal Aid Indicator — brainstorming, Understanding Lock confirmed)
+
+## Read first
+- **Active task = a NEW lead-gen feature, mid-brainstorm.** Full design doc:
+  `.project/legal-aid-indicator/plan.md`. Skill in use: `brainstorming` — NO code,
+  NO copy written yet. Understanding Lock CONFIRMED by user ("All looks good") 2026-06-16.
+- New memory: `project_legal_aid_indicator_2026_06_16.md`.
+
+## What it is
+Interactive criminal **legal aid INDICATOR** (never "calculator" — BSB licence risk).
+No verdict; both outcomes push to contact. Confirmed: cal.com is the "form" (no custom
+form/email), standalone page + entry points, soft-signal 2 outcomes, 4 bracket inputs
+(case stage · benefits/under-18 · income band · dependants/housing), 100% client-side.
+
+## Next step (resume here)
+1. Read `.project/legal-aid-indicator/plan.md`.
+2. Resolve 2 OPEN questions first: **copy ownership** (user gives exact text vs unlocks
+   Claude to draft for approval — cannot build without this) and confirm slug `/legal-aid-check`.
+3. Resume `brainstorming` at **step 5 — design approaches** (interactive mechanism +
+   page structure), then incremental design, then implementation only after design locked.
+- Architecture principle already settled: copy in a static `content/sections/*.html`
+  fragment (read-only), logic in a separate JS module that toggles pre-rendered result
+  blocks. Tailwind JIT does NOT run — classes must pre-exist in `app/preview-tailwind.css`.
+
+## Note
+This task is unrelated to the uncommitted Hero/UI stack below — that work is still
+uncommitted on `sub-pages` and unchanged by this session.
+
+---
+
+# Session Handoff — 2026-06-15 EVENING (Hero overhaul Steps 1–3 + Insights + home card)
+
+## Read first
+- **Canonical design system = `.project/ui-model/`** (OOP class notes, start at `_index.md`).
+  Build/edit by inheriting from those classes; invent nothing. Hero.md / Body.md / Invariants.md
+  were all updated this session and are current.
+- **Full audit trail of this session's consistency work:** `.project/ui-consistency-2026-06-15/findings.md`
+  (PASS 1 / 2 / 3). The older `.project/ui-consistency-audit-2026-06-10.md` is the prior baseline.
+- **User working style (this session):** strict OOP — access the relevant note + section, update it,
+  remove stale once a direction is confirmed. ZERO creative freedom; only do what's instructed.
+  Copy is read-only unless the user gives EXACT text.
+
+## State
+- Branch `sub-pages`. **NOTHING committed this session.** ~31 uncommitted files.
+- Every change verified: `npm run type-check` ✓, `npm run build` ✓, real-browser (Playwright, 1440/1280/1024/390).
+- Prod server pattern used: `npm run start -- -p <port>` (NOT dev). Stop it before clearing session.
+
+## What changed this session (Hero/UI overhaul, in order)
+**Step 1 — eyebrow + breadcrumb removed from EVERY hero** (12 content sections + pa-detail template +
+home). Home: eyebrow was the `<h1>` → removed, visible headline promoted `<h2>`→`<h1>` (one H1 kept).
+Dead breadcrumb-injection removed from `lib/render-practice-area.ts`; `kicker` bind now stale (flagged).
+
+**Step 2 — hero composition + equal height.** Every non-compliance hero is now `.hero-split` 2-column
+(image right) with: H1 + ONE short line + CTA row + BSB link. NO eyebrow/breadcrumb/long-lead.
+- Hero lines: user-authored (about, guides-index) + user-directed (direct-access names Ghulam +
+  "direct access" — overrides term-ban) + 9 drafted-and-approved (less-salesy register). 🚩 several carry
+  operational claims ("24/7", "via a partner firm", "free legal advice") — need client sign-off before prod.
+- Old hero leads MOVED to body where unique (practice-areas, guides-index, direct-access) or REMOVED where
+  the body already duplicated (about, fees, both guides, police-station).
+- **Equal band: `.hero-split { min-height: 500px }` @≥1024** (floor, not hard height — two long guide-question
+  H1s balloon to ~620px at 1024px so a short fixed height was impossible). All heroes equal at ≥1280px; only
+  long-H1 guides grow at the 1024–1200 edge. Vertical padding trimmed 5rem→3rem. `.hero-split-tall` removed.
+- `fluid-h1` clamp reduced to `clamp(2.25rem,1.5rem+2.2vw,3.25rem)` (52px desktop / 36px mobile, uniform).
+
+**Step 3 — consistency passes (whole site, content/ + app/):**
+- Hero H1 weight uniform `font-semibold` (home was the lone `font-bold` — fixed).
+- `.pa-aside` is the ONLY sticky-aside mechanism (fixed 5 asides off wrong `lg:top-28`: police, home,
+  both guides, insights-article).
+- **Insights hub + article** (`app/insights/page.tsx`, `[slug]/page.tsx`) converted to `.hero-split` 2-col
+  (were old single-col headers w/ eyebrow+breadcrumb). Insights heroes keep Call+WhatsApp CTAs.
+- home hero buttons `btn-xl`/mixed-width → `btn-lg btn-full`; home BSB → standard styling.
+- **Spacing: hero→first-content = 80px on EVERY page** (`py-16 md:py-20`). Fixed fees (two-container `md:pt-16`)
+  + home first section. Inter-para `mt-4`→`mt-3` on guides/police (canonical). compliance body `pb-28`→`pb-20`.
+- **Home police-custody card REMOVED** (user, this turn) — the grey "If someone is in police custody" card
+  with red Call CTA. Next section ("What to do now") given `py-16 md:py-20` so the 80px gap holds.
+
+## Open / next-session TODO
+- **COMMIT** to `sub-pages` (run code-reviewer first). User has NOT authorised a commit this session.
+- 🚩 **Client sign-off on hero-line operational claims** before any prod push (24/7, partner-firm legal aid, etc.).
+- **Phase B (NOT started):** sub-service / practice-area pages need per-area hero lines — adapt each area's
+  `cardSummary` in the new conversion register; add a `heroLine` field + data-bind. Drafts need user approval (copy).
+- **Hero true-equal at 1024–1200px** still needs the 2 long guide-question H1s shortened (copy → user) — else
+  the 500px floor stands (they grow only at that narrow band; verified no overflow).
+- `kicker` bind in `render-practice-area.ts` is now dead (hero eyebrow gone) — remove when convenient.
+
+---
+
+# Session Handoff — 2026-06-15 (site-wide UI consistency pass) — SUPERSEDED by Steps 1–3 above
+
+## Read first
+- **Design system is now the canonical reference:** `.project/ui-model/` (OOP class notes —
+  start at `_index.md`). Build/edit pages by inheriting from those classes; invent nothing.
+- **UI audit + resolution log:** `.project/ui-consistency-audit-2026-06-10.md`.
+- New HARD RULE in memory: `feedback_hero_no_paragraph_clutter` (hero = eyebrow + h1 + CTA only).
+
+## State
+- Branch `sub-pages`. **NOTHING committed this session** — large stack of uncommitted edits
+  (20 content/section files, `app/preview-styles.css`, `lib/render-practice-area.ts`,
+  `.github/workflows/indexnow.yml`). Dev server was used on :3000 for verification.
+- No production `build` run (it collides with the running `next dev` and corrupts `.next`).
+  Changes are HTML/CSS/string only and were verified in the live dev render + browser.
+
+## What changed this session (all verified in-browser, no copy edits except where user gave exact text)
+1. **IndexNow** (`.github/workflows/indexnow.yml`): rewritten to pull the live sitemap and
+   submit all URLs (was a stale hardcoded list). Fires on push to main; `workflow_dispatch` added.
+2. **PA/sub-page layout** (`pa-detail.html` + `lib/render-practice-area.ts`): police-station
+   2-col layout — main + sticky light aside (red box + Related + Guides, conditional on
+   `appeals/inquests/totting-up`); "Get in touch" grey banner (placed above FAQ when a context
+   callout exists, else top slot); dark banner moved to bottom; FAQ chevron removed; `.pa-aside`
+   sticky 1rem below navbar; `.cta-actions` mobile edge-to-edge buttons.
+3. **Hero skyscraper image** (`/hero_image.webp`) added to all hero pages' right column.
+4. **Hero main CTA** = white "Book a Free Consultation" everywhere (police-station = "Call Now").
+5. **Homepage H1** → "24/7 Criminal Legal Defence".
+6. **Info-page asides** (about/fees/direct-access/legal-aid/authorised/not-found) dark box →
+   light card; containers aligned to canonical (py-16 md:py-20, space-y-12, text-3xl).
+7. **F2** all section headings → `text-3xl`. **F4** FinalStrip added to both guides.
+   **F5** contact hero given the standard CTA. **F6** aside variation = intentional.
+8. **Exec call**: non-home heroes desktop `min-height: 40vh` (`.hero-split`); home keeps tall
+   via `.hero-split-tall`. NOTE: floor only — heroes sit taller (content + 5rem hero padding).
+9. **F1** authorised-to-conduct-litigation + legal-aid → dark Hero (TL;DR blockquote moved to
+   body top, no hero lead). Legal pages keep ArticleHeader. **F3** practice-areas body padding fixed.
+
+## Open / next-session TODO
+- **Commit** the session to `sub-pages` (run code-reviewer first). User had not authorised commit.
+- **User's planned UI direction** (mentioned but not yet given) — they said "then we'll update
+  the UI to what I am planning."
+- **Existing hero leads** (home/about/fees/etc still have a `fluid-lead`) conflict with the new
+  no-clutter hero rule — flagged, NOT changed (copy read-only). Await direction.
+- **Hero true-40vh**: reduce `.hero-split-left` 5rem padding if a literal 40vh is wanted.
+- 🚩 `authorised` body shows "Bar number 69956" (relocated verbatim, pre-existing) — verify with client.
+
+---
+
 # Session Handoff — 2026-05-31 (PA hero redesign + kicker fix)
 
 ## Next session starting point

@@ -105,17 +105,6 @@ export function SiteBehaviour() {
     // The banner is pinned below the navbar and always visible — no scroll
     // show/hide. CSS keeps it in place; nothing to wire up here.
 
-    // --- Quick exit -------------------------------------------------------
-    const leaveSite = () => {
-      try {
-        window.location.replace('https://www.bbc.co.uk/weather')
-      } catch {
-        window.location.href = 'https://www.bbc.co.uk/weather'
-      }
-    }
-    const quickExits = document.querySelectorAll<HTMLElement>('[data-leave-site]')
-    quickExits.forEach((el) => el.addEventListener('click', leaveSite))
-
     // --- GA4 delegated click tracking -------------------------------------
     const track = (name: string, params: Record<string, unknown>) => {
       if (typeof window.gtag !== 'function') return
@@ -190,7 +179,6 @@ export function SiteBehaviour() {
       document.removeEventListener('click', onClickCapture, { capture: true } as EventListenerOptions)
       document.removeEventListener('keydown', onMobileKey)
       mobileToggle?.removeEventListener('click', onMobileToggle)
-      quickExits.forEach((el) => el.removeEventListener('click', leaveSite))
       cleanups.forEach((fn) => fn())
     }
   }, [])

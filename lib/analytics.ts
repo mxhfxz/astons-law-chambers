@@ -59,8 +59,6 @@ export function getCtaType(eventName: string): string {
       return 'guide'
     case 'download_click':
       return 'download'
-    case 'quick_exit':
-      return 'quick_exit'
     default:
       return 'other'
   }

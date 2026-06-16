@@ -7,7 +7,6 @@ import {
   SiteFooter,
   StickyBar,
   DesktopFab,
-  QuickExit,
 } from '@/components/site/chrome'
 import { SiteBehaviour } from '@/components/site/SiteBehaviour'
 import { ConsentBanner } from '@/components/site/ConsentBanner'
@@ -50,7 +49,7 @@ const jsonLd = [
     '@type': 'LegalService',
     name: 'Astons Law Chambers',
     image: 'https://astonslaw.com/logo.png',
-    '@id': 'https://astonslaw.com',
+    '@id': 'https://astonslaw.com/#organization',
     url: 'https://astonslaw.com',
     telephone: '+447922247999',
     email: 'info@astonslaw.com',
@@ -88,8 +87,98 @@ const jsonLd = [
     },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Legal Services',
+      name: 'Criminal defence services',
       itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Criminal Defence',
+            description: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
+            serviceType: 'Criminal defence barrister (direct access), London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Violent Crimes',
+            description: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
+            serviceType: 'Criminal defence barrister for violent crime allegations, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Youth Crimes',
+            description: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
+            serviceType: 'Criminal defence barrister for clients under 18, Youth Court, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Driving Offences',
+            description: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
+            serviceType: 'Criminal defence barrister for driving offences, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Drug Offences',
+            description: 'Possession, supply, importation. Forensic and disclosure challenges.',
+            serviceType: 'Criminal defence barrister for drug offences, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Appeals',
+            description: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
+            serviceType: 'Criminal appeals barrister, Crown Court and Court of Appeal, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Inquests',
+            description: 'Family and interested-person representation. Pre-inquest review through hearing.',
+            serviceType: "Inquest representation by a barrister, Coroner's Court, London",
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Fraud & Financial Crime Defence',
+            description: 'Fraud, false representation, money laundering. Digital evidence. Crown Court.',
+            serviceType: 'Criminal defence barrister for fraud and financial crime, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Sexual Offences Defence',
+            description: 'Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.',
+            serviceType: 'Criminal defence barrister for sexual offence allegations, London',
+            provider: { '@id': 'https://astonslaw.com/#organization' },
+          },
+        },
         {
           '@type': 'Offer',
           itemOffered: {
@@ -97,150 +186,17 @@ const jsonLd = [
             name: '24/7 Police Station Representation',
             description: 'I am at a Police Station: Know your rights during an interview and find out exactly what the police are—and are not—allowed to ask you. Call for 24/7 Representation.',
             serviceType: 'Criminal Defence',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+            provider: { '@id': 'https://astonslaw.com/#organization' },
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Court Summons Guidance',
-            description: 'I have a Court Summons: Prepare for your hearing with a clear breakdown of what to expect and the specific steps needed to protect your case.',
-            serviceType: 'Criminal Defence',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Tailored Legal Support',
-            description: "Something else? Get legal support tailored directly to you. If you don't see your specific situation here, we can still provide a clear path forward and a strategy for your defence.",
-            serviceType: 'Legal Consultation',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Legal Aid Representation',
-            description: 'I need Legal Aid: Access free legal assistance through our registered firm. We can provide expert support at no cost to you if you are eligible.',
+            name: 'Legal Aid',
+            description: 'If legal aid is the appropriate route, the case is referred to a partner solicitor firm. The referral is made at no cost. The partner firm applies for legal aid on your behalf and runs the case under its contract with the Legal Aid Agency.',
             serviceType: 'Legal Aid',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-            areaServed: { '@type': 'Place', name: 'London, UK' },
-            hasOfferCatalog: {
-              '@type': 'OfferCatalog',
-              name: 'Legal Aid Services',
-              itemListElement: [
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Police Station Legal Aid',
-                    description: 'Free and independent legal advice at the police station, available 24/7, funded by Legal Aid regardless of means or outcome.',
-                  },
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: "Magistrates' Court Legal Aid",
-                    description: "Means-tested and interest-of-justice tested representation for criminal proceedings in the Magistrates' Court.",
-                  },
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Crown Court Legal Aid',
-                    description: 'Representation for more serious criminal cases in the Crown Court, subject to means and merits testing.',
-                  },
-                },
-              ],
-            },
-            termsOfService: "Eligibility for Legal Aid depends on the merits of the case and the client's financial circumstances. We provide initial advice on eligibility during your first consultation.",
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Serious Crime & General Defence',
-            description: 'Assault, drug offences, and public order charges. We challenge police procedure and evidence to protect your liberty.',
-            serviceType: 'Criminal Defence',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Motoring & Road Traffic',
-            description: 'Drink/drug driving, speeding, and accumulation of points. We fight to keep your licence and your livelihood.',
-            serviceType: 'Road Traffic Offences',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Fraud & Financial Crime',
-            description: 'Complex fraud, money laundering, and POCA proceedings. We dismantle forensic accounting evidence to secure your assets.',
-            serviceType: 'Financial Crime Defence',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Youth & Student Defence',
-            description: 'Protecting the future of young people facing investigation. We focus on discretion and minimizing long-term impact.',
-            serviceType: 'Youth Defence',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Inquest Representation',
-            description: "Specialist legal representation for bereaved families at inquests. We provide sensitive, experienced support to ensure thorough investigations and protect the family's interests throughout Article 2 inquests and Coroner's Court proceedings.",
-            serviceType: 'Inquests and Coronial Law',
-            provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
-            areaServed: { '@type': 'Place', name: 'London, UK' },
-            hasOfferCatalog: {
-              '@type': 'OfferCatalog',
-              name: 'Inquest Services',
-              itemListElement: [
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Article 2 Inquests',
-                    description: 'Specialist representation for inquests requiring Article 2 compliance, ensuring thorough state investigation into deaths involving public bodies.',
-                  },
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Pre-Inquest Review',
-                    description: 'Comprehensive preparation including evidence review, witness identification, and pre-inquest hearing representation.',
-                  },
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Bereaved Family Support',
-                    description: 'Sensitive, expert guidance for families navigating the inquest process, ensuring their voices are heard and their questions answered.',
-                  },
-                },
-              ],
-            },
+            provider: { '@id': 'https://astonslaw.com/#organization' },
           },
         },
       ],
@@ -263,18 +219,6 @@ const jsonLd = [
           dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
           opens: '00:00',
           closes: '23:59',
-        },
-      },
-      {
-        '@type': 'ContactPoint',
-        telephone: '+447922247999',
-        contactType: 'General enquiries',
-        availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          opens: '09:00',
-          closes: '17:30',
         },
       },
     ],
@@ -326,9 +270,10 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://astonslaw.com/#principal',
     name: 'Ghulam Humayun',
     jobTitle: 'Barrister',
-    worksFor: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+    worksFor: { '@id': 'https://astonslaw.com/#organization' },
     sameAs: [
       'https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html',
     ],
@@ -336,9 +281,10 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': 'https://astonslaw.com/#website',
     url: 'https://astonslaw.com',
     name: 'Astons Law Chambers',
-    publisher: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+    publisher: { '@id': 'https://astonslaw.com/#organization' },
   },
 ]
 
@@ -369,7 +315,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         <StickyBar />
         <DesktopFab />
-        <QuickExit />
         <SiteBehaviour />
         <Analytics />
 

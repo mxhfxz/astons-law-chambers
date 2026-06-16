@@ -41,13 +41,12 @@ function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
 function contextCalloutHtml(area: PracticeArea): string {
   if (!area.context) return ''
   const { eyebrow, title, body } = area.context
-  return `<section class="max-w-wide mx-auto px-6">
-          <div class="border border-grey-300 rounded p-6 md:p-8 max-w-3xl">
-            <p class="text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600">${esc(eyebrow)}</p>
-            <p class="mt-2 text-lg font-semibold tracking-tightish text-navy-950">${esc(title)}</p>
-            <p class="mt-2 text-navy-700 leading-relaxed">${esc(body)}</p>
-          </div>
-        </section>`
+  // Bordered card; lives inside the main column now (no full-width wrapper).
+  return `<div class="border border-grey-300 rounded p-6 md:p-8">
+          <p class="text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600">${esc(eyebrow)}</p>
+          <p class="mt-2 text-lg font-semibold tracking-tightish text-navy-950">${esc(title)}</p>
+          <p class="mt-2 text-navy-700 leading-relaxed">${esc(body)}</p>
+        </div>`
 }
 
 /** Card for a sub-practice-area. Same markup as cardHtml but the href points
@@ -72,12 +71,94 @@ function subPageGridHtml(parentSlug: string): string {
   const subs = subPracticeAreas.filter((s) => s.parentSlug === parentSlug)
   if (subs.length === 0) return ''
   const cards = subs.map(subPageCardHtml).join('')
-  return `<section class="bg-white">
-          <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
-            <h2 class="text-3xl font-semibold tracking-tight2">Offences we defend in this area</h2>
-            <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">${cards}</ul>
-          </div>
+  // Lives inside the main column now (2/3 width), so cap the grid at 2 columns.
+  return `<section>
+          <h2 class="text-3xl font-semibold tracking-tight2">Offences we defend in this area</h2>
+          <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">${cards}</ul>
         </section>`
+}
+
+/** Slugs with no realistic "calling from a police station" scenario — these get
+ *  no red box and no Guides card (user, 2026-06-09). Appeals = post-conviction;
+ *  Inquests = families, not arrest; Totting-up = penalty points / court. */
+const NO_STATION_SCENARIO = new Set(['appeals', 'inquests', 'totting-up'])
+
+/** Aside block 1 — the red "If you are at a station now" call card, reused
+ *  verbatim from police-station.html. Omitted where there is no custody
+ *  scenario. */
+function asideRedBoxHtml(slug: string): string {
+  if (NO_STATION_SCENARIO.has(slug)) return ''
+  return `<div class="bg-emergency-500 text-white rounded p-6">
+          <p class="text-xs font-semibold tracking-[0.12em] uppercase">If you are at a station now</p>
+          <p class="mt-2 text-lg font-semibold tracking-tightish">Call before the interview starts.</p>
+          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse-emergency w-full mt-4">
+            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+            Call now
+          </a>
+        </div>`
+}
+
+/** Related-areas link list (user rule, 2026-06-09):
+ *  - sub-page        → parent, then sibling sub-pages
+ *  - top-level w/ children → its child sub-pages
+ *  - top-level w/o children → existing curated `related[]` (fallback, so the
+ *    aside never collapses to empty). */
+function relatedItemsHtml(
+  area: PracticeArea,
+  parentInfo?: { slug: string; title: string },
+): string {
+  const links: Array<{ href: string; title: string }> = []
+  if (parentInfo) {
+    links.push({ href: `/practice-areas/${parentInfo.slug}`, title: parentInfo.title })
+    for (const s of subPracticeAreas.filter((s) => s.parentSlug === parentInfo.slug && s.slug !== area.slug)) {
+      links.push({ href: `/practice-areas/${s.parentSlug}/${s.slug}`, title: s.title })
+    }
+  } else {
+    const children = subPracticeAreas.filter((s) => s.parentSlug === area.slug)
+    if (children.length > 0) {
+      for (const c of children) {
+        links.push({ href: `/practice-areas/${c.parentSlug}/${c.slug}`, title: c.title })
+      }
+    } else {
+      for (const slug of area.related) {
+        links.push({ href: resolveAreaHref(slug), title: resolveAreaTitle(slug) })
+      }
+    }
+  }
+  return links
+    .map(
+      (l) =>
+        `<li><a href="${l.href}" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">${esc(l.title)} &rarr;</a></li>`,
+    )
+    .join('')
+}
+
+/** Aside block 2 — Related areas card. */
+function asideRelatedHtml(
+  area: PracticeArea,
+  parentInfo?: { slug: string; title: string },
+): string {
+  const items = relatedItemsHtml(area, parentInfo)
+  if (!items) return ''
+  return `<div class="bg-offwhite border border-grey-300 rounded p-6">
+          <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Related areas</p>
+          <ul class="mt-3 space-y-2 text-sm">${items}</ul>
+        </div>`
+}
+
+/** Aside block 3 — Guides card. Shown only where a relevant guide exists. The
+ *  two current guides are arrest/interview guides, so they map to the same set
+ *  as the red box. Coded but not rendered elsewhere until a relevant guide is
+ *  added (user, 2026-06-09). */
+function asideGuidesHtml(slug: string): string {
+  if (NO_STATION_SCENARIO.has(slug)) return ''
+  return `<div class="bg-offwhite border border-grey-300 rounded p-6">
+          <p class="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Guides</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="/guides/first-24-hours-after-arrest" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">First 24 hours after an arrest →</a></li>
+            <li><a href="/guides/do-i-need-a-lawyer-at-a-voluntary-police-interview" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Do I need a lawyer at a voluntary interview? →</a></li>
+          </ul>
+        </div>`
 }
 
 /** Card for police-station representation. It is a top-level page, not a
@@ -104,6 +185,32 @@ export function renderPracticeAreaIndex(): string {
   return html.replace('<!-- Populated by JS from PRACTICE_AREAS -->', cards.join(''))
 }
 
+/** Get-in-touch CTA banner. Placed just below the intro when the page has no
+ *  context callout, or directly above the FAQ when it does — so the two grey
+ *  boxes never sit adjacent at the top (user, 2026-06-09). Copy is the
+ *  user-authored banner copy. */
+function getInTouchBannerHtml(): string {
+  return `<div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
+                <p class="text-xl font-semibold tracking-tightish text-navy-950">Get in touch</p>
+                <p class="mt-3 text-navy-700 leading-relaxed">Book a consultation or call for legal support today</p>
+                <div class="cta-actions">
+                  <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-primary flex">
+                    Book a consultation
+                  </a>
+                  <div class="md:hidden">
+                    <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999" data-track="call_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
+                      <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+                      Call now
+                    </a>
+                  </div>
+                  <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Send a message on WhatsApp" data-track="whatsapp_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
+                    <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+                    Send a message
+                  </a>
+                </div>
+              </div>`
+}
+
 /** Internal: builds the detail page HTML from the pa-detail template.
  *  Accepts an optional parentInfo for sub-pages that need a 4-level breadcrumb. */
 function buildDetailHtml(
@@ -111,14 +218,6 @@ function buildDetailHtml(
   parentInfo?: { slug: string; title: string },
 ): string {
   let html = readSection('pa-detail')
-
-  if (parentInfo) {
-    const parentLink = `<a href="/practice-areas/${parentInfo.slug}" class="hover:text-white">${esc(parentInfo.title)}</a>`
-    html = html.replace(
-      /Defence work<\/a>\s*&nbsp;\/&nbsp;\s*<span data-bind="title">/,
-      `Defence work</a> &nbsp;/&nbsp;\n                  ${parentLink} &nbsp;/&nbsp;\n                  <span data-bind="title">`,
-    )
-  }
 
   const setVal = (name: string, value: string) => {
     html = html.replace(
@@ -160,14 +259,12 @@ function buildDetailHtml(
         .join('')}</ul>`
   html = html.replace('data-bind="actions-body"></div>', `data-bind="actions-body">${actionsBody}</div>`)
 
+  // FAQ items — no chevron (not collapsible), user 2026-06-09.
   const faqs = area.faqs
     .map(
       (f) => `
         <div class="border-t border-grey-300 pt-4">
-          <dt class="flex items-start justify-between gap-4 font-semibold tracking-tightish">
-            <span class="flex-1">${esc(f.q)}</span>
-            <svg aria-hidden="true" class="shrink-0 w-4 h-4 mt-1 text-grey-300"><use href="#i-chevron-down"/></svg>
-          </dt>
+          <dt class="font-semibold tracking-tightish">${esc(f.q)}</dt>
           <dd class="mt-2 text-navy-700 leading-relaxed">${esc(f.a)}</dd>
         </div>`,
     )
@@ -179,13 +276,22 @@ function buildDetailHtml(
   const subGrid = parentInfo ? '' : subPageGridHtml(area.slug)
   html = html.replace('<!-- data-bind="subpages" -->', subGrid)
 
-  const related = area.related
-    .map(
-      (slug) =>
-        `<li><a href="${resolveAreaHref(slug)}" class="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">${esc(resolveAreaTitle(slug))} →</a></li>`,
-    )
+  // Get-in-touch banner placement: above the FAQ when a context callout is
+  // present (avoids two adjacent grey boxes), otherwise in the top slot.
+  const banner = getInTouchBannerHtml()
+  html = html.replace('<!-- data-bind="cta-top" -->', area.context ? '' : banner)
+  html = html.replace('<!-- data-bind="cta-above-faq" -->', area.context ? banner : '')
+
+  // Right sticky aside: red box (conditional) + related areas + guides
+  // (conditional). Each block returns '' when it should not appear.
+  const aside = [
+    asideRedBoxHtml(area.slug),
+    asideRelatedHtml(area, parentInfo),
+    asideGuidesHtml(area.slug),
+  ]
+    .filter(Boolean)
     .join('')
-  html = html.replace('data-bind="related"></ul>', `data-bind="related">${related}</ul>`)
+  html = html.replace('<!-- data-bind="aside" -->', aside)
 
   return html
 }

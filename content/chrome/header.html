@@ -65,7 +65,7 @@
             aria-expanded="false"
             aria-controls="servicesMega"
           >
-            Defence work
+            Services
             <svg class="w-3.5 h-3.5 mt-0.5" aria-hidden="true"><use href="#i-chevron-down"/></svg>
           </a>
         </div>
@@ -90,7 +90,6 @@
           data-track-location="header"
           class="btn btn-sm btn-primary hidden sm:inline-flex"
         >
-          <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
           Call now
         </a>
         <button
@@ -120,12 +119,11 @@
       id="servicesMega"
       class="mega absolute left-0 right-0 top-full bg-white border-t border-grey-300 shadow-[0_24px_48px_-24px_rgba(14,22,40,0.16)]"
       role="region"
-      aria-label="Defence work"
+      aria-label="Services"
       data-open="false"
     >
       <div class="max-w-wide mx-auto px-6 py-10">
-        <a href="/practice-areas" class="inline-flex items-center gap-2 text-base font-semibold text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">View all defence work →</a>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
         <div class="md:col-span-4">
           <p class="fluid-eyebrow font-semibold uppercase text-grey-600">By case type</p>
           <ul class="mt-4 text-base">
@@ -151,11 +149,11 @@
             <a href="/police-station-representation" class="mt-3 inline-block text-base font-medium text-white underline underline-offset-4 decoration-1 hover:decoration-2">How attendance works →</a>
           </div>
           <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="mega_menu" class="btn btn-sm btn-inverse mt-6">
-            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
             Call now
           </a>
         </div>
         </div>
+        <a href="/practice-areas" class="inline-flex items-center gap-2 text-base font-semibold text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2 mt-8">View all defence work →</a>
       </div>
     </div>
 
@@ -166,7 +164,7 @@
         <a href="/about" class="py-3 text-navy-950 border-b border-grey-300">About</a>
         <details class="group border-b border-grey-300">
           <summary class="py-3 text-navy-950 flex items-center justify-between cursor-pointer list-none">
-            <span>Defence work</span>
+            <span>Services</span>
             <svg class="w-4 h-4 transition-transform group-open:rotate-180" aria-hidden="true"><use href="#i-chevron-down"/></svg>
           </summary>
           <ul class="pb-3 pl-2 grid grid-cols-1 gap-2 text-base text-grey-600">
@@ -183,11 +181,13 @@
         </details>
         <a href="/insights" class="py-3 text-navy-950 border-b border-grey-300">Insights</a>
         <a href="/contact" class="py-3 text-navy-950">Contact</a>
-        <div class="mt-4 grid grid-cols-2 gap-2">
-          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="header_mobile" class="btn btn-md btn-secondary">Book a call</a>
-          <a href="tel:+447922247999" data-track="call_click" data-track-location="header_mobile" class="btn btn-md btn-primary" aria-label="Call Astons Law Chambers">
-            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+        <div class="mt-4 flex flex-col gap-2">
+          <a href="tel:+447922247999" data-track="call_click" data-track-location="header_mobile" class="btn btn-md btn-primary w-full" aria-label="Call Astons Law Chambers">
             Call now
+          </a>
+          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="header_mobile" class="btn btn-md btn-secondary w-full">Book a call</a>
+          <a href="https://wa.me/447922247999" data-track="whatsapp_click" data-track-location="header_mobile" class="btn btn-md btn-secondary w-full" aria-label="Message Astons Law Chambers on WhatsApp">
+            WhatsApp
           </a>
         </div>
       </nav>

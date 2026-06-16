@@ -18,9 +18,10 @@ const pageUrl = 'https://astonslaw.com/about'
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': 'https://astonslaw.com/#principal',
   name: 'Ghulam Humayun',
   jobTitle: 'Barrister',
-  worksFor: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+  worksFor: { '@id': 'https://astonslaw.com/#organization' },
   sameAs: [
     'https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html',
   ],
@@ -51,7 +52,7 @@ const serviceJsonLd = {
   name: 'Criminal Defence Legal Services',
   description: 'Criminal defence legal representation in London and across England and Wales, from police station through to Crown Court trial and appeal.',
   serviceType: 'Criminal Defence',
-  provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+  provider: { '@id': 'https://astonslaw.com/#organization' },
   areaServed: [
     { '@type': 'Place', name: 'London' },
     { '@type': 'Place', name: 'England and Wales' },
@@ -67,7 +68,7 @@ const serviceJsonLd = {
           name: 'Police Station Representation',
           description: 'Attendance at the police station before the interview begins. Available at any hour.',
           serviceType: 'Criminal Defence',
-          provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+          provider: { '@id': 'https://astonslaw.com/#organization' },
         },
       },
       {
@@ -77,7 +78,7 @@ const serviceJsonLd = {
           name: 'Magistrates Court and Crown Court Representation',
           description: 'Criminal defence from first hearing through to trial and sentencing in both the Magistrates Court and Crown Court.',
           serviceType: 'Criminal Defence',
-          provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+          provider: { '@id': 'https://astonslaw.com/#organization' },
         },
       },
       {
@@ -87,7 +88,7 @@ const serviceJsonLd = {
           name: 'Criminal Appeals',
           description: 'Appeals against conviction and sentence in the Crown Court and the Court of Appeal (Criminal Division).',
           serviceType: 'Criminal Appeals',
-          provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+          provider: { '@id': 'https://astonslaw.com/#organization' },
         },
       },
       {
@@ -97,7 +98,7 @@ const serviceJsonLd = {
           name: 'Inquest Representation',
           description: 'Representation of families and interested persons at inquests in the Coroner\'s Court.',
           serviceType: 'Inquests and Coronial Law',
-          provider: { '@type': 'LegalService', name: 'Astons Law Chambers' },
+          provider: { '@id': 'https://astonslaw.com/#organization' },
         },
       },
     ],
