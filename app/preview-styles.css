@@ -637,59 +637,111 @@ body.has-sticky-bar {
 .sticky-bar-book:hover  { background: #0a1527; }
 .sticky-bar-book:active { background: #080f1e; }
 
-/* ── Full-bleed 50/50 hero split ────────────────────────────────────────── */
-/* Used on every page hero. Left column: text+CTAs with viewport-aware padding.
-   Right column: image or decorative mark filling 100% of its half.
-   Mobile: single column, text above, right panel below. */
-.hero-split {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.hero-split-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 3.5rem 1.5rem 3rem;
-}
-.hero-split-right {
+/* ── Hero object (OOCSS) — 2026 redesign (user spec) ───────────────────────
+   One reusable hero. Modifiers: .hero--image (skyline background + 50% dark
+   overlay so left copy stays legible) and .hero--solid (current blue,
+   var(--color-bg-footer)). Copy is left-aligned and constrained to the page
+   boundary via .hero__inner = `max-w-wide mx-auto px-6` (same width as the
+   body sections below, so it never stretches past the rest of the page).
+   Landscape (desktop) = 75vh; portrait (vertical) orientation = 80vh. */
+.hero {
   position: relative;
-  overflow: hidden;
-  background-color: var(--color-navy-900);
-  min-height: clamp(240px, 45vw, 480px);
+  display: flex;
+  align-items: center;
+  background-color: var(--color-bg-footer);
 }
-@media (min-width: 768px) {
-  .hero-split-left {
-    padding: 5rem 3rem 4rem;
-  }
-  .hero-split-right {
-    min-height: clamp(300px, 40vw, 540px);
-  }
+.hero--image {
+  background-image: url('/hero_image.webp');
+  background-size: cover;
+  background-position: center;
+}
+.hero--image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.50);
+  pointer-events: none;
+}
+.hero--solid {
+  background-color: var(--color-bg-footer);
+}
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+@media (orientation: landscape) {
+  .hero { min-height: 75vh; }
+}
+@media (orientation: portrait) {
+  .hero { min-height: 80vh; }
 }
 @media (min-width: 1024px) {
-  .hero-split {
-    grid-template-columns: 1fr 1fr;
-    /* UI pass Step 2 (2026-06-15) — equal band. A HARD height can't be both short and
-       overflow-proof: two long guide-question H1s wrap to ~5 lines at the 1024px
-       breakpoint and need ~620px, while short H1s need ~470px. So this is a min-height
-       FLOOR (500px) — every normal hero sits at exactly 500px (equal at ≥1280px); only
-       the long-H1 guide pages grow at narrow desktop, and nothing overflows. Vertical
-       padding trimmed 5rem→3rem (user). Homepage .hero-split-tall override removed.
-       PENDING user: accept the floor, or shorten the 2 long guide H1s for a true fixed band. */
-    min-height: 500px;
-  }
-  .hero-split-left {
-    justify-content: flex-start;
-    padding: 3rem;
-  }
-  /* Hero content distribution (user spec 2026-06-16, approved for all pages):
-     3rem padding all sides; H1 at top, copy 1rem below it, CTA pinned to the
-     bottom. 2-column layout only (≥1024px); mobile/tablet keep stacked spacing. */
-  .hero-split-left > h1 { margin-top: 0; }
-  .hero-split-left .fluid-lead { margin-top: 1rem; }
-  .hero-split-left .btn-row { margin-top: auto; }
-  .hero-split-right {
-    min-height: 0;
-  }
+  .hero__inner { padding-top: 4rem; padding-bottom: 4rem; }
+}
+/* Hero secondary (ghost) CTA: solid 1px white outline so it stays legible
+   against the image background instead of the faint 30% border. Scoped to the
+   hero (both the .hero object and legacy .hero-split markup) — leaves
+   .btn-on-dark on other dark strips untouched. */
+.hero .btn-on-dark,
+.hero-split .btn-on-dark {
+  border: 1px solid #fff;
+}
+/* Hero subcopy line length — cap the measure so a desktop line never exceeds
+   ~80 characters (the default max-w-prose resolves to ~882px / ~84 chars here,
+   which reads too wide). 60ch in this font ≈ 755px ≈ ~77 chars and scales with
+   the fluid-lead size. Overrides max-w-prose via higher specificity. */
+.hero__inner .fluid-lead {
+  max-width: 60ch;
+}
+
+/* ── Hero (2026 redesign) via the legacy .hero-split markup ─────────────────
+   The old 50/50 split is retired. .hero-split now renders the SAME full-width
+   image-background hero as the .hero object on home: skyline background + 50%
+   dark overlay, copy left-aligned and constrained to the page boundary
+   (max-w-wide = 1360px + px-6 = 1.5rem), the old right panel hidden. Landscape
+   (desktop) 75vh, portrait (vertical) 80vh. One CSS change rolls the new hero
+   out to every page that still uses .hero-split markup. */
+.hero-split {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-bg-footer);
+  background-image: url('/hero_image.webp');
+  background-size: cover;
+  background-position: center;
+}
+.hero-split::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.50);
+  pointer-events: none;
+}
+.hero-split-left {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1360px;       /* = max-w-wide: aligns hero copy to the body width */
+  margin-inline: auto;
+  padding: 3.5rem 1.5rem;  /* px-6 horizontal; comfortable vertical */
+}
+.hero-split-left .fluid-lead {
+  max-width: 60ch;         /* never beyond ~80 chars/line on desktop */
+}
+.hero-split-right {
+  display: none;           /* retired: image is now the section background */
+}
+@media (orientation: landscape) {
+  .hero-split { min-height: 75vh; }
+}
+@media (orientation: portrait) {
+  .hero-split { min-height: 80vh; }
+}
+@media (min-width: 1024px) {
+  .hero-split-left { padding: 4rem 1.5rem; }
 }
 
 /* Hero CTAs on mobile (user spec 2026-06-16) — Call is the main action. For heroes
@@ -698,24 +750,24 @@ body.has-sticky-bar {
    police-station, whose hero pairs Call (.btn-emergency) with WhatsApp. Phone only;
    at ≥640px the buttons go side-by-side and keep the original desktop styling. */
 @media (max-width: 639px) {
-  .hero-split-left .btn-row:has(> .btn-inverse):has(> .btn-on-dark) {
+  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse):has(> .btn-on-dark) {
     flex-direction: column-reverse;
   }
-  .hero-split-left .btn-row:has(> .btn-on-dark) > .btn-inverse {
+  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-on-dark) > .btn-inverse {
     background: transparent;
     color: #fff;
     border-color: rgba(255, 255, 255, 0.30);
   }
-  .hero-split-left .btn-row:has(> .btn-on-dark) > .btn-inverse:hover {
+  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-on-dark) > .btn-inverse:hover {
     background: transparent;
     border-color: #fff;
   }
-  .hero-split-left .btn-row:has(> .btn-inverse) > .btn-on-dark {
+  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse) > .btn-on-dark {
     background: #fff;
     color: var(--color-navy-900);
     border-color: transparent;
   }
-  .hero-split-left .btn-row:has(> .btn-inverse) > .btn-on-dark:hover {
+  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse) > .btn-on-dark:hover {
     background: var(--color-navy-100);
   }
 }

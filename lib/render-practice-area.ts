@@ -24,7 +24,7 @@ function resolveAreaTitle(slug: string): string {
 }
 
 function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
-  return `<li><a href="/practice-areas/${a.slug}" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+  return `<li><a href="/practice-areas/${a.slug}" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <${headingTag} class="text-xl font-semibold tracking-tight2">${esc(a.title)}</${headingTag}>
         <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
@@ -53,7 +53,7 @@ function contextCalloutHtml(area: PracticeArea): string {
  *  at the nested route (/practice-areas/[parent]/[slug]) and the heading is an
  *  h3 (it sits under the section's h2). */
 function subPageCardHtml(a: SubPracticeArea): string {
-  return `<li><a href="/practice-areas/${a.parentSlug}/${a.slug}" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+  return `<li><a href="/practice-areas/${a.parentSlug}/${a.slug}" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">${esc(a.title)}</h3>
         <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
@@ -71,10 +71,12 @@ function subPageGridHtml(parentSlug: string): string {
   const subs = subPracticeAreas.filter((s) => s.parentSlug === parentSlug)
   if (subs.length === 0) return ''
   const cards = subs.map(subPageCardHtml).join('')
-  // Lives inside the main column now (2/3 width), so cap the grid at 2 columns.
+  // Sub-offence cards now use the grey bordered card style (matching the aside
+  // Related/Guides cards, user 2026-06-16), so the grid is separated cards, not
+  // a gapless divider grid.
   return `<section>
           <h2 class="text-3xl font-semibold tracking-tight2">Offences we defend in this area</h2>
-          <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-px bg-grey-300 border border-grey-300 rounded overflow-hidden">${cards}</ul>
+          <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">${cards}</ul>
         </section>`
 }
 
@@ -83,15 +85,24 @@ function subPageGridHtml(parentSlug: string): string {
  *  Inquests = families, not arrest; Totting-up = penalty points / court. */
 const NO_STATION_SCENARIO = new Set(['appeals', 'inquests', 'totting-up'])
 
-/** Aside block 1 — the red "If you are at a station now" call card, reused
- *  verbatim from police-station.html. Omitted where there is no custody
- *  scenario. */
-function asideRedBoxHtml(slug: string): string {
-  if (NO_STATION_SCENARIO.has(slug)) return ''
+/** Aside block 1 — the top CTA card. Custody-scenario pages get the RED police
+ *  box (single Call button, the only side-panel CTA carrying an icon). All other
+ *  pages get the blue Astons box (Call + Book, no icons). User 2026-06-16. */
+function asideCtaBoxHtml(slug: string): string {
+  if (NO_STATION_SCENARIO.has(slug)) {
+    return `<div class="bg-navy-950 text-white rounded p-6">
+          <p class="text-lg font-semibold tracking-tightish">Book a consultation or call for legal support today</p>
+          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse w-full mt-4 flex">
+            Call now
+          </a>
+          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_aside" class="btn btn-md btn-on-dark w-full mt-3 flex">
+            Book a consultation
+          </a>
+        </div>`
+  }
   return `<div class="bg-emergency-500 text-white rounded p-6">
-          <p class="text-xs font-semibold tracking-[0.12em] uppercase">If you are at a station now</p>
-          <p class="mt-2 text-lg font-semibold tracking-tightish">Call before the interview starts.</p>
-          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse-emergency w-full mt-4">
+          <p class="text-lg font-semibold tracking-tightish">Police station representation available 24/7</p>
+          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse-emergency w-full mt-4 flex">
             <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
             Call now
           </a>
@@ -165,7 +176,7 @@ function asideGuidesHtml(slug: string): string {
  *  PracticeArea, but appears in the practice-area grids — and as a primary
  *  conversion (KPI) page it sits second, right after Criminal Defence. */
 function policeStationCardHtml(headingTag: 'h2' | 'h3'): string {
-  return `<li><a href="/police-station-representation" class="block bg-white p-6 md:p-8 h-full hover:bg-offwhite transition-colors group">
+  return `<li><a href="/police-station-representation" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
         <${headingTag} class="text-xl font-semibold tracking-tight2">Police Station Representation</${headingTag}>
         <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
@@ -282,10 +293,11 @@ function buildDetailHtml(
   html = html.replace('<!-- data-bind="cta-top" -->', area.context ? '' : banner)
   html = html.replace('<!-- data-bind="cta-above-faq" -->', area.context ? banner : '')
 
-  // Right sticky aside: red box (conditional) + related areas + guides
-  // (conditional). Each block returns '' when it should not appear.
+  // Right sticky aside: CTA box (red police box on custody pages, else blue
+  // Astons box) + related areas + guides (conditional). Each block returns ''
+  // when it should not appear.
   const aside = [
-    asideRedBoxHtml(area.slug),
+    asideCtaBoxHtml(area.slug),
     asideRelatedHtml(area, parentInfo),
     asideGuidesHtml(area.slug),
   ]
