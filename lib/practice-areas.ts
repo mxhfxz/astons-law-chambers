@@ -49,9 +49,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'criminal-defence',
     title: 'Criminal Defence',
-    metaTitle: "Criminal Defence Lawyer | London & UK | 24/7 Support",
+    metaTitle: "Criminal Defence Barrister London | Direct Access Counsel",
     metaDescription:
-      "Criminal defence for serious charges in London. Violence, drugs, fraud and more. 24/7 police station support. Legal aid can be discussed. Call 07922 247 999.",
+      "Serious criminal defence for fraud, drugs, violence, and sexual offences in London. Direct Access available. Call for immediate 24/7 legal support.",
     kicker: 'Criminal Defence',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
@@ -98,9 +98,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'violent-crimes',
     title: 'Violent Crimes',
-    metaTitle: "Assault, GBH & Violence | Criminal Defence | London & UK",
+    metaTitle: "Violent Crime Barrister London | Assault, GBH & Affray Defence",
     metaDescription:
-      "Criminal defence for assault, ABH, GBH, affray and robbery in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.",
+      "Specialist defence barrister for violent crimes including assault, ABH, GBH, affray, and robbery. From police station to Crown Court. Fixed fees available.",
     kicker: 'Violent Crimes',
     cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
     definition:
@@ -151,9 +151,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'youth-crimes',
     title: 'Youth Crimes',
-    metaTitle: "Youth Crimes Defence | Under-18 Legal Aid | London & UK",
+    metaTitle: "Youth Court Defence Barrister | Under-18 Criminal Lawyer London",
     metaDescription:
-      "Criminal defence for clients under 18 in London. Youth Court and Crown Court representation. Legal aid can be discussed. Call 07922 247 999.",
+      "Specialist criminal defence for under-18s. Expert representation in the Youth Court and Crown Court. Protecting young clients' futures.",
     kicker: 'Youth Crimes',
     cardSummary: 'Defence for clients under 18. Youth Court procedure and welfare considerations.',
     definition:
@@ -198,9 +198,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'driving-offences',
     title: 'Driving Offences',
-    metaTitle: "Motoring & Driving Offences | Legal Defence | London & UK",
+    metaTitle: "Driving Offence Barrister London | Motoring Law Specialist",
     metaDescription:
-      "Criminal defence for drink driving, drug driving and totting-up in London. Exceptional hardship arguments. Written quote on the same call. Call 07922 247 999.",
+      "Save your driving licence. Expert defence for drink driving, drug driving, and totting-up bans. Exceptional hardship arguments by a specialist barrister.",
     kicker: 'Driving Offences',
     cardSummary: 'Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.',
     definition:
@@ -245,9 +245,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'drug-offences',
     title: 'Drug Offences',
-    metaTitle: "Drugs & Supply Offences | Criminal Defence | London & UK",
+    metaTitle: "Drug Offence Barrister London | Possession & Supply Defence",
     metaDescription:
-      "Criminal defence for drug possession, supply and importation charges in London. Forensic and disclosure challenges. Legal aid can be discussed. Call 07922 247 999.",
+      "Expert criminal defence for drug possession, PWITS, supply, and importation charges. Challenging forensic evidence and police disclosure in London.",
     kicker: 'Drug Offences',
     cardSummary: 'Possession, supply, importation. Forensic and disclosure challenges.',
     definition:
@@ -294,9 +294,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'appeals',
     title: 'Appeals',
-    metaTitle: "Criminal Appeals & Conviction Review | London & UK",
+    metaTitle: "Criminal Appeals Barrister | Conviction & Sentence Reviews",
     metaDescription:
-      "Appealing a criminal conviction or sentence in London. Advice on prospects, grounds of appeal and Court of Appeal representation. Call 07922 247 999.",
+      "Appealing a wrongful conviction or excessive sentence in the UK? Get expert advice on prospects of success and Court of Appeal representation.",
     kicker: 'Appeals',
     cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
     definition:
@@ -340,9 +340,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'inquests',
     title: 'Inquests',
-    metaTitle: "Inquest Representation | London & UK",
+    metaTitle: "Inquest Barrister London | Coroner's Court Representation",
     metaDescription:
-      "Representing families and interested persons at inquests in London. Pre-inquest review through to the substantive hearing. Call 07922 247 999.",
+      "Specialist legal representation for families and interested persons at Coroner's inquests in London. From pre-inquest reviews to the final hearing.",
     kicker: 'Inquests',
     cardSummary: 'Family and interested-person representation. Pre-inquest review through hearing.',
     definition:
@@ -386,9 +386,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'fraud',
     title: 'Fraud & Financial Crime Defence',
-    metaTitle: 'Fraud Defence | Financial Crime | Criminal Defence London & UK',
+    metaTitle: 'Fraud Defence Barrister London | Financial Crime Specialist',
     metaDescription:
-      'Criminal defence for fraud and financial crime in London. False representation, money laundering, Crown Court. Legal aid can be discussed. Call 07922 247 999.',
+      'Direct Access barrister for complex fraud, financial crime, and money laundering allegations. Strategic defence for serious Crown Court cases.',
     kicker: 'Fraud',
     cardSummary: 'Fraud, false representation, money laundering. Digital evidence. Crown Court.',
     definition:
@@ -454,9 +454,9 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: 'sexual-offences',
     title: 'Sexual Offences Defence',
-    metaTitle: 'Sexual Offences Defence | Criminal Defence Lawyer | London & UK',
+    metaTitle: 'Sexual Offence Defence Barrister | Highly Confidential Advice',
     metaDescription:
-      'Criminal defence for sexual offence allegations in London. Pre-charge representation, Crown Court. Confidential. Call 07922 247 999.',
+      'Specialist criminal defence for historic and recent sexual offence allegations. Highly confidential pre-charge and Crown Court representation in London.',
     kicker: 'Sexual Offences',
     cardSummary: 'Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.',
     definition:

@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { renderPracticeAreaIndex } from '@/lib/render-practice-area'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Criminal Defence London | Astons Law Chambers' },
+  title: { absolute: 'Criminal Defence Services | Direct Access Barrister London' },
   description:
-    'Criminal defence across the UK. Serious crimes, violence, drugs and more. 24/7 Police station advocacy, legal aid available. Call 07922 247 999.',
+    'Expert criminal defence for violent crimes, drug offences, fraud, and driving offences. Direct access barrister in London. 24/7 police station support.',
   alternates: { canonical: '/practice-areas' },
 }
 

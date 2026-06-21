@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
+  title: { absolute: 'Privacy Policy | Astons Law Chambers' },
   description:
-    'How Astons Law Chambers collects, uses, and protects personal information when you contact us or use this website, and the data protection rights you have.',
+    'How Astons Law Chambers collects, uses, and protects your personal and case data in compliance with UK data protection laws.',
   alternates: { canonical: '/privacy-policy' },
 }
 

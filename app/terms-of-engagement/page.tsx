@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Terms of Engagement',
+  title: { absolute: 'Terms of Engagement | Astons Law Chambers' },
   description:
-    'Astons Law Chambers terms of engagement: regulatory status, fees, services, timescales, complaints, and professional indemnity insurance.',
+    'Professional terms of engagement, regulatory status, fee structures, and BSB compliance information for Astons Law Chambers.',
   alternates: { canonical: '/terms-of-engagement' },
 }
 

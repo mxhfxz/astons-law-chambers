@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Direct Access Barrister | Criminal Law | London & UK' },
+  title: { absolute: 'Direct Access Criminal Barrister London | No Solicitor Needed' },
   description:
-    'Instruct a criminal defence barrister directly in London – no solicitor required. Authorised under the BSB Public Access scheme. Legal aid can be discussed. Call 07922 247 999.',
+    'Instruct a specialist criminal barrister directly under the BSB Public Access scheme. Transparent fixed fees and expert defence. Contact Astons Law Chambers.',
   alternates: { canonical: '/direct-access' },
 }
 

@@ -1,7 +1,7 @@
 ---
 title: What happens at a first hearing in the Magistrates' Court
-metaTitle: First Hearing at the Magistrates' Court
-metaDescription: What a first hearing in the Magistrates' Court involves, what is decided there, and why early advice matters. Call Astons Law Chambers on 07922 247 999.
+metaTitle: What Happens at a First Hearing in the Magistrates' Court?
+metaDescription: A step-by-step guide to your first appearance at the Magistrates' Court. Learn about plea entries, bail applications, and why early barrister advice is vital.
 description: What a first hearing in the Magistrates' Court involves, what is decided on the day, and why the period before it often matters more than the hearing itself.
 author: Ghulam Humayun
 datePublished: '2026-05-22'

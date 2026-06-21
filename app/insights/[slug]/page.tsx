@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const insight = getInsight(params.slug)
   if (!insight) return {}
   return {
-    title: insight.metaTitle,
+    title: { absolute: insight.metaTitle },
     description: insight.metaDescription,
     alternates: { canonical: `/insights/${insight.slug}` },
     openGraph: {

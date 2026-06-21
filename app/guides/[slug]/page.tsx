@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const guide = getGuide(params.slug)
   if (!guide) return {}
   return {
-    title: guide.metaTitle,
+    title: { absolute: guide.metaTitle },
     description: guide.metaDescription,
     alternates: { canonical: `/guides/${guide.slug}` },
   }

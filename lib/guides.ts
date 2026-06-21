@@ -32,9 +32,9 @@ export const guides: Guide[] = [
   {
     slug: 'first-24-hours-after-arrest',
     title: 'What to do in the first 24 hours after being arrested in the UK',
-    metaTitle: 'Arrested in the UK: First 24 Hours',
+    metaTitle: 'Arrested in the UK: First 24 Hours Guide | Astons Law Chambers',
     metaDescription:
-      'What happens in the first 24 hours after an arrest in the UK — the custody clock, the right to free legal advice, and the police interview. Call 07922 247 999.',
+      'A complete legal guide to the first 24 hours after an arrest. Understand custody time limits, police interviews, and your absolute right to free legal advice.',
     description:
       'A guide for families: the custody clock, the rights the police must give, and why the police interview is the decision that matters most.',
     section: 'guide-first-24-hours',
@@ -67,9 +67,9 @@ export const guides: Guide[] = [
   {
     slug: 'do-i-need-a-lawyer-at-a-voluntary-police-interview',
     title: 'Do I need a lawyer at a voluntary police interview under caution?',
-    metaTitle: 'Lawyer at a Voluntary Police Interview',
+    metaTitle: 'Do I Need a Lawyer for a Voluntary Police Interview?',
     metaDescription:
-      'A voluntary police interview is still conducted under caution. What it means, why the police use it, and whether you need a lawyer before you attend. Call 07922 247 999.',
+      'A voluntary interview is a formal interrogation under caution. Learn why going without a specialist criminal defence lawyer can destroy your case.',
     description:
       'What a voluntary interview under caution actually is, what the caution means, why the police choose it, and what preparing for one properly involves.',
     section: 'guide-voluntary-interview',

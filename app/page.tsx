@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Criminal Defence London | Emergency & Legal Aid - Astons Law' },
+  title: { absolute: 'Astons Law Chambers | Direct Access Criminal Barrister London' },
+  description:
+    'Direct access criminal defence barrister in London. Fixed fees, no solicitor required. 24/7 emergency police station representation. Call or WhatsApp now.',
 }
 
 export default function HomePage() {

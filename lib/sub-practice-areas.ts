@@ -11,9 +11,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'driving-offences',
     slug: 'drink-driving',
     title: 'Drink Driving Defence',
-    metaTitle: 'Drink Driving Defence | Criminal Defence | London & UK',
+    metaTitle: 'Drink Driving Barrister London | Breath Test Defence',
     metaDescription:
-      "Criminal defence for drink driving charges in London. Breath test challenges, procedural defences, Magistrates' Court representation. Call 07922 247 999.",
+      'Charged with drink driving? A specialist motoring barrister can challenge breath test procedures and build procedural defences to save your licence.',
     kicker: 'Driving Offences',
     cardSummary: 'Drink driving charge. Breath test procedure, disqualification, special reasons.',
     definition:
@@ -77,9 +77,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'driving-offences',
     slug: 'drug-driving',
     title: 'Drug Driving Defence',
-    metaTitle: 'Drug Driving Defence | Criminal Defence | London & UK',
+    metaTitle: 'Drug Driving Defence Barrister | London Motoring Lawyer',
     metaDescription:
-      "Criminal defence for drug driving charges in London. Prescribed medication defence, procedure challenges, Magistrates' Court. Call 07922 247 999.",
+      "Expert defence for drug driving charges. We challenge blood test procedures and raise prescribed medication defences in the Magistrates' Court.",
     kicker: 'Driving Offences',
     cardSummary: "Drug driving charge. Prescribed medication, procedure challenge, Magistrates' Court.",
     definition:
@@ -142,9 +142,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'driving-offences',
     slug: 'totting-up',
     title: 'Totting Up & Licence Disqualification',
-    metaTitle: 'Totting Up Disqualification | Exceptional Hardship | London & UK',
+    metaTitle: 'Totting Up Ban Defence | Exceptional Hardship Barrister London',
     metaDescription:
-      'Criminal defence for totting-up disqualification in London. Exceptional hardship arguments, 12-point threshold, licence protection. Call 07922 247 999.',
+      'Facing a 12-point totting-up disqualification? Instruct a specialist driving barrister to present an Exceptional Hardship argument and keep you on the road.',
     kicker: 'Driving Offences',
     cardSummary: 'Twelve or more penalty points. Exceptional hardship. New driver revocation.',
     definition:
@@ -207,9 +207,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'violent-crimes',
     slug: 'gbh',
     title: 'GBH Defence',
-    metaTitle: 'GBH Defence | Grievous Bodily Harm | Criminal Defence London',
+    metaTitle: 'GBH Defence Barrister London | Section 18 & 20 Specialists',
     metaDescription:
-      'Criminal defence for GBH charges in London. Crown Court representation, police station support. Legal aid can be discussed. Call 07922 247 999.',
+      'Expert Crown Court defence for Grievous Bodily Harm (GBH) charges. We build robust self-defence and procedural challenges. Call for immediate advice.',
     kicker: 'Violent Crimes',
     cardSummary: 'Grievous bodily harm charge. Crown Court. Intent, self-defence, serious injury.',
     definition:
@@ -273,9 +273,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'violent-crimes',
     slug: 'knife-crime',
     title: 'Knife Crime Defence',
-    metaTitle: 'Knife Crime Defence | Bladed Article | Criminal Defence London',
+    metaTitle: 'Knife Crime Barrister London | Bladed Article Defence',
     metaDescription:
-      'Criminal defence for knife and bladed article charges in London. Possession, threat, lawful excuse. Crown Court representation. Call 07922 247 999.',
+      'Specialist defence for possession of a bladed article and knife crime allegations. We explore lawful excuse and procedural flaws to protect your liberty.',
     kicker: 'Violent Crimes',
     cardSummary: 'Bladed article possession, threatening with a knife. Custody is a realistic outcome.',
     definition:
@@ -338,9 +338,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'violent-crimes',
     slug: 'domestic-abuse',
     title: 'Domestic Abuse & Coercive Control Defence',
-    metaTitle: 'Domestic Abuse Defence | Coercive Control | Criminal Defence London',
+    metaTitle: 'Domestic Abuse Defence Barrister | Coercive Control London',
     metaDescription:
-      'Criminal defence for domestic abuse and coercive control allegations in London. Police station to Crown Court. Legal aid can be discussed. Call 07922 247 999.',
+      'Highly confidential criminal defence for domestic abuse, assault, and coercive control allegations. Protect your reputation and liberty with expert counsel.',
     kicker: 'Violent Crimes',
     cardSummary:
       'Domestic abuse, coercive control allegations. Special procedures. Police station to Crown Court.',
@@ -405,9 +405,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'violent-crimes',
     slug: 'robbery',
     title: 'Robbery Defence',
-    metaTitle: 'Robbery Defence | Crown Court Criminal Defence | London & UK',
+    metaTitle: 'Robbery Defence Barrister London | Crown Court Counsel',
     metaDescription:
-      'Criminal defence for robbery charges in London. Crown Court representation, police station support. Legal aid can be discussed. Call 07922 247 999.',
+      'Serious defence for robbery and armed robbery charges. We challenge identification evidence and joint enterprise allegations in the Crown Court.',
     kicker: 'Violent Crimes',
     cardSummary: 'Robbery charge. Crown Court. Identification, joint enterprise, force threshold.',
     definition:
@@ -473,9 +473,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'drug-offences',
     slug: 'possession-with-intent',
     title: 'Possession with Intent to Supply',
-    metaTitle: 'Possession with Intent to Supply | Criminal Defence | London',
+    metaTitle: 'PWITS Defence Barrister | Possession With Intent To Supply',
     metaDescription:
-      'Criminal defence for possession with intent to supply charges in London. Intent challenges, disclosure review, Crown Court. Call 07922 247 999.',
+      'Charged with Possession with Intent to Supply (PWITS)? We challenge police intent assumptions and phone evidence to fight for downgrading or acquittal.',
     kicker: 'Drug Offences',
     cardSummary: 'Possession with intent to supply. Intent is the central issue. Crown Court.',
     definition:
@@ -538,9 +538,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'drug-offences',
     slug: 'drug-supply',
     title: 'Drug Supply & Dealing Defence',
-    metaTitle: 'Drug Supply Defence | Dealing Charges | Criminal Defence London',
+    metaTitle: 'Drug Supply Defence Barrister London | Conspiracy Charges',
     metaDescription:
-      'Criminal defence for drug supply charges in London. Role in supply chain, Crown Court. Legal aid can be discussed. Call 07922 247 999.',
+      'Expert defence against drug supply and conspiracy allegations. We meticulously analyze cell-site data and police disclosure to build your case.',
     kicker: 'Drug Offences',
     cardSummary: 'Drug supply and dealing. Role in the supply chain determines the sentence.',
     definition:
@@ -604,9 +604,9 @@ export const subPracticeAreas: SubPracticeArea[] = [
     parentSlug: 'drug-offences',
     slug: 'county-lines',
     title: 'County Lines Defence',
-    metaTitle: 'County Lines Defence | Modern Slavery | Criminal Defence London',
+    metaTitle: 'County Lines Defence Barrister | Modern Slavery Defences',
     metaDescription:
-      'Criminal defence for county lines charges in London. Modern slavery defence, exploitation, Crown Court. Legal aid can be discussed. Call 07922 247 999.',
+      'Specialist defence for County Lines drug operations. We utilize Modern Slavery Act (Section 45) defences for exploited individuals. Contact us 24/7.',
     kicker: 'Drug Offences',
     cardSummary: 'County lines supply network. Exploitation and modern slavery defence. Crown Court.',
     definition:

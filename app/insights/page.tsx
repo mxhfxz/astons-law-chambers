@@ -3,9 +3,9 @@ import { insights, formatInsightDate } from '@/lib/insights'
 import { insightsHubJsonLd } from '@/lib/render-insight'
 
 export const metadata: Metadata = {
-  title: 'Insights — Criminal Law Articles',
+  title: { absolute: 'Criminal Law Insights & Articles | Astons Law Chambers' },
   description:
-    'Articles on criminal law and the questions that come up most, from Astons Law Chambers — a criminal defence barrister in London. Call 07922 247 999.',
+    'Expert commentary and insights on UK criminal law, court procedures, and defence strategies from a specialist London barrister.',
   alternates: { canonical: '/insights' },
 }
 
