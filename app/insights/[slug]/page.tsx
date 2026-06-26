@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { insights, getInsight, formatInsightDate } from '@/lib/insights'
 import { renderInsightBody, insightJsonLd, imageDimensions } from '@/lib/render-insight'
+import { readChrome } from '@/lib/content'
 
 export function generateStaticParams() {
   return insights.map((i) => ({ slug: i.slug }))
@@ -67,9 +68,7 @@ export default async function InsightPage({ params }: { params: { slug: string }
                 Call 07922 247 999
               </a>
             </div>
-            <p className="mt-4 text-xs text-navy-100/80">
-              <a href="https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html" className="hover:text-white underline underline-offset-4 decoration-1">Regulated by the Bar Standards Board</a>
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: readChrome('hero-trust') }} />
           </div>
           <div className="hero-split-right">
             {/* eslint-disable-next-line @next/next/no-img-element -- raw <img> matches the site hero pattern; static dimensions prevent CLS. */}
@@ -113,23 +112,45 @@ export default async function InsightPage({ params }: { params: { slug: string }
             </div>
 
             <div className="space-y-6 pa-aside self-start" data-track-loc="insight_aside">
+              {insight.asideCta ? (
+                <div className={insight.asideCta.emphasis ? 'bg-emergency-500 text-white rounded p-6' : 'bg-offwhite border border-grey-300 rounded p-6'}>
+                  {insight.asideCta.eyebrow && (
+                    <p className={`text-xs font-semibold tracking-[0.12em] uppercase${insight.asideCta.emphasis ? '' : ' text-grey-600'}`}>
+                      {insight.asideCta.eyebrow}
+                    </p>
+                  )}
+                  <p className={`${insight.asideCta.eyebrow ? 'mt-2 ' : ''}text-lg font-semibold tracking-tightish${insight.asideCta.emphasis ? '' : ' text-navy-950'}`}>
+                    {insight.asideCta.headline}
+                  </p>
+                  <a
+                    href="tel:+447922247999"
+                    aria-label="Call Astons Law Chambers"
+                    data-track="call_click"
+                    data-track-location="insight_aside"
+                    className={`btn btn-md w-full mt-4 ${insight.asideCta.emphasis ? 'btn-inverse-emergency' : 'btn-primary'}`}
+                  >
+                    {insight.asideCta.emphasis ? 'Call now' : 'Call 07922 247 999'}
+                  </a>
+                </div>
+              ) : (
+                <div className="bg-offwhite border border-grey-300 rounded p-6">
+                  <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Speak to a barrister</p>
+                  <p className="mt-2 text-lg font-semibold tracking-tightish text-navy-950">
+                    If a case is live, call 07922 247 999 now for immediate support.
+                  </p>
+                  <a
+                    href="tel:+447922247999"
+                    aria-label="Call Astons Law Chambers"
+                    data-track="call_click"
+                    data-track-location="insight_aside"
+                    className="btn btn-md btn-primary w-full mt-4"
+                  >
+                    Call 07922 247 999
+                  </a>
+                </div>
+              )}
               <div className="bg-offwhite border border-grey-300 rounded p-6">
-                <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Speak to a barrister</p>
-                <p className="mt-2 text-lg font-semibold tracking-tightish text-navy-950">
-                  If a case is live, call 07922 247 999 now for immediate support.
-                </p>
-                <a
-                  href="tel:+447922247999"
-                  aria-label="Call Astons Law Chambers"
-                  data-track="call_click"
-                  data-track-location="insight_aside"
-                  className="btn btn-md btn-primary w-full mt-4"
-                >
-                  Call 07922 247 999
-                </a>
-              </div>
-              <div className="bg-offwhite border border-grey-300 rounded p-6">
-                <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">More</p>
+                <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Related</p>
                 <ul className="mt-3 space-y-2 text-sm">
                   <li>
                     <a href="/insights" className="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">All articles →</a>

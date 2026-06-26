@@ -29,6 +29,12 @@ export interface Insight {
   /** Optional hero image path under /insights/. null when absent. */
   heroImage: string | null
   heroAlt: string
+  /**
+   * Optional per-article aside CTA box. null → the default "Speak to a
+   * barrister" box. `emphasis` switches to the red station-urgency styling
+   * used on the police-station page and the guide asides.
+   */
+  asideCta: { eyebrow: string | null; headline: string; emphasis: boolean } | null
   /** Raw Markdown body — rendered to sanitised HTML by lib/render-insight.ts. */
   body: string
 }
@@ -64,6 +70,19 @@ function excerpt(md: string, max = 155): string {
   const cut = text.slice(0, max)
   const lastSpace = cut.lastIndexOf(' ')
   return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trim()}…`
+}
+
+/** Parse the optional aside CTA block. Missing/invalid → null (default box). */
+function parseAsideCta(v: unknown): Insight['asideCta'] {
+  if (!v || typeof v !== 'object') return null
+  const o = v as Record<string, unknown>
+  const headline = typeof o.headline === 'string' ? o.headline.trim() : ''
+  if (!headline) return null
+  return {
+    eyebrow: typeof o.eyebrow === 'string' && o.eyebrow.trim() ? o.eyebrow.trim() : null,
+    headline,
+    emphasis: o.emphasis === true,
+  }
 }
 
 function warn(file: string, msg: string): void {
@@ -110,6 +129,7 @@ function loadAll(): Insight[] {
         dateModified: isValidISODate(data.dateModified) ? data.dateModified : data.datePublished,
         heroImage: strOr(data.heroImage, '') || null,
         heroAlt: strOr(data.heroAlt, ''),
+        asideCta: parseAsideCta(data.asideCta),
         body: content,
       })
     } catch (err) {

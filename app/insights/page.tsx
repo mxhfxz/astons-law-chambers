@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { insights, formatInsightDate } from '@/lib/insights'
 import { insightsHubJsonLd } from '@/lib/render-insight'
+import { readChrome } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: { absolute: 'Criminal Law Insights & Articles | Astons Law Chambers' },
@@ -42,9 +43,7 @@ export default function InsightsPage() {
                 Call 07922 247 999
               </a>
             </div>
-            <p className="mt-4 text-xs text-navy-100/80">
-              <a href="https://www.barstandardsboard.org.uk/barristers-register/0A9C84A0E6BE3846C117FA4B4290EAD2.html" className="hover:text-white underline underline-offset-4 decoration-1">Regulated by the Bar Standards Board</a>
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: readChrome('hero-trust') }} />
           </div>
           <div className="hero-split-right">
             {/* eslint-disable-next-line @next/next/no-img-element -- raw <img> matches the site hero pattern; static dimensions prevent CLS. */}

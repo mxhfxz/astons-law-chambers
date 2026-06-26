@@ -9,10 +9,15 @@ function read(rel: string): string {
   return fs.readFileSync(path.join(process.cwd(), 'content', rel), 'utf-8')
 }
 
-export function readSection(name: string): string {
-  return read(`sections/${name}.html`)
-}
-
 export function readChrome(name: string): string {
   return read(`chrome/${name}.html`)
+}
+
+export function readSection(name: string): string {
+  const html = read(`sections/${name}.html`)
+  // Inject the shared hero trust row (BSB logo + Google reviews badge) wherever
+  // a hero declares the placeholder. One source of truth: content/chrome/
+  // hero-trust.html. Function replacer avoids `$`-pattern interpretation in the
+  // injected markup. No placeholder → no-op (utility/legal pages).
+  return html.replace('<!-- data-bind="hero-trust" -->', () => readChrome('hero-trust'))
 }

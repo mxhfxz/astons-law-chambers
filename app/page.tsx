@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      {/* Preload the LCP hero image. Homepage-only — keeping this in the root
-          layout made every other route fetch an unused image. */}
-      <link rel="preload" as="image" href="/hero_image.webp" />
+      {/* Preload the hero background photo. Homepage-only — keeping this in the
+          root layout made every other route fetch an unused image. */}
+      <link rel="preload" as="image" href="/images/bg_main.avif" />
       <div dangerouslySetInnerHTML={{ __html: readSection('home') }} />
     </>
   )

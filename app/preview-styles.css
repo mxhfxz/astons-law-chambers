@@ -43,6 +43,11 @@
       --color-whatsapp: #075E54;
       --color-whatsapp-dark: #054B43;
       --color-offwhite: #F8F9FB;
+      /* Footer/hero navy (locked hero token = #232536). Defined here because the
+         loaded bundle is preview-styles.css; the copy in styles/tokens.css is
+         vestigial. The .hero / .hero-split objects reference this for their navy
+         field now that the skyline background image is removed. */
+      --color-bg-footer: #232536;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -638,9 +643,11 @@ body.has-sticky-bar {
 .sticky-bar-book:active { background: #080f1e; }
 
 /* ── Hero object (OOCSS) — 2026 redesign (user spec) ───────────────────────
-   One reusable hero. Modifiers: .hero--image (skyline background + 50% dark
-   overlay so left copy stays legible) and .hero--solid (current blue,
-   var(--color-bg-footer)). Copy is left-aligned and constrained to the page
+   One reusable hero. Modifiers: .hero--image and .hero--solid both render the
+   solid navy field (var(--color-bg-footer)). The skyline background image and
+   its 50% dark overlay were removed (user spec 2026-06-21) — the hero is now
+   navy only. .hero--image is kept as a semantic, no-op hook so existing markup
+   (home.html) need not change. Copy is left-aligned and constrained to the page
    boundary via .hero__inner = `max-w-wide mx-auto px-6` (same width as the
    body sections below, so it never stretches past the rest of the page).
    Landscape (desktop) = 75vh; portrait (vertical) orientation = 80vh. */
@@ -650,27 +657,52 @@ body.has-sticky-bar {
   align-items: center;
   background-color: var(--color-bg-footer);
 }
-.hero--image {
-  background-image: url('/hero_image.webp');
-  background-size: cover;
-  background-position: center;
+.hero--solid {
+  background-color: var(--color-bg-footer);
 }
-.hero--image::before {
+/* Hero background photo (user spec 2026-06-26): bg_main.avif at 10% opacity over
+   the navy field, on every hero. Painted on a ::before layer so only the image
+   is faded — the hero copy stays full-strength. Sits below the hero content
+   column (z-index:1). Applies to the home hero (.hero--image) and every
+   .hero-split page. */
+.hero--image::before,
+.hero-split::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.50);
+  z-index: 0;
+  background-image: url('/images/bg_main.avif');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.10;
   pointer-events: none;
-}
-.hero--solid {
-  background-color: var(--color-bg-footer);
 }
 .hero__inner {
   position: relative;
   z-index: 1;
   width: 100%;
+  /* Homepage hero (user spec 2026-06-23): a centred 640px text column, sitting
+     in the middle of the viewport. .hero already centres vertically
+     (align-items:center + min-height); max-width + margin-inline:auto centre it
+     horizontally; text-align:center centres the copy. Overrides the inline
+     `max-w-wide` (later in the cascade than preview-tailwind.css). */
+  max-width: 40rem;            /* 640px text column */
+  margin-inline: auto;
+  text-align: center;
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
+}
+/* Centre the hero rows within the column (override .btn-row's default
+   flex-start and the trust row's left alignment). Both hero systems. */
+.hero__inner .btn-row,
+.hero__inner .hero-trust__items,
+.hero-split-left .btn-row,
+.hero-split-left .hero-trust__items {
+  justify-content: center;
+}
+.hero__inner .fluid-lead,
+.hero-split-left .fluid-lead {
+  margin-inline: auto;         /* keep the lead block centred in the column */
 }
 @media (orientation: landscape) {
   .hero { min-height: 75vh; }
@@ -697,35 +729,103 @@ body.has-sticky-bar {
   max-width: 60ch;
 }
 
+/* ── Hero trust row (user spec 2026-06-21) ─────────────────────────────────
+   Replaces the hero "Regulated by the Bar Standards Board" text line. Sits
+   3rem below the .btn-row: the yellow BSB logo on the left, a Google reviews
+   badge 1rem to its right (gap). Wraps on narrow screens. Homepage-only for
+   now (added to the .hero object); generic enough to reuse on .hero-split
+   later if approved. */
+.hero-trust {
+  --trust-h: 40px;           /* shared height: logo and badge are identical (user spec 2026-06-26: smaller, quieter) */
+  margin-top: 4rem;          /* 4rem below the buttons — clear gap so the trust
+                                row never competes with the CTAs */
+}
+.hero-trust__eyebrow {
+  margin: 0 0 0.875rem;
+  font-size: 0.875rem;       /* 14px (user spec) */
+  font-weight: 500;          /* medium (user spec) */
+  text-transform: uppercase; /* site eyebrow convention (0.08em tracking) */
+  letter-spacing: 0.08em;
+  color: var(--color-navy-100);
+  opacity: 0.8;
+}
+.hero-trust__items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;                 /* reviews badge sits 1rem right of the logo */
+}
+/* BSB logo: height-locked to --trust-h, width auto so its true aspect ratio
+   (837:434) is preserved — never distorted. 4px radius matches the site's
+   buttons/cards. */
+.hero-trust__bsb {
+  display: inline-flex;
+  height: var(--trust-h);
+  border-radius: 4px;
+  overflow: hidden;          /* clip the yellow field to rounded corners */
+  line-height: 0;
+}
+.hero-trust__bsb img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+/* Google reviews badge: same height as the logo. Surface mirrors the site's
+   on-dark button convention (.btn-on-dark): transparent fill, 30% white border
+   → solid white on hover, 4px radius. */
+.hero-trust__reviews {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: var(--trust-h);
+  padding: 0 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-radius: 4px;
+  background: transparent;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+.hero-trust__reviews:hover { border-color: #fff; }
+.hero-trust__reviews .g-icon { width: 15px; height: 15px; flex-shrink: 0; }
+.hero-trust__meta { display: flex; flex-direction: column; gap: 1px; }
+.hero-trust__top { display: inline-flex; align-items: center; }
+.hero-trust__reviews .stars  { display: inline-flex; gap: 1px; }
+.hero-trust__reviews .stars svg { width: 11px; height: 11px; }
+.hero-trust__rating {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  margin-left: 0.25rem;
+  line-height: 1.1;
+}
+.hero-trust__label {
+  font-size: 0.625rem;
+  color: var(--color-navy-100);
+  opacity: 0.75;
+  line-height: 1.1;
+}
+
 /* ── Hero (2026 redesign) via the legacy .hero-split markup ─────────────────
-   The old 50/50 split is retired. .hero-split now renders the SAME full-width
-   image-background hero as the .hero object on home: skyline background + 50%
-   dark overlay, copy left-aligned and constrained to the page boundary
-   (max-w-wide = 1360px + px-6 = 1.5rem), the old right panel hidden. Landscape
-   (desktop) 75vh, portrait (vertical) 80vh. One CSS change rolls the new hero
-   out to every page that still uses .hero-split markup. */
+   The old 50/50 split is retired. .hero-split now renders a full-width solid
+   navy hero (var(--color-bg-footer)): copy left-aligned and constrained to the
+   page boundary (max-w-wide = 1360px + px-6 = 1.5rem), the old right panel
+   hidden. The skyline background image and its 50% dark overlay were removed
+   (user spec 2026-06-21) — navy only. Landscape (desktop) 75vh, portrait
+   (vertical) 80vh. One CSS object rolls this out to every page that uses
+   .hero-split markup. */
 .hero-split {
   position: relative;
   display: flex;
   align-items: center;
   background-color: var(--color-bg-footer);
-  background-image: url('/hero_image.webp');
-  background-size: cover;
-  background-position: center;
-}
-.hero-split::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.50);
-  pointer-events: none;
 }
 .hero-split-left {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1360px;       /* = max-w-wide: aligns hero copy to the body width */
-  margin-inline: auto;
+  max-width: 40rem;        /* 640px text column (user spec 2026-06-26) — matches home */
+  margin-inline: auto;     /* centre the column in the viewport */
+  text-align: center;      /* centre the hero copy */
   padding: 3.5rem 1.5rem;  /* px-6 horizontal; comfortable vertical */
 }
 .hero-split-left .fluid-lead {
