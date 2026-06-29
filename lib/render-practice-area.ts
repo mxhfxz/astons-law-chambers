@@ -95,7 +95,7 @@ function asideCtaBoxHtml(slug: string): string {
           <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse w-full mt-4 flex">
             Call now
           </a>
-          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_aside" class="btn btn-md btn-on-dark w-full mt-3 flex">
+          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-cal-link="astonslaw/callback" data-cal-namespace="callback" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_aside" class="btn btn-md btn-on-dark w-full mt-3 flex">
             Book a consultation
           </a>
         </div>`
@@ -205,7 +205,7 @@ function getInTouchBannerHtml(): string {
                 <p class="text-xl font-semibold tracking-tightish text-navy-950">Get in touch</p>
                 <p class="mt-3 text-navy-700 leading-relaxed">Book a consultation or call for legal support today</p>
                 <div class="cta-actions">
-                  <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-primary flex">
+                  <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-cal-link="astonslaw/callback" data-cal-namespace="callback" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-primary flex">
                     Book a consultation
                   </a>
                   <div class="md:hidden">

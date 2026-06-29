@@ -175,8 +175,39 @@ export function SiteBehaviour() {
       track('mobile_menu_toggle', { event_label: 'primary_nav' }),
     )
 
+    // --- Cal.com element-click popup --------------------------------------
+    // "Book" buttons carry data-cal-link / data-cal-namespace / data-cal-config
+    // and open the calendar as a modal instead of redirecting to cal.com.
+    // cal.com's own auto-wiring scans [data-cal-link] once at embed load, so it
+    // misses buttons rendered after a client-side route change and did not
+    // intercept reliably here. This delegated listener opens the modal via the
+    // initialised namespace instead, surviving SPA navigation. If the embed
+    // isn't ready we don't preventDefault, so the anchor's href (the cal.com
+    // booking page) still works as a no-JS fallback. The capture-phase tracker
+    // above has already fired book_click by the time this runs.
+    const onCalTrigger = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement)?.closest('[data-cal-link]') as HTMLElement | null
+      if (!el) return
+      const ns = el.dataset.calNamespace
+      const api = ns ? window.Cal?.ns?.[ns] : undefined
+      if (typeof api !== 'function') return
+      let config: unknown = {}
+      const raw = el.dataset.calConfig
+      if (raw) {
+        try {
+          config = JSON.parse(raw)
+        } catch {
+          /* malformed config — fall back to embed defaults */
+        }
+      }
+      e.preventDefault()
+      api('modal', { calLink: el.dataset.calLink, config })
+    }
+    document.addEventListener('click', onCalTrigger)
+
     return () => {
       document.removeEventListener('click', onClickCapture, { capture: true } as EventListenerOptions)
+      document.removeEventListener('click', onCalTrigger)
       document.removeEventListener('keydown', onMobileKey)
       mobileToggle?.removeEventListener('click', onMobileToggle)
       cleanups.forEach((fn) => fn())

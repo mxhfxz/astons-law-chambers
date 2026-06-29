@@ -26,6 +26,9 @@ export default function InsightsPage() {
             <div className="mt-8 btn-row">
               <a
                 href="https://cal.com/astonslaw/callback?overlayCalendar=true"
+                data-cal-link="astonslaw/callback"
+                data-cal-namespace="callback"
+                data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
                 aria-label="Book a consultation with Astons Law Chambers"
                 data-track="book_click"
                 data-track-location="insights_hub_hero"
@@ -111,7 +114,7 @@ export default function InsightsPage() {
               <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." data-track="whatsapp_click" data-track-location="insights_hub_final_strip" className="btn btn-lg btn-on-dark w-full flex">
                 Message on WhatsApp
               </a>
-              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="insights_hub_final_strip" className="btn btn-lg btn-on-dark w-full flex">
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-cal-link="astonslaw/callback" data-cal-namespace="callback" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' data-track="book_click" data-track-location="insights_hub_final_strip" className="btn btn-lg btn-on-dark w-full flex">
                 Book a call
               </a>
             </div>
