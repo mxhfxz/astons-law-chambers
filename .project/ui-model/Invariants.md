@@ -12,9 +12,13 @@
    no breadcrumb. Long TL;DR / summary copy goes in the BODY, not the hero. (This supersedes the
    earlier "no lead paragraph in the hero" rule — the hero now carries a short copy line by user
    design, 2026-06-16. Memory `feedback_hero_no_paragraph_clutter` is aligned with this.)
-5. **Section headings = `text-3xl`** everywhere, with NO kicker eyebrow `<p>` above them
-   (all body-heading eyebrows removed 2026-06-16).
-6. **No button icons** except the mobile charm/sticky bar and the desktop FAB.
+5. **Section headings = `text-3xl md:text-4xl`** everywhere (30px mobile / 36px ≥768px), with NO
+   kicker eyebrow `<p>` above them (all body-heading eyebrows removed 2026-06-16). The desktop
+   step-up was added 2026-07-03; the sanitised Insights CMS body (`.insight-body h2`) is scaled in
+   raw rem to match it exactly, because that body is class-free and Tailwind cannot reach it.
+6. **No button icons** except the mobile charm/sticky bar and the desktop FAB. The last two
+   in-page exceptions — the phone + WhatsApp icons on the get-in-touch banner buttons — were
+   removed 2026-07-13. Site-wide icon-button count in content/, lib/ and app/ is now ZERO.
 7. **Precompiled Tailwind only**: no JIT. New utility values must already exist in
    `preview-tailwind.css`; otherwise add a scoped rule in `preview-styles.css`
    (e.g. `.pa-aside`, `.cta-actions`, the hero distribution + mobile-flip rules).

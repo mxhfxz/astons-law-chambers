@@ -8,7 +8,13 @@ Source of truth for values: `content/sections/*.html`, `app/insights/*.tsx`, `ap
 `app/preview-tailwind.css` (precompiled — no JIT; only classes already in the bundle are usable,
 otherwise add a scoped rule in `preview-styles.css`).
 
-Last reviewed: 2026-06-16.
+Last reviewed: 2026-07-13.
+
+**One heading scale site-wide:** every `h2` — [Body](Body.md) `sectionHeading` AND
+[FinalStrip](FinalStrip.md) — is `text-3xl md:text-4xl` (30px / 36px). The FinalStrip's old
+`md:text-5xl` is gone; zero instances remain. The Insights CMS body mirrors the same ramp in raw
+rem in `preview-styles.css`. **No button icons anywhere** in `content/`, `lib/`, `app/` (count: 0);
+the mobile charm/sticky bar and the desktop FAB are the only exceptions.
 
 ## Classes
 - [Page.md](Page.md) — abstract base (header + body + optional final strip)
@@ -33,6 +39,7 @@ Last reviewed: 2026-06-16.
 | insights (article) | Hero | ContactAside-style | ✓ | (app/insights/[slug]/page.tsx — TSX) |
 | police-station | Hero (CTA = Call, red) | PracticeAside | ✓ |
 | authorised-to-conduct-litigation, legal-aid | Hero | ContactAside | ✓ |
+| legal-aid-eligibility (`/legal-aid/eligibility`) | Hero | ContactAside | ✓ |
 | complaints, privacy-policy, terms-of-engagement, timescales | ArticleHeader | — | (timescales ✓) |
 
 Hero left-column content is **distributed** at ≥1024px (h1 at top, optional copy line 1rem below,

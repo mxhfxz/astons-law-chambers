@@ -1,3 +1,78 @@
+# Session Handoff — 2026-07-13 (Aside audit + H2 scale committed; branch pushed for preview)
+
+## Read first — CURRENT STATE
+- **Branch: `legal-aid-eligibility`, 3 commits ahead of `main`.** Pushed for a Vercel preview.
+  NOT merged to main. Nothing from this branch is live on astonslaw.com yet.
+- The Hero/UI overhaul described in the 2026-06-15 section far below is **DONE and ON MAIN**
+  (commit `d56fd9d`). That section's "uncommitted on `sub-pages`" wording is HISTORY — ignore it.
+- Canonical design system is still `.project/ui-model/` (start at `_index.md`). `Aside.md` and
+  `Invariants.md` were both updated this session and are current.
+
+## What is on this branch
+| Commit | What |
+|---|---|
+| `90ac685` | Legal aid eligibility indicator at `/legal-aid/eligibility` |
+| `c330bf0`→`ecd5f85` | cal.com popup modal + comment reconciliation |
+| `462745b` | Aside card audit + site-wide H2 scale |
+| (this session) | Get-in-touch banner icons removed; docs updated |
+
+**`462745b` — aside audit.** Full trail: `.project/aside-card-audit-2026-07-03/findings.md`.
+Fixed a real readability bug (5 ContactAside body paras were `text-navy-100/90`, a dark-surface
+colour, on a LIGHT card — effectively invisible). Canonical ContactAside now on all 7 instances:
+mobile = tel: Call button; desktop = phone number as TEXT (`.aside-phone-desktop`), because you
+cannot tap-to-call on a laptop. Also: cal.com popup regression fixed on About; PA red-box Call icon
+removed; home urgency box `p-5`→`p-6`. Section H2s went `text-3xl` → `text-3xl md:text-4xl`
+site-wide, and `.insight-body` h2/h3/h4 were rescaled in raw rem to match.
+
+**This session.** Removed the phone + WhatsApp icons from the get-in-touch banner buttons
+(`lib/render-practice-area.ts`) — the last in-page Invariant 6 exceptions. Site-wide icon-button
+count in `content/`, `lib/`, `app/` is now **zero** (sticky bar / FAB are the allowed exceptions).
+
+## Traps that bit us — do not relearn these
+- **`git add -A` embeds the SEO worktree as a gitlink.** `.claude/worktrees/` is now in
+  `.gitignore`. The SEO tool lives in a separate worktree on branch `worktree-seo-tier1-fixes`
+  (uncommitted changes to `app/layout.tsx`, `next.config.mjs`). **User is holding it back — do NOT
+  commit or merge it.**
+- **Tailwind JIT does NOT run.** A class not already in `app/preview-tailwind.css` does nothing.
+- **`.btn` cascade trap:** a bare `md:hidden` on a `.btn` LOSES to `.btn{display:inline-flex}`.
+  Needs a scoped `.btn.md\:hidden` rule in `preview-styles.css` (same as the older `.btn.hidden`).
+
+## 🚩🚩 DO NOT MERGE `/legal-aid/eligibility` TO MAIN — BLOCKERS
+The branch is pushed for a **Vercel preview only** (user decision, 2026-07-13). A preview is not
+production and is not indexed. The eligibility page must NOT reach `main` until:
+1. **🚩 The income £ bands are PLACEHOLDERS.** `lib/legal-aid-eligibility.ts:65` says so in-code:
+   `£12,500 / £22,500 / £37,500` are **unverified** and must be checked against live GOV.UK.
+   These are financial thresholds shown to a defendant in crisis — a no-fabricated-facts breach
+   if they ship wrong.
+2. **All copy on that page is Claude-authored DRAFT** pending Ghulam's approval (`lib/legal-aid-eligibility.ts:7`).
+3. **Off-palette colours** in `app/preview-styles.css:1148-1150`: `#16A34A` (green) and `#DC2626`
+   (red) exist in NO token — the brand emergency red is `#C23616`. Plus four new greys. Left as-is:
+   a design decision for the user, deliberately NOT changed by Claude.
+
+## Fixed this session (beyond the icons)
+- **`list-disc` and `mx-2` were silent no-ops** — absent from the precompiled bundle, so they
+  rendered NOTHING. **10 bulleted lists across 6 pages** (privacy, complaints, terms, timescales,
+  legal-aid, legal-aid-eligibility) had been rendering with **no bullets at all**, site-wide,
+  pre-dating this branch. Scoped rules added to `preview-styles.css`; bullets verified rendering.
+  `.list-decimal` was in the bundle, which is why numbered lists worked and nobody noticed.
+- **Raw hex removed** from `EligibilityIndicator.tsx` (`#fff` ×3 → `white`; identical render, lint
+  clean). Lint is now back to main's baseline: the single remaining warning is
+  `app/layout.tsx:43 themeColor: '#0E1628'`, which is pre-existing and MUST be a literal (a
+  browser theme-color meta tag cannot take a CSS variable).
+
+## Open items (need YOUR call — not blocked on Claude)
+- 🚩 **Client sign-off on operational claims** before any prod push: "24/7", "via a partner firm",
+  "free legal advice". These strings are pre-existing and were NOT touched.
+- Navy CTA box (appeals/inquests/totting-up) keeps a cosmetic no-op `flex` on its buttons.
+- Nav "View all defence work" vs the "Services" nav label — rename pending your confirmation.
+- Merge `legal-aid-eligibility` → `main` once you have reviewed the preview.
+
+## Verification standard used (repeat it)
+`npm run type-check` (exit 0) + `npm run build` (exit 0) + prod server (`npm run start -- -p PORT`,
+never dev) + real browser at 1280 and 390 + all 39 sitemap routes returning 200.
+
+---
+
 # Session Handoff — 2026-06-16 (Legal Aid Indicator — brainstorming, Understanding Lock confirmed)
 
 ## Read first

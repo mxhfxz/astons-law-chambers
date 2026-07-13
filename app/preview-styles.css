@@ -408,6 +408,21 @@
        mobile-only Call button (desktop shows the phone number as text instead). */
     @media (min-width: 768px) { .btn.md\:hidden { display: none; } }
 
+    /* Utilities MISSING from the precompiled Tailwind bundle. Tailwind's JIT does
+       not run here, so a class absent from `preview-tailwind.css` is a silent
+       no-op — it renders nothing and fails without an error. Both of these were
+       already in the markup and doing nothing (found 2026-07-13):
+         .list-disc — 10 bulleted lists (privacy, complaints, terms, timescales,
+                      legal-aid, legal-aid-eligibility) were rendering with NO
+                      bullet at all, because preflight sets `ul { list-style:none }`.
+                      `.list-decimal` IS in the bundle, which is why numbered
+                      lists worked and bulleted ones silently did not.
+         .mx-2      — the `·` separator between the two links on the eligibility
+                      page had zero horizontal margin, so the links butted into it.
+       Before adding any new utility, grep `preview-tailwind.css` for it first. */
+    .list-disc { list-style-type: disc; }
+    .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+
     /* ============================================================
        INSIGHTS ARTICLE BODY — .insight-body
        Scoped typography for client-authored /insights articles. The body

@@ -209,12 +209,10 @@ function getInTouchBannerHtml(): string {
                   </a>
                   <div class="md:hidden">
                     <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999" data-track="call_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
-                      <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
                       Call now
                     </a>
                   </div>
                   <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Send a message on WhatsApp" data-track="whatsapp_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
-                    <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
                     Send a message
                   </a>
                 </div>

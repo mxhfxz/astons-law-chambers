@@ -39,7 +39,7 @@ function StatusIcon({ status }: { status: Status }) {
         <path
           d="M6.5 12.5l3.5 3.5L17.5 8"
           fill="none"
-          stroke="#fff"
+          stroke="white"
           strokeWidth="2.4"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -51,8 +51,8 @@ function StatusIcon({ status }: { status: Status }) {
     return (
       <svg className="la-elig__status-ico" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="11" fill="currentColor" />
-        <path d="M12 6.75v6.5" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-        <circle cx="12" cy="17" r="1.35" fill="#fff" />
+        <path d="M12 6.75v6.5" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+        <circle cx="12" cy="17" r="1.35" fill="white" />
       </svg>
     )
   }
