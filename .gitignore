@@ -19,6 +19,8 @@ tsconfig.tsbuildinfo
 .claude/settings.local.json
 .mcp.json
 .claude/skills/
+# Linked git worktrees. Without this, `git add -A` embeds them as a gitlink.
+.claude/worktrees/
 .agents/
 banana-claude/
 claude-ads/

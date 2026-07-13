@@ -103,7 +103,7 @@ export default function InsightsPage() {
         </svg>
         <div className="relative max-w-wide mx-auto px-6 py-16 md:py-24">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="mt-2 text-3xl md:text-5xl font-semibold tracking-tight2 leading-tight">Speak to someone today</h2>
+            <h2 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">Speak to someone today</h2>
             <p className="mt-4 text-navy-100 leading-relaxed max-w-prose mx-auto">
               Available 24/7 for police station representation. Call or WhatsApp any time.
             </p>

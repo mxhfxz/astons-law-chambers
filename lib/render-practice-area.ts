@@ -75,7 +75,7 @@ function subPageGridHtml(parentSlug: string): string {
   // Related/Guides cards, user 2026-06-16), so the grid is separated cards, not
   // a gapless divider grid.
   return `<section>
-          <h2 class="text-3xl font-semibold tracking-tight2">Offences we defend in this area</h2>
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight2">Offences we defend in this area</h2>
           <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">${cards}</ul>
         </section>`
 }
@@ -102,8 +102,7 @@ function asideCtaBoxHtml(slug: string): string {
   }
   return `<div class="bg-emergency-500 text-white rounded p-6">
           <p class="text-lg font-semibold tracking-tightish">Police station representation available 24/7</p>
-          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse-emergency w-full mt-4 flex">
-            <svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>
+          <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="practice_area_aside" class="btn btn-md btn-inverse-emergency w-full mt-4">
             Call now
           </a>
         </div>`

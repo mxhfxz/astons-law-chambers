@@ -403,6 +403,10 @@
     .btn.hidden { display: none; }
     @media (min-width: 640px) { .btn.sm\:inline-flex { display: inline-flex; } }
     @media (min-width: 768px) { .btn.md\:inline-flex { display: inline-flex; } }
+    /* Same cascade tie as `.btn.hidden`: a bare `md:hidden` on a `.btn` loses to
+       `.btn { display:inline-flex }`. This restores it for the ContactAside
+       mobile-only Call button (desktop shows the phone number as text instead). */
+    @media (min-width: 768px) { .btn.md\:hidden { display: none; } }
 
     /* ============================================================
        INSIGHTS ARTICLE BODY — .insight-body
@@ -425,19 +429,30 @@
     .insight-body > * + * { margin-top: 1rem; }
     .insight-body > :first-child { margin-top: 0; }
 
+    /* Heading scale aligned to the site's standard section header (user spec
+       2026-07-03). A CMS `##` now renders at exactly the same size as a section
+       heading anywhere else on the site: 1.875rem -> 2.25rem (= text-3xl ->
+       md:text-4xl, 30px -> 36px at the 768px md breakpoint). h3/h4 step down
+       from it so the CMS outline keeps three visually distinct levels.
+       Raw rem + an explicit media query because the sanitised CMS body is
+       class-free — Tailwind utilities cannot reach it. */
     .insight-body h2 {
       margin-top: 3rem; margin-bottom: 0.75rem;
-      font-size: 1.5rem; font-weight: 600; line-height: 1.25;
+      font-size: 1.875rem; font-weight: 600; line-height: 1.25;
       letter-spacing: -0.02em; color: var(--color-navy-950);
+    }
+    @media (min-width: 768px) {
+      .insight-body h2 { font-size: 2.25rem; }
     }
     .insight-body h3 {
       margin-top: 2rem; margin-bottom: 0.5rem;
-      font-size: 1.25rem; font-weight: 600; line-height: 1.3;
+      font-size: 1.5rem; font-weight: 600; line-height: 1.3;
       letter-spacing: -0.01em; color: var(--color-navy-950);
     }
     .insight-body h4 {
       margin-top: 1.5rem; margin-bottom: 0.5rem;
-      font-size: 1.125rem; font-weight: 600; color: var(--color-navy-950);
+      font-size: 1.25rem; font-weight: 600; line-height: 1.35;
+      color: var(--color-navy-950);
     }
 
     .insight-body p { margin-bottom: 0; }
@@ -881,6 +896,19 @@ body.has-sticky-bar {
   .pa-aside {
     position: sticky;
     top: 8.5rem;
+  }
+}
+
+/* ContactAside phone-number line. On a laptop you can't tap-to-call, so the
+   tel: "Call now" button is mobile-only (md:hidden) and the number shows as
+   plain text on desktop instead. `md:block` is not in the precompiled bundle,
+   so this scoped rule provides the desktop-only reveal (user, 2026-07-03). */
+.aside-phone-desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .aside-phone-desktop {
+    display: block;
   }
 }
 
