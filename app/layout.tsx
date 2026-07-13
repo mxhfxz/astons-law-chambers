@@ -408,6 +408,12 @@ Cal("init", "callback", { origin: "https://cal.com" });
 // month grid and pick a date first". Look-ahead window is unchanged —
 // that is the cal.com dashboard "Future bookings limit" setting (kept
 // narrow per the safety baseline), independent of the layout option.
+//
+// This is the NAMESPACE DEFAULT only. Both booking surfaces override it
+// with an explicit per-mount config, so in practice this value is a
+// fallback: the homepage inline embed pins column_view (SiteBehaviour),
+// and the popup CTAs pin month_view via data-cal-config (user decision
+// 2026-07-13). Changing this line alone changes nothing visible.
 Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "column_view" });`}
         </Script>
 

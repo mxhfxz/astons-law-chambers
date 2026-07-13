@@ -178,6 +178,11 @@ export function SiteBehaviour() {
     // --- Cal.com element-click popup --------------------------------------
     // "Book" buttons carry data-cal-link / data-cal-namespace / data-cal-config
     // and open the calendar as a modal instead of redirecting to cal.com.
+    // Those data-cal-config attributes are the THIRD cal.com config location
+    // (after app/layout.tsx and the inline mount below) — they pin the popup
+    // to month_view, knowingly overriding the T1.6 column_view default per the
+    // user's 2026-07-13 decision. Any cal.com config change must consider all
+    // three locations.
     // cal.com's own auto-wiring scans [data-cal-link] once at embed load, so it
     // misses buttons rendered after a client-side route change and did not
     // intercept reliably here. This delegated listener opens the modal via the
@@ -265,6 +270,13 @@ export function SiteBehaviour() {
             // unspent decision per cro-2026 default-architecture analysis.
             // Look-ahead window is unchanged — that is the cal.com dashboard
             // "Future bookings limit" setting, not a layout option.
+            //
+            // SCOPE (2026-07-13): column_view now governs THIS homepage inline
+            // embed only. The popup booking CTAs (insights + practice areas)
+            // pass layout: "month_view" via their own data-cal-config — user
+            // decision 2026-07-13, taken knowingly against the T1.6 default.
+            // The two surfaces are intentionally different; do not "fix" one
+            // to match the other without checking with the user.
             config: { layout: 'column_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' },
             calLink: 'astonslaw/callback',
           })
