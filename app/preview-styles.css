@@ -237,6 +237,14 @@
       .mega, .mega[data-open="true"] { transition: none; transform: none; }
     }
 
+    /* Grey eligibility card in the mega-menu third column, stacked under the
+       navy police card (user 2026-07-16). A light grey (grey-100) rather than
+       bg-offwhite so it reads as grey against the white menu, and light enough
+       that the grey-600 eyebrow still clears WCAG AA. Not in the precompiled
+       bundle, so scoped here (Invariant 7). */
+    .mega-elig-card { background-color: #F3F4F6; }
+    .mega-elig-card:hover { background-color: #E4E7EC; }
+
     /* Fluid type scale — clamp() so type breathes between breakpoints without bp jumps */
     .fluid-eyebrow  { font-size: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem); letter-spacing: 0.12em; }
     .fluid-h1       { font-size: clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem); line-height: 1.05; letter-spacing: -0.025em; }
