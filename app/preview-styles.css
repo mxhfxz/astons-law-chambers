@@ -1216,10 +1216,9 @@ body.has-sticky-bar {
   letter-spacing: -0.02em; line-height: 1.15; color: var(--color-navy-950);
 }
 .la-elig__result-heading:focus-visible { outline: 2px solid var(--color-navy-950); outline-offset: 3px; }
-.la-elig__result-body { margin-top: 0.85rem; font-size: 1.0625rem; line-height: 1.6; color: var(--color-navy-700); }
-.la-elig__result-lead {
-  margin-top: 1.5rem; font-size: 1.0625rem; font-weight: 600; color: var(--color-navy-950); line-height: 1.5;
-}
+/* 2rem gap between the result statement (heading) and the reason (sub),
+   per user 2026-07-16. */
+.la-elig__result-body { margin-top: 2rem; font-size: 1.0625rem; line-height: 1.6; color: var(--color-navy-700); }
 .la-elig__ctas { display: flex; flex-direction: column; gap: 0.625rem; margin-top: 1.25rem; }
 .la-elig__disclaimer { margin-top: 1.5rem; font-size: 0.8125rem; line-height: 1.5; color: var(--color-navy-700); }
 .la-elig__gov-link { color: var(--color-navy-950); text-decoration: underline; text-underline-offset: 3px; }

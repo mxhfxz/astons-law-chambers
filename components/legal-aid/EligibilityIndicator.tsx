@@ -195,7 +195,6 @@ export function EligibilityIndicator() {
                 {para}
               </p>
             ))}
-            <p className="la-elig__result-lead">{result.ctaLead}</p>
             <ResultCtas />
             <button type="button" onClick={handleReset} className="la-elig__restart">
               Start again

@@ -4,14 +4,18 @@
 //  - This is an INDICATOR, never a "calculator". It produces NO verdict. Every
 //    outcome routes the visitor to the conversion trio. See
 //    .project/legal-aid-indicator/plan.md (Understanding Lock 2026-06-16).
-//  - ALL visible strings below are DRAFT copy pending client (Ghulam) approval.
-//    They are here so the tool can be seen in localhost; nothing ships until the
-//    wording is signed off. Copy HARD RULE still applies.
+//  - The three RESULT strings are user-approved final wording (2026-07-16),
+//    supplied verbatim. Everything ELSE below (questions, options, help text)
+//    is still DRAFT pending client (Ghulam) approval. Copy HARD RULE applies.
 //  - The income £ bands are 🚩 PLACEHOLDERS. The real criminal legal aid means
 //    test uses weighted *disposable* income and is updated annually — these
 //    round figures MUST be verified against live GOV.UK before launch. The tool
 //    never states a band "qualifies"; the band only feeds the soft signal.
-//  - The practitioner's name is deliberately absent from every string here.
+//  - "Ghulam" appears in the 'likely' result by explicit user direction
+//    (2026-07-16), overriding the entity-first / minimise-name guideline for
+//    that one string. It appears nowhere else.
+//  - "free initial consultation" in all three results is an OPERATIONAL CLAIM
+//    (user-directed) — it must be true in practice before this goes to prod.
 //  - 100% client-side: answers are never transmitted, stored, or sent to cal.com.
 
 export type QuestionId = 'stage' | 'passport' | 'income' | 'household'
@@ -91,43 +95,37 @@ export type Outcome = 'likely' | 'unlikely' | 'insufficient'
 
 export interface ResultContent {
   readonly outcome: Outcome
-  /** Visible result heading (DRAFT copy). */
+  /** Result statement — the first line, styled as the result heading. */
   readonly heading: string
-  /** Body paragraphs (DRAFT copy). */
+  /** Reason + call prompt, in prose. Rendered as paragraph(s) below the heading. */
   readonly body: readonly string[]
-  /** The line above the CTAs (DRAFT copy). */
-  readonly ctaLead: string
 }
 
-/** DRAFT result copy. Three endpoints, each ending in the conversion trio.
- *  None is a verdict — the framing makes the call the honest next step. */
+/** Result copy — user-approved final wording (2026-07-16). Each block is a
+ *  result statement (heading) + a short reason and call prompt (body). None is
+ *  a verdict; the page FAQ carries the "only the Legal Aid Agency can decide"
+ *  line, so the hedged "may be likely / less likely" wording does that work here. */
 export const RESULTS: Record<Outcome, ResultContent> = {
   likely: {
     outcome: 'likely',
-    heading: 'Legal aid may well apply to a case like yours',
+    heading: 'Based on your answers you may be likely to receive legal aid.',
     body: [
-      'Based on what you have entered, your circumstances look like the kind that criminal legal aid is designed for. This is a general indicator, not a decision — only the Legal Aid Agency can confirm eligibility once a proper application is made.',
-      'The next step is getting it confirmed and set in motion, and the sooner that happens, the sooner representation can begin.',
+      'Cases like yours usually fall within what criminal legal aid is meant to cover. Call or book a free initial consultation with Ghulam to learn more about how the Legal Aid process can apply to your case.',
     ],
-    ctaLead: 'Speak to the chambers now to get it confirmed and moving.',
   },
   unlikely: {
     outcome: 'unlikely',
-    heading: 'Income on its own rarely settles it',
+    heading: 'Based on your answers you may be less likely to receive legal aid on income alone.',
     body: [
-      'On income alone this looks less clear-cut — but income is only part of the test. Housing costs, dependants, and the way the means test weighs disposable income can all change the picture, so this is not a "no".',
-      'It is worth checking properly before you rule it out. And if legal aid is not available in the end, there are other ways forward worth talking through.',
+      'However, the means test looks wider than earnings, and there are other routes if it does not come through. You can arrange a free initial consultation to discuss further.',
     ],
-    ctaLead: 'A short call can check the full picture and explain the options either way.',
   },
   insufficient: {
     outcome: 'insufficient',
-    heading: 'This part is better answered by a person',
+    heading: 'Based on the answers provided, we cannot confirm whether you may be eligible for legal aid.',
     body: [
-      'Your answers include a few factors that an online check cannot weigh properly — the real test depends on detail that only a short conversation can pin down.',
-      'A quick call will give you a straight answer for your own circumstances, without guessing.',
+      "Some of the circumstances in your response need to be discussed in person to confirm. We're happy to provide a free initial consultation to confirm your details and assist further.",
     ],
-    ctaLead: 'A two-minute call will give you a clear answer for your situation.',
   },
 }
 
