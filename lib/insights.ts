@@ -35,6 +35,17 @@ export interface Insight {
    * used on the police-station page and the guide asides.
    */
   asideCta: { eyebrow: string | null; headline: string; emphasis: boolean } | null
+  /**
+   * Optional per-article "Related" links for the aside. null → the route's
+   * default set. Each entry is an internal (/…) or absolute (http…) href + label.
+   */
+  related: { href: string; label: string }[] | null
+  /**
+   * Optional Q&A pairs mirrored into FAQPage JSON-LD (GEO/AI signal). null →
+   * no FAQPage node emitted. These back the article's visible question sections;
+   * they are not rendered as a separate on-page block.
+   */
+  faqs: { question: string; answer: string }[] | null
   /** Raw Markdown body — rendered to sanitised HTML by lib/render-insight.ts. */
   body: string
 }
@@ -85,6 +96,34 @@ function parseAsideCta(v: unknown): Insight['asideCta'] {
   }
 }
 
+/** Parse the optional related-links list. Invalid entries are dropped; empty → null. */
+function parseRelated(v: unknown): Insight['related'] {
+  if (!Array.isArray(v)) return null
+  const out = v.reduce<{ href: string; label: string }[]>((acc, it) => {
+    if (!it || typeof it !== 'object') return acc
+    const o = it as Record<string, unknown>
+    const href = typeof o.href === 'string' ? o.href.trim() : ''
+    const label = typeof o.label === 'string' ? o.label.trim() : ''
+    if (href && label && /^(\/|https?:\/\/)/.test(href)) acc.push({ href, label })
+    return acc
+  }, [])
+  return out.length ? out : null
+}
+
+/** Parse the optional FAQ list. Entries missing question or answer are dropped; empty → null. */
+function parseFaqs(v: unknown): Insight['faqs'] {
+  if (!Array.isArray(v)) return null
+  const out = v.reduce<{ question: string; answer: string }[]>((acc, it) => {
+    if (!it || typeof it !== 'object') return acc
+    const o = it as Record<string, unknown>
+    const question = typeof o.question === 'string' ? o.question.trim() : ''
+    const answer = typeof o.answer === 'string' ? o.answer.trim() : ''
+    if (question && answer) acc.push({ question, answer })
+    return acc
+  }, [])
+  return out.length ? out : null
+}
+
 function warn(file: string, msg: string): void {
   // Surfaced in the build log; the content-staging review catches it pre-merge.
   console.warn(`[insights] skipped content/insights/${file}: ${msg}`)
@@ -130,6 +169,8 @@ function loadAll(): Insight[] {
         heroImage: strOr(data.heroImage, '') || null,
         heroAlt: strOr(data.heroAlt, ''),
         asideCta: parseAsideCta(data.asideCta),
+        related: parseRelated(data.related),
+        faqs: parseFaqs(data.faqs),
         body: content,
       })
     } catch (err) {

@@ -94,6 +94,32 @@ content:
         default: true
         description: Leave ticked while writing. Untick to publish — only after the article has been reviewed.
 
+      - name: related
+        label: Related links (optional)
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Link text
+            type: string
+          - name: href
+            label: Link URL
+            type: string
+        description: Optional. A few related pages shown in the article sidebar (e.g. /insights/other-article or /practice-areas/criminal-defence). Leave empty to use the default links.
+
+      - name: faqs
+        label: FAQ (optional — for search engines)
+        type: object
+        list: true
+        fields:
+          - name: question
+            label: Question
+            type: string
+          - name: answer
+            label: Answer
+            type: text
+        description: Optional question-and-answer pairs. Added to the page's structured data so search engines and AI answers can quote them. They mirror the article and are NOT shown as a separate on-page section.
+
       - name: body
         label: Article
         type: rich-text

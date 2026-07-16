@@ -32,10 +32,12 @@ const schema = {
   tagNames: [
     'p', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'blockquote',
     'strong', 'em', 'b', 'i', 'a', 'code', 'pre', 'hr', 'img', 'br',
+    'table', 'thead', 'tbody', 'tr', 'th', 'td',
   ],
   attributes: {
     a: ['href'],
     img: ['src', 'alt', 'width', 'height', 'loading', 'decoding'],
+    th: ['scope'],
     '*': [],
   },
   protocols: {
@@ -86,6 +88,17 @@ function rehypeImageDimensions() {
   }
 }
 
+/** Mark header-row cells with scope="col" for screen readers (GFM emits bare <th>). */
+function rehypeTableScope() {
+  return (tree: Root): void => {
+    visit(tree, 'element', (node: Element) => {
+      if (node.tagName !== 'th') return
+      const props = node.properties ?? (node.properties = {})
+      if (!props.scope) props.scope = 'col'
+    })
+  }
+}
+
 /** Add rel="noopener noreferrer" to external links (runs after sanitise). */
 function rehypeExternalLinks() {
   return (tree: Root): void => {
@@ -106,6 +119,7 @@ const processor = unified()
   .use(rehypeRaw)
   .use(rehypeNormalizeHeadings)
   .use(rehypeImageDimensions)
+  .use(rehypeTableScope)
   .use(rehypeSanitize, schema)
   .use(rehypeExternalLinks)
   .use(rehypeStringify)
@@ -157,7 +171,19 @@ export function insightJsonLd(insight: Insight): string {
       { '@type': 'ListItem', position: 3, name: insight.title, item: url },
     ],
   }
-  return JSON.stringify([article, crumbs])
+  const graph: Record<string, unknown>[] = [article, crumbs]
+  if (insight.faqs && insight.faqs.length) {
+    graph.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: insight.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    })
+  }
+  return JSON.stringify(graph)
 }
 
 /** BreadcrumbList JSON-LD for the /insights hub page. */

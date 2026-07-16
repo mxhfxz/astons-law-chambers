@@ -155,14 +155,16 @@ export default async function InsightPage({ params }: { params: { slug: string }
               <div className="bg-offwhite border border-grey-300 rounded p-6">
                 <p className="text-xs font-semibold tracking-[0.12em] uppercase text-grey-600">Related</p>
                 <ul className="mt-3 space-y-2 text-sm">
+                  {(insight.related ?? [
+                    { href: '/guides', label: 'Guides' },
+                    { href: '/practice-areas/criminal-defence', label: 'Criminal defence' },
+                  ]).map((r) => (
+                    <li key={r.href}>
+                      <a href={r.href} className="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">{r.label} →</a>
+                    </li>
+                  ))}
                   <li>
                     <a href="/insights" className="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">All articles →</a>
-                  </li>
-                  <li>
-                    <a href="/guides" className="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Guides →</a>
-                  </li>
-                  <li>
-                    <a href="/practice-areas/criminal-defence" className="text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Criminal defence →</a>
                   </li>
                 </ul>
               </div>

@@ -527,6 +527,37 @@
     }
     .insight-body pre code { padding: 0; background: none; border: 0; }
 
+    /* Comparison tables (GFM `| … |`). Cells wrap so a 3-column table stays
+       within the container on mobile — no horizontal page scroll. Header row
+       gets scope="col" upstream (rehypeTableScope) for screen readers. */
+    .insight-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .insight-body th, .insight-body td {
+      padding: 0.625rem 0.875rem;
+      border-bottom: 1px solid #D1D5DB;
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: break-word;
+    }
+    .insight-body thead th {
+      font-weight: 600;
+      color: var(--color-navy-950);
+      background: var(--color-offwhite);
+      border-bottom: 2px solid var(--color-navy-700);
+    }
+    .insight-body tbody td:first-child {
+      font-weight: 600;
+      color: var(--color-navy-950);
+    }
+    .insight-body tbody tr:last-child th,
+    .insight-body tbody tr:last-child td { border-bottom: 0; }
+
 /* Hide <details> summary marker — list-none handles Firefox; WebKit needs the vendor selector */
 .list-none::-webkit-details-marker,
 .list-none::marker { display: none; }
