@@ -1,5 +1,6 @@
 'use client'
 
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import {
   useEffect,
   useRef,
@@ -9,6 +10,7 @@ import {
 } from 'react'
 import { homeHero, homeHeroFormRules } from '@/lib/home-hero'
 import { contact } from '@/lib/contact'
+import { HCAPTCHA_SITEKEY, submitToWeb3Forms } from '@/lib/web3forms'
 
 type FieldKey = 'name' | 'surname' | 'phone' | 'message'
 
@@ -53,12 +55,18 @@ interface HomeHeroProps {
 
 export function HomeHero({ trustHtml }: HomeHeroProps) {
   const heroRef = useRef<HTMLElement>(null)
+  const captchaRef = useRef<HCaptcha>(null)
   const [showMobileFabs, setShowMobileFabs] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [values, setValues] = useState<FormValues>(emptyValues)
   const [fieldErrors, setFieldErrors] = useState<
     Partial<Record<FieldKey, boolean>>
   >({})
   const [submittedInvalid, setSubmittedInvalid] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitResult, setSubmitResult] = useState<'success' | 'error' | null>(
+    null,
+  )
 
   useEffect(() => {
     const hero = heroRef.current
@@ -91,6 +99,10 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
   function update(key: FieldKey, value: string) {
     const next = { ...values, [key]: value }
     setValues(next)
+    if (submitResult) setSubmitResult(null)
+
+    const formActive = Object.values(next).some((entry) => entry.trim().length > 0)
+    if (!formActive) setCaptchaToken(null)
 
     if (submittedInvalid || fieldErrors[key]) {
       const errors = validate(next)
@@ -106,13 +118,45 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
     }))
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setSubmitResult(null)
+
     const errors = validate(values)
     const invalid = Object.keys(errors).length > 0
 
     setFieldErrors(errors)
     setSubmittedInvalid(invalid)
+    if (invalid) return
+
+    if (!captchaToken) {
+      setSubmittedInvalid(true)
+      return
+    }
+
+    setIsSubmitting(true)
+    const result = await submitToWeb3Forms({
+      first_name: values.name.trim(),
+      last_name: values.surname.trim(),
+      phone: values.phone.trim(),
+      message: values.message.trim(),
+      captchaToken,
+    })
+    setIsSubmitting(false)
+
+    if (result.ok) {
+      setValues(emptyValues)
+      setFieldErrors({})
+      setSubmittedInvalid(false)
+      setCaptchaToken(null)
+      captchaRef.current?.resetCaptcha()
+      setSubmitResult('success')
+      return
+    }
+
+    captchaRef.current?.resetCaptcha()
+    setCaptchaToken(null)
+    setSubmitResult('error')
   }
 
   function fieldClass(key: FieldKey) {
@@ -258,59 +302,67 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
             <h4 className="hero-lead-form__form-heading">{form.formHeading}</h4>
 
             <form className="hero-lead-form" onSubmit={onSubmit} noValidate>
-            {/* Name pair — fields stay put; errors sit under the row (Evolve pattern) */}
+            {/* Name pair — inline errors on mobile; grouped error row on desktop */}
             <div className="hero-lead-form__pair">
-              <div className="hero-lead-form__pair-fields">
-                <div className="hero-lead-form__field">
-                  <label htmlFor="hero-name">{form.fields.name}</label>
-                  <input
-                    id="hero-name"
-                    name="name"
-                    type="text"
-                    autoComplete="given-name"
-                    required
-                    value={values.name}
-                    className={fieldClass('name')}
-                    onChange={(event) => update('name', event.target.value)}
-                    onBlur={() => validateField('name')}
-                    {...errorProps('name')}
-                  />
-                </div>
-                <div className="hero-lead-form__field">
-                  <label htmlFor="hero-surname">{form.fields.surname}</label>
-                  <input
-                    id="hero-surname"
-                    name="surname"
-                    type="text"
-                    autoComplete="family-name"
-                    required
-                    value={values.surname}
-                    className={fieldClass('surname')}
-                    onChange={(event) => update('surname', event.target.value)}
-                    onBlur={() => validateField('surname')}
-                    {...errorProps('surname')}
-                  />
-                </div>
+              <div className="hero-lead-form__field hero-lead-form__field--name">
+                <label htmlFor="hero-name">{form.fields.name}</label>
+                <input
+                  id="hero-name"
+                  name="name"
+                  type="text"
+                  autoComplete="given-name"
+                  required
+                  value={values.name}
+                  className={fieldClass('name')}
+                  onChange={(event) => update('name', event.target.value)}
+                  onBlur={() => validateField('name')}
+                  {...errorProps('name')}
+                />
+                {fieldErrors.name ? (
+                  <p
+                    id="hero-name-error"
+                    className="hero-lead-form__error hero-lead-form__error--field"
+                    role="alert"
+                  >
+                    {form.fieldError}
+                  </p>
+                ) : null}
+              </div>
+              <div className="hero-lead-form__field hero-lead-form__field--surname">
+                <label htmlFor="hero-surname">{form.fields.surname}</label>
+                <input
+                  id="hero-surname"
+                  name="surname"
+                  type="text"
+                  autoComplete="family-name"
+                  required
+                  value={values.surname}
+                  className={fieldClass('surname')}
+                  onChange={(event) => update('surname', event.target.value)}
+                  onBlur={() => validateField('surname')}
+                  {...errorProps('surname')}
+                />
+                {fieldErrors.surname ? (
+                  <p
+                    id="hero-surname-error"
+                    className="hero-lead-form__error hero-lead-form__error--field"
+                    role="alert"
+                  >
+                    {form.fieldError}
+                  </p>
+                ) : null}
               </div>
               {(fieldErrors.name || fieldErrors.surname) ? (
-                <div className="hero-lead-form__pair-errors">
+                <div className="hero-lead-form__pair-errors" aria-hidden="true">
                   {fieldErrors.name ? (
-                    <p
-                      id="hero-name-error"
-                      className="hero-lead-form__error"
-                      role="alert"
-                    >
+                    <p className="hero-lead-form__error" role="presentation">
                       {form.fieldError}
                     </p>
                   ) : (
                     <span className="hero-lead-form__error-spacer" aria-hidden="true" />
                   )}
                   {fieldErrors.surname ? (
-                    <p
-                      id="hero-surname-error"
-                      className="hero-lead-form__error"
-                      role="alert"
-                    >
+                    <p className="hero-lead-form__error" role="presentation">
                       {form.fieldError}
                     </p>
                   ) : (
@@ -323,10 +375,37 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
             {renderField('phone')}
             {renderField('message')}
 
-            <button type="submit" className={submitClass}>
+            {hasAnyField ? (
+              <div className="hero-lead-form__captcha">
+                <HCaptcha
+                  ref={captchaRef}
+                  sitekey={HCAPTCHA_SITEKEY}
+                  reCaptchaCompat={false}
+                  onVerify={(token) => setCaptchaToken(token)}
+                  onExpire={() => setCaptchaToken(null)}
+                />
+              </div>
+            ) : null}
+
+            <button
+              type="submit"
+              className={submitClass}
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+            >
               {form.submit}
             </button>
-            {submittedInvalid ? (
+            {submitResult === 'success' ? (
+              <p className="hero-lead-form__success" role="status">
+                {form.submitSuccess}
+              </p>
+            ) : null}
+            {submitResult === 'error' ? (
+              <p className="hero-lead-form__error" role="alert">
+                {form.submitFailure}
+              </p>
+            ) : null}
+            {submittedInvalid && submitResult !== 'success' ? (
               <p className="hero-lead-form__error" role="alert">
                 {form.formError}
               </p>

@@ -30,6 +30,8 @@ export const homeHero = {
       message: 'Brief description of situation',
     },
     submit: 'Send enquiry',
+    submitSuccess: 'Success!',
+    submitFailure: 'Error',
     fieldError: 'Please fill this in to proceed',
     formError: 'Please complete the form correctly to proceed',
   },

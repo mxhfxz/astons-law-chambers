@@ -1027,26 +1027,21 @@ body:has(.hero--lead).has-sticky-bar {
   border-color: #fff;
   background: transparent;
 }
-/* Name pair — stacked by default (mobile); side-by-side from 1024px */
+/* Name pair — stacked with inline errors on mobile; side-by-side + grouped errors on desktop */
 .hero-lead-form__pair {
   display: grid;
-  gap: 0.375rem;
-}
-.hero-lead-form__pair-fields,
-.hero-lead-form__pair-errors {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 0.75rem;
 }
-.hero-lead-form__pair-fields > .hero-lead-form__field {
-  min-width: 0; /* equal columns; prevent content from stretching one side */
+.hero-lead-form__pair-errors {
+  display: none; /* mobile: errors live under each field */
 }
 .hero-lead-form__error-spacer {
-  display: none; /* only used in desktop side-by-side row */
+  display: none;
 }
 .hero-lead-form__field {
   display: grid;
   gap: 0.375rem;
+  position: relative;
 }
 .hero-lead-form__field label {
   font-size: 0.875rem;
@@ -1084,6 +1079,20 @@ textarea.hero-lead-form__control {
   color: var(--color-error-on-dark);
   font-size: 0.75rem;
   line-height: 1.4;
+}
+.hero-lead-form__success {
+  margin: 0;
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.hero-lead-form__captcha {
+  display: flex;
+  justify-content: flex-start;
+}
+.hero-lead-form button[type='submit']:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-lead-form__control { transition: none; }
@@ -1133,11 +1142,40 @@ textarea.hero-lead-form__control {
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.16);
   }
-  /* Name fields side-by-side, equal width on desktop only */
-  .hero-lead-form__pair-fields,
+  /* Name fields side-by-side with grouped error row on desktop */
+  .hero-lead-form__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    row-gap: 0.375rem;
+  }
+  .hero-lead-form__field--name {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .hero-lead-form__field--surname {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
   .hero-lead-form__pair-errors {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 2;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
+  }
+  /* Visually hidden — pair-errors row is the visible desktop layout */
+  .hero-lead-form__error--field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   .hero-lead-form__error-spacer {
     display: block;
