@@ -48,6 +48,9 @@
          vestigial. The .hero / .hero-split objects reference this for their navy
          field now that the skyline background image is removed. */
       --color-bg-footer: #232536;
+      /* Error text/borders on dark surfaces (hero lead form). AA ≥4.5:1 on
+         --color-bg-footer (#232536). Brand emergency-500 fails AA there. */
+      --color-error-on-dark: #FF6B5C;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -761,6 +764,386 @@ body.has-sticky-bar {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
 }
+
+/* Homepage lead-capture hero — left (image + copy) / right (full white form
+   panel). Stacked on mobile; 60/40 centred panels at ≥1024px. Inset hairlines
+   on the form panel separate it from the nav and the section below without
+   adding outside margin that would grow the hero. */
+.hero--lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  padding: 0;
+  /* Height = taller panel content; no fixed vh */
+  min-height: 0;
+}
+.hero--lead.hero--image::before {
+  display: none; /* image is painted on the content panel only */
+}
+.hero__panel {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3.5rem 1.5rem;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.hero__panel--content {
+  background-color: var(--color-bg-footer);
+  align-items: center; /* vertical centre — left panel only */
+}
+.hero__panel--content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/images/bg_main.avif');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.10;
+  pointer-events: none;
+}
+.hero__panel-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 40rem;
+}
+.hero__panel-inner .fluid-lead {
+  max-width: 60ch;
+}
+.hero__panel-inner .btn-row,
+.hero__panel-inner .hero-trust__items {
+  justify-content: flex-start;
+}
+/* Homepage: no mobile charm/sticky bar — contact is in the hero form panel */
+body:has(.hero--lead) #stickyBar {
+  display: none;
+}
+body:has(.hero--lead).has-sticky-bar {
+  padding-bottom: 0;
+}
+/* Mobile FAB stack — hidden by default; shown only ≤1023px when .is-visible */
+.hero-mobile-fabs {
+  display: none;
+}
+/* Mobile hero content — centred; Book hidden; Call only; 2rem to trust */
+@media (max-width: 1023px) {
+  .hero--lead .hero__panel-inner {
+    text-align: center;
+    margin-inline: auto;
+  }
+  .hero--lead .hero__panel-inner .btn-row,
+  .hero--lead .hero__panel-inner .hero-trust__items {
+    justify-content: center;
+  }
+  .hero--lead .hero__panel-inner .fluid-lead {
+    margin-inline: auto;
+  }
+  .hero--lead .btn.hero-cta-book {
+    display: none;
+  }
+  .hero--lead .hero-trust {
+    margin-top: 2rem;
+  }
+  .hero--lead .hero__panel--form {
+    padding: 2rem 1.5rem;
+  }
+  .hero-lead-form__panel-heading {
+    margin-bottom: 0.5rem; /* + intro gap 0.5rem = 1rem below Ways to get in touch */
+  }
+  /* Faint separators between the 3 contact-panel parts */
+  .hero-lead-form-wrap {
+    gap: 0;
+  }
+  .hero-lead-form__booking,
+  .hero-lead-form__message {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .hero-lead-form__booking .btn {
+    margin-top: 0.5rem;
+  }
+  /* Mobile FAB stack — WhatsApp above call */
+  .hero-mobile-fabs {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.92);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  }
+  .hero-mobile-fabs.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+  .hero-mobile-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.18);
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 150ms ease, border-color 150ms ease,
+      transform 120ms ease;
+  }
+  .hero-mobile-fab svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .hero-mobile-fab:active {
+    transform: scale(0.93);
+  }
+  .hero-mobile-fab--whatsapp {
+    background: var(--color-offwhite);
+    color: var(--color-whatsapp);
+    border: 1px solid #D1D5DB;
+  }
+  .hero-mobile-fab--whatsapp:hover {
+    background: #fff;
+    border-color: #D1D5DB;
+  }
+  .hero-mobile-fab--whatsapp:focus-visible {
+    outline: 2px solid var(--color-navy-900);
+    outline-offset: 3px;
+  }
+  .hero-mobile-fab--call {
+    background: var(--color-navy-900);
+    color: #fff;
+    border: 2px solid var(--color-navy-900);
+  }
+  .hero-mobile-fab--call:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+  .hero-mobile-fabs {
+    transition: none;
+    transform: none;
+  }
+  .hero-mobile-fabs.is-visible,
+  .hero-mobile-fab:active {
+    transform: none;
+  }
+  .hero-mobile-fab {
+    transition: none;
+  }
+}
+.hero__panel--form {
+  background: var(--color-bg-footer);
+  /* Inset top/bottom dividers — drawn inside the panel, no outer push */
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.22);
+  padding: 2rem 1.5rem;
+  overflow: hidden; /* keep fields inside the padded box */
+}
+.hero-lead-form {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0;
+  color: #fff;
+  box-sizing: border-box;
+}
+.hero-lead-form-wrap {
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+.hero-lead-form__intro,
+.hero-lead-form__booking,
+.hero-lead-form__message {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  color: #fff;
+}
+.hero-lead-form__panel-heading,
+.hero-lead-form__section-heading,
+.hero-lead-form__panel-intro,
+.hero-lead-form__booking-intro,
+.hero-lead-form__form-heading {
+  margin: 0;
+  color: #fff;
+}
+.hero-lead-form__panel-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.hero-lead-form__section-heading,
+.hero-lead-form__form-heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.hero-lead-form__panel-intro,
+.hero-lead-form__booking-intro {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-navy-100);
+}
+.hero-lead-form__booking-intro--desktop {
+  display: none;
+}
+.hero-lead-form__booking-link {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.hero-lead-form__booking-link:hover {
+  color: #fff;
+  text-decoration-thickness: 2px;
+}
+/* Secondary CTAs on dark panel — white ghost outline */
+.hero-lead-form__booking .btn-secondary,
+.hero-lead-form .btn-secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: transparent;
+}
+.hero-lead-form__booking .btn-secondary:hover,
+.hero-lead-form .btn-secondary:hover {
+  color: #fff;
+  border-color: #fff;
+  background: transparent;
+}
+/* Name pair — stacked by default (mobile); side-by-side from 1024px */
+.hero-lead-form__pair {
+  display: grid;
+  gap: 0.375rem;
+}
+.hero-lead-form__pair-fields,
+.hero-lead-form__pair-errors {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+.hero-lead-form__pair-fields > .hero-lead-form__field {
+  min-width: 0; /* equal columns; prevent content from stretching one side */
+}
+.hero-lead-form__error-spacer {
+  display: none; /* only used in desktop side-by-side row */
+}
+.hero-lead-form__field {
+  display: grid;
+  gap: 0.375rem;
+}
+.hero-lead-form__field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+}
+.hero-lead-form__control {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  color: #fff;
+  background: transparent;
+  /* Idle = section separator colour; active = white */
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+textarea.hero-lead-form__control {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+.hero-lead-form__control:focus,
+.hero-lead-form__control:focus-visible {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28);
+}
+.hero-lead-form__control--error {
+  border-color: var(--color-error-on-dark);
+}
+.hero-lead-form__error {
+  margin: 0;
+  color: var(--color-error-on-dark);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-lead-form__control { transition: none; }
+}
+@media (min-width: 1024px) {
+  .hero--lead {
+    grid-template-columns: 3fr 2fr; /* 60 / 40 */
+    min-height: 0;
+  }
+  .hero--lead .hero__panel--content {
+    padding: 2rem 3rem;
+  }
+  /* Right panel: match left horizontal rhythm; keep fields inside the inset */
+  .hero--lead .hero__panel--form {
+    padding: 2rem; /* all sides on desktop */
+  }
+  .hero--lead .hero-lead-form-wrap {
+    max-width: 100%;
+  }
+  /* Desktop: Book stays in left hero; hide only the form booking button */
+  .hero--lead .btn.hero-cta-call {
+    display: none;
+  }
+  .hero-lead-form__booking .btn {
+    display: none;
+  }
+  .hero-lead-form__booking-intro--mobile {
+    display: none;
+  }
+  .hero-lead-form__booking-intro--desktop {
+    display: block;
+  }
+  /* 2rem from "Ways to get in touch" to the content below (0.5rem grid gap + 1.5rem) */
+  .hero-lead-form__panel-heading {
+    margin-bottom: 1.5rem;
+  }
+  /* Faint separators: 1rem after section content, 1rem after the line */
+  .hero-lead-form-wrap {
+    gap: 0;
+  }
+  .hero-lead-form__intro,
+  .hero-lead-form__booking {
+    padding-bottom: 1rem;
+  }
+  .hero-lead-form__booking,
+  .hero-lead-form__message {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  /* Name fields side-by-side, equal width on desktop only */
+  .hero-lead-form__pair-fields,
+  .hero-lead-form__pair-errors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .hero-lead-form__error-spacer {
+    display: block;
+    min-height: 1.05rem;
+  }
+}
 /* Centre the hero rows within the column (override .btn-row's default
    flex-start and the trust row's left alignment). Both hero systems. */
 .hero__inner .btn-row,
@@ -775,9 +1158,11 @@ body.has-sticky-bar {
 }
 @media (orientation: landscape) {
   .hero { min-height: 75vh; }
+  .hero.hero--lead { min-height: 0; }
 }
 @media (orientation: portrait) {
   .hero { min-height: 80vh; }
+  .hero.hero--lead { min-height: 0; }
 }
 @media (min-width: 1024px) {
   .hero__inner { padding-top: 4rem; padding-bottom: 4rem; }
@@ -919,24 +1304,24 @@ body.has-sticky-bar {
    police-station, whose hero pairs Call (.btn-emergency) with WhatsApp. Phone only;
    at ≥640px the buttons go side-by-side and keep the original desktop styling. */
 @media (max-width: 639px) {
-  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse):has(> .btn-on-dark) {
+  :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-inverse):has(> .btn-on-dark) {
     flex-direction: column-reverse;
   }
-  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-on-dark) > .btn-inverse {
+  :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-on-dark) > .btn-inverse {
     background: transparent;
     color: #fff;
     border-color: rgba(255, 255, 255, 0.30);
   }
-  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-on-dark) > .btn-inverse:hover {
+  :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-on-dark) > .btn-inverse:hover {
     background: transparent;
     border-color: #fff;
   }
-  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse) > .btn-on-dark {
+  :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-inverse) > .btn-on-dark {
     background: #fff;
     color: var(--color-navy-900);
     border-color: transparent;
   }
-  :is(.hero-split-left, .hero__inner) .btn-row:has(> .btn-inverse) > .btn-on-dark:hover {
+  :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-inverse) > .btn-on-dark:hover {
     background: var(--color-navy-100);
   }
 }

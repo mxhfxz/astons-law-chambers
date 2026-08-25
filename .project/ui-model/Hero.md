@@ -5,7 +5,7 @@ Dark, two-column hero for conversion/content pages.
 ```
 class Hero extends Header {
     classes = "bg-footer text-white hero-split"           // same on every page (incl. home)
-    layout  = two-column (left: content, right: image)     // grid 1fr 1fr @ ≥1024px
+    layout  = two-column (left: content, right: image or approved form) // grid @ ≥1024px
 
     // left column (.hero-split-left), top → bottom:
     h1       = <h1 fluid-h1 font-semibold tracking-tight2>       // first element, uniform clamp, never overflows
@@ -16,6 +16,13 @@ class Hero extends Header {
     // right column (.hero-split-right)
     image = <img src="/hero_image.webp" alt="" width=720 height=656 fetchpriority="high"
                  class="absolute inset-0 w-full h-full object-cover object-center">
+
+    // OVERRIDE — home only (60/40 desktop)
+    Home.leftColumn  = image + existing hero content, centred in panel (60%)
+    Home.rightColumn = full white panel with Web3Forms lead-capture form, centred (40%)
+    Home.formFields  = name + surname + phone number + brief description of situation // all required
+    Home.formDividers = inset top + bottom hairlines on the white panel (inside section)
+    Home.mobileOrder = content, then form
 
     primaryCTA   = btn btn-lg btn-inverse btn-full -> "Book a Free Consultation" (cal.com)   // white, NO icon
     secondaryCTA = btn btn-lg btn-on-dark btn-full -> "Call 07922 247 999" (tel)             // ghost, NO icon

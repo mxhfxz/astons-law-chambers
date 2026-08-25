@@ -113,7 +113,7 @@ All content — copy, headings, CTAs — lives in `lib/`, never hard-coded in JS
 
 - **design-reader** (read-only): connects to Penpot MCP, extracts layer tree and token assignments, flags any raw hex value before returning output.
 - **code-reviewer** (read-only): checks component output against the design spec; verifies no hardcoded colours, no inline styles, no portrait images, and that all conversion links use the verified numbers below.
-- **component-builder** (write): receives design-reader output; builds one component at a time using Tailwind + CSS custom properties; no CMS calls; no email integration.
+- **component-builder** (write): receives design-reader output; builds one component at a time using Tailwind + CSS custom properties; no CMS calls. The homepage hero may include the approved Web3Forms lead-capture form.
 
 ## Content Rules
 
@@ -129,21 +129,20 @@ These are non-negotiable. They apply to all copy in `lib/`, JSX, and any generat
 
 ## Conversion Paths
 
-The only conversion mechanisms on this site are:
+The approved conversion mechanisms on this site are:
 
 | Channel | Value |
 |---------|-------|
 | Phone | 07922 247 999 |
 | WhatsApp | `wa.me/447922247999` |
 | Booking | cal.com link (confirm URL with client before shipping) |
+| Lead form | Web3Forms React integration in the homepage hero |
 
-No contact forms. No email capture. No lead magnets. No newsletter. No exit-intent.
+The homepage hero lead form may capture name, surname, phone number, and a brief description of the situation. All fields are required. Validation limits (name ≥3 chars; UK phone digit length; message 10–500 chars) are enforced in logic only — never shown as UI hints. No lead magnets, newsletter, or exit-intent.
 
 ## What Never Goes in This Site
 
 - Practitioner portrait or photograph
-- Email input of any kind
-- Contact forms
 - Third-party analytics or marketing scripts in the critical render path
 - Large hero images above the fold
 - Social media links in the header or above the fold

@@ -1,8 +1,9 @@
 # Invariants & open items
 
 ## Invariants (must hold across every instance)
-1. **Conversion paths only**: phone (tel:) → WhatsApp (wa.me) → cal.com. No forms/email.
-   Preserve every `data-track` / `data-track-location`.
+1. **Approved conversion paths**: phone (tel:) → WhatsApp (wa.me) → cal.com, plus the
+   Web3Forms lead-capture form in the homepage hero. Preserve every `data-track` /
+   `data-track-location`.
 2. **Surface ↔ button**: dark → `btn-inverse`/`btn-on-dark`; light → `btn-primary`/`btn-secondary`.
    Never mix. Phone-only exception: in a hero Book+Call pair the fills swap so Call is primary
    (see [Hero.md](Hero.md)).
