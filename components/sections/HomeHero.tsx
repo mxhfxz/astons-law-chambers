@@ -17,8 +17,11 @@ import {
 } from '@/lib/home-hero'
 import { contact } from '@/lib/contact'
 import { HCAPTCHA_SITEKEY, submitToWeb3Forms } from '@/lib/web3forms'
+import { trackEvent } from '@/lib/track'
 
 type FieldKey = 'name' | 'surname' | 'phone' | 'message'
+
+type FormStep = FieldKey | 'captcha' | 'complete'
 
 type FormValues = Record<FieldKey, string>
 
@@ -29,6 +32,21 @@ const emptyValues: FormValues = {
   surname: '',
   phone: '',
   message: '',
+}
+
+const FORM_STEP_ORDER: FormStep[] = [
+  'name',
+  'surname',
+  'phone',
+  'message',
+  'captcha',
+  'complete',
+]
+
+const TRACK_PLACEMENT = 'hero_lead_form'
+
+function stepRank(step: FormStep): number {
+  return FORM_STEP_ORDER.indexOf(step)
 }
 
 function isValidUkPhone(value: string): boolean {
@@ -75,6 +93,32 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
   const [lockedMessageHeight, setLockedMessageHeight] = useState<number | null>(
     null,
   )
+  const formStartedRef = useRef(false)
+  const formCompletedRef = useRef(false)
+  const stepsSeenRef = useRef<Set<FormStep>>(new Set())
+  const furthestStepRef = useRef<FormStep | null>(null)
+
+  function markStep(step: FormStep) {
+    if (formCompletedRef.current) return
+
+    if (!formStartedRef.current) {
+      formStartedRef.current = true
+      trackEvent('lead_form_start', { placement: TRACK_PLACEMENT })
+    }
+
+    if (!stepsSeenRef.current.has(step)) {
+      stepsSeenRef.current.add(step)
+      trackEvent('lead_form_step', {
+        placement: TRACK_PLACEMENT,
+        step,
+      })
+    }
+
+    const current = furthestStepRef.current
+    if (!current || stepRank(step) > stepRank(current)) {
+      furthestStepRef.current = step
+    }
+  }
 
   useEffect(() => {
     const hero = heroRef.current
@@ -111,10 +155,25 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
     })
   }, [showCaptcha])
 
+  useEffect(() => {
+    const onPageHide = () => {
+      if (!formStartedRef.current || formCompletedRef.current) return
+      trackEvent('lead_form_abandon', {
+        placement: TRACK_PLACEMENT,
+        last_step: furthestStepRef.current ?? 'name',
+        steps_reached: stepsSeenRef.current.size,
+      })
+    }
+    window.addEventListener('pagehide', onPageHide)
+    return () => window.removeEventListener('pagehide', onPageHide)
+  }, [])
+
   function update(key: FieldKey, value: string) {
     const next = { ...values, [key]: value }
     setValues(next)
     if (submitResult === 'error') setSubmitResult(null)
+
+    if (value.trim().length > 0) markStep(key)
 
     const formActive = Object.values(next).some((entry) => entry.trim().length > 0)
     if (!formActive) setCaptchaToken(null)
@@ -152,6 +211,12 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
     })
 
     if (result.ok) {
+      formCompletedRef.current = true
+      markStep('complete')
+      trackEvent('lead_form_success', {
+        placement: TRACK_PLACEMENT,
+        steps_reached: stepsSeenRef.current.size,
+      })
       if (messageBlockRef.current) {
         setLockedMessageHeight(messageBlockRef.current.offsetHeight)
       }
@@ -166,6 +231,10 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
       return
     }
 
+    trackEvent('lead_form_fail', {
+      placement: TRACK_PLACEMENT,
+      last_step: furthestStepRef.current ?? 'captcha',
+    })
     captchaRef.current?.resetCaptcha()
     setCaptchaToken(null)
     setIsSubmitting(false)
@@ -177,15 +246,29 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
     if (submitResult === 'success' || isSubmitting) return
     setSubmitResult(null)
 
+    trackEvent('lead_form_submit_click', { placement: TRACK_PLACEMENT })
+
     const errors = validate(values)
     const invalid = Object.keys(errors).length > 0
 
     setFieldErrors(errors)
     setSubmittedInvalid(invalid)
-    if (invalid) return
+    if (invalid) {
+      const firstInvalid = (Object.keys(errors) as FieldKey[]).sort(
+        (a, b) => stepRank(a) - stepRank(b),
+      )[0]
+      trackEvent('lead_form_invalid', {
+        placement: TRACK_PLACEMENT,
+        first_invalid: firstInvalid ?? 'name',
+        invalid_count: Object.keys(errors).length,
+      })
+      return
+    }
 
     // Hang send on captcha: show check, keep button in Sending… until verified
     if (!captchaToken) {
+      markStep('captcha')
+      trackEvent('lead_form_captcha_show', { placement: TRACK_PLACEMENT })
       setIsSubmitting(true)
       setShowCaptcha(true)
       return
@@ -195,6 +278,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
   }
 
   function onCaptchaVerify(token: string) {
+    markStep('captcha')
     setCaptchaToken(token)
     void sendEnquiry(token)
   }
@@ -369,6 +453,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
                         required
                         value={values.name}
                         className={fieldClass('name')}
+                        onFocus={() => markStep('name')}
                         onChange={(event) => update('name', event.target.value)}
                         onBlur={() => validateField('name')}
                         {...errorProps('name')}
@@ -393,6 +478,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
                         required
                         value={values.surname}
                         className={fieldClass('surname')}
+                        onFocus={() => markStep('surname')}
                         onChange={(event) => update('surname', event.target.value)}
                         onBlur={() => validateField('surname')}
                         {...errorProps('surname')}
@@ -454,6 +540,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
                         required
                         value={values.phone}
                         className="hero-lead-form__control hero-lead-form__phone-input"
+                        onFocus={() => markStep('phone')}
                         onChange={(event) => update('phone', event.target.value)}
                         onBlur={() => validateField('phone')}
                         {...errorProps('phone')}
@@ -484,6 +571,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
                             ? 'hero-lead-form__control hero-lead-form__control--error'
                             : 'hero-lead-form__control'
                         }
+                        onFocus={() => markStep('message')}
                         onChange={(
                           event: ChangeEvent<HTMLTextAreaElement>,
                         ) => update('message', event.target.value)}

@@ -59,6 +59,15 @@ export function getCtaType(eventName: string): string {
       return 'guide'
     case 'download_click':
       return 'download'
+    case 'lead_form_start':
+    case 'lead_form_step':
+    case 'lead_form_submit_click':
+    case 'lead_form_invalid':
+    case 'lead_form_captcha_show':
+    case 'lead_form_success':
+    case 'lead_form_fail':
+    case 'lead_form_abandon':
+      return 'lead_form'
     default:
       return 'other'
   }
