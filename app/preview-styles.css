@@ -981,7 +981,8 @@ body:has(.hero--lead).has-sticky-bar {
 .hero-lead-form__section-heading,
 .hero-lead-form__panel-intro,
 .hero-lead-form__booking-intro,
-.hero-lead-form__form-heading {
+.hero-lead-form__form-heading,
+.hero-lead-form__form-intro {
   margin: 0;
   color: #fff;
 }
@@ -997,10 +998,14 @@ body:has(.hero--lead).has-sticky-bar {
   letter-spacing: -0.01em;
 }
 .hero-lead-form__panel-intro,
-.hero-lead-form__booking-intro {
+.hero-lead-form__booking-intro,
+.hero-lead-form__form-intro {
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--color-navy-100);
+}
+.hero-lead-form__form-intro {
+  font-size: 0.8125rem;
 }
 .hero-lead-form__booking-intro--desktop {
   display: none;
@@ -1014,15 +1019,13 @@ body:has(.hero--lead).has-sticky-bar {
   color: #fff;
   text-decoration-thickness: 2px;
 }
-/* Secondary CTAs on dark panel — white ghost outline */
-.hero-lead-form__booking .btn-secondary,
-.hero-lead-form .btn-secondary {
+/* Secondary CTAs on dark panel — white ghost outline (same as booking) */
+.hero-lead-form-wrap .btn-secondary {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.45);
   background: transparent;
 }
-.hero-lead-form__booking .btn-secondary:hover,
-.hero-lead-form .btn-secondary:hover {
+.hero-lead-form-wrap .btn-secondary:hover {
   color: #fff;
   border-color: #fff;
   background: transparent;
@@ -1065,6 +1068,7 @@ body:has(.hero--lead).has-sticky-bar {
 textarea.hero-lead-form__control {
   min-height: 6.5rem;
   resize: vertical;
+  padding-bottom: 1.75rem; /* room for character counter */
 }
 .hero-lead-form__control:focus,
 .hero-lead-form__control:focus-visible {
@@ -1073,6 +1077,88 @@ textarea.hero-lead-form__control {
 }
 .hero-lead-form__control--error {
   border-color: var(--color-error-on-dark);
+}
+.hero-lead-form__phone {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.hero-lead-form__phone:focus-within {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28);
+}
+.hero-lead-form__phone--error {
+  border-color: var(--color-error-on-dark);
+}
+.hero-lead-form__phone-prefix {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 0 0.75rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-navy-100);
+  background: rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  user-select: none;
+}
+.hero-lead-form__phone-input {
+  border: 0;
+  border-radius: 0;
+  min-height: 2.75rem;
+  box-shadow: none;
+}
+.hero-lead-form__phone-input:focus,
+.hero-lead-form__phone-input:focus-visible {
+  border-color: transparent;
+  box-shadow: none;
+}
+.hero-lead-form__message-box {
+  position: relative;
+}
+.hero-lead-form__min-ring {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.55rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+.hero-lead-form__min-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero-lead-form__min-ring-track {
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 2.5;
+}
+.hero-lead-form__min-ring-progress {
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 120ms ease, stroke 120ms ease;
+}
+.hero-lead-form__min-ring--complete .hero-lead-form__min-ring-progress {
+  stroke: #fff;
+}
+.hero-lead-form__min-ring--over .hero-lead-form__min-ring-track,
+.hero-lead-form__min-ring--over .hero-lead-form__min-ring-progress {
+  stroke: var(--color-error-on-dark);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-lead-form__min-ring-progress { transition: none; }
+}
+.hero-lead-form__field-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #fff;
 }
 .hero-lead-form__error {
   margin: 0;
@@ -1086,13 +1172,88 @@ textarea.hero-lead-form__control {
   font-size: 0.875rem;
   line-height: 1.4;
 }
+/* Captcha only mounts after a valid Send click — no idle placeholder gap */
 .hero-lead-form__captcha {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.hero-lead-form button[type='submit'].is-sending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: wait;
+}
+.hero-lead-form__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  animation: hero-lead-form-spin 0.7s linear infinite;
+}
+@keyframes hero-lead-form-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-lead-form__spinner {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.55;
+  }
+}
+.hero-lead-form__message {
+  position: relative;
+}
+.hero-lead-form__confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  min-height: 100%;
+  padding: 1.5rem 0.5rem;
+  box-sizing: border-box;
+}
+.hero-lead-form__confirmation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #fff;
+  color: var(--color-navy-900);
+}
+.hero-lead-form__confirmation-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.hero-lead-form__confirmation-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1.25;
+}
+.hero-lead-form__confirmation-body {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-navy-100);
 }
 .hero-lead-form button[type='submit']:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+.hero-lead-form button[type='submit'].is-sending:disabled {
+  opacity: 1;
+  cursor: wait;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-lead-form__control { transition: none; }
@@ -1116,7 +1277,14 @@ textarea.hero-lead-form__control {
   .hero--lead .btn.hero-cta-call {
     display: none;
   }
+  /* Desktop: Book lives in the left hero CTA — hide the right-panel booking block */
+  .hero-lead-form__booking {
+    display: none;
+  }
   .hero-lead-form__booking .btn {
+    display: none;
+  }
+  .hero-lead-form__custody-call {
     display: none;
   }
   .hero-lead-form__booking-intro--mobile {
