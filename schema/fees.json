@@ -12,16 +12,16 @@
     "description": "Criminal defence fees and legal aid at Astons Law Chambers. Indicative fee ranges with VAT identified separately. A written fee is provided before any work is instructed. Legal Aid cases referred to a partner solicitor firm at no cost.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "85 Great Portland Street",
+      "streetAddress": "167–169 Great Portland Street, 5th Floor",
       "addressLocality": "London",
       "addressRegion": "Greater London",
-      "postalCode": "W1W 7LT",
+      "postalCode": "W1W 5PF",
       "addressCountry": "GB"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "51.519053946534214",
-      "longitude": "-0.14223317198718982"
+      "latitude": "51.52168921771",
+      "longitude": "-0.14372174600183"
     },
     "openingHoursSpecification": [
       {

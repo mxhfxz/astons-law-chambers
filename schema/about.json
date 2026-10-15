@@ -8,19 +8,19 @@
     "url": "https://astonslaw.com",
     "telephone": "+44-7922-247999",
     "email": "info@astonslaw.com",
-    "description": "Astons Law Chambers is a London criminal defence barrister practice acting at every stage — police station, Magistrates' Court, Crown Court, and the Court of Appeal. The practice operates under the Bar Standards Board Public Access scheme and is also instructed through solicitor firms. Police station support available 24/7.",
+    "description": "Astons Law Chambers is a London criminal defence barrister practice acting from police station through Magistrates' Court and Crown Court trial. The practice operates under the Bar Standards Board Public Access scheme and is also instructed through solicitor firms. Police station support available 24/7.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "85 Great Portland Street",
+      "streetAddress": "167–169 Great Portland Street, 5th Floor",
       "addressLocality": "London",
       "addressRegion": "Greater London",
-      "postalCode": "W1W 7LT",
+      "postalCode": "W1W 5PF",
       "addressCountry": "GB"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "51.519053946534214",
-      "longitude": "-0.14223317198718982"
+      "latitude": "51.52168921771",
+      "longitude": "-0.14372174600183"
     },
     "openingHoursSpecification": [
       {
@@ -116,7 +116,6 @@
     "knowsAbout": [
       "Criminal Defence",
       "Crown Court Advocacy",
-      "Court of Appeal",
       "Magistrates' Court",
       "Police Station Representation",
       "Direct Access (Public Access)",

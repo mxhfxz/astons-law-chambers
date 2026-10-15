@@ -12,16 +12,16 @@
     "description": "Criminal defence representation in London. Police station support, Magistrates' Court hearings, Crown Court trial and sentence, and post-conviction work. 24/7 availability for police station support.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "85 Great Portland Street",
+      "streetAddress": "167–169 Great Portland Street, 5th Floor",
       "addressLocality": "London",
       "addressRegion": "Greater London",
-      "postalCode": "W1W 7LT",
+      "postalCode": "W1W 5PF",
       "addressCountry": "GB"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "51.519053946534214",
-      "longitude": "-0.14223317198718982"
+      "latitude": "51.52168921771",
+      "longitude": "-0.14372174600183"
     },
     "openingHoursSpecification": [
       {
@@ -57,7 +57,7 @@
           "itemOffered": {
             "@type": "Service",
             "name": "Criminal Defence",
-            "description": "Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates' Court and, for serious cases, the Crown Court, to trial and any appeal that follows. Astons Law Chambers acts at every stage — from arrest to verdict.",
+            "description": "Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates' Court and, for serious cases, the Crown Court, through to trial. Astons Law Chambers acts from arrest through to verdict and sentence.",
             "serviceType": "Criminal Defence",
             "provider": {
               "@type": "LegalService",

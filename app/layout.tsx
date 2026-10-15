@@ -57,16 +57,16 @@ const jsonLd = [
     description: 'Criminal Defence When It Matters Most. Expert, relentless criminal defence. We challenge the evidence, protect your rights, and fight for your future. Emergency 24/7 criminal defence lawyers in London specialising in serious crime, motoring offences, fraud, and youth defence.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '85 Great Portland Street',
+      streetAddress: '167–169 Great Portland Street, 5th Floor',
       addressLocality: 'London',
       addressRegion: 'Greater London',
-      postalCode: 'W1W 7LT',
+      postalCode: 'W1W 5PF',
       addressCountry: 'GB',
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: '51.51858477517324',
-      longitude: '-0.14254003068235244',
+      latitude: '51.52168921771',
+      longitude: '-0.14372174600183',
     },
     openingHoursSpecification: [
       {
@@ -104,7 +104,7 @@ const jsonLd = [
           itemOffered: {
             '@type': 'Service',
             name: 'Violent Crimes',
-            description: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
+            description: 'Assault, ABH, GBH, affray, robbery. Police station through trial.',
             serviceType: 'Criminal defence barrister for violent crime allegations, London',
             provider: { '@id': 'https://astonslaw.com/#organization' },
           },
@@ -136,16 +136,6 @@ const jsonLd = [
             name: 'Drug Offences',
             description: 'Possession, supply, importation. Forensic and disclosure challenges.',
             serviceType: 'Criminal defence barrister for drug offences, London',
-            provider: { '@id': 'https://astonslaw.com/#organization' },
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Appeals',
-            description: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
-            serviceType: 'Criminal appeals barrister, Crown Court and Court of Appeal, London',
             provider: { '@id': 'https://astonslaw.com/#organization' },
           },
         },

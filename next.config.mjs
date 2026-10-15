@@ -37,6 +37,8 @@ const nextConfig = {
 
       // --- legacy practice-area slugs ---
       { source: '/practice-areas/motoring-law', destination: '/practice-areas/driving-offences', permanent: true },
+      // Appeals withdrawn from offering (client 2026-10-15): police station → trial only.
+      { source: '/practice-areas/appeals', destination: '/practice-areas/criminal-defence', permanent: true },
       ...removed.map((s) => ({
         source: `/practice-areas/${s}`,
         destination: '/practice-areas',

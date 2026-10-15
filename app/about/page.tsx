@@ -34,7 +34,6 @@ const personJsonLd = {
     'Drug possession and supply charges',
     'Driving and road traffic offences',
     'Youth Court proceedings',
-    'Criminal appeals — conviction and sentence',
     'Inquest representation in the Coroner\'s Court',
     'Legal Aid and means testing',
     'Bail applications and contested bail hearings',
@@ -50,7 +49,7 @@ const serviceJsonLd = {
   '@type': 'Service',
   '@id': `${pageUrl}#service`,
   name: 'Criminal Defence Legal Services',
-  description: 'Criminal defence legal representation in London and across England and Wales, from police station through to Crown Court trial and appeal.',
+  description: 'Criminal defence legal representation in London and across England and Wales, from police station through to Crown Court trial.',
   serviceType: 'Criminal Defence',
   provider: { '@id': 'https://astonslaw.com/#organization' },
   areaServed: [
@@ -78,16 +77,6 @@ const serviceJsonLd = {
           name: 'Magistrates Court and Crown Court Representation',
           description: 'Criminal defence from first hearing through to trial and sentencing in both the Magistrates Court and Crown Court.',
           serviceType: 'Criminal Defence',
-          provider: { '@id': 'https://astonslaw.com/#organization' },
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Criminal Appeals',
-          description: 'Appeals against conviction and sentence in the Crown Court and the Court of Appeal (Criminal Division).',
-          serviceType: 'Criminal Appeals',
           provider: { '@id': 'https://astonslaw.com/#organization' },
         },
       },

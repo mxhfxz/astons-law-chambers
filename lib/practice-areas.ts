@@ -32,7 +32,7 @@ export interface PracticeArea {
    *  `actions`/`process` lists with flowing paragraphs. `processProse` answers
    *  "how a case proceeds"; `actionsProse` covers how the defence is built.
    *  Each array element is one paragraph. Optional headings override the
-   *  generic section headings (needed for inquests, appeals, criminal-defence).
+   *  generic section headings (needed for inquests, criminal-defence).
    *  Grounded in the Gemini dossier; conceptual only — no statutes, section
    *  numbers, or figures (feedback_legal_specificity, user 2026-06-06). */
   processHeading?: string
@@ -55,7 +55,7 @@ export const practiceAreas: PracticeArea[] = [
     kicker: 'Criminal Defence',
     cardSummary: 'Representation from investigation through trial. Magistrates’ and Crown Court.',
     definition:
-      'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, to trial and any appeal that follows.',
+      'Criminal defence is the representation of someone accused of a crime. It starts at the police station and runs through the Magistrates’ Court and, for serious cases, the Crown Court, through to trial.',
     situation:
       'Astons Law Chambers serves as the entity acting as criminal defence support provided by Barrister Ghulam Humayun.',
     actions: [
@@ -68,7 +68,7 @@ export const practiceAreas: PracticeArea[] = [
       'A short call to understand the allegation, the stage you are at, and any next date in the diary.',
       'A written client-care letter setting out scope, fee, and what happens next — before any work begins.',
       'Preparation: conferences with the client, disclosure review, and case strategy.',
-      'Representation at every hearing through to verdict and, where needed, beyond.',
+      'Representation at every hearing through to verdict and sentence.',
     ],
     processHeading: 'How a criminal case proceeds',
     processProse: [
@@ -93,7 +93,7 @@ export const practiceAreas: PracticeArea[] = [
       body: 'Police station support is available at any hour.',
     },
     policeStation: { title: 'If you or a family member is at a police station, call before the interview.' },
-    related: ['violent-crimes', 'drug-offences', 'appeals'],
+    related: ['violent-crimes', 'drug-offences', 'fraud'],
   },
   {
     slug: 'violent-crimes',
@@ -102,7 +102,7 @@ export const practiceAreas: PracticeArea[] = [
     metaDescription:
       "Specialist defence barrister for violent crimes including assault, ABH, GBH, affray, and robbery. From police station to Crown Court. Fixed fees available.",
     kicker: 'Violent Crimes',
-    cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through appeal.',
+    cardSummary: 'Assault, ABH, GBH, affray, robbery. Police station through trial.',
     definition:
       'Violent crime covers allegations involving violence or the threat of it: assault, actual and grievous bodily harm, affray, and robbery. The less serious are heard in the Magistrates’ Court. The most serious go to the Crown Court.',
     situation:
@@ -142,10 +142,8 @@ export const practiceAreas: PracticeArea[] = [
       body: 'Identification, self-defence, and witness account are best framed in the first weeks after charge. Earlier is better.',
     },
     policeStation: { title: 'In custody for assault, ABH or GBH — speak to the barrister before the interview.' },
-    // Sibling rebalance 2026-05-21: swap drug-offences + appeals (over-linked)
-    // for youth-crimes + inquests (under-linked). Editorial adjacencies:
-    // youth ↔ violent (assault by under-18s); inquests ↔ violent (death from
-    // violence). Revert: `git restore lib/practice-areas.ts`.
+    // Sibling links: youth ↔ violent (assault by under-18s); inquests ↔ violent
+    // (death from violence); sub-pages for offence subtypes.
     related: ['criminal-defence', 'youth-crimes', 'inquests', 'gbh', 'knife-crime', 'domestic-abuse', 'robbery'],
   },
   {
@@ -240,7 +238,7 @@ export const practiceAreas: PracticeArea[] = [
       body: 'After a short conversation you receive a client-care letter setting out the scope and the fee.',
     },
     policeStation: { title: 'Held for drink driving or failure to provide — call before the interview.' },
-    related: ['criminal-defence', 'drug-offences', 'appeals', 'drink-driving', 'drug-driving', 'totting-up'],
+    related: ['criminal-defence', 'drug-offences', 'drink-driving', 'drug-driving', 'totting-up'],
   },
   {
     slug: 'drug-offences',
@@ -287,55 +285,8 @@ export const practiceAreas: PracticeArea[] = [
       body: 'Drug cases turn on what is in the disclosure schedules and what is missing from them. Early review sets the strategy.',
     },
     policeStation: { title: 'In custody for possession or supply — call before the interview begins.' },
-    // Sibling rebalance 2026-05-21: swap appeals (over-linked) for
-    // driving-offences (under-linked). Adjacency: drug-driving cases bridge.
+    // Sibling rebalance 2026-05-21: driving-offences adjacency via drug-driving.
     related: ['criminal-defence', 'driving-offences', 'violent-crimes', 'possession-with-intent', 'drug-supply', 'county-lines'],
-  },
-  {
-    slug: 'appeals',
-    title: 'Appeals',
-    metaTitle: "Criminal Appeals Barrister | Conviction & Sentence Reviews",
-    metaDescription:
-      "Appealing a wrongful conviction or excessive sentence in the UK? Get expert advice on prospects of success and Court of Appeal representation.",
-    kicker: 'Appeals',
-    cardSummary: 'Conviction and sentence appeals. Prospects, grounds, hearing.',
-    definition:
-      'A criminal appeal challenges a conviction or a sentence after the case has been decided. Appeals from the Magistrates’ Court go to the Crown Court, and appeals from the Crown Court go to the Court of Appeal. The time to appeal is short and starts on the day of the decision.',
-    situation:
-      'Astons Law Chambers serves as the entity acting as criminal defence support provided by Barrister Ghulam Humayun.',
-    actions: [
-      'Advice on prospects of appealing conviction or sentence.',
-      'Drafting of grounds of appeal.',
-      'Crown Court appeals from the Magistrates’ Court.',
-      'Representation in the Court of Appeal (Criminal Division).',
-    ],
-    process: [
-      'A short call to confirm what was decided, on what date, and how much time is left to appeal.',
-      'A written client-care letter setting out scope and fee.',
-      'Review of the transcript, summing-up, and trial papers — these are ordered early.',
-      'Drafting of grounds and representation at the appeal hearing.',
-    ],
-    processHeading: 'How an appeal works',
-    processProse: [
-      'An appeal challenges a conviction or a sentence after the case has ended. A decision of the Magistrates’ Court can be appealed to the Crown Court, which hears the matter again in full. An appeal from the Crown Court goes to the Court of Appeal and first needs permission.',
-      'The time to appeal is short and runs from the day of the decision, so it is worth acting quickly even if the trial papers are not yet to hand. An appeal also carries risk: the Crown Court can increase a sentence on a rehearing, and an unsuccessful appeal can carry costs.',
-    ],
-    actionsHeading: 'What an appeal has to show',
-    actionsProse: [
-      'An appeal is not a chance to run the trial again. It has to identify something that went wrong: an error of law, a misdirection to the jury, or a procedural failure that makes the conviction unsafe.',
-      'A sentence appeal has to show the sentence was wrong in principle or well outside the proper range. The starting point is a hard look at the transcript, the summing-up, and the papers to see whether a ground exists.',
-    ],
-    faqs: [
-      { q: 'How long do I have to appeal?', a: 'Time limits are short and start running on the day of the decision. Call before the time runs — grounds can be drafted in time even if the papers are not yet available.' },
-      { q: 'Can I appeal just the sentence?', a: 'Yes. Sentence-only appeals are common. Grounds depend on the principles applied and the facts.' },
-      { q: 'My trial lawyer said an appeal isn’t worth it — is that final?', a: 'No. A second opinion on prospects is part of the work.' },
-    ],
-    context: {
-      eyebrow: 'Time-limited',
-      title: 'Appeal time runs from the day of the decision.',
-      body: 'Early instruction matters. Transcripts and trial papers take time to obtain and review.',
-    },
-    related: ['criminal-defence', 'violent-crimes', 'drug-offences'],
   },
   {
     slug: 'inquests',
@@ -381,7 +332,7 @@ export const practiceAreas: PracticeArea[] = [
       title: 'Scope is set before the inquest.',
       body: 'The pre-inquest review is where the questions the inquest will examine are decided.',
     },
-    related: ['criminal-defence', 'appeals', 'violent-crimes'],
+    related: ['criminal-defence', 'violent-crimes'],
   },
   {
     slug: 'fraud',
@@ -449,7 +400,7 @@ export const practiceAreas: PracticeArea[] = [
     policeStation: {
       title: 'Under caution for fraud — call before the interview. Fraud interviews are document-heavy.',
     },
-    related: ['criminal-defence', 'appeals'],
+    related: ['criminal-defence', 'drug-offences'],
   },
   {
     slug: 'sexual-offences',
@@ -513,7 +464,7 @@ export const practiceAreas: PracticeArea[] = [
     policeStation: {
       title: 'Under caution for a sexual offence — call before the interview. These interviews are long and consequential.',
     },
-    related: ['criminal-defence', 'appeals', 'youth-crimes'],
+    related: ['criminal-defence', 'youth-crimes'],
   },
 ]
 
@@ -528,6 +479,7 @@ export function getAreaTitle(slug: string): string {
 // Old -> new slug redirects (criminal-only scope). Consumed by next.config.mjs.
 export const slugRedirects: Record<string, string> = {
   'motoring-law': '/practice-areas/driving-offences',
+  appeals: '/practice-areas/criminal-defence',
   immigration: '/practice-areas',
   'family-law': '/practice-areas',
   family: '/practice-areas',

@@ -81,9 +81,9 @@ function subPageGridHtml(parentSlug: string): string {
 }
 
 /** Slugs with no realistic "calling from a police station" scenario — these get
- *  no red box and no Guides card (user, 2026-06-09). Appeals = post-conviction;
- *  Inquests = families, not arrest; Totting-up = penalty points / court. */
-const NO_STATION_SCENARIO = new Set(['appeals', 'inquests', 'totting-up'])
+ *  no red box and no Guides card (user, 2026-06-09). Inquests = families, not
+ *  arrest; Totting-up = penalty points / court. */
+const NO_STATION_SCENARIO = new Set(['inquests', 'totting-up'])
 
 /** Aside block 1 — the top CTA card. Custody-scenario pages get the RED police
  *  box (single Call button, the only side-panel CTA carrying an icon). All other
@@ -423,7 +423,6 @@ function serviceTypeFor(slug: string): string {
     'youth-crimes': 'Criminal defence barrister for clients under 18, Youth Court, London',
     'driving-offences': 'Criminal defence barrister for driving offences, London',
     'drug-offences': 'Criminal defence barrister for drug offences, London',
-    'appeals': 'Criminal appeals barrister, Crown Court and Court of Appeal, London',
     'inquests': "Inquest representation by a barrister, Coroner's Court, London",
     'fraud': 'Criminal defence barrister for fraud and financial crime, London',
     'sexual-offences': 'Criminal defence barrister for sexual offence allegations, London',
