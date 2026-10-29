@@ -1,8 +1,11 @@
 name: IndexNow ping
 
+# Stabilize (2026-10-29): do NOT run on every push to main.
+# Full-sitemap IndexNow on every UI/analytics/copy deploy forces sitewide
+# recrawl discovery and amplified the Oct-15 entity/NAP churn.
+# Run manually from Actions → "IndexNow ping" → Run workflow when you
+# intentionally add/remove URLs or finish a deliberate content launch.
 on:
-  push:
-    branches: [main]
   workflow_dispatch: {}
 
 jobs:
@@ -19,6 +22,7 @@ jobs:
 
           # Wait for the new Vercel deploy to publish, so the sitemap we read
           # already contains any pages added in this push (new sub-pages, etc.).
+          # Kept for manual runs that follow a deploy; harmless if already live.
           sleep 90
 
           # Pull the live sitemap and extract every <loc>. Retry in case the
