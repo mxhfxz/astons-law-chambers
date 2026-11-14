@@ -18,10 +18,111 @@ declare global {
   }
 }
 
-// Module-level: cal.com 'bookingSuccessful' listener is wired at most once
-// per page-load, even if the user clicks "Book a call" and re-mounts the
-// embed multiple times (e.g. after a route change back to /).
+// Module-level: cal.com embed funnel listeners are wired at most once per
+// page-load (modal + inline share the `callback` namespace).
 let bookingListenerWired = false
+
+const BOOK_PLACEMENT_KEY = 'alc_book_placement'
+
+function rememberBookPlacement(placement: string): void {
+  try {
+    window.sessionStorage.setItem(BOOK_PLACEMENT_KEY, placement)
+  } catch {
+    /* private mode / blocked — completion events fall back to cal_embed */
+  }
+}
+
+function readBookPlacement(): string {
+  try {
+    return window.sessionStorage.getItem(BOOK_PLACEMENT_KEY) || 'cal_embed'
+  } catch {
+    return 'cal_embed'
+  }
+}
+
+function emitBookingAnalytics(
+  name: string,
+  extra: Record<string, string | number> = {},
+): void {
+  const placement = readBookPlacement()
+  const attr = getJourneyAttribution()
+  const pagePath = window.location.pathname
+  const pageType = getPageType(pagePath)
+  const props = {
+    cta_type: getCtaType(name),
+    placement,
+    page_type: pageType,
+    page_path: pagePath,
+    funnel: attr.funnel,
+    entry_page: attr.entry,
+    journey: attr.journey,
+    steps: attr.steps,
+    ...extra,
+  }
+  try {
+    vaTrack(name, props)
+  } catch {
+    /* no-op */
+  }
+  if (typeof window.gtag === 'function') {
+    try {
+      window.gtag('event', name, {
+        ...props,
+        event_category: 'engagement',
+        event_label: placement,
+        location: placement,
+      })
+    } catch {
+      /* no-op */
+    }
+  }
+}
+
+/** Attach bookerViewed / bookingSuccessfulV2 on Cal.ns.callback once ready.
+ *  Returns true when listeners are attached (or already were). */
+function tryWireCalBookingListeners(): boolean {
+  if (bookingListenerWired) return true
+  const api = window.Cal?.ns?.callback
+  if (typeof api !== 'function') return false
+
+  const on = (action: string, handler: () => void) => {
+    try {
+      api('on', { action, callback: handler })
+    } catch {
+      /* embed not ready for this action name */
+    }
+  }
+
+  on('bookerViewed', () => {
+    emitBookingAnalytics('booking_funnel_open', { source: 'cal_embed' })
+  })
+
+  // V2 is current; keep deprecated name as a belt-and-braces fallback.
+  const onSuccess = () => {
+    emitBookingAnalytics('booking_completed', { source: 'cal_embed' })
+  }
+  on('bookingSuccessfulV2', onSuccess)
+  on('bookingSuccessful', onSuccess)
+
+  on('linkFailed', () => {
+    emitBookingAnalytics('booking_funnel_error', { source: 'cal_embed' })
+  })
+
+  bookingListenerWired = true
+  return true
+}
+
+/** Poll until Cal.ns.callback exists (lazyOnload embed) then wire once. */
+function ensureCalBookingListeners(): () => void {
+  if (tryWireCalBookingListeners()) return () => undefined
+  let tries = 0
+  const timer = window.setInterval(() => {
+    if (tryWireCalBookingListeners() || ++tries > 40) {
+      window.clearInterval(timer)
+    }
+  }, 250)
+  return () => window.clearInterval(timer)
+}
 
 export function SiteBehaviour() {
   const pathname = usePathname()
@@ -152,6 +253,12 @@ export function SiteBehaviour() {
       if (isOutbound) params.outbound_url = href
       track(name, params)
 
+      // Remember which Book control opened the embed so completion events
+      // can attribute to that placement (hero, header, sticky, …).
+      if (name === 'book_click' && placement) {
+        rememberBookPlacement(placement)
+      }
+
       // --- Vercel Analytics custom event ---------------------------------
       // Same event name + cta_type + placement as GA4 (one taxonomy), plus
       // session funnel attribution so the Vercel dashboard shows which path
@@ -210,11 +317,15 @@ export function SiteBehaviour() {
     }
     document.addEventListener('click', onCalTrigger)
 
+    // Cal embed funnel (modal + inline): wire once when Cal.ns.callback is ready.
+    const stopCalPoll = ensureCalBookingListeners()
+
     return () => {
       document.removeEventListener('click', onClickCapture, { capture: true } as EventListenerOptions)
       document.removeEventListener('click', onCalTrigger)
       document.removeEventListener('keydown', onMobileKey)
       mobileToggle?.removeEventListener('click', onMobileToggle)
+      stopCalPoll()
       cleanups.forEach((fn) => fn())
     }
   }, [])
@@ -280,40 +391,11 @@ export function SiteBehaviour() {
             config: { layout: 'column_view', useSlotsViewOnSmallScreen: 'true', theme: 'light' },
             calLink: 'astonslaw/callback',
           })
-          // Wire the booking_completed listener once per page-load. Without
-          // this we only count book intent (book_click), never the closure.
-          if (!bookingListenerWired) {
-            try {
-              cal.ns.callback('on', {
-                action: 'bookingSuccessful',
-                callback: () => {
-                  // Vercel Analytics — the actual booking closure, with the
-                  // same funnel attribution as the click events.
-                  const attr = getJourneyAttribution()
-                  vaTrack('booking_completed', {
-                    cta_type: 'book',
-                    placement: 'cal_inline',
-                    page_type: getPageType(window.location.pathname),
-                    page_path: window.location.pathname,
-                    funnel: attr.funnel,
-                    entry_page: attr.entry,
-                    journey: attr.journey,
-                    steps: attr.steps,
-                  })
-                  if (typeof window.gtag !== 'function') return
-                  window.gtag('event', 'booking_completed', {
-                    cta_type: 'book',
-                    placement: 'cal_inline',
-                    page_type: getPageType(window.location.pathname),
-                    page_path: window.location.pathname,
-                  })
-                },
-              })
-              bookingListenerWired = true
-            } catch {
-              /* no-op — embed not ready for 'on' yet; retried by interval */
-            }
-          }
+          // Inline booker is a Book path — attribute completions to this surface.
+          rememberBookPlacement('cal_inline')
+          // Global listeners (bookerViewed / bookingSuccessfulV2) may already
+          // be wired from the chrome effect; try again in case Cal just loaded.
+          tryWireCalBookingListeners()
           return true
         } catch {
           return false

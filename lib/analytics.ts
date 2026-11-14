@@ -54,6 +54,10 @@ export function getCtaType(eventName: string): string {
       return 'whatsapp'
     case 'book_click':
     case 'booking_completed':
+    case 'booking_funnel_open':
+    case 'booking_funnel_error':
+    case 'booking_cancelled':
+    case 'booking_rescheduled':
       return 'book'
     case 'guide_click':
       return 'guide'

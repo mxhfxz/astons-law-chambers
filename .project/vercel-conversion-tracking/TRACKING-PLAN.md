@@ -29,7 +29,13 @@ not two.
 | `call_click` | taps a phone / "Call" button (`tel:` link) | **Primary KPI** |
 | `whatsapp_click` | taps a WhatsApp button | **Primary KPI** |
 | `book_click` | taps a "Book a call" (cal.com) button | Booking intent |
-| `booking_completed` | actually completes a cal.com booking | **Closed booking** |
+| `booking_funnel_open` | cal embed booker becomes visible (`bookerViewed`) | Booker opened |
+| `booking_funnel_error` | cal embed `linkFailed` | Embed error |
+| `booking_completed` | cal embed `bookingSuccessfulV2` **or** Cal webhook `BOOKING_CREATED` | **Closed booking** |
+| `booking_cancelled` | Cal webhook `BOOKING_CANCELLED` | Cancelled after create |
+| `booking_rescheduled` | Cal webhook `BOOKING_RESCHEDULED` | Reschedule |
+
+`booking_completed` may fire twice for one booking (embed + webhook). Break down by `source`: `cal_embed` vs `cal_webhook`, or dedupe on `booking_uid` from the webhook event.
 | `guide_click` | opens a guide from a guide link | Soft / nurture |
 | `download_click` | downloads a guide PDF | Soft / nurture |
 | `quick_exit` | hits the safety quick-exit | Safety (not a conversion) |
