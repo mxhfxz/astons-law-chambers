@@ -4,7 +4,7 @@ Sticky right-column card. One visual language; content differs by subclass.
 
 ```
 class Aside {
-    sticky    = .pa-aside   // @≥1024px: position:sticky; top:8.5rem (navbar 7.5rem + 1rem gap)
+    sticky    = .pa-aside   // @≥1024px: position:sticky; top:5.5rem (navbar 4.5rem + 1rem gap; was 8.5rem with police banner)
                             // <1024px: static, drops BELOW main content
     selfAlign = self-start
     card      = "bg-offwhite border border-grey-300 rounded p-6"   // light card (CANONICAL)

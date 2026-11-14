@@ -202,10 +202,6 @@ export function SiteBehaviour() {
     }
     document.addEventListener('keydown', onMobileKey)
 
-    // --- Police banner ----------------------------------------------------
-    // The banner is pinned below the navbar and always visible — no scroll
-    // show/hide. CSS keeps it in place; nothing to wire up here.
-
     // --- GA4 delegated click tracking -------------------------------------
     const track = (name: string, params: Record<string, unknown>) => {
       if (typeof window.gtag !== 'function') return

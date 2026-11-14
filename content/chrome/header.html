@@ -1,37 +1,7 @@
   <header class="sticky top-0 z-30 bg-white" id="siteHeader">
-    <!-- Police-station banner — first row of the sticky header, above the
-         navbar. In normal flow, so navbar + banner pin as one unit. -->
-    <div
-      id="policeBanner"
-      class="bg-emergency-500 text-white"
-      role="region"
-      aria-label="Police station support"
-    >
-      <div class="max-w-wide mx-auto px-6 h-11 md:h-12 flex items-center justify-center gap-4 text-sm md:text-[15px] font-medium">
-        <!-- Desktop / tablet: one cohesive sentence, the whole bar is tappable -->
-        <a
-          href="tel:+447922247999"
-          data-track="call_click"
-          data-track-location="police_banner_desktop"
-          class="hidden sm:inline-flex items-center gap-3 tracking-tightish hover:underline underline-offset-4 decoration-1"
-        >
-          <span>Available 24/7 for police station support — <span class="font-semibold">Call 07922 247 999 now</span></span>
-          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
-
-        <!-- Mobile: single tap-to-call, fills the bar -->
-        <a
-          href="tel:+447922247999"
-          data-track="call_click"
-          data-track-location="police_banner_mobile"
-          class="sm:hidden flex-1 inline-flex items-center justify-center gap-2 font-semibold tracking-tightish"
-          aria-label="Press to call for police station representation"
-        >
-          Press to call for police station representation
-          <svg class="w-4 h-4 shrink-0" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
-      </div>
-    </div>
+    <!-- Police-station red banner removed 2026-11-14 (Week 1 conversion test).
+         Prior: #policeBanner above this navbar. If contact proxies drop, restore
+         with: git show 9e92476:content/chrome/header.html (last prod with banner). -->
 
     <div class="max-w-wide mx-auto px-6 h-16 md:h-[72px] flex items-center justify-between gap-6">
       <a href="/" class="flex items-center group" aria-label="Astons Law Chambers — Home">

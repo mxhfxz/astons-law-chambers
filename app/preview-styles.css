@@ -278,9 +278,9 @@
     #mobileMenuToggle[aria-expanded="true"] .burger-bar:nth-child(3) { top: 7px; transform: rotate(-45deg); }
     @media (prefers-reduced-motion: reduce) { .burger-bar { transition: none; } }
 
-    /* Open menu fills below the full mobile header: banner h-11 (44px) + navbar h-16 (64px) = 108px = 6.75rem.
-       Previously 64px (navbar only) — adding the police banner made the panel cover the close button. */
-    #mobileMenu { position: fixed; inset: 6.75rem 0 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    /* Open menu fills below the sticky navbar only (h-16 = 64px = 4rem).
+       Was 6.75rem when the police banner sat above the navbar (removed 2026-11-14). */
+    #mobileMenu { position: fixed; inset: 4rem 0 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     /* Scroll lock — scoped to mobile so a mobile→desktop resize while the
        menu is open cannot strand the lock. */
     @media (max-width: 767px) { body.menu-open { overflow: hidden; } }
@@ -1506,9 +1506,8 @@ textarea.hero-lead-form__control {
 
 /* Hero CTAs on mobile (user spec 2026-06-16) — Call is the main action. For heroes
    with a Book (.btn-inverse) + Call (.btn-on-dark) pair, reverse the stack so Call
-   sits on top and swap emphasis (Call solid, Book ghost). The :has() guard skips
-   police-station, whose hero pairs Call (.btn-emergency) with WhatsApp. Phone only;
-   at ≥640px the buttons go side-by-side and keep the original desktop styling. */
+   sits on top and swap emphasis (Call solid, Book ghost). Phone only; at ≥640px
+   the buttons go side-by-side and keep the original desktop styling. */
 @media (max-width: 639px) {
   :is(.hero-split-left, .hero__inner, .hero__panel-inner) .btn-row:has(> .btn-inverse):has(> .btn-on-dark) {
     flex-direction: column-reverse;
@@ -1533,14 +1532,13 @@ textarea.hero-lead-form__control {
 }
 
 /* ── Practice-area body: sticky aside + get-in-touch banner (2026-06-09) ───── */
-/* Desktop: the right aside pins below the sticky header (banner md:h-12 = 48px +
-   navbar md:h-[72px] = 72px = 7.5rem) with a 1rem gap so it never touches the
-   navbar while scrolling. Below lg the grid is single-column, so the aside is in
-   normal flow and drops below the main content automatically. */
+/* Desktop: the right aside pins below the sticky navbar (md:h-[72px] = 4.5rem)
+   with a 1rem gap (top: 5.5rem). Was 8.5rem when the police banner added 3rem
+   above the navbar (removed 2026-11-14). Below lg the aside is in normal flow. */
 @media (min-width: 1024px) {
   .pa-aside {
     position: sticky;
-    top: 8.5rem;
+    top: 5.5rem;
   }
 }
 
@@ -1726,12 +1724,12 @@ textarea.hero-lead-form__control {
 .scroll-mt-28 { scroll-margin-top: 7rem; }
 
 /* Full-viewport panel: intro + calculator fill the screen below the sticky
-   chrome (banner h-11/h-12 + nav h-16/h-[72px] = 6.75rem mobile / 7.5rem
-   desktop). User direction 2026-07-03. */
+   navbar (h-16 = 4rem mobile / md:h-[72px] = 4.5rem desktop). Was 6.75rem /
+   7.5rem when the police banner was present (removed 2026-11-14). */
 .la-elig-screen {
   display: flex;
   flex-direction: column;
-  min-height: calc(100svh - 6.75rem);
+  min-height: calc(100svh - 4rem);
   background: #fff;
 }
 /* Top-aligned (not centred) so the accordion doesn't shift as questions
@@ -1739,7 +1737,7 @@ textarea.hero-lead-form__control {
 .la-elig-screen__tool { flex: 1 1 auto; display: flex; align-items: flex-start; justify-content: center; padding: 1rem 0 2.75rem; }
 .la-elig-screen__tool > div { width: 100%; }
 @media (min-width: 768px) {
-  .la-elig-screen { min-height: calc(100svh - 7.5rem); }
+  .la-elig-screen { min-height: calc(100svh - 4.5rem); }
 }
 
 .la-elig {
