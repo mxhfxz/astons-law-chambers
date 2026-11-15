@@ -15,7 +15,6 @@ import {
   nationalPhoneDigits,
   toE164UkPhone,
 } from '@/lib/home-hero'
-import { contact } from '@/lib/contact'
 import { HCAPTCHA_SITEKEY, submitToWeb3Forms } from '@/lib/web3forms'
 import { trackEvent } from '@/lib/track'
 
@@ -336,8 +335,11 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
           <h2 className="mt-4 fluid-h1 font-semibold tracking-tight2 text-white">
             {homeHero.brand}
           </h2>
-          <p className="mt-6 fluid-lead text-navy-100/90 max-w-prose">
+          <p className="mt-6 fluid-lead text-white max-w-prose">
             {homeHero.lead}
+          </p>
+          <p className="mt-4 fluid-lead text-white max-w-prose">
+            {homeHero.leadSupport}
           </p>
 
           <div className="mt-8 btn-row">
@@ -679,15 +681,15 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
         aria-hidden={!showMobileFabs}
       >
         <a
-          href={contact.whatsapp}
-          aria-label="Message Astons Law Chambers on WhatsApp"
-          data-track="whatsapp_click"
-          data-track-location="hero_wa_fab"
-          className="hero-mobile-fab hero-mobile-fab--whatsapp"
+          href={homeHero.bookingHref}
+          aria-label={homeHero.bookingAriaLabel}
+          data-track="book_click"
+          data-track-location="hero_book_fab"
+          className="hero-mobile-fab hero-mobile-fab--book"
           tabIndex={showMobileFabs ? 0 : -1}
         >
           <svg aria-hidden="true" focusable="false">
-            <use href="#i-whatsapp" />
+            <use href="#i-calendar" />
           </svg>
         </a>
         <a

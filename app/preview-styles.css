@@ -261,6 +261,19 @@
        Positioning and colours come from utility classes on the element;
        no transform, no scroll show/hide. */
 
+    /* Mobile header WhatsApp — same btn-secondary chrome as site CTAs;
+       square icon control sized to the hamburger (2.5rem), left of menu. */
+    .header-wa-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .header-wa-icon svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
     /* Mobile menu — hamburger morphs to an X, panel fills the screen.
        Morph is driven off #mobileMenuToggle[aria-expanded]; the JS toggles
        body.menu-open for the scroll lock and the header z-lift. */
@@ -865,7 +878,7 @@ body:has(.hero--lead).has-sticky-bar {
   .hero-lead-form__booking .btn {
     margin-top: 0.5rem;
   }
-  /* Mobile FAB stack — WhatsApp above call */
+  /* Mobile FAB stack — Book above Call (WhatsApp lives in mobile header) */
   .hero-mobile-fabs {
     position: fixed;
     bottom: 1rem;
@@ -906,16 +919,16 @@ body:has(.hero--lead).has-sticky-bar {
   .hero-mobile-fab:active {
     transform: scale(0.93);
   }
-  .hero-mobile-fab--whatsapp {
+  .hero-mobile-fab--book {
     background: var(--color-offwhite);
-    color: var(--color-whatsapp);
+    color: var(--color-navy-900);
     border: 1px solid #D1D5DB;
   }
-  .hero-mobile-fab--whatsapp:hover {
+  .hero-mobile-fab--book:hover {
     background: #fff;
-    border-color: #D1D5DB;
+    border-color: var(--color-navy-900);
   }
-  .hero-mobile-fab--whatsapp:focus-visible {
+  .hero-mobile-fab--book:focus-visible {
     outline: 2px solid var(--color-navy-900);
     outline-offset: 3px;
   }

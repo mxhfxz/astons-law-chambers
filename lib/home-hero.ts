@@ -1,8 +1,10 @@
 export const homeHero = {
-  heading: 'Criminal Defence across London and the UK',
+  heading: 'Criminal Defence Barrister',
   brand: 'Astons Law Chambers',
   lead:
-    'Astons Law Chambers is a BSB regulated criminal defence advocacy, providing expert support across the UK. We support with everything from violence related offences, drugs defence, to emergency support and police station callouts.',
+    "Criminal defence across London, Birmingham, Manchester and the UK. Ghulam Humayun is a highly experienced barrister who's tackled everything from violence charges and fraud, to drug offences and youth crimes.",
+  leadSupport:
+    'Astons Law offers emergency police station support at all hours. Call us 24/7.',
   bookingLabel: 'Book a free consultation',
   bookingAriaLabel: 'Book a consultation with Astons Law Chambers',
   bookingHref: 'https://cal.com/astonslaw/callback?overlayCalendar=true',
