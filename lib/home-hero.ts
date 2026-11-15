@@ -1,8 +1,9 @@
 export const homeHero = {
   heading: 'Criminal Defence Barrister',
   brand: 'Astons Law Chambers',
-  lead:
-    "Criminal defence across London, Birmingham, Manchester and the UK. Ghulam Humayun is a highly experienced barrister who's tackled everything from violence charges and fraud, to drug offences and youth crimes.",
+  lead: 'Criminal defence across London, Birmingham, Manchester and the UK.',
+  leadAfterBreak:
+    "Ghulam Humayun is a highly experienced barrister who's tackled everything from violence charges and fraud, to drug offences and youth crimes.",
   leadSupport:
     'Astons Law offers emergency police station support at all hours. Call us 24/7.',
   bookingLabel: 'Book a free consultation',

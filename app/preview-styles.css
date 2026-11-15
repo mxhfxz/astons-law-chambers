@@ -261,17 +261,35 @@
        Positioning and colours come from utility classes on the element;
        no transform, no scroll show/hide. */
 
-    /* Mobile header WhatsApp — same btn-secondary chrome as site CTAs;
-       square icon control sized to the hamburger (2.5rem), left of menu. */
+    /* Mobile header WhatsApp — borderless icon (matches menu weight), with
+       horizontal padding so the tap target doesn’t collide with the hamburger. */
     .header-wa-icon {
-      width: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
       height: 2.5rem;
-      padding: 0;
+      padding: 0 0.5rem;
+      margin-inline-end: 0.25rem;
       flex-shrink: 0;
+      color: var(--color-navy-950);
+      background: transparent;
+      border: none;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
     .header-wa-icon svg {
       width: 1.25rem;
       height: 1.25rem;
+      flex-shrink: 0;
+    }
+    .header-wa-icon:focus-visible {
+      outline: 2px solid var(--color-navy-900);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    @media (min-width: 768px) {
+      .header-wa-icon { display: none; }
     }
 
     /* Mobile menu — hamburger morphs to an X, panel fills the screen.
@@ -825,6 +843,10 @@ body.has-sticky-bar {
 }
 .hero__panel-inner .fluid-lead {
   max-width: 60ch;
+}
+.hero__panel-inner .fluid-lead .hero-lead-break {
+  display: block;
+  padding-top: 0.5rem;
 }
 .hero__panel-inner .btn-row,
 .hero__panel-inner .hero-trust__items {

@@ -337,6 +337,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
           </h2>
           <p className="mt-6 fluid-lead text-white max-w-prose">
             {homeHero.lead}
+            <span className="hero-lead-break">{homeHero.leadAfterBreak}</span>
           </p>
           <p className="mt-4 fluid-lead text-white max-w-prose">
             {homeHero.leadSupport}
@@ -689,7 +690,7 @@ export function HomeHero({ trustHtml }: HomeHeroProps) {
           tabIndex={showMobileFabs ? 0 : -1}
         >
           <svg aria-hidden="true" focusable="false">
-            <use href="#i-calendar" />
+            <use href="#i-calendar-plus" />
           </svg>
         </a>
         <a
