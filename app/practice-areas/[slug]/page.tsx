@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { practiceAreas, getPracticeArea } from '@/lib/practice-areas'
 import { renderPracticeAreaDetail, practiceAreaJsonLd } from '@/lib/render-practice-area'
 
@@ -29,7 +30,10 @@ export default function PracticeAreaPage({ params }: { params: { slug: string } 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: practiceAreaJsonLd(area) }}
       />
-      <div dangerouslySetInnerHTML={{ __html: renderPracticeAreaDetail(area) }} />
+      <WithCharmBar
+        html={renderPracticeAreaDetail(area)}
+        path={`/practice-areas/${area.slug}`}
+      />
     </>
   )
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { subPracticeAreas, getSubPracticeArea } from '@/lib/sub-practice-areas'
 import { getPracticeArea } from '@/lib/practice-areas'
 import { renderSubPracticeAreaDetail, subPracticeAreaJsonLd } from '@/lib/render-practice-area'
@@ -43,10 +44,9 @@ export default function SubPracticeAreaPage({
           __html: subPracticeAreaJsonLd(area, parentTitle),
         }}
       />
-      <div
-        dangerouslySetInnerHTML={{
-          __html: renderSubPracticeAreaDetail(area, parentTitle),
-        }}
+      <WithCharmBar
+        html={renderSubPracticeAreaDetail(area, parentTitle)}
+        path={`/practice-areas/${area.parentSlug}/${area.slug}`}
       />
     </>
   )

@@ -42,6 +42,7 @@
       --color-emergency-600: #A12B10;
       --color-whatsapp: #075E54;
       --color-whatsapp-dark: #054B43;
+      --color-white: #FFFFFF;
       --color-offwhite: #F8F9FB;
       /* Footer/hero navy (locked hero token = #232536). Defined here because the
          loaded bundle is preview-styles.css; the copy in styles/tokens.css is
@@ -155,10 +156,10 @@
     @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
 
     /* All sizes meet the 16px (1rem) minimum required for important text. */
-    .btn-sm { padding: 0.625rem 1.125rem; font-size: 1rem; }       /* 10/18 — header CTAs, asides */
-    .btn-md { padding: 0.75rem 1.25rem;   font-size: 1rem; }       /* 12/20 — page CTAs */
-    .btn-lg { padding: 0.875rem 1.5rem;   font-size: 1.0625rem; }  /* 14/24 — final contact strip */
-    .btn-xl { padding: 1rem 1.75rem;      font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem); } /* 16/28 — hero */
+    .btn-sm { padding: 0.625rem 1.125rem; font-size: 1rem; }       /* header CTAs (desktop + mobile) */
+    .btn-md { padding: 0.75rem 1.25rem;   font-size: 1rem; }       /* aside / channel / light Card / form / tool */
+    .btn-lg { padding: 0.875rem 1.5rem;   font-size: 1.0625rem; }  /* hero + FinalStrip secondary only */
+    .btn-xl { padding: 1rem 1.75rem;      font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem); } /* FinalStrip Call only */
 
     /* Astons brand navy — visibly blue, not mistaken for black. */
     .btn-primary       { background: var(--color-navy-900); color: #fff; }
@@ -796,17 +797,51 @@ body.has-sticky-bar {
   padding-bottom: 3.5rem;
 }
 
-/* Homepage lead-capture hero — left (image + copy) / right (full white form
-   panel). Stacked on mobile; 60/40 centred panels at ≥1024px. Inset hairlines
-   on the form panel separate it from the nav and the section below without
-   adding outside margin that would grow the hero. */
+/* Homepage hero — urgency banner full-bleed, then content | media.
+   Desktop ≥1024: ~40/60 content|media (content min wins). Mobile: banner → media 20vh → content. */
 .hero--lead {
   display: grid;
   grid-template-columns: 1fr;
   align-items: stretch;
   padding: 0;
-  /* Height = taller panel content; no fixed vh */
   min-height: 0;
+}
+.hero-urgency-banner {
+  grid-column: 1 / -1;
+  display: block;
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-emergency-500);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: background-color 0.15s ease;
+}
+.hero-urgency-banner:hover {
+  background: var(--color-emergency-600);
+  color: #fff;
+}
+.hero-urgency-banner:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+/* Mobile default: short line. Desktop ≥1024: full line with number. */
+.hero-urgency-banner__desktop {
+  display: none;
+}
+.hero-urgency-banner__mobile {
+  display: inline;
+}
+@media (min-width: 1024px) {
+  .hero-urgency-banner__desktop {
+    display: inline;
+  }
+  .hero-urgency-banner__mobile {
+    display: none;
+  }
 }
 .hero--lead.hero--image::before {
   display: none; /* image is painted on the content panel only */
@@ -820,11 +855,13 @@ body.has-sticky-bar {
   min-width: 0;
   box-sizing: border-box;
 }
-.hero__panel--content {
+/* HomeHero media — full-strength photo, no navy wash / dark overlay (2026-11-21) */
+.hero__panel--media {
+  padding: 0;
+  overflow: hidden;
   background-color: var(--color-bg-footer);
-  align-items: center; /* vertical centre — left panel only */
 }
-.hero__panel--content::before {
+.hero__panel--media::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -832,14 +869,37 @@ body.has-sticky-bar {
   background-image: url('/images/bg_main.avif');
   background-size: cover;
   background-position: center;
-  opacity: 0.10;
+  opacity: 1;
   pointer-events: none;
+}
+/* HomeHero content — white field, light Button enum */
+.hero__panel--content {
+  background-color: var(--color-white);
+  align-items: center;
 }
 .hero__panel-inner {
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 40rem;
+}
+/* Trust strip on light HomeHero panel */
+.hero--lead .hero__panel--content .hero-trust__eyebrow {
+  color: var(--color-navy-700);
+  opacity: 1;
+}
+.hero--lead .hero__panel--content .hero-trust__reviews {
+  border-color: var(--color-grey-300);
+}
+.hero--lead .hero__panel--content .hero-trust__reviews:hover {
+  border-color: var(--color-navy-900);
+}
+.hero--lead .hero__panel--content .hero-trust__rating {
+  color: var(--color-navy-950);
+}
+.hero--lead .hero__panel--content .hero-trust__label {
+  color: var(--color-navy-700);
+  opacity: 1;
 }
 .hero__panel-inner .fluid-lead {
   max-width: 60ch;
@@ -852,7 +912,8 @@ body.has-sticky-bar {
 .hero__panel-inner .hero-trust__items {
   justify-content: flex-start;
 }
-/* Homepage: no mobile charm/sticky bar — contact is in the hero form panel */
+/* Lead heroes already carry Call / Book / Message — hide sticky on those pages.
+   Home still uses mobile FABs (data-home-hero); other lead pages rely on hero CTAs. */
 body:has(.hero--lead) #stickyBar {
   display: none;
 }
@@ -865,6 +926,19 @@ body:has(.hero--lead).has-sticky-bar {
 }
 /* Mobile hero content — centred; Book hidden; Call only; 2rem to trust */
 @media (max-width: 1023px) {
+  /* Banner → image 20vh max → content */
+  .hero--lead .hero-urgency-banner {
+    order: 0;
+  }
+  .hero--lead .hero__panel--media {
+    order: 1;
+    height: 20vh;
+    min-height: 0;
+    max-height: 20vh;
+  }
+  .hero--lead .hero__panel--content {
+    order: 2;
+  }
   .hero--lead .hero__panel-inner {
     text-align: center;
     margin-inline: auto;
@@ -876,8 +950,17 @@ body:has(.hero--lead).has-sticky-bar {
   .hero--lead .hero__panel-inner .fluid-lead {
     margin-inline: auto;
   }
-  .hero--lead .btn.hero-cta-book {
+  /* Mobile: Call + Send a Message; Book via FAB; WA square → header icon */
+  .hero--lead .btn.hero-cta-book,
+  .hero--lead .btn.hero-cta-whatsapp {
     display: none;
+  }
+  .hero--lead .hero-cta-message-row {
+    display: flex;
+    width: 100%;
+  }
+  .hero--lead .btn.hero-cta-message {
+    flex: 1 1 auto;
   }
   .hero--lead .hero-trust {
     margin-top: 2rem;
@@ -885,19 +968,91 @@ body:has(.hero--lead).has-sticky-bar {
   .hero--lead .hero__panel--form {
     padding: 2rem 1.5rem;
   }
-  .hero-lead-form__panel-heading {
-    margin-bottom: 0.5rem; /* + intro gap 0.5rem = 1rem below Ways to get in touch */
+  /* Mobile Home form — Hero.md white panel. Card chrome/type/buttons come from
+     existing utilities + Button enum (contact / “What to do now” cards). Only
+     neutralise dark-panel cascade + lighten form fields so those apply. */
+  .hero--lead .hero__panel--form {
+    background: #fff;
+    box-shadow: none;
   }
-  /* Faint separators between the 3 contact-panel parts */
-  .hero-lead-form-wrap {
+  .hero--lead .hero-lead-form-wrap {
+    gap: 1.5rem; /* gap-6 — same as #homeDefenceGrid */
+  }
+  .hero--lead .hero-lead-form__intro,
+  .hero--lead .hero-lead-form__booking,
+  .hero--lead .hero-lead-form__message,
+  .hero--lead .hero-lead-form {
+    color: inherit;
+  }
+  .hero--lead .hero-lead-form__panel-heading,
+  .hero--lead .hero-lead-form__section-heading,
+  .hero--lead .hero-lead-form__form-heading,
+  .hero--lead .hero-lead-form__panel-intro,
+  .hero--lead .hero-lead-form__booking-intro,
+  .hero--lead .hero-lead-form__form-intro,
+  .hero--lead .hero-lead-form__confirmation-heading,
+  .hero--lead .hero-lead-form__confirmation-body,
+  .hero--lead .hero-lead-form__field label,
+  .hero--lead .hero-lead-form__field-hint,
+  .hero--lead .hero-lead-form__success {
+    color: inherit;
+  }
+  /* Let Body.sectionHeading + ContactChannel Card utilities win (no parallel type) */
+  .hero--lead .hero-lead-form__intro,
+  .hero--lead .hero-lead-form__booking,
+  .hero--lead .hero-lead-form__message {
+    display: block;
     gap: 0;
   }
-  .hero-lead-form__booking,
-  .hero-lead-form__message {
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  .hero--lead .hero-lead-form-wrap .btn-secondary {
+    color: var(--color-navy-900);
+    border-color: #D1D5DB;
+    background: transparent;
   }
-  .hero-lead-form__booking .btn {
+  .hero--lead .hero-lead-form-wrap .btn-secondary:hover {
+    color: var(--color-navy-900);
+    border-color: var(--color-navy-900);
+    background: transparent;
+  }
+  .hero--lead .hero-lead-form__control,
+  .hero--lead .hero-lead-form__phone {
+    color: var(--color-navy-950);
+    background: #fff;
+    border-color: var(--color-grey-300);
+  }
+  .hero--lead .hero-lead-form__control:focus,
+  .hero--lead .hero-lead-form__control:focus-visible,
+  .hero--lead .hero-lead-form__phone:focus-within {
+    border-color: var(--color-navy-900);
+    box-shadow: 0 0 0 2px rgba(14, 22, 40, 0.16);
+  }
+  .hero--lead .hero-lead-form__control--error,
+  .hero--lead .hero-lead-form__phone--error {
+    border-color: var(--color-emergency-500);
+  }
+  .hero--lead .hero-lead-form__phone-prefix {
+    color: var(--color-navy-700);
+    background: var(--color-offwhite);
+    border-right-color: var(--color-grey-300);
+  }
+  .hero--lead .hero-lead-form__error {
+    color: var(--color-emergency-600);
+  }
+  .hero--lead .hero-lead-form__min-ring-track {
+    stroke: rgba(14, 22, 40, 0.18);
+  }
+  .hero--lead .hero-lead-form__min-ring-progress {
+    stroke: var(--color-navy-900);
+  }
+  .hero--lead .hero-lead-form__min-ring--over .hero-lead-form__min-ring-track,
+  .hero--lead .hero-lead-form__min-ring--over .hero-lead-form__min-ring-progress {
+    stroke: var(--color-emergency-500);
+  }
+  .hero--lead .hero-lead-form__confirmation-icon {
+    background: var(--color-navy-900);
+    color: #fff;
+  }
+  .hero--lead .hero-lead-form__booking .btn {
     margin-top: 0.5rem;
   }
   /* Mobile FAB stack — Book above Call (WhatsApp lives in mobile header) */
@@ -1021,26 +1176,12 @@ body:has(.hero--lead).has-sticky-bar {
   margin: 0;
   color: #fff;
 }
-.hero-lead-form__panel-heading {
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-.hero-lead-form__section-heading,
-.hero-lead-form__form-heading {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
+/* Type scale for dark desktop panel only — mobile uses Body/Card utilities in JSX.
+   Do not set font-size here: it beats Tailwind (higher specificity than .text-*). */
 .hero-lead-form__panel-intro,
 .hero-lead-form__booking-intro,
 .hero-lead-form__form-intro {
-  font-size: 0.9375rem;
-  line-height: 1.5;
   color: var(--color-navy-100);
-}
-.hero-lead-form__form-intro {
-  font-size: 0.8125rem;
 }
 .hero-lead-form__booking-intro--desktop {
   display: none;
@@ -1269,19 +1410,254 @@ textarea.hero-lead-form__control {
 }
 .hero-lead-form__confirmation-heading {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
   color: #fff;
   line-height: 1.25;
 }
 .hero-lead-form__confirmation-body {
   margin: 0;
   max-width: 28rem;
-  font-size: 0.8125rem;
-  line-height: 1.5;
   color: var(--color-navy-100);
 }
+
+/* Hero Send a Message modal — home-only (styleguide HomeHero).
+   Mobile ≤1023: fullscreen under header. Desktop ≥1024: dock bottom-right, no dim. */
+.hero-lead-form-modal {
+  position: fixed;
+  inset: 4rem 0 0; /* below #siteHeader h-16 */
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.hero-lead-form-modal__panel {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background: #fff;
+  color: var(--color-navy-950);
+  box-sizing: border-box;
+}
+.hero-lead-form-modal__bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.5rem 0.75rem 0.5rem 1.25rem;
+  background: var(--color-offwhite); /* same as .hero__panel--content */
+  border-bottom: 1px solid var(--color-grey-300);
+  box-sizing: border-box;
+}
+.hero-lead-form-modal__title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-navy-950);
+}
+.hero-lead-form-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex: 0 0 auto;
+}
+.hero-lead-form-modal__minimize,
+.hero-lead-form-modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-navy-900);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.hero-lead-form-modal__minimize {
+  display: none; /* desktop only */
+}
+.hero-lead-form-modal__minimize:hover,
+.hero-lead-form-modal__close:hover {
+  background: var(--color-offwhite);
+}
+.hero-lead-form-modal__minimize:focus-visible,
+.hero-lead-form-modal__close:focus-visible {
+  outline: 2px solid var(--color-navy-900);
+  outline-offset: 2px;
+}
+.hero-lead-form-modal__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 1.25rem 1.25rem 1.5rem;
+  box-sizing: border-box;
+}
+/* Title lives in the bar — hide duplicate form heading */
+.hero-lead-form-modal .hero-lead-form__form-heading {
+  display: none;
+}
+@media (min-width: 1024px) {
+  /* Dock bottom-left of #desktopFab — grows upward; fields scroll; submit stays visible */
+  .hero-lead-form-modal {
+    inset: auto;
+    right: calc(0.5rem + 48px + 1rem); /* 1rem gap between modal and FAB stack */
+    bottom: 0.5rem;
+    width: min(24rem, calc(100vw - 5.5rem));
+    max-height: calc(100vh - 1rem);
+    pointer-events: none;
+    justify-content: flex-end; /* panel sits on bottom edge; height growth goes up */
+  }
+  .hero-lead-form-modal__panel {
+    width: 100%;
+    height: auto;
+    max-height: 100%; /* of shell — never past top of viewport */
+    border-radius: 4px;
+    box-shadow: 0 12px 40px rgba(14, 22, 40, 0.22);
+  }
+  .hero-lead-form-modal__body {
+    /* When panel hits max-height, only the form fields scroll */
+    overscroll-behavior: contain;
+  }
+  .hero-lead-form-modal .hero-lead-form > button[type='submit'] {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+    background: #fff;
+    box-shadow: 0 -0.75rem 0.75rem #fff;
+  }
+  .hero-lead-form-modal__minimize {
+    display: inline-flex;
+  }
+  .hero-lead-form-modal.is-minimized {
+    width: auto;
+    max-width: min(20rem, calc(100vw - 5rem));
+    max-height: none;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__panel {
+    background: var(--color-navy-900);
+    color: #fff;
+    max-height: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.18);
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__bar {
+    background: transparent; /* panel is already navy-900 */
+    border-bottom: 0;
+    padding-inline: 1rem 0.35rem;
+    min-height: 3rem;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__title {
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__minimize {
+    display: none;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__body {
+    display: none;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__close {
+    color: #fff;
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__close:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .hero-lead-form-modal.is-minimized .hero-lead-form-modal__close:focus-visible {
+    outline-color: #fff;
+  }
+  /* FAB re-click while open — brief darker flash */
+  .hero-lead-form-modal.is-flash .hero-lead-form-modal__panel {
+    animation: hero-modal-flash 0.48s ease;
+  }
+  @keyframes hero-modal-flash {
+    0%,
+    100% {
+      filter: none;
+    }
+    40% {
+      filter: brightness(0.88);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-lead-form-modal.is-flash .hero-lead-form-modal__panel {
+      animation: none;
+      filter: brightness(0.92);
+    }
+  }
+}
+/* Light-surface tokens — beat .hero--lead dark-panel cascade (desktop ≥1024) */
+.hero--lead .hero-lead-form-modal .hero-lead-form,
+.hero--lead .hero-lead-form-modal .hero-lead-form__message {
+  color: var(--color-navy-950);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__form-heading,
+.hero--lead .hero-lead-form-modal .hero-lead-form__confirmation-heading,
+.hero--lead .hero-lead-form-modal .hero-lead-form__field label {
+  color: var(--color-navy-950);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__form-intro,
+.hero--lead .hero-lead-form-modal .hero-lead-form__confirmation-body,
+.hero--lead .hero-lead-form-modal .hero-lead-form__field-hint {
+  color: var(--color-navy-700);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__control,
+.hero--lead .hero-lead-form-modal .hero-lead-form__phone {
+  color: var(--color-navy-950);
+  background: #fff;
+  border-color: var(--color-grey-300);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__control:focus,
+.hero--lead .hero-lead-form-modal .hero-lead-form__control:focus-visible,
+.hero--lead .hero-lead-form-modal .hero-lead-form__phone:focus-within {
+  border-color: var(--color-navy-900);
+  box-shadow: 0 0 0 2px rgba(14, 22, 40, 0.16);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__control--error,
+.hero--lead .hero-lead-form-modal .hero-lead-form__phone--error {
+  border-color: var(--color-emergency-500);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__phone-prefix {
+  color: var(--color-navy-700);
+  background: var(--color-offwhite);
+  border-right-color: var(--color-grey-300);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__error {
+  color: var(--color-emergency-600);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__min-ring-track {
+  stroke: rgba(14, 22, 40, 0.18);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__min-ring-progress {
+  stroke: var(--color-navy-900);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__min-ring--over .hero-lead-form__min-ring-track,
+.hero--lead .hero-lead-form-modal .hero-lead-form__min-ring--over .hero-lead-form__min-ring-progress {
+  stroke: var(--color-emergency-500);
+}
+.hero--lead .hero-lead-form-modal .hero-lead-form__confirmation-icon {
+  background: var(--color-navy-900);
+  color: #fff;
+}
+
 .hero-lead-form button[type='submit']:disabled {
   opacity: 0.65;
   cursor: not-allowed;
@@ -1294,23 +1670,106 @@ textarea.hero-lead-form__control {
   .hero-lead-form__control { transition: none; }
 }
 @media (min-width: 1024px) {
-  .hero--lead {
-    grid-template-columns: 3fr 2fr; /* 60 / 40 */
-    min-height: 0;
+  /* Home form stays the dark panel on desktop; undo mobile Card utilities */
+  .hero--lead .hero-lead-form__intro,
+  .hero--lead .hero-lead-form__booking,
+  .hero--lead .hero-lead-form__message {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+  .hero--lead .hero-lead-form__panel-heading,
+  .hero--lead .hero-lead-form__section-heading,
+  .hero--lead .hero-lead-form__form-heading,
+  .hero--lead .hero-lead-form__confirmation-heading,
+  .hero--lead .hero-lead-form__panel-intro,
+  .hero--lead .hero-lead-form__booking-intro,
+  .hero--lead .hero-lead-form__form-intro,
+  .hero--lead .hero-lead-form__confirmation-body,
+  .hero--lead .hero-lead-form__field label {
+    color: #fff;
+  }
+  .hero--lead .hero-lead-form__panel-intro,
+  .hero--lead .hero-lead-form__booking-intro,
+  .hero--lead .hero-lead-form__form-intro,
+  .hero--lead .hero-lead-form__confirmation-body {
+    color: var(--color-navy-100);
+  }
+  /* Light-surface btn-primary used in JSX → dark-surface primary (= inverse) */
+  .hero--lead .hero-lead-form-wrap .btn-primary {
+    background: #fff;
+    color: var(--color-navy-900);
+    border-color: #fff;
+  }
+  .hero--lead .hero-lead-form-wrap .btn-primary:hover {
+    background: var(--color-navy-100);
+    border-color: var(--color-navy-100);
+  }
+  .hero.hero--lead {
+    /* ~40/60 at wide viewports; content min-width wins when shrinking — image yields first */
+    grid-template-columns: minmax(22rem, 2fr) minmax(0, 3fr);
+    /* Row 1 = banner (content height only). Row 2 = panels fill remaining. */
+    grid-template-rows: max-content 1fr;
+    /* Nav (72px) + banner + panels ≥ 80vh (home) */
+    min-height: calc(80vh - 72px);
+  }
+  /* Non-home lead heroes — same shell, shorter floor */
+  .hero.hero--lead.hero--page {
+    min-height: calc(60vh - 72px);
+  }
+  .hero--lead .hero-urgency-banner {
+    order: 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: max-content;
+    max-height: none;
+    align-self: stretch;
+    /* Keep strip height from padding + line — never grow with the hero */
+    padding-block: 0.75rem;
   }
   .hero--lead .hero__panel--content {
+    order: 0;
+    grid-column: 1;
+    grid-row: 2;
     padding: 2rem 3rem;
   }
-  /* Right panel: match left horizontal rhythm; keep fields inside the inset */
-  .hero--lead .hero__panel--form {
-    padding: 2rem; /* all sides on desktop */
+  .hero--lead .hero__panel--media {
+    order: 0;
+    grid-column: 2;
+    grid-row: 2;
+    height: auto;
+    min-height: 100%;
+    max-height: none;
   }
-  .hero--lead .hero-lead-form-wrap {
-    max-width: 100%;
+  /* Desktop: Book primary; WA square + Send a Message secondary row */
+  .hero--lead .hero-cta-stack {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
   }
-  /* Desktop: Book stays in left hero; hide only the form booking button */
   .hero--lead .btn.hero-cta-call {
     display: none;
+  }
+  .hero--lead .hero-cta-message-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+  }
+  .hero--lead .btn.hero-cta-whatsapp {
+    flex: 0 0 auto;
+    width: 3.25rem;
+    min-width: 3.25rem;
+    padding-inline: 0;
+    aspect-ratio: 1;
+  }
+  .hero--lead .btn.hero-cta-whatsapp svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .hero--lead .btn.hero-cta-message {
+    flex: 1 1 auto;
   }
   /* Desktop: Book lives in the left hero CTA — hide the right-panel booking block */
   .hero-lead-form__booking {
@@ -1331,6 +1790,26 @@ textarea.hero-lead-form__control {
   /* 2rem from "Ways to get in touch" to the content below (0.5rem grid gap + 1.5rem) */
   .hero-lead-form__panel-heading {
     margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .hero-lead-form__section-heading,
+  .hero-lead-form__form-heading,
+  .hero-lead-form__confirmation-heading {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .hero-lead-form__panel-intro,
+  .hero-lead-form__booking-intro,
+  .hero-lead-form__form-intro,
+  .hero-lead-form__confirmation-body {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .hero-lead-form__form-intro {
+    font-size: 0.8125rem;
   }
   /* Faint separators: 1rem after section content, 1rem after the line */
   .hero-lead-form-wrap {
@@ -1399,10 +1878,12 @@ textarea.hero-lead-form__control {
 }
 @media (orientation: landscape) {
   .hero { min-height: 75vh; }
-  .hero.hero--lead { min-height: 0; }
 }
 @media (orientation: portrait) {
   .hero { min-height: 80vh; }
+}
+/* Home lead hero height is owned by the ≥1024 rule (nav + hero ≥ 80vh). */
+@media (max-width: 1023px) {
   .hero.hero--lead { min-height: 0; }
 }
 @media (min-width: 1024px) {
@@ -1498,6 +1979,223 @@ textarea.hero-lead-form__control {
   color: var(--color-navy-100);
   opacity: 0.75;
   line-height: 1.1;
+}
+
+/* Homepage offences block.
+   Mobile: hero is content-height and often taller than the phone — normal
+   section top padding; do not force “Offences covered” into the fold.
+   Desktop (≥1024): hero is capped (~80vh); pull H2 into the fold under charm
+   (2rem; ≥30% of title visible). */
+.home-offences > .max-w-wide {
+  padding-top: 4rem; /* match other home sections (py-16) */
+}
+@media (min-width: 1024px) {
+  .home-offences > .max-w-wide {
+    padding-top: 2rem;
+  }
+}
+
+/* Homepage charm bar — edge-to-edge; BSB+Google ≈ left hero (2fr), ticker ≈ media (3fr). */
+.home-charm-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--color-grey-300);
+}
+.home-charm-bar__inner {
+  display: grid;
+  /* Mirror hero 2fr | 3fr: BSB+Google share the left 40% */
+  grid-template-columns: 1fr 1fr 3fr;
+  align-items: stretch;
+  min-height: 5.5rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.home-charm-bar__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0;
+}
+.home-charm-bar__bsb,
+.home-charm-bar__reviews {
+  border-right: 1px solid var(--color-grey-300);
+  text-decoration: none;
+}
+/* Full cell = BSB mark yellow (#FFE302 from bsb-logo.svg) */
+.home-charm-bar__bsb {
+  background: #FFE302;
+}
+.home-charm-bar__bsb img {
+  display: block;
+  height: 3.75rem;
+  width: auto;
+}
+/* Full cell = Google light blue-grey surface */
+.home-charm-bar__reviews {
+  gap: 0.75rem;
+  background: #E8F0FE;
+}
+.home-charm-bar__reviews .g-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+}
+.home-charm-bar__reviews-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.home-charm-bar__reviews-top {
+  display: inline-flex;
+  align-items: center;
+}
+.home-charm-bar__reviews .stars {
+  display: inline-flex;
+  gap: 2px;
+}
+.home-charm-bar__reviews .stars svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.home-charm-bar__rating {
+  margin-left: 0.35rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--color-navy-950);
+}
+.home-charm-bar__reviews-label {
+  font-size: 0.75rem;
+  line-height: 1.1;
+  color: var(--color-navy-700);
+}
+.home-charm-bar__ticker {
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 0 1.5rem;
+  min-width: 0;
+  background: var(--color-offwhite);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.home-charm-bar__ticker-title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--color-navy-950);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+.home-charm-bar__ticker.is-fading .home-charm-bar__ticker-title,
+.home-charm-bar__ticker.is-fading .home-charm-bar__cta {
+  opacity: 0;
+}
+/* Text link affordance — underline only on ticker hover/focus (desktop) */
+.home-charm-bar__cta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-navy-950);
+  text-decoration: none;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+.home-charm-bar__cta-icon {
+  display: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+.home-charm-bar__ticker:hover .home-charm-bar__cta-label,
+.home-charm-bar__ticker:focus-visible .home-charm-bar__cta-label {
+  text-decoration: underline;
+}
+.home-charm-bar__ticker:focus-visible {
+  outline: 2px solid var(--color-navy-900);
+  outline-offset: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-charm-bar__ticker-title,
+  .home-charm-bar__cta {
+    transition: none;
+  }
+  .home-charm-bar__ticker.is-fading .home-charm-bar__ticker-title,
+  .home-charm-bar__ticker.is-fading .home-charm-bar__cta {
+    opacity: 1;
+  }
+}
+@media (max-width: 1023px) {
+  .home-charm-bar__inner {
+    grid-template-columns: 1fr 1fr;
+    min-height: 0;
+  }
+  .home-charm-bar__bsb,
+  .home-charm-bar__reviews {
+    min-height: 4rem; /* 64px */
+    max-height: 4rem;
+    overflow: hidden;
+  }
+  .home-charm-bar__bsb {
+    border-right: 1px solid var(--color-grey-300);
+    border-bottom: 1px solid var(--color-grey-300);
+  }
+  .home-charm-bar__reviews {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-grey-300);
+    gap: 0.5rem;
+  }
+  .home-charm-bar__bsb img {
+    height: 2.5rem;
+  }
+  .home-charm-bar__reviews .g-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .home-charm-bar__reviews .stars svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .home-charm-bar__rating {
+    font-size: 0.8125rem;
+  }
+  .home-charm-bar__reviews-label {
+    font-size: 0.6875rem;
+  }
+  .home-charm-bar__ticker {
+    grid-column: 1 / -1;
+    /* Fixed band for 2-line title clamp; shorter copy centres vertically */
+    height: 4.5rem;
+    min-height: 4.5rem;
+    max-height: 4.5rem;
+    padding: 0 1.25rem;
+    align-items: center;
+  }
+  /* Mobile: arrow only — hide “Learn more” label */
+  .home-charm-bar__cta-label {
+    display: none;
+  }
+  .home-charm-bar__cta-icon {
+    display: block;
+  }
 }
 
 /* ── Hero (2026 redesign) via the legacy .hero-split markup ─────────────────
@@ -1898,4 +2596,12 @@ textarea.hero-lead-form__control {
   .la-elig__chevron,
   .la-elig__option,
   .la-elig__dot { transition: none; }
+}
+/* Styleguide — unlisted internal page: hide site chrome */
+body:has([data-page="styleguide"]) #siteHeader,
+body:has([data-page="styleguide"]) footer,
+body:has([data-page="styleguide"]) #stickyBar,
+body:has([data-page="styleguide"]) #desktopFab,
+body:has([data-page="styleguide"]) #consentBanner {
+  display: none !important;
 }

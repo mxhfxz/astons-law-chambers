@@ -23,11 +23,12 @@ enum Button {
   desktop FAB.
 
 ## Sizes
-`btn-sm` / `btn-md` / `btn-lg` / `btn-xl`. Hero CTAs = `btn-lg btn-full`; aside = `btn-md w-full`;
-final strip = `btn-xl`/`btn-lg`. Width: `btn-full` or `w-full` for stacked; size-to-content in rows.
+`btn-sm` = header (desktop + mobile) · `btn-md` = aside / channel / light Card / form / tool ·
+`btn-lg` = Hero + FinalStrip secondary only · `btn-xl` = FinalStrip Call only.
+Never `btn-lg` on light Body/Card. Width: `btn-full` or `w-full` for stacked; size-to-content in rows.
 
 ## Get-in-touch banner (pa-detail body)
-Grey card (`bg-offwhite border border-grey-300`), no eyebrow, "Get in touch" +
+Uses [Card](Card.md) chrome (`bg-offwhite border border-grey-300`), no eyebrow, "Get in touch" +
 "Book a consultation or call for legal support today"; buttons navy "Book a consultation"
 + secondary "Call now" (hidden ≥md) + secondary "Send a message". Mobile: vertical, edge-to-edge
 (`.cta-actions`, 0.5rem inset). Desktop: horizontal.

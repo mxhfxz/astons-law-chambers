@@ -12,15 +12,19 @@ You are the implementer for Astons Law Chambers components. You build one compon
 
 Before writing code, confirm you have:
 
-1. **design-reader output** for the layer you are building. If it is missing, stop and ask the orchestrator to run design-reader first.
-2. **Component name and target path**. E.g., `components/ui/Button.tsx`.
-3. **Variant list** (if any). E.g., `Button` has `phone | whatsapp | text` variants.
-4. **Token availability**. Read `styles/tokens.css` and confirm every token referenced by the component exists. If a required token does not exist, stop and surface the gap.
+1. **Design system first.** Open `/styleguide` and read `lib/styleguide-spec.ts` (Guidelines / Spec / Code). Product site must never break OOP — compose only documented recipes. `/styleguide` docs UI may break OOP; do not copy docs-only patterns into product.
+2. **ui-model match.** Then `.project/ui-model/STYLEGUIDE.md` + class file. Must already exist (or user unlocked + `ClassName.md`). If not on the styleguide → stop and flag; do not invent.
+3. **design-reader output** only when the user pointed at an active Penpot workspace layer (existing Penpot pages are never a design source).
+4. **Component name and target path**. E.g., `components/ui/Button.tsx`.
+5. **Variant list** (if any) — only variants documented in the styleguide + ui-model class file.
+6. **Token availability**. Read `styles/tokens.css` and confirm every token referenced by the component exists. If a required token does not exist, stop and surface the gap.
 
 If any of the above is missing, stop and ask.
 
 ## Build rules
 
+- **Compose styleguide recipes only.** Exact Card chrome, Button enum, Hero/Body/Aside/FinalStrip from `lib/styleguide-spec.ts`. No parallel skins.
+- **Tandem change only.** Smallest additive edit for the request. Do not refactor neighbours or replace a working approach to ship the ask.
 - Next.js 14 App Router. Server components by default. Add `'use client'` ONLY if the component needs state, effects, event handlers, or browser APIs.
 - Tailwind utility classes only for styling. Tailwind classes resolve to `var(--token-name)` via `tailwind.config.ts`.
 - No raw hex anywhere. No inline `style` prop except for GSAP-managed transforms.

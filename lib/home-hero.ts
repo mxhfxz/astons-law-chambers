@@ -2,13 +2,18 @@ export const homeHero = {
   heading: 'Criminal Defence Barrister',
   brand: 'Astons Law Chambers',
   lead: 'Operating across London, Birmingham, Manchester and other UK cities.',
-  leadAfterBreak:
-    'Led by Ghulam Humayun, an experienced criminal defence barrister. Astons Law Chambers offers defence across the full range of criminal proceedings, including violent offences, fraud, drug charges and youth crime.',
-  leadSupport:
-    'Astons Law offers emergency police station support at all hours. Call us 24/7.',
-  bookingLabel: 'Book a free consultation',
+  /** Desktop ≥1024 — includes phone number. */
+  leadSupportDesktop:
+    'Astons Law offers emergency police station support at all hours. Call us 24/7 on 07922 247 999.',
+  /** Mobile ≤1023 — no “emergency” (user 2026-11-21). */
+  leadSupportMobile:
+    'Call 24/7 for police station representation',
+  bookingLabel: 'Book a Consultation',
   bookingAriaLabel: 'Book a consultation with Astons Law Chambers',
   bookingHref: 'https://cal.com/astonslaw/callback?overlayCalendar=true',
+  messageLabel: 'Send a Message',
+  messageAriaLabel: 'Send a message to Astons Law Chambers',
+  messageHref: '/contact',
   callLabel: 'Call now',
   callAriaLabel: 'Call Astons Law Chambers on 07922 247 999',
   callHref: 'tel:+447922247999',
@@ -46,8 +51,8 @@ export const homeHero = {
     confirmationBody:
       'Astons Law Chambers will get back to you soon. Sending this message does not create a barrister–client relationship and does not amount to instruction or representation.',
     errors: {
-      name: 'Please enter your first name (at least 3 characters)',
-      surname: 'Please enter your last name',
+      name: 'Please enter a valid first name',
+      surname: 'Please enter a valid last name',
       phone: 'Please enter a valid UK phone number',
       messageMin: 'Please enter at least 25 characters',
       messageMax: 'Please keep your message to 750 characters or fewer',

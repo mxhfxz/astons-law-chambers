@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { renderGuidesIndex, guidesHubJsonLd } from '@/lib/render-guide'
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function GuidesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: guidesHubJsonLd() }}
       />
-      <div dangerouslySetInnerHTML={{ __html: renderGuidesIndex() }} />
+      <WithCharmBar html={renderGuidesIndex()} path="/guides" />
     </>
   )
 }

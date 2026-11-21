@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import { HomeCharmBar } from '@/components/sections/HomeCharmBar'
+import { HeroUrgencyBanner } from '@/components/sections/HeroUrgencyBanner'
 import { insights, formatInsightDate } from '@/lib/insights'
+import { getCharmSlidesForPath } from '@/lib/home-charm'
 import { insightsHubJsonLd } from '@/lib/render-insight'
-import { readChrome } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: { absolute: 'Criminal Law Insights & Articles | Astons Law Chambers' },
@@ -17,13 +19,23 @@ export default function InsightsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: insightsHubJsonLd() }}
       />
-      <article className="bg-white">
-        {/* Hero — dark two-column .hero-split, matches every other page */}
-        <div className="bg-footer text-white hero-split">
-          <div className="hero-split-left">
-            <h1 className="fluid-h1 font-semibold tracking-tight2">Legal Insights</h1>
-
-            <div className="mt-8 btn-row">
+      <section className="hero hero--image hero--lead hero--page">
+        <HeroUrgencyBanner />
+        <div className="hero__panel hero__panel--content">
+          <div className="hero__panel-inner">
+            <h1 className="fluid-h1 font-semibold tracking-tight2 text-navy-950">
+              Legal Insights
+            </h1>
+            <div className="mt-8 btn-row hero-cta-stack">
+              <a
+                href="tel:+447922247999"
+                aria-label="Call Astons Law Chambers"
+                data-track="call_click"
+                data-track-location="insights_hub_hero"
+                className="btn btn-lg btn-primary btn-full hero-cta-call"
+              >
+                Call 07922 247 999
+              </a>
               <a
                 href="https://cal.com/astonslaw/callback?overlayCalendar=true"
                 data-cal-link="astonslaw/callback"
@@ -32,28 +44,41 @@ export default function InsightsPage() {
                 aria-label="Book a consultation with Astons Law Chambers"
                 data-track="book_click"
                 data-track-location="insights_hub_hero"
-                className="btn btn-lg btn-inverse btn-full"
+                className="btn btn-lg btn-primary btn-full hero-cta-book"
               >
                 Book a Free Consultation
               </a>
-              <a
-                href="tel:+447922247999"
-                aria-label="Call Astons Law Chambers"
-                data-track="call_click"
-                data-track-location="insights_hub_hero"
-                className="btn btn-lg btn-on-dark btn-full"
-              >
-                Call 07922 247 999
-              </a>
+              <div className="hero-cta-message-row">
+                <a
+                  href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..."
+                  aria-label="Message Astons Law Chambers on WhatsApp"
+                  data-track="whatsapp_click"
+                  data-track-location="insights_hub_hero"
+                  className="btn btn-lg btn-secondary hero-cta-whatsapp"
+                >
+                  <svg aria-hidden="true" focusable="false">
+                    <use href="#i-whatsapp" />
+                  </svg>
+                </a>
+                <button
+                  type="button"
+                  aria-label="Send a message to Astons Law Chambers"
+                  aria-haspopup="dialog"
+                  data-open-home-message
+                  data-track-location="insights_hub_hero"
+                  className="btn btn-lg btn-secondary btn-full hero-cta-message"
+                >
+                  Send a Message
+                </button>
+              </div>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: readChrome('hero-trust') }} />
-          </div>
-          <div className="hero-split-right">
-            {/* eslint-disable-next-line @next/next/no-img-element -- raw <img> matches the site hero pattern; static dimensions prevent CLS. */}
-            <img src="/hero_image.webp" alt="" width={720} height={656} fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-center" />
           </div>
         </div>
+        <div className="hero__panel hero__panel--media" aria-hidden="true" />
+      </section>
+      <HomeCharmBar slides={getCharmSlidesForPath('/insights')} />
 
+      <article className="bg-white">
         {/* Article cards */}
         <div className="max-w-wide mx-auto px-6 py-16 md:py-20">
           {insights.length === 0 ? (
@@ -70,13 +95,13 @@ export default function InsightsPage() {
                 <a
                   key={post.slug}
                   href={`/insights/${post.slug}`}
-                  className="block bg-white border border-grey-300 rounded p-6 md:p-8 hover:bg-offwhite transition-colors group"
+                  className="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group"
                 >
                   <p className="text-sm text-grey-600">
                     <time dateTime={post.datePublished}>{formatInsightDate(post.datePublished)}</time>
                   </p>
                   <h2 className="mt-2 text-xl font-semibold tracking-tight2 text-navy-950">{post.title}</h2>
-                  <p className="mt-2 text-base text-navy-700 leading-relaxed">{post.description}</p>
+                  <p className="mt-3 text-base text-navy-700 leading-relaxed">{post.description}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
                     <span className="underline underline-offset-4 decoration-1 group-hover:decoration-2">Read the article</span>
                     <span

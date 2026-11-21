@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export const metadata: Metadata = {
   title: { absolute: 'Complaints Procedure | Astons Law Chambers' },
@@ -26,7 +27,7 @@ export default function ComplaintsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div dangerouslySetInnerHTML={{ __html: readSection('complaints') }} />
+      <WithCharmBar html={readSection('complaints')} path="/complaints" />
     </>
   )
 }

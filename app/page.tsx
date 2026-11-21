@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
+import { HomeCharmBar } from '@/components/sections/HomeCharmBar'
 import { HomeHero } from '@/components/sections/HomeHero'
-import { readChrome, readSection } from '@/lib/content'
+import { readSection } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Astons Law Chambers | Direct Access Criminal Barrister London' },
+  title: { absolute: 'Astons Law Chambers | Criminal Defence Experts' },
   description:
-    'Direct access criminal defence barrister in London. Fixed fees, no solicitor required. 24/7 emergency police station representation. Call or WhatsApp now.',
+    'Free consultation and emergency police station support. Astons Law Chambers offer support for violence, drug offences, fraud and other serious crimes. Call 07922 247 999 for immediate support.',
 }
 
 export default function HomePage() {
@@ -14,7 +15,8 @@ export default function HomePage() {
       {/* Preload the hero background photo. Homepage-only — keeping this in the
           root layout made every other route fetch an unused image. */}
       <link rel="preload" as="image" href="/images/bg_main.avif" />
-      <HomeHero trustHtml={readChrome('hero-trust')} />
+      <HomeHero />
+      <HomeCharmBar />
       <div dangerouslySetInnerHTML={{ __html: readSection('home') }} />
     </>
   )

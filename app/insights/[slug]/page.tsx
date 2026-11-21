@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { HomeCharmBar } from '@/components/sections/HomeCharmBar'
+import { HeroUrgencyBanner } from '@/components/sections/HeroUrgencyBanner'
 import { insights, getInsight, formatInsightDate } from '@/lib/insights'
+import { getCharmSlidesForPath } from '@/lib/home-charm'
 import { renderInsightBody, insightJsonLd, imageDimensions } from '@/lib/render-insight'
-import { readChrome } from '@/lib/content'
 
 export function generateStaticParams() {
   return insights.map((i) => ({ slug: i.slug }))
@@ -41,14 +43,26 @@ export default async function InsightPage({ params }: { params: { slug: string }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: insightJsonLd(insight) }}
       />
-      <article className="bg-white">
-        {/* Hero — dark two-column .hero-split, matches every other page */}
-        <div className="bg-footer text-white hero-split">
-          <div className="hero-split-left">
-            <h1 className="fluid-h1 font-semibold tracking-tight2">{insight.title}</h1>
-            <p className="mt-6 fluid-lead text-navy-100/90 max-w-prose">{insight.description}</p>
-
-            <div className="mt-8 btn-row">
+      <section className="hero hero--image hero--lead hero--page">
+        <HeroUrgencyBanner />
+        <div className="hero__panel hero__panel--content">
+          <div className="hero__panel-inner">
+            <h1 className="fluid-h1 font-semibold tracking-tight2 text-navy-950">
+              {insight.title}
+            </h1>
+            <p className="mt-6 fluid-lead text-navy-700 max-w-prose">
+              {insight.description}
+            </p>
+            <div className="mt-8 btn-row hero-cta-stack">
+              <a
+                href="tel:+447922247999"
+                aria-label="Call Astons Law Chambers"
+                data-track="call_click"
+                data-track-location="insight_hero"
+                className="btn btn-lg btn-primary btn-full hero-cta-call"
+              >
+                Call 07922 247 999
+              </a>
               <a
                 href="https://cal.com/astonslaw/callback?overlayCalendar=true"
                 data-cal-link="astonslaw/callback"
@@ -57,28 +71,41 @@ export default async function InsightPage({ params }: { params: { slug: string }
                 aria-label="Book a consultation with Astons Law Chambers"
                 data-track="book_click"
                 data-track-location="insight_hero"
-                className="btn btn-lg btn-inverse btn-full"
+                className="btn btn-lg btn-primary btn-full hero-cta-book"
               >
                 Book a Free Consultation
               </a>
-              <a
-                href="tel:+447922247999"
-                aria-label="Call Astons Law Chambers"
-                data-track="call_click"
-                data-track-location="insight_hero"
-                className="btn btn-lg btn-on-dark btn-full"
-              >
-                Call 07922 247 999
-              </a>
+              <div className="hero-cta-message-row">
+                <a
+                  href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..."
+                  aria-label="Message Astons Law Chambers on WhatsApp"
+                  data-track="whatsapp_click"
+                  data-track-location="insight_hero"
+                  className="btn btn-lg btn-secondary hero-cta-whatsapp"
+                >
+                  <svg aria-hidden="true" focusable="false">
+                    <use href="#i-whatsapp" />
+                  </svg>
+                </a>
+                <button
+                  type="button"
+                  aria-label="Send a message to Astons Law Chambers"
+                  aria-haspopup="dialog"
+                  data-open-home-message
+                  data-track-location="insight_hero"
+                  className="btn btn-lg btn-secondary btn-full hero-cta-message"
+                >
+                  Send a Message
+                </button>
+              </div>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: readChrome('hero-trust') }} />
-          </div>
-          <div className="hero-split-right">
-            {/* eslint-disable-next-line @next/next/no-img-element -- raw <img> matches the site hero pattern; static dimensions prevent CLS. */}
-            <img src="/hero_image.webp" alt="" width={720} height={656} fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-center" />
           </div>
         </div>
+        <div className="hero__panel hero__panel--media" aria-hidden="true" />
+      </section>
+      <HomeCharmBar slides={getCharmSlidesForPath(`/insights/${insight.slug}`)} />
 
+      <article className="bg-white">
         {/* Body */}
         <div className="max-w-wide mx-auto px-6 py-16 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">

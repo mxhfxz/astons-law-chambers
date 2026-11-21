@@ -6,7 +6,7 @@ Light header for legal/utility pages (no hero image).
 class ArticleHeader extends Header {
     classes    = "bg-white", wrapper "max-w-wide mx-auto px-6 pt-14 pb-10 md:pt-20 md:pb-12"
     breadcrumb = <p text-base font-medium text-grey-600 tracking-tightish>
-    h1         = <h1 text-4xl md:text-6xl font-semibold tracking-tight2 leading-[1.05]>
+    h1         = <h1 fluid-h1 font-semibold tracking-tight2>   // same page-title rank as Hero
     tldr?      = <blockquote border-l-2 border-navy-950 bg-offwhite>   // AEO direct-answer, optional
 }
 ```

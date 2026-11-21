@@ -26,7 +26,7 @@ function resolveAreaTitle(slug: string): string {
 function cardHtml(a: PracticeArea, headingTag: 'h2' | 'h3'): string {
   return `<li><a href="/practice-areas/${a.slug}" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <${headingTag} class="text-xl font-semibold tracking-tight2">${esc(a.title)}</${headingTag}>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
@@ -42,7 +42,7 @@ function contextCalloutHtml(area: PracticeArea): string {
   if (!area.context) return ''
   const { eyebrow, title, body } = area.context
   // Bordered card; lives inside the main column now (no full-width wrapper).
-  return `<div class="border border-grey-300 rounded p-6 md:p-8">
+  return `<div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
           <p class="text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600">${esc(eyebrow)}</p>
           <p class="mt-2 text-lg font-semibold tracking-tightish text-navy-950">${esc(title)}</p>
           <p class="mt-2 text-navy-700 leading-relaxed">${esc(body)}</p>
@@ -55,7 +55,7 @@ function contextCalloutHtml(area: PracticeArea): string {
 function subPageCardHtml(a: SubPracticeArea): string {
   return `<li><a href="/practice-areas/${a.parentSlug}/${a.slug}" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">${esc(a.title)}</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">${esc(a.cardSummary)}</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
@@ -76,7 +76,7 @@ function subPageGridHtml(parentSlug: string): string {
   // a gapless divider grid.
   return `<section>
           <h2 class="text-3xl md:text-4xl font-semibold tracking-tight2">Offences we defend in this area</h2>
-          <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">${cards}</ul>
+          <ul class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">${cards}</ul>
         </section>`
 }
 
@@ -178,7 +178,7 @@ function policeStationCardHtml(headingTag: 'h2' | 'h3'): string {
   return `<li><a href="/police-station-representation" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
         <${headingTag} class="text-xl font-semibold tracking-tight2">Police Station Representation</${headingTag}>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
@@ -201,18 +201,18 @@ export function renderPracticeAreaIndex(): string {
  *  user-authored banner copy. */
 function getInTouchBannerHtml(): string {
   return `<div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
-                <p class="text-xl font-semibold tracking-tightish text-navy-950">Get in touch</p>
+                <p class="text-xl font-semibold tracking-tight2 text-navy-950">Get in touch</p>
                 <p class="mt-3 text-navy-700 leading-relaxed">Book a consultation or call for legal support today</p>
                 <div class="cta-actions">
-                  <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-cal-link="astonslaw/callback" data-cal-namespace="callback" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-primary flex">
+                  <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-cal-link="astonslaw/callback" data-cal-namespace="callback" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}' aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="practice_area_get_in_touch" class="btn btn-md btn-primary flex">
                     Book a consultation
                   </a>
                   <div class="md:hidden">
-                    <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999" data-track="call_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
+                    <a href="tel:+447922247999" aria-label="Call Astons Law Chambers on 07922 247 999" data-track="call_click" data-track-location="practice_area_get_in_touch" class="btn btn-md btn-secondary flex">
                       Call now
                     </a>
                   </div>
-                  <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Send a message on WhatsApp" data-track="whatsapp_click" data-track-location="practice_area_get_in_touch" class="btn btn-lg btn-secondary flex">
+                  <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Send a message on WhatsApp" data-track="whatsapp_click" data-track-location="practice_area_get_in_touch" class="btn btn-md btn-secondary flex">
                     Send a message
                   </a>
                 </div>

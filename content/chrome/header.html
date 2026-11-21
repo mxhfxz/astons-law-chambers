@@ -45,22 +45,15 @@
       </nav>
 
       <div class="flex items-center gap-2 md:gap-3">
+        <!-- Desktop ≥md: Book a call only. No Call (desktop can't dial). -->
         <a
           href="https://cal.com/astonslaw/callback?overlayCalendar=true"
           data-track="book_click"
           data-track-location="header"
-          class="btn btn-sm btn-secondary hidden md:inline-flex"
+          aria-label="Book a consultation with Astons Law Chambers"
+          class="btn btn-sm btn-primary hidden md:inline-flex"
         >
           Book a call
-        </a>
-        <a
-          href="tel:+447922247999"
-          aria-label="Call Astons Law Chambers now on 07922 247 999"
-          data-track="call_click"
-          data-track-location="header"
-          class="btn btn-sm btn-primary hidden sm:inline-flex"
-        >
-          Call now
         </a>
         <a
           href="https://wa.me/447922247999"
@@ -169,11 +162,11 @@
         <a href="/insights" class="py-3 text-navy-950 border-b border-grey-300">Insights</a>
         <a href="/contact" class="py-3 text-navy-950">Contact</a>
         <div class="mt-4 flex flex-col gap-2">
-          <a href="tel:+447922247999" data-track="call_click" data-track-location="header_mobile" class="btn btn-md btn-primary w-full" aria-label="Call Astons Law Chambers">
+          <a href="tel:+447922247999" data-track="call_click" data-track-location="header_mobile" class="btn btn-sm btn-primary w-full" aria-label="Call Astons Law Chambers">
             Call now
           </a>
-          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="header_mobile" class="btn btn-md btn-secondary w-full">Book a call</a>
-          <a href="https://wa.me/447922247999" data-track="whatsapp_click" data-track-location="header_mobile" class="btn btn-md btn-secondary w-full" aria-label="Message Astons Law Chambers on WhatsApp">
+          <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" data-track="book_click" data-track-location="header_mobile" class="btn btn-sm btn-secondary w-full">Book a call</a>
+          <a href="https://wa.me/447922247999" data-track="whatsapp_click" data-track-location="header_mobile" class="btn btn-sm btn-secondary w-full" aria-label="Message Astons Law Chambers on WhatsApp">
             WhatsApp
           </a>
         </div>

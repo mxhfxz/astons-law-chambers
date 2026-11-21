@@ -5,8 +5,9 @@
   NOT merged to main. Nothing from this branch is live on astonslaw.com yet.
 - The Hero/UI overhaul described in the 2026-06-15 section far below is **DONE and ON MAIN**
   (commit `d56fd9d`). That section's "uncommitted on `sub-pages`" wording is HISTORY — ignore it.
-- Canonical design system is still `.project/ui-model/` (start at `_index.md`). `Aside.md` and
-  `Invariants.md` were both updated this session and are current.
+- Canonical design system is `.project/ui-model/` — **start at [STYLEGUIDE.md](ui-model/STYLEGUIDE.md)**
+  (component library). Flat law (2026-11-17): reuse defined classes only; missing → flag; never invent
+  without user unlock. Also: `.cursor/rules/ui-oop-component-library.mdc` (alwaysApply).
 
 ## What is on this branch
 | Commit | What |

@@ -1,18 +1,34 @@
-      <!-- INTRO (no hero on this page — user direction 2026-07-03).
-           DRAFT COPY — pending client (Ghulam) approval. Never the word
-           "calculator" in any visible string / meta / schema (BSB).
-           Balanced subtree: the interactive island renders immediately after
-           this block, then the supporting content below. -->
-      <div class="bg-white">
-        <div class="max-w-wide mx-auto px-6 pt-12 md:pt-16">
-          <div class="max-w-prose mx-auto text-center">
+      <!-- INTRO — lead hero (sitewide design language 2026-11-21). Tool island unchanged below. -->
+<section class="hero hero--image hero--lead hero--page">
+      <div class="hero__panel hero__panel--content">
+        <div class="hero__panel-inner">
             <h1 class="fluid-h1 font-semibold tracking-tight2 text-navy-950">Do I qualify for legal aid?</h1>
-            <p class="mt-4 fluid-lead text-navy-700">
+            <p class="mt-6 fluid-lead text-navy-700 max-w-prose">
               Use the form below to determine your likelihood of being accepted for legal aid.
             </p>
-          </div>
+            <div class="mt-8 btn-row hero-cta-stack">
+              <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="eligibility_hero" class="btn btn-lg btn-primary btn-full hero-cta-call">
+                Call 07922 247 999
+              </a>
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="eligibility_hero" class="btn btn-lg btn-primary btn-full hero-cta-book">
+                Book a Free Consultation
+              </a>
+              <div class="hero-cta-message-row">
+                <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Message Astons Law Chambers on WhatsApp" data-track="whatsapp_click" data-track-location="eligibility_hero" class="btn btn-lg btn-secondary hero-cta-whatsapp">
+                  <svg aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+                </a>
+                <button type="button" aria-label="Send a message to Astons Law Chambers" aria-haspopup="dialog" data-open-home-message data-track-location="eligibility_hero" class="btn btn-lg btn-secondary btn-full hero-cta-message">
+                  Send a Message
+                </button>
+              </div>
+            </div>
         </div>
       </div>
+      <div class="hero__panel hero__panel--media" aria-hidden="true"></div>
+    </section>
+
+<!-- data-bind="charm-bar" -->
+
 
 <!--ELIGIBILITY_TOOL-->
 
@@ -21,7 +37,7 @@
            stage-table explainer. Here: what the check weighs and why a person
            decides. The 3rem gap above is set on .la-elig (margin-bottom). -->
       <div class="bg-white">
-        <div class="max-w-wide mx-auto px-6 pt-12 md:pt-16 pb-16 md:pb-20">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
             <div class="lg:col-span-2 space-y-12">
 

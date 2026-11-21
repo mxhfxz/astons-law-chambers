@@ -7,7 +7,7 @@ class Aside {
     sticky    = .pa-aside   // @≥1024px: position:sticky; top:5.5rem (navbar 4.5rem + 1rem gap; was 8.5rem with police banner)
                             // <1024px: static, drops BELOW main content
     selfAlign = self-start
-    card      = "bg-offwhite border border-grey-300 rounded p-6"   // light card (CANONICAL)
+    card      = Card.chrome   // "bg-offwhite border border-grey-300 rounded p-6" — see Card.md
     eyebrow   = <p text-xs font-semibold tracking-[0.12em] uppercase text-grey-600>
     button.primary   = btn btn-md btn-primary  w-full   // navy
     button.secondary = btn btn-md btn-secondary w-full  // outline

@@ -1,35 +1,43 @@
 # class Hero extends Header
 
-Dark, two-column hero for conversion/content pages.
+Light lead hero (white content | photo media) for conversion/content pages — same design language as HomeHero.
 
 ```
 class Hero extends Header {
-    classes = "bg-footer text-white hero-split"           // same on every page (incl. home)
-    layout  = two-column (left: content, right: image or approved form) // grid @ ≥1024px
+    classes = "hero hero--image hero--lead" (+ "hero--page" on non-home)
+    layout  = content panel | media panel @ ≥1024; home 80vh floor; other pages 60vh floor
 
-    // left column (.hero-split-left), top → bottom:
-    h1       = <h1 fluid-h1 font-semibold tracking-tight2>       // first element, uniform clamp, never overflows
-    copy?    = <p mt-6 fluid-lead text-navy-100/90 max-w-prose>  // OPTIONAL short context line
-    ctaRow   = .btn-row { primaryCTA, secondaryCTA }
-    bsbLink  = <p mt-4 text-xs> "Regulated by the Bar Standards Board"   // on EVERY hero
+    // content (.hero__panel--content) — white; light type (text-navy-950 / text-navy-700)
+    h1       = <h1 fluid-h1 font-semibold tracking-tight2 text-navy-950>
+    copy?    = <p mt-6 fluid-lead text-navy-700 max-w-prose>
+    ctaRow   = .btn-row.hero-cta-stack { Book btn-primary, WA square + Send a Message }
+    // Trust is NOT in the left column — .home-charm-bar under hero (BSB | Google | ticker)
 
-    // right column (.hero-split-right)
-    image = <img src="/hero_image.webp" alt="" width=720 height=656 fetchpriority="high"
-                 class="absolute inset-0 w-full h-full object-cover object-center">
+    // media (.hero__panel--media) — bg_main full-strength, no dark overlay
 
-    // OVERRIDE — home only (60/40 desktop)
-    Home.leftColumn  = image + existing hero content, centred in panel (60%)
-    Home.rightColumn = full white panel with Web3Forms lead-capture form, centred (40%)
-    Home.formFields  = name + surname + phone number + brief description of situation // all required
-    Home.formDividers = inset top + bottom hairlines on the white panel (inside section)
-    Home.mobileOrder = content, then form
+    // Sitewide message modal = HeroMessageDock (layout) via [data-open-home-message]
+    // Charm ticker = getCharmSlidesForPath(pathname); CRO default if no page-relevant slides
 
-    primaryCTA   = btn btn-lg btn-inverse btn-full -> "Book a Free Consultation" (cal.com)   // white, NO icon
-    secondaryCTA = btn btn-lg btn-on-dark btn-full -> "Call 07922 247 999" (tel)             // ghost, NO icon
+    // Sitewide urgency — every .hero--lead (HeroUrgencyBanner / WithCharmBar inject)
+    urgencyBanner = .hero-urgency-banner — leadSupportDesktop / leadSupportMobile (lib/home-hero.ts)
 
-    // OVERRIDE — police-station only (leads with Call; no Book in hero)
-    PoliceStation.primaryCTA   = btn-lg btn-emergency -> "Call Now" (red, NO icon)
-    PoliceStation.secondaryCTA = btn-lg btn-on-dark   -> "WhatsApp"
+    // OVERRIDE — home only
+    Home.classes     = hero--lead (+ data-home-hero); sticky off; mobile FABs
+    Home.height      = min-height calc(80vh - 72px) @≥1024
+    Home.primaryCTA  = "Book a Consultation"
+    Home.mobileCTA   = Call in panel; Book via FAB
+
+    // Non-home
+    Page.classes     = hero--lead hero--page
+    Page.height      = min-height calc(60vh - 72px) @≥1024
+    Page.primaryCTA  = keep each page’s existing Book label (e.g. "Book a Free Consultation")
+    Page.sticky      = sticky hidden (hero CTAs cover contact; no home FABs)
+
+    // OVERRIDE — police-station only (Call + WhatsApp; no Book/Message)
+    PoliceStation.primaryCTA   = btn-lg btn-emergency -> "Call Now"
+    PoliceStation.secondaryCTA = WhatsApp
+
+    // Legal/utility (ex-ArticleHeader): breadcrumb stays in white panel above H1
 }
 ```
 
@@ -55,8 +63,8 @@ Hero CTAs are text-only. Inline channel icons were removed from every contact bu
 remain ONLY in the mobile charm/sticky bar and the desktop FAB.
 
 ## Per-page notes
-- **home**: h1 "Criminal Defence Barrister"; has a copy line; standard structure (the former `max-w-2xl`
-  wrapper and the `.hero-split-tall` height variant were both removed).
+- **home**: HomeHero TSX — media | light content panel; eyebrow + brand fluid-h1 + leads; Call primary /
+  Book secondary; no form. Sticky bar off; mobile FABs remain.
 - **insights hub** (TSX): h1 "Legal Insights"; NO copy line (h1 + CTA + BSB only).
 - **insights article** (TSX): h1 = article title; copy = article description.
 - **pa-detail / sub**: h1 is data-bound; NO copy line.

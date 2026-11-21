@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export const metadata: Metadata = {
   title: { absolute: 'Privacy Policy | Astons Law Chambers' },
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function PrivacyPolicyPage() {
-  return <div dangerouslySetInnerHTML={{ __html: readSection('privacy-policy') }} />
+  return <WithCharmBar html={readSection('privacy-policy')} path="/privacy-policy" />
 }

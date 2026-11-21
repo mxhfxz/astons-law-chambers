@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export const metadata: Metadata = {
   title: { absolute: 'Direct Access Criminal Barrister London | No Solicitor Needed' },
@@ -27,7 +28,7 @@ export default function DirectAccessPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div dangerouslySetInnerHTML={{ __html: readSection('direct-access') }} />
+      <WithCharmBar html={readSection('direct-access')} path="/direct-access" />
     </>
   )
 }

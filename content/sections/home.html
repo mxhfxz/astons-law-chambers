@@ -1,15 +1,15 @@
 
-      <!-- PRACTICE AREAS GRID -->
-      <div class="bg-white">
-        <div class="max-w-wide mx-auto px-6 py-16 md:py-24">
-          <div class="flex items-end justify-between flex-wrap gap-4 mb-10 md:mb-14">
+      <!-- PRACTICE AREAS GRID — .home-offences pulls H2 into the fold under charm -->
+      <div class="bg-white home-offences">
+        <div class="max-w-wide mx-auto px-6 pb-16 md:pb-20">
+          <div class="flex items-end justify-between flex-wrap gap-4 mb-10 md:mb-12">
             <div>
-              <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">Offences covered</h2>
+              <h2 class="text-3xl md:text-4xl font-semibold tracking-tight2">Offences covered</h2>
             </div>
             <a href="/practice-areas" class="text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">See all defence work →</a>
           </div>
 
-          <ul id="homeDefenceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul id="homeDefenceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Pre-rendered from PRACTICE_AREAS + the police-station card so the
                  cards ship in the initial HTML (zero injection, zero layout shift).
                  renderHomeDefenceGrid() skips when the grid is already populated;
@@ -17,7 +17,7 @@
                  In the Next.js build these become server-rendered components. -->
             <li><a href="/practice-areas/criminal-defence" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Criminal Defence</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Representation from investigation through trial. Magistrates’ and Crown Court.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Representation from investigation through trial. Magistrates’ and Crown Court.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
@@ -25,56 +25,56 @@
       </a></li><li><a href="/police-station-representation" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <span class="block text-xs font-semibold tracking-[0.12em] uppercase text-emergency-600 mb-3">24 hours</span>
         <h3 class="text-xl font-semibold tracking-tight2">Police Station Representation</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Attendance at the station, before the interview begins.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/violent-crimes" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Violent Crimes</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Assault, ABH, GBH, affray, robbery. Police station through trial.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Assault, ABH, GBH, affray, robbery. Police station through trial.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/youth-crimes" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Youth Crimes</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Defence for clients under 18. Youth Court procedure and welfare considerations.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Defence for clients under 18. Youth Court procedure and welfare considerations.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/driving-offences" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Driving Offences</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Drink/drug driving, totting-up, exceptional hardship. Licence-loss work.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/drug-offences" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Drug Offences</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Possession, supply, importation. Forensic and disclosure challenges.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Possession, supply, importation. Forensic and disclosure challenges.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/fraud" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Fraud &amp; Financial Crime Defence</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Fraud, false representation, money laundering. Digital evidence. Crown Court.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Fraud, false representation, money laundering. Digital evidence. Crown Court.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/sexual-offences" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Sexual Offences Defence</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Sexual offence allegations. Pre-charge to Crown Court. Highly sensitive.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
         </span>
       </a></li><li><a href="/practice-areas/inquests" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h3 class="text-xl font-semibold tracking-tight2">Inquests</h3>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">Family and interested-person representation. Pre-inquest review through hearing.</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">Family and interested-person representation. Pre-inquest review through hearing.</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Learn more</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>
@@ -101,7 +101,7 @@
                 <svg class="w-4 h-4 mt-1 shrink-0 text-emergency-600" aria-hidden="true"><use href="#i-arrow-right"/></svg>
                 <span class="text-base font-medium text-navy-950">Free guide: what to do in the first 24 hours after an arrest</span>
               </a>
-              <a href="/police-station-representation" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
+              <a href="/police-station-representation" class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
             </div>
 
             <div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
@@ -111,13 +111,13 @@
                 <svg class="w-4 h-4 mt-1 shrink-0 text-emergency-600" aria-hidden="true"><use href="#i-arrow-right"/></svg>
                 <span class="text-base font-medium text-navy-950">Free guide: do you need a lawyer at a voluntary police interview</span>
               </a>
-              <a href="/police-station-representation" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
+              <a href="/police-station-representation" class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Police station representation →</a>
             </div>
 
             <div class="bg-offwhite border border-grey-300 rounded p-6 md:p-8">
               <h3 class="text-xl font-semibold tracking-tight2 text-navy-950">Charged or sent a court summons</h3>
               <p class="mt-3 text-base text-navy-700 leading-relaxed">A charge or a summons sets a first hearing date. Bring any paperwork and the date to a first call. The call covers the plea and what to expect at the hearing.</p>
-              <a href="/practice-areas/criminal-defence" class="mt-5 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Criminal defence →</a>
+              <a href="/practice-areas/criminal-defence" class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Criminal defence →</a>
             </div>
 
           </div>
@@ -162,7 +162,7 @@
       <!-- FEES SIGNPOST -->
       <div class="bg-white">
         <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div>
               <h2 class="mt-2 text-3xl md:text-4xl font-semibold tracking-tight2">Fees are quoted in writing before work begins</h2>
               <p class="mt-4 text-navy-700 leading-relaxed max-w-prose">
@@ -207,14 +207,14 @@
              }
            ============================================================ -->
       <section class="bg-offwhite border-y border-grey-300" aria-labelledby="bookingHeading">
-        <div class="max-w-wide mx-auto px-6 py-16 md:py-20 lg:py-24">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
 
             <div class="lg:col-span-4 pa-aside">
               <h2 id="bookingHeading" class="mt-3 text-3xl md:text-4xl font-semibold tracking-tight2 text-navy-950">
                 A short call with the barrister, scheduled for when it suits.
               </h2>
-              <p class="mt-5 fluid-body text-navy-700 max-w-prose">
+              <p class="mt-4 text-base text-navy-700 max-w-prose">
                 Pick a slot and confirm. For immediate support, call 07922 247 999 now.
               </p>
 
@@ -228,7 +228,7 @@
                   Call now
                 </a>
               </div>
-              <ul class="mt-7 space-y-3 fluid-body text-navy-950">
+              <ul class="mt-8 space-y-3 text-base text-navy-950">
                 <li class="flex items-start gap-3">
                   <svg class="w-4 h-4 mt-1.5 shrink-0 text-navy-950" aria-hidden="true"><use href="#i-check"/></svg>
                   Direct with the barrister.
@@ -254,11 +254,11 @@
                   <span class="flex items-center justify-center w-14 h-14 rounded-full bg-navy-100 text-navy-950">
                     <svg class="w-6 h-6" aria-hidden="true"><use href="#i-calendar-plus"/></svg>
                   </span>
-                  <h3 class="mt-6 text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight2">Book a callback</h3>
-                  <p class="mt-3 fluid-body text-navy-700 max-w-sm">
+                  <h3 class="mt-6 text-2xl font-semibold text-navy-950 tracking-tightish">Book a callback</h3>
+                  <p class="mt-3 text-base text-navy-700 max-w-sm">
                     For immediate support, call 07922 247 999 now, direct with the barrister.
                   </p>
-                  <button type="button" id="cal-load-btn" data-track="book_click" data-track-location="booking_facade" class="btn btn-lg btn-primary mt-7">
+                  <button type="button" id="cal-load-btn" data-track="book_click" data-track-location="booking_facade" class="btn btn-md btn-primary mt-8">
                     Book a call
                   </button>
                 </div>

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { headers } from 'next/headers'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import {
@@ -10,6 +11,7 @@ import {
 } from '@/components/site/chrome'
 import { SiteBehaviour } from '@/components/site/SiteBehaviour'
 import { ConsentBanner } from '@/components/site/ConsentBanner'
+import { HeroMessageDock } from '@/components/sections/HeroMessageDock'
 import './preview-tailwind.css'
 import './preview-styles.css'
 
@@ -43,6 +45,8 @@ export const viewport: Viewport = {
   themeColor: '#0E1628',
 }
 
+// Global JSON-LD only: LegalService + Person + WebSite.
+// No FAQPage, aggregateRating, or other AI-default nodes here (HARD RULE 2026-11-21).
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -191,13 +195,6 @@ const jsonLd = [
         },
       ],
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '41',
-      bestRating: '5',
-      worstRating: '1',
-    },
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -229,36 +226,6 @@ const jsonLd = [
   },
   {
     '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Can I afford private representation?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'We offer transparent, fixed-fee structures for many cases, so you know exactly where you stand from day one. No hidden costs. We also offer Legal Aid.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'The police want to interview me voluntary. Do I need a lawyer?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. What you say in a voluntary interview is evidence. Never attend without legal protection. We can arrange to be there with you.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Is it too late to change solicitors?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'It is rarely too late. If you are unhappy with your current representation, we can facilitate a seamless transfer of your case immediately.',
-        },
-      },
-    ],
-  },
-  {
-    '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': 'https://astonslaw.com/#principal',
     name: 'Ghulam Humayun',
@@ -279,35 +246,45 @@ const jsonLd = [
 ]
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = headers().get('x-pathname') ?? ''
+  const isStyleguide = pathname === '/styleguide' || pathname.startsWith('/styleguide/')
+
   return (
     <html lang="en-GB">
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         {/* IBM Plex Sans is self-hosted — @font-face is in preview-styles.css,
             served same-origin. No external font request, no Google Fonts chain. */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {!isStyleguide && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        )}
       </head>
-      <body className="has-sticky-bar">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-navy-950 focus:text-white focus:px-4 focus:py-2 focus:rounded"
-        >
-          Skip to content
-        </a>
+      <body className={isStyleguide ? undefined : 'has-sticky-bar'}>
+        {!isStyleguide && (
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-navy-950 focus:text-white focus:px-4 focus:py-2 focus:rounded"
+          >
+            Skip to content
+          </a>
+        )}
 
-        <IconSprite />
-        <SiteHeader />
-        <ConsentBanner />
+        {!isStyleguide && <IconSprite />}
+        {!isStyleguide && <SiteHeader />}
+        {!isStyleguide && <ConsentBanner />}
         <main id="main">{children}</main>
-        <SiteFooter />
-        <StickyBar />
-        <DesktopFab />
-        <SiteBehaviour />
-        <Analytics />
+        {!isStyleguide && <SiteFooter />}
+        {!isStyleguide && <StickyBar />}
+        {!isStyleguide && <DesktopFab />}
+        {!isStyleguide && <HeroMessageDock />}
+        {!isStyleguide && <SiteBehaviour />}
+        {!isStyleguide && <Analytics />}
 
+        {!isStyleguide && (
+        <>
         {/* Google Consent Mode v2 default — storage denied until CMP fires
             an update. Fires beforeInteractive so nothing can store before
             the page runs. The returning-visitor restore script below upgrades
@@ -406,6 +383,8 @@ Cal("init", "callback", { origin: "https://cal.com" });
 // 2026-07-13). Changing this line alone changes nothing visible.
 Cal.ns.callback("ui", { theme: "light", hideEventTypeDetails: false, layout: "column_view" });`}
         </Script>
+        </>
+        )}
 
       </body>
     </html>

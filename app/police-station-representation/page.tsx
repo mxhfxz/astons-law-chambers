@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export const metadata: Metadata = {
   title: { absolute: '24/7 Police Station Representation | Criminal Barrister London' },
@@ -85,7 +86,7 @@ export default function PoliceStationPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div dangerouslySetInnerHTML={{ __html: readSection('police-station') }} />
+      <WithCharmBar html={readSection('police-station')} path="/police-station-representation" />
     </>
   )
 }

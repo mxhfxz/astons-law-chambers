@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export const metadata: Metadata = {
   title: { absolute: 'Terms of Engagement | Astons Law Chambers' },
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function TermsOfEngagementPage() {
-  return <div dangerouslySetInnerHTML={{ __html: readSection('terms-of-engagement') }} />
+  return <WithCharmBar html={readSection('terms-of-engagement')} path="/terms-of-engagement" />
 }

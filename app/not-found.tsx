@@ -1,5 +1,6 @@
 import { readSection } from '@/lib/content'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 
 export default function NotFound() {
-  return <div dangerouslySetInnerHTML={{ __html: readSection('not-found') }} />
+  return <WithCharmBar html={readSection('not-found')} path="/404" />
 }

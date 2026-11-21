@@ -24,6 +24,9 @@ Reject the change and report by file:line if you find any of the following:
 10. **Marketing speak**: rhetorical questions, triadic structures, "right barrister"-style self-qualifying, value-prop framing.
 11. **GSAP usage without `useReducedMotion` guard.** Every animation must respect `prefers-reduced-motion`.
 12. **Server-rendered hidden state for animated elements.** Per `13-nextjs-scaffold-spec.md`, server renders all animated elements at their final visible state. GSAP only triggers on scroll — it never sets initial hidden state. Reject any pattern that hides content before hydration.
+13. **Invented UI outside the design system.** Flat law: start at `/styleguide` + `lib/styleguide-spec.ts`. Product pages must compose documented recipes only (Card chrome, Button enum, Hero/Body/Aside/FinalStrip). Parallel skins, new button colours, one-off heroes, or CSS that re-implements a primitive without unlock = BLOCK. Exception: `/styleguide` docs chrome may break OOP — never copy that into product.
+14. **Drive-by refactor.** Diff must be tandem with existing code — smallest additive change for the stated request. Unrelated rewrites, renames, extractions, or “while we’re here” cleanups = BLOCK unless the user explicitly asked for that cleanup.
+15. **Invented style outside /styleguide.** New type sizes, paddings, gaps, or breakpoints not listed in `lib/styleguide-spec.ts` (or silent changes without user unlock + styleguide-spec/page update) = BLOCK.
 
 ## Soft checks (warn but do not block)
 

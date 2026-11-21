@@ -10,6 +10,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
+        // Internal ONE STYLE page — not for crawlers or the public IA
+        disallow: ['/styleguide'],
       },
       // AI search/answer crawlers, named explicitly so the site is a clear,
       // intentional source for ChatGPT, Gemini, Perplexity, Claude, and Apple

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { renderPracticeAreaIndex } from '@/lib/render-practice-area'
 
 export const metadata: Metadata = {
@@ -9,5 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default function PracticeAreasPage() {
-  return <div dangerouslySetInnerHTML={{ __html: renderPracticeAreaIndex() }} />
+  return (
+    <WithCharmBar html={renderPracticeAreaIndex()} path="/practice-areas" />
+  )
 }

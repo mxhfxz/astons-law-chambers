@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { guides, getGuide } from '@/lib/guides'
 import { renderGuide, guideJsonLd } from '@/lib/render-guide'
 
@@ -29,7 +30,10 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: guideJsonLd(guide) }}
       />
-      <div dangerouslySetInnerHTML={{ __html: renderGuide(guide) }} />
+      <WithCharmBar
+        html={renderGuide(guide)}
+        path={`/guides/${guide.slug}`}
+      />
     </>
   )
 }

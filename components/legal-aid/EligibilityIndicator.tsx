@@ -88,7 +88,7 @@ function ResultCtas() {
         aria-label="Call Astons Law Chambers"
         data-track="call_click"
         data-track-location={TRACK_LOCATION}
-        className="btn btn-lg btn-primary btn-full"
+        className="btn btn-md btn-primary btn-full"
       >
         Call {contact.phone}
       </a>
@@ -97,7 +97,7 @@ function ResultCtas() {
         aria-label="Message Astons Law Chambers on WhatsApp"
         data-track="whatsapp_click"
         data-track-location={TRACK_LOCATION}
-        className="btn btn-lg btn-secondary btn-full"
+        className="btn btn-md btn-secondary btn-full"
       >
         Message on WhatsApp
       </a>
@@ -106,7 +106,7 @@ function ResultCtas() {
         aria-label="Book a call with Astons Law Chambers"
         data-track="book_click"
         data-track-location={TRACK_LOCATION}
-        className="btn btn-lg btn-secondary btn-full"
+        className="btn btn-md btn-secondary btn-full"
       >
         Book a call
       </a>

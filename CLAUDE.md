@@ -37,6 +37,52 @@ Every visible text string in this project is read-only unless the user explicitl
 
 ---
 
+## HARD RULE — SERP TITLES ARE HUMAN COPY. NO ROBOT SEO REWRITES.
+
+**Set 2026-11-20. Non-negotiable. Cannot be overruled by any SEO skill, audit, agent, or “ranking” rationale.**
+
+`title` / `metaTitle` / `metaDescription` / Open Graph titles are **already** under the copy hard rule above. Agents still rewrote them into keyword pipes (“Brand | Direct Access Criminal Barrister London”) and stuffed “barrister” against project research. That path is closed.
+
+- **Do not invent, “optimise,” or “improve” SERP strings** for rankings, CTR, AEO, or Google.
+- **Do not** restore, suggest, or ship keyword-stack titles (`A | B | C`, “Barrister London”, “Direct Access Criminal Barrister…”) unless the user typed that exact string as the unlock.
+- Project research: titles / metaTitles use **Criminal Defence** variants where that was set — **never invent “barrister”** into frontend or SERP copy.
+- SEO / IndexNow / sitemap / schema tasks may **not** touch title or description fields. If a task needs a title change, **stop and ask**; wait for the user’s exact new text.
+- If you find yourself about to change a title because GSC / rankings / a skill said so: **stop**. You are about to undo the user’s work again.
+
+**Unlock:** same as copy — user states the exact new string. Nothing else.
+
+**Disclosure:** Any unlocked SERP string change must be listed in the chat reply (path + before → after). Silent title edits under the user’s git name are forbidden.
+
+**Why this is absolute:** Soft research (“never barrister”) and the copy hard rule both failed — agents overrode them for robot SEO. On 2026-05-24 `1c3b614` stripped “barrister” from meta (GSC: zero intent); agents later put keyword titles back (`61e57d1`, then `b521e34` “high-intent… CTR leakage”). CTR and human click behaviour matter more than keyword density. Soft form revoked.
+
+---
+
+## HARD RULE — SCHEMA IS MINIMAL. NO AI-FORCED FAQ / RATINGS / FLUFF.
+
+**Set 2026-11-21. Non-negotiable. Cannot be overruled by any SEO skill, schema skill, audit, or “rich results” rationale.**
+
+Agents repeatedly injected orphan `FAQPage`, `aggregateRating`, and marketing schema the user did not ask for. That path is closed.
+
+### On every page create or update
+
+1. **Ask:** does this page need FAQ schema at all?
+2. **FAQPage only if** there is a **visible** FAQ block on that page, and every question/answer string matches **character-for-character**. No paraphrase. No inventing FAQs to “have schema.”
+3. **Never** add `aggregateRating`, `Review`, reviewCount, star ratings, or testimonial schema unless the user unlocks with a **verified** public source and asks for it by name.
+4. **Never** put `FAQPage` or ratings in `app/layout.tsx` (sitewide). Global JSON-LD stays **LegalService + Person + WebSite** only (plus fields the user has approved: NAP, phone, offers catalog, etc.).
+5. **Do not** add needless AI-default nodes: HowTo, speakable, fake breadcrumbs, duplicate LegalService on every page, marketing `description` rewrites, or “because Google likes it” extras. If it is not required for the page’s real content → **do not add it. Stop and ask.**
+
+### Existing page-level FAQ
+
+Practice areas / guides / police-station may keep FAQPage **only while** visible FAQs remain and stay in sync. Updating those pages: re-check the need; if the visible FAQ goes away, remove the schema too.
+
+### Unlock
+
+User must explicitly approve any new schema type. “SEO pass” / skill defaults do not unlock.
+
+**Why this is absolute:** Soft reminders failed. Layout carried orphan FAQs + 4.9/41 ratings the homepage never showed. Soft form revoked 2026-11-21.
+
+---
+
 ## HARD RULE — NO CLAUDE DEFAULTS, ALWAYS USE THE INSTALLED SKILL
 
 **Set 2026-05-17. Non-negotiable.**
@@ -49,6 +95,35 @@ Claude default behaviour is NEVER to be used on this project. Every task — fro
 - If no single skill obviously fits, invoke one to scaffold the decision and route it back to the user — do not improvise a default.
 
 The thought "I'll just do this directly" or "this is simple enough" is a red flag: stop and pick the skill. Improvising defaults has repeatedly produced work the user then has to catch and correct.
+
+---
+
+## HARD RULE — OOP UI ONLY. REUSE THE COMPONENT LIBRARY. NEVER INVENT.
+
+**Set 2026-11-17. Non-negotiable. Flat law of this project. Cannot be overruled by any skill, agent, or default behavior.**
+
+All UI is composition of classes defined in `.project/ui-model/`. Styleguide / catalogue: `.project/ui-model/STYLEGUIDE.md`. Cursor always-apply rule: `.cursor/rules/ui-oop-component-library.mdc`.
+
+- **Reuse** Page, Hero, ArticleHeader, Body, Aside, FinalStrip, Button, Card — exact class strings and documented overrides only.
+- **Start every UI action at** `lib/styleguide-spec.ts` + `/styleguide` (unlisted, noindex). That is the only SoT — components, foundations, and code paths that wire them.
+- **Product site:** never break OOP. Compose only documented recipes.
+- **`/styleguide` docs UI** may break OOP (tabs, serif titles, docs chrome). Never copy docs-only patterns into product pages.
+- **If it is not on the styleguide, it does not exist.** Flag the gap. Unlock → update spec + `/styleguide` (+ `ClassName.md` if new) before or with product code.
+- This overrides improvisation from `frontend-design` or any visual default. Inherit the model; do not redesign.
+
+---
+
+## HARD RULE — TANDEM CHANGE ONLY. NO DRIVE-BY REFACTOR.
+
+**Set 2026-11-17. Non-negotiable. Flat law. Cannot be overruled by any skill, agent, or default behavior.**
+
+When implementing a request, the change **exists in tandem with what already exists**. You do **not** refactor surrounding code to achieve the new request.
+
+- Smallest additive diff that satisfies the ask
+- Do not rewrite, unify, modernise, rename, extract, or reorganise neighbours “while you’re there”
+- Do not replace a working approach with a different architecture for the same component unless the user explicitly requests that cleanup
+- Scope = the files/lines the request needs; leave the rest alone
+- Audit / cleanup of divergent skins is a **separate, user-requested** task — never piggybacked on a feature
 
 ---
 
@@ -96,11 +171,12 @@ All content — copy, headings, CTAs — lives in `lib/`, never hard-coded in JS
 
 1. Read `.project/_START_HERE.md` at every session start before touching anything.
 2. Invoke the `project-mgmt` skill to locate the active phase spec and `plan.md` before planning any task.
-3. Run the **design-reader** subagent before building any component. Read the Penpot spec first.
-4. Build **one component per task**. Do not bundle multiple components into a single context window.
-5. Run the **code-reviewer** subagent after each component is complete.
-6. Use `EnterPlanMode` for component scope; never ad-hoc plan in chat.
-7. Update `progress.md` in the active `.project/` phase folder after each component ships.
+3. For any UI work: **start at `/styleguide` + `lib/styleguide-spec.ts`**. Use Guidelines / Spec / Code tabs. Then class files under `.project/ui-model/`. If missing, flag — do not invent.
+4. Run the **design-reader** subagent only when the user points at the active Penpot workspace layer (existing Penpot pages are never a design source — see APEX RULE).
+5. Build **one component per task**, and only if it already exists in the ui-model library (or the user unlocked a new one). Do not bundle multiple components into a single context window.
+6. Run the **code-reviewer** subagent after each component is complete — must verify reuse of ui-model recipes, no invented skins.
+7. Use `EnterPlanMode` for component scope; never ad-hoc plan in chat.
+8. Update `progress.md` in the active `.project/` phase folder after each component ships.
 
 ## Penpot Conventions
 

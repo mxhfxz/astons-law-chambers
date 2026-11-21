@@ -1,6 +1,9 @@
 # Invariants & open items
 
 ## Invariants (must hold across every instance)
+0. **OOP reuse only (FLAT LAW, 2026-11-17):** Compose only classes/primitives in
+   [STYLEGUIDE.md](STYLEGUIDE.md) / this folder. Missing piece → flag to the user; never invent a
+   new component, card skin, button colour, or layout shape unless the user explicitly unlocks it.
 1. **Approved conversion paths**: phone (tel:) → WhatsApp (wa.me) → cal.com, plus the
    Web3Forms lead-capture form in the homepage hero. Preserve every `data-track` /
    `data-track-location`.
@@ -26,6 +29,16 @@
 8. **Copy is read-only** unless the user supplies exact text. Relocating existing copy is allowed;
    editing the string is not.
 9. **No practitioner portrait. Minimise "Ghulam" in body copy.** Entity-first ("Astons Law Chambers").
+10. **Card chrome is one recipe:** `bg-offwhite border border-grey-300 rounded p-6` (+ optional
+    `md:p-8` / linked-tile variants in [Card.md](Card.md)). No parallel card skins.
+11. **Tandem change only (FLAT LAW, 2026-11-17):** A request’s diff is the minimum additive
+    change. Do not refactor, reorganise, rename, extract, or replace neighbouring code to “make
+    room” for the request. Extend the existing recipe; leave unrelated patterns alone unless the
+    user explicitly asks for a cleanup (see [AUDIT.md](AUDIT.md)).
+12. **ONE STYLE via /styleguide (FLAT LAW, 2026-11-17):** Start every UI action at
+    `lib/styleguide-spec.ts` + `/styleguide` (unlisted, noindex). Product site never breaks OOP.
+    `/styleguide` docs UI may break OOP — do not copy docs patterns into product. Drift listed
+    there is not style. Unlock → update spec + page in the same edit as code.
 
 ## Open items (need user direction)
 - **police-station** hero keeps an extra caption ("Call for 24/7 police station representation now") —

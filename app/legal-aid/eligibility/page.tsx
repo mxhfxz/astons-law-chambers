@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { WithCharmBar } from '@/components/sections/WithCharmBar'
 import { readSection } from '@/lib/content'
 import EligibilityIndicator from '@/components/legal-aid/EligibilityIndicator'
 
@@ -108,16 +109,12 @@ export default function LegalAidEligibilityPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* Full-viewport panel: intro + the interactive check fill the screen
-          below the sticky chrome (user direction 2026-07-03). */}
-      <section className="la-elig-screen">
-        <div dangerouslySetInnerHTML={{ __html: fragmentTop }} />
-        <div className="la-elig-screen__tool bg-white">
-          <div className="px-6 w-full flex justify-center">
-            <EligibilityIndicator />
-          </div>
+      <WithCharmBar html={fragmentTop} path="/legal-aid/eligibility" />
+      <div className="la-elig-screen__tool bg-white">
+        <div className="px-6 w-full flex justify-center">
+          <EligibilityIndicator />
         </div>
-      </section>
+      </div>
       <div dangerouslySetInnerHTML={{ __html: fragmentBottom }} />
     </>
   )

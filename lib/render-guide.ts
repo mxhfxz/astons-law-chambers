@@ -34,9 +34,9 @@ export function renderGuidesIndex(): string {
   const html = readSection('guides-index')
   const cards = guides
     .map(
-      (g) => `<a href="/guides/${g.slug}" class="block bg-white border border-grey-300 rounded p-6 md:p-8 hover:bg-offwhite transition-colors group">
+      (g) => `<a href="/guides/${g.slug}" class="block bg-offwhite border border-grey-300 rounded p-6 md:p-8 h-full hover:bg-white transition-colors group">
         <h2 class="text-xl font-semibold tracking-tight2 text-navy-950">${esc(g.title)}</h2>
-        <p class="mt-2 text-base text-navy-700 leading-relaxed">${esc(g.description)}</p>
+        <p class="mt-3 text-base text-navy-700 leading-relaxed">${esc(g.description)}</p>
         <span class="mt-4 inline-flex items-center gap-2 text-base font-medium text-navy-950">
           <span class="underline underline-offset-4 decoration-1 group-hover:decoration-2">Read the guide</span>
           <span aria-hidden="true" class="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:transform-none">→</span>

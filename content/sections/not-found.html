@@ -1,21 +1,38 @@
-      <div class="bg-white">
-        <div class="max-w-wide mx-auto px-6 pt-14 pb-10 md:pt-20 md:pb-12">
-          <p class="text-base font-medium text-grey-600 tracking-tightish">
+      <section class="hero hero--image hero--lead hero--page">
+      <div class="hero__panel hero__panel--content">
+        <div class="hero__panel-inner">
+            <p class="text-base font-medium text-grey-600 tracking-tightish">
             <a href="/" class="hover:text-navy-950">Home</a> &nbsp;/&nbsp; Page not found
           </p>
-          <h1 class="mt-2 text-4xl md:text-6xl font-semibold tracking-tight2 leading-[1.05]">This page can't be found.</h1>
-          <p class="mt-6 text-lg text-navy-700 leading-relaxed max-w-prose">
+            <h1 class="fluid-h1 font-semibold tracking-tight2 text-navy-950">This page can't be found.</h1>
+            <p class="mt-6 fluid-lead text-navy-700 max-w-prose">
             The page you tried to reach isn't here. It may have moved, or the link may be wrong. Astons Law Chambers can be reached on the number below.
           </p>
-
-          <div class="mt-10 btn-row">
-            <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="error_404" class="btn btn-lg btn-primary btn-full">
-              Call now
-            </a>
-            <a href="/" data-track-location="error_404" class="btn btn-lg btn-secondary btn-full">Back to homepage</a>
-          </div>
+            <p class="mt-4"><a href="/" data-track-location="error_404" class="text-base font-medium text-navy-950 underline underline-offset-4 decoration-1 hover:decoration-2">Back to homepage</a></p>
+            <div class="mt-8 btn-row hero-cta-stack">
+              <a href="tel:+447922247999" aria-label="Call Astons Law Chambers" data-track="call_click" data-track-location="error_404" class="btn btn-lg btn-primary btn-full hero-cta-call">
+                Call 07922 247 999
+              </a>
+              <a href="https://cal.com/astonslaw/callback?overlayCalendar=true" aria-label="Book a consultation with Astons Law Chambers" data-track="book_click" data-track-location="error_404" class="btn btn-lg btn-primary btn-full hero-cta-book">
+                Book a Free Consultation
+              </a>
+              <div class="hero-cta-message-row">
+                <a href="https://wa.me/447922247999?text=I%20need%20legal%20support%20for..." aria-label="Message Astons Law Chambers on WhatsApp" data-track="whatsapp_click" data-track-location="error_404" class="btn btn-lg btn-secondary hero-cta-whatsapp">
+                  <svg aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+                </a>
+                <button type="button" aria-label="Send a message to Astons Law Chambers" aria-haspopup="dialog" data-open-home-message data-track-location="error_404" class="btn btn-lg btn-secondary btn-full hero-cta-message">
+                  Send a Message
+                </button>
+              </div>
+            </div>
         </div>
+      </div>
+      <div class="hero__panel hero__panel--media" aria-hidden="true"></div>
+    </section>
 
+<!-- data-bind="charm-bar" -->
+
+      <div class="bg-white">
         <div class="max-w-wide mx-auto px-6 py-16 md:py-20">
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
             <div class="lg:col-span-2 space-y-12">
